@@ -44,7 +44,9 @@ foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
 
-
+// Themes plugins implement
+require get_template_directory() . '/theme-plugins/news-crud/init.php';
+require get_template_directory() . '/theme-plugins/product-crud/product-init.php';
 // Themes widgets implement
 require get_template_directory() . '/theme-widgets/authorbox-widget/authorbox-widget.php';
 require get_template_directory() . '/theme-widgets/recommend-video-widget/recommend-video-widget.php';
