@@ -44,6 +44,7 @@ foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
 
+// ===== ABO YUMA custom add-on ===== //
 // Themes plugins implement
 require get_template_directory() . '/theme-plugins/news-crud/init.php';
 require get_template_directory() . '/theme-plugins/product-crud/product-init.php';
