@@ -43,3 +43,9 @@ if ( class_exists( 'Jetpack' ) ) {
 foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
+
+
+// Themes widgets implement
+require get_template_directory() . '/theme-widgets/authorbox-widget/authorbox-widget.php';
+require get_template_directory() . '/theme-widgets/recommend-video-widget/recommend-video-widget.php';
+require get_template_directory() . '/theme-widgets/quick-links-widget/quick-links-widget.php';
