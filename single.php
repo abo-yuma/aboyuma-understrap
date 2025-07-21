@@ -13,17 +13,17 @@ get_header();
 $container = get_theme_mod('understrap_container_type');
 ?>
 
-<main class="bg-body text-body" data-bs-theme="" id="page-wrapper">
+<main class="bg-body text-body" data-bs-theme="">
 
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-			<div class="col-md-4">
+			<div class="sidebar-left-column-width" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="col-md-8">
+			<div class="main-content-column-width">
 				<?php
 				while (have_posts()) {
 					the_post();

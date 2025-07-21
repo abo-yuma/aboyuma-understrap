@@ -20,7 +20,7 @@ $container = get_theme_mod('understrap_container_type');
 
 ?>
 
-<main class="bg-body text-body" data-bs-theme="" id="page-wrapper">
+<main class="bg-body text-body" data-bs-theme="">
 
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
