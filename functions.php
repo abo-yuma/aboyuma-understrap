@@ -423,3 +423,87 @@ function display_visitor_stats() {
 	echo '</ul>';
 	echo '</div>';
 }
+
+function ajax_filter_products() {
+	// Verify nonce
+	if (!isset($_GET['_ajax_nonce']) || !wp_verify_nonce($_GET['_ajax_nonce'], 'filter_products_nonce')) {
+		wp_send_json_error(['message' => 'Invalid or expired nonce'], 403);
+		wp_die();
+	}
+
+	global $wpdb;
+	$product_table = $wpdb->prefix . 'aboyuma_product';
+	$product_brand_table = $wpdb->prefix . 'aboyuma_product_brand';
+	$product_category_table = $wpdb->prefix . 'aboyuma_product_category';
+
+	// Retrieve category filter value
+	$parent_category = isset($_GET['parent_category']) ? intval($_GET['parent_category']) : 0;
+	$sub_category = isset($_GET['sub_category']) ? intval($_GET['sub_category']) : 0;
+
+	// Retrieve price filter values
+	$price_min = isset($_GET['price_min']) ? floatval($_GET['price_min']) : 0;
+	$price_max = isset($_GET['price_max']) ? floatval($_GET['price_max']) : 0;
+
+	// Base query
+	$query = "SELECT p.id,
+              p.product_image,
+              p.product_name,
+              p.product_short_description,
+              p.product_benefit, b.brand_name, c.category_name
+              FROM $product_table p
+              LEFT JOIN $product_brand_table b ON p.product_brand_id = b.id
+              LEFT JOIN $product_category_table c ON p.product_category_id = c.id
+              WHERE 1=1";
+
+	// Apply price filters if provided
+	if ($price_min > 0) {
+		$query .= $wpdb->prepare(" AND p.product_member_price >= %f", $price_min);
+	}
+	if ($price_max > 0) {
+		$query .= $wpdb->prepare(" AND p.product_price <= %f", $price_max);
+	}
+	// Category filtering
+	if ($sub_category > 0) {
+		// Filter by selected subcategory only
+		$query .= $wpdb->prepare(" AND c.id = %d", $sub_category);
+	} elseif ($parent_category > 0) {
+		// Get subcategory IDs + parent category ID
+		$subcategory_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT id FROM $product_category_table WHERE parent_id = %d OR id = %d",
+				$parent_category,
+				$parent_category
+			)
+		);
+
+		if (!empty($subcategory_ids)) {
+			$placeholders = implode(',', array_fill(0, count($subcategory_ids), '%d'));
+			$query .= $wpdb->prepare(" AND c.id IN ($placeholders)", ...$subcategory_ids);
+		} else {
+			// No matching categories — return nothing
+			$query .= " AND 0=1";
+		}
+	}
+
+	// Fetch the results from the database
+	$products = $wpdb->get_results($query);
+	$data = [];
+	// Prepare data for DataTable
+	foreach ($products as $product) {
+		$image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+		$detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+		$data[] = [
+			$image_url,
+			esc_html($product->product_name),
+			htmlspecialchars_decode($product->product_short_description),
+			htmlspecialchars_decode($product->product_benefit),
+			'<a href="' . $detail_url . '">[รายละเอียด]</a>' // Only show the text as a link
+		];
+	}
+	// Return plain array dataSrc should set to ''
+	wp_send_json($data);
+	wp_die();
+}
+// 🔄 Register AJAX for both guests and logged-in users
+add_action('wp_ajax_filter_products', 'ajax_filter_products');
+add_action('wp_ajax_nopriv_filter_products', 'ajax_filter_products');
