@@ -22,16 +22,19 @@
 	if (localStorage.getItem("darkMode") === "enabled") {
 		$("main").attr("data-bs-theme", "dark");
 		$("#aboyuma-author-box .card-body").addClass("dark-mode");
+		 $("body").addClass("body-bg-dark-mode");
 		$("#dark-mode-switch").prop("checked", true);
 	}
 	$("#dark-mode-switch").on("change", function () {
 		if ($(this).is(":checked")) {
 			$("main").attr("data-bs-theme", "dark");
 			$("#aboyuma-author-box .card-body").addClass("dark-mode");
+			$("body").addClass("body-bg-dark-mode");
 			localStorage.setItem("darkMode", "enabled");
 		} else {
 			$("main").attr("data-bs-theme", "light");
 			$("#aboyuma-author-box .card-body").removeClass("dark-mode");
+			 $("body").removeClass("body-bg-dark-mode");
 			localStorage.setItem("darkMode", "disabled");
 		}
 	});

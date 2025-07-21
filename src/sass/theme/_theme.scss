@@ -120,7 +120,6 @@ body {
 // ===== Main content ===== //
 .main-wrapper {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-	border: 1px solid #dee2e6;
 }
 
 // ===== Footer ===== //
@@ -217,12 +216,12 @@ footer {
     color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
     Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
 */
-[data-bs-theme="dark"] {
-	--bs-body-color-rgb: 226, 223, 210; // body color
-	--bs-emphasis-color: #e2dfd2; // table font color
-	--bs-link-color-rgb: 226, 223, 210;
-}
+// [data-bs-theme="dark"] {
+// 	--bs-body-color-rgb: 226, 223, 210; // body color
+// 	--bs-emphasis-color: #e2dfd2; // table font color
+// 	--bs-link-color-rgb: 226, 223, 210;
+// }
 
-[data-bs-theme="light"] {
-	--bs-link-color-rgb: 0, 0, 0;
-}
+// [data-bs-theme="light"] {
+// 	--bs-link-color-rgb: 0, 0, 0;
+// }
