@@ -16,51 +16,51 @@ get_header();
 $container = get_theme_mod('understrap_container_type');
 ?>
 
-<main class="bg-body text-body" data-bs-theme="" id="page-wrapper">
+<main class="bg-body text-body" data-bs-theme="">
 
-<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
+	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-	<div class="row">
-		<div class="col-md-4">
-			<?php
-			get_template_part('sidebar-templates/sidebar', 'left');
-			?>
-		</div>
-		<div class="col-md-8">
+		<div class="row">
+			<div class="sidebar-left-column-width" id="sidebar-left">
+				<?php
+				get_template_part('sidebar-templates/sidebar', 'left');
+				?>
+			</div>
+			<div class="main-content-column-width">
 
-			<?php
-			if (have_posts()) {
-			?>
-				<header class="page-header">
-					<?php
-					the_archive_title('<h1 class="page-title">', '</h1>');
-					the_archive_description('<div class="taxonomy-description">', '</div>');
-					?>
-				</header><!-- .page-header -->
-			<?php
-				// Start the loop.
-				while (have_posts()) {
-					the_post();
+				<?php
+				if (have_posts()) {
+				?>
+					<header class="page-header">
+						<?php
+						the_archive_title('<h1 class="page-title">', '</h1>');
+						the_archive_description('<div class="taxonomy-description">', '</div>');
+						?>
+					</header><!-- .page-header -->
+				<?php
+					// Start the loop.
+					while (have_posts()) {
+						the_post();
 
-					/*
+						/*
 						 * Include the Post-Format-specific template for the content.
 						 * If you want to override this in a child theme, then include a file
 						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						 */
-					get_template_part('loop-templates/content', get_post_format());
+						get_template_part('loop-templates/content', get_post_format());
+					}
+				} else {
+					get_template_part('loop-templates/content', 'none');
 				}
-			} else {
-				get_template_part('loop-templates/content', 'none');
-			}
-			?>
+				?>
 
-			<!-- Another front page templates-->
+				<!-- Another front page templates-->
 
-		</div>
+			</div>
 
-	</div><!-- .row -->
+		</div><!-- .row -->
 
-</div><!-- #content -->
+	</div><!-- #content -->
 
 </main><!-- #main-wrapper -->
 
