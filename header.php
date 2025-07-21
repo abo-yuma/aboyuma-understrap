@@ -32,7 +32,12 @@ defined('ABSPATH') || exit;
 				<a class="skip-link <?php echo understrap_get_screen_reader_class(true); ?>" href="#content">
 					<?php esc_html_e('Skip to content', 'understrap'); ?>
 				</a>
-
+				<div id="main-image" class="container g-0">
+					<div class="row">
+						<img src="<?php echo esc_url(get_theme_mod('aboyuma_header_image', '')); ?>"
+							width="100%" height="230px">
+					</div>
+				</div>
 				<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
 
 			</header><!-- #wrapper-header -->

@@ -1,26 +1,34 @@
 <?php
+
 /**
- * The sidebar containing the main widget area
- *
- * @package Understrap
+ * Sidebar Template.
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-if ( ! is_active_sidebar( 'left-sidebar' ) ) {
-	return;
-}
-
-// when both sidebars turned on reduce col size to 3 from 4.
-$sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 ?>
+<div id="sidebar-left" class="sidebar-left-column-width order-md-1 order-2 col-sm-12">
+	<div id="sidebar-left-widget-wrapper">
+		<?php
+		if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
+		?>
+			<?php
+			if (is_active_sidebar('left-sidebar')):
+			?>
+				<div id="widget-area" class="widget-area" role="complementary">
+					<?php
+					dynamic_sidebar('left-sidebar');
 
-<?php if ( 'both' === $sidebar_pos ) : ?>
-	<div class="col-md-3 widget-area" id="left-sidebar">
-<?php else : ?>
-	<div class="col-md-4 widget-area" id="left-sidebar">
-<?php endif; ?>
-<?php dynamic_sidebar( 'left-sidebar' ); ?>
-
-</div><!-- #left-sidebar -->
+					if (current_user_can('manage_options')):
+					?>
+						<span class="edit-link"><a href="<?php echo esc_url(admin_url('widgets.php')); ?>"
+								class="badge bg-secondary"><?php esc_html_e('Edit', 'aboyuma'); ?></a></span><!-- Show Edit Widget link -->
+					<?php
+					endif;
+					?>
+				</div><!-- /.widget-area -->
+			<?php
+			endif;
+			?>
+		<?php
+		endif;
+		?>
+	</div><!-- /#widget-wrapper -->
+</div><!-- /#sidebar -->

@@ -1,5 +1,18 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
+body {
+	background-color: #f0f2f5;
+}
+.body-bg-dark-mode {
+	background-color: #313233;
+}
+// Override Bootstrap5 container max-width starting from md breakpoint (768px)
+@media (min-width: 768px) {
+	.container {
+		max-width: 1000px !important; // use !important if needed to override Bootstrap styles
+	}
+}
+
 // ***** Navbar Style ***** //
 
 #navbar-main {
@@ -65,4 +78,96 @@
 	ul.depth_1 a:after {
 		border: 0 !important;
 	}
+}
+
+/* Sidebar */
+
+.widget-area {
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+}
+
+#sidebar-left {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	//background-color: #3a3b3c;
+}
+
+#sidebar-left.card {
+	border-top: none;
+	border-left: none;
+	border-bottom: none;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+}
+
+#sidebar-left-widget-wrapper {
+	padding-left: 10px;
+	position: sticky;
+	top: 50px; /* The distance from the top when it becomes sticky */
+}
+
+#sidebar-right-widget-wrapper {
+	position: sticky;
+	top: 70px; /* The distance from the top when it becomes sticky */
+}
+
+// aboyuma-author-box style
+#aboyuma-author-box .card-body {
+	background-color: #ecedef;
+	padding: 0.6rem;
+}
+#aboyuma-author-box .card-body.dark-mode {
+	background-color: #323335;
+}
+// // Custom column with for content
+// @media (min-width: 768px) {
+// 	.sidebar-left-column-width {
+// 		width: 30%;
+// 	}
+// 	.main-content-column-width {
+// 		width: 70%;
+// 	}
+// }
+
+// ===== Main content ===== //
+.main-wrapper {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+	border: 1px solid #dee2e6;
+}
+
+// ===== Footer ===== //
+.footer-bg-background {
+	background-color: #1e1e1e;
+}
+footer {
+	font-size: 0.85rem;
+}
+
+// Fancybox
+.fancybox__slide {
+	padding: 0 !important;
+}
+
+/* Customize Widget Style */
+.scroll-to-top-btn {
+	position: fixed;
+	width: 3rem;
+	height: 3rem;
+	right: 2rem;
+	bottom: 2.5rem;
+	z-index: 1;
+	background-color: #000000;
+	color: #ffff;
+	font-size: 1.5rem;
+	border: 0;
+	border-radius: 0.25rem;
+	display: none;
+}
+
+// Use for display element
+.show {
+	display: block;
 }
