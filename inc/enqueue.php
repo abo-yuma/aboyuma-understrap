@@ -163,15 +163,6 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			true
 		);
 
-		// Bootstrap 5 Bundle (Popper included)
-		wp_enqueue_script(
-			'bootstrap-bundle-js',
-			'https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js',
-			array('jquery'),
-			$theme_version,
-			true
-		);
-
 		wp_enqueue_script(
 			'clipboard-js',
 			'https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
