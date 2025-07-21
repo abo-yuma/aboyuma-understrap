@@ -1,1 +1,68 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+
+// ***** Navbar Style ***** //
+
+#navbar-main {
+	position: static; /* Start as static */
+	top: 0; /* Will be used for fixed */
+	left: 0; /* Align to the left */
+	width: 100%; /* Full width */
+	z-index: 100; /* On top of other elements */
+}
+
+.navbar-static-top {
+	margin-bottom: $grid-gutter-width;
+}
+
+.navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #171718;
+}
+.navbar-expand-md .navbar-nav .dropdown-menu .dropdown-item {
+	color: #949494;
+}
+.navbar-expand-md .navbar-nav .dropdown-menu .dropdown-item:hover {
+	color: #000000;
+}
+
+/* Only apply hover on screens wider than 768px */
+@media (min-width: 768px) {
+	/* Show dropdown menu on hover */
+	.dropdown:hover > .dropdown-menu {
+		display: block;
+		margin-top: 0; /* Remove any top margin */
+	}
+
+	/* Optional: add fade-in effect */
+	.dropdown-menu {
+		transition: opacity 0.3s ease;
+		opacity: 0;
+		visibility: hidden;
+	}
+	.dropdown:hover > .dropdown-menu {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+// Fix Bootstrap Dropdown Submenu
+/*
+ * (c) 2022 Manish Pushkar bs5-navwalker 
+ * SPDX-License-Identifier: MIT
+ */
+@media all and (min-width: 992px) {
+	ul.depth_1 {
+		left: 100% !important;
+		top: 0% !important;
+	}
+	ul.depth_0 > .menu-item-has-children a:after {
+		display: inline-flex;
+		content: "";
+		border-color: transparent;
+		border-style: solid;
+		border-width: 5px 0 5px 5px;
+		border-left-color: #cccccc;
+	}
+	ul.depth_1 a:after {
+		border: 0 !important;
+	}
+}
