@@ -149,3 +149,277 @@ function aboyuma_customize_register($wp_customize) {
 	));
 }
 add_action('customize_register', 'aboyuma_customize_register');
+
+/*
+Post and Page Views Counts
+Refactor using transient with ChatGPT
+Wordpress Transient API : https://developer.wordpress.org/apis/transients/
+Main referece : https://www.themexpert.com/blog/track-display-post-views-in-wordpress
+- Track unique post views using IP address and transients
+- Function to get the view count for a page
+- Counting one view per unique IP per 24 hours
+- Ignoring logged-in admins
+- Ignoring bots
+- Separate functions to set and get views for posts and pages
+- A handy unified getter for either post or page
+--- Set Page Views ---
+*/
+function setPageViews($pageID) {
+	if (function_exists('visitor_is_bot') && visitor_is_bot()) return;
+	if (is_user_logged_in() && current_user_can('manage_options')) return;
+
+	$ip = get_real_ip();
+	$ip_transient_key = 'page_viewed_' . $pageID . '_' . md5($ip);
+
+	if (false === get_transient($ip_transient_key)) {
+		$count_key = 'page_views_count';
+		$count = get_transient('page_views_' . $pageID);
+
+		if ($count === false) {
+			$count = get_post_meta($pageID, $count_key, true);
+			if ($count === '') {
+				$count = 0;
+				delete_post_meta($pageID, $count_key);
+				add_post_meta($pageID, $count_key, '0');
+			}
+		}
+
+		$count++;
+		update_post_meta($pageID, $count_key, $count);
+		set_transient('page_views_' . $pageID, $count, 12 * HOUR_IN_SECONDS);
+
+		set_transient($ip_transient_key, true, 24 * HOUR_IN_SECONDS);
+	}
+}
+
+// --- Set Post Views ---
+function setPostViews($postID) {
+	if (function_exists('visitor_is_bot') && visitor_is_bot()) return;
+	if (is_user_logged_in() && current_user_can('manage_options')) return;
+
+	$ip = get_real_ip();
+	$ip_transient_key = 'post_viewed_' . $postID . '_' . md5($ip);
+
+	if (false === get_transient($ip_transient_key)) {
+		$count_key = 'post_views_count';
+		$count = get_post_meta($postID, $count_key, true);
+
+		if ($count == '') {
+			$count = 0;
+		}
+
+		$count++;
+		update_post_meta($postID, $count_key, $count);
+		set_transient('post_views_' . $postID, $count, 12 * HOUR_IN_SECONDS);
+
+		set_transient($ip_transient_key, true, 24 * HOUR_IN_SECONDS);
+	}
+}
+
+// --- Get Page Views ---
+function getPageViews($pageID) {
+	$count_key = 'page_views_count';
+	$count = get_transient('page_views_' . $pageID);
+
+	if ($count === false) {
+		$count = get_post_meta($pageID, $count_key, true);
+		if ($count == '') {
+			$count = 0;
+			update_post_meta($pageID, $count_key, $count);
+		}
+		set_transient('page_views_' . $pageID, $count, 12 * HOUR_IN_SECONDS);
+	}
+
+	return $count . ' Views';
+}
+
+// --- Get Post Views ---
+function getPostViews($postID) {
+	$count_key = 'post_views_count';
+	$count = get_transient('post_views_' . $postID);
+
+	if ($count === false) {
+		$count = get_post_meta($postID, $count_key, true);
+		if ($count == '') {
+			$count = 0;
+			update_post_meta($postID, $count_key, $count);
+		}
+		set_transient('post_views_' . $postID, $count, 12 * HOUR_IN_SECONDS);
+	}
+
+	return $count . ' Views';
+}
+
+// --- Unified Getter for any post type (post or page) ---
+function getViews($postID) {
+	$post_type = get_post_type($postID);
+	if ($post_type === 'page') {
+		return getPageViews($postID);
+	} else {
+		return getPostViews($postID);
+	}
+}
+
+// Visitor Counter Snippet
+// Create custom table on theme activation
+function aboyuma_create_visitor_table() {
+	global $wpdb;
+	$table = $wpdb->prefix . 'aboyuma_visitor';
+	$charset_collate = $wpdb->get_charset_collate();
+
+	$sql = "CREATE TABLE IF NOT EXISTS $table (
+		id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+		ip_address VARCHAR(100),
+		visit_date DATE
+	) $charset_collate;";
+
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	dbDelta($sql);
+}
+add_action('after_setup_theme', 'aboyuma_create_visitor_table');
+
+// Get real IP address (Cloudflare-safe)
+function get_real_ip() {
+	if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+		return $_SERVER['HTTP_CF_CONNECTING_IP'];
+	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$ip_list = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		return trim($ip_list[0]);
+	}
+	return $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'; // ✅ fallback เป็น IP จริง
+}
+
+// Log visitor counter
+function visitor_is_bot() {
+	if (empty($_SERVER['HTTP_USER_AGENT'])) return true;
+
+	$bots = [
+		'bot',
+		'crawl',
+		'slurp',
+		'spider',
+		'curl',
+		'wget',
+		'python',
+		'scrapy',
+		'facebookexternalhit',
+		'discordbot',
+		'WhatsApp',
+		'TelegramBot',
+		'Twitterbot',
+		'Apache-HttpClient',
+		'Java',
+		'Go-http-client',
+		'axios'
+	];
+	$user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+	foreach ($bots as $bot) {
+		if (strpos($user_agent, $bot) !== false) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function log_unique_visitor() {
+	// Prevent logging bots (assumes you have this helper defined elsewhere)
+	if (function_exists('visitor_is_bot') && visitor_is_bot()) {
+		return;
+	}
+
+	global $wpdb;
+	$table = $wpdb->prefix . 'aboyuma_visitor';
+
+	// Get real IP
+	$ip = get_real_ip();
+
+	// Get current datetime
+	$now = current_time('mysql');     // e.g. "2025-06-30 10:32:00"
+
+	// Check if this IP has already been logged ever
+	$query = $wpdb->prepare(
+		"SELECT COUNT(*) FROM $table WHERE ip_address = %s",
+		$ip
+	);
+	$exists = $wpdb->get_var($query);
+
+	// Insert only if IP not logged before
+	if (!$exists) {
+		$wpdb->insert($table, [
+			'ip_address' => $ip,
+			'visit_time' => $now
+		]);
+	}
+}
+add_action('init', 'log_unique_visitor');
+
+// Display visitor info
+function display_visitor_stats() {
+	global $wpdb;
+	$table = $wpdb->prefix . 'aboyuma_visitor';
+
+	$today = current_time('Y-m-d'); // still keep this for DATE() filtering
+	$yesterday  = date('Y-m-d', strtotime('-1 day', strtotime($today)));
+	$this_month = date('Y-m', strtotime($today));
+	$this_year  = date('Y', strtotime($today));
+
+	// Today's visitors
+	$today_visitors = $wpdb->get_var($wpdb->prepare(
+		"SELECT COUNT(DISTINCT ip_address) FROM $table WHERE DATE(visit_time) = %s",
+		$today
+	));
+
+	// Yesterday's visitors
+	$yesterday_visitors = $wpdb->get_var($wpdb->prepare(
+		"SELECT COUNT(DISTINCT ip_address) FROM $table WHERE DATE(visit_time) = %s",
+		$yesterday
+	));
+
+	// This month's visitors
+	$month_visitors = $wpdb->get_var($wpdb->prepare(
+		"SELECT COUNT(DISTINCT ip_address) FROM $table WHERE DATE_FORMAT(visit_time, '%%Y-%%m') = %s",
+		$this_month
+	));
+
+	// This year's visitors
+	$year_visitors = $wpdb->get_var($wpdb->prepare(
+		"SELECT COUNT(DISTINCT ip_address) FROM $table WHERE YEAR(visit_time) = %d",
+		$this_year
+	));
+
+	// Total visitors
+	$total_visitors = $wpdb->get_var("SELECT COUNT(DISTINCT ip_address) FROM $table");
+	// Shop info
+	$launch_date_file = __DIR__ . '/launch_date.txt';
+
+	if (!file_exists($launch_date_file)) {
+		file_put_contents($launch_date_file, current_time('Y-m-d'));
+	}
+
+	$shop_open_date = trim(file_get_contents($launch_date_file));
+	// Get max modified dates from posts, comments, visitors, and products
+	$max_post_date    = $wpdb->get_var("SELECT MAX(post_modified) FROM {$wpdb->prefix}posts WHERE post_status = 'publish'");
+	$max_product_date = $wpdb->get_var("SELECT MAX(modified) FROM {$wpdb->prefix}aboyuma_product");
+
+	// Combine dates safely
+	$dates = array_filter([$max_post_date, $max_product_date]); // remove nulls
+	if (!empty($dates)) {
+		$last_update = max($dates);
+	} else {
+		$last_update = null;
+	}
+
+	echo '<div class="aboyuma-visitor-wrapper">';
+	echo '<div class="aboyuma-visitor-title" style="font-weight:bold; margin-bottom:0.3em;">สถิติ :</div>';
+	echo '<ul class="aboyuma-visitor-info" style="list-style:none; padding-left:0; margin:0;">';
+	// echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมวันนี้ ' . number_format($today_visitors) . ' คน</li>';
+	// echo '<li style="margin-bottom:0.2em;">👁️‍🗨️ ผู้ชมเมื่อวาน ' . number_format($yesterday_visitors) . ' คน</li>';
+	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมเดือนนี้ ' . number_format($month_visitors) . ' คน</li>';
+	// echo '<li style="margin-bottom:0.2em;">📅 ผู้ชมปีนี้ ' . number_format($year_visitors) . ' คน</li>';
+	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมทั้งหมด ' . number_format($total_visitors) . ' คน</li>';
+	echo '<li style="margin-bottom:0.2em;">🌐 เปิดบล็อก ' . date('j M Y', strtotime($shop_open_date)) . '</li>';
+	echo '<li>🔄 บล็อกอัพเดต ' . esc_html(date('j M Y', strtotime($last_update))) . '</li>';
+	echo '</ul>';
+	echo '</div>';
+}
