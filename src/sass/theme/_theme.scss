@@ -104,14 +104,8 @@ body {
 }
 
 #sidebar-left-widget-wrapper {
-	padding-left: 10px;
 	position: sticky;
 	top: 50px; /* The distance from the top when it becomes sticky */
-}
-
-#sidebar-right-widget-wrapper {
-	position: sticky;
-	top: 70px; /* The distance from the top when it becomes sticky */
 }
 
 // aboyuma-author-box style
@@ -170,4 +164,61 @@ footer {
 // Use for display element
 .show {
 	display: block;
+}
+
+// Custom column with for content
+@media (min-width: 768px) {
+	.sidebar-left-column-width {
+		width: 30%;
+	}
+	.main-content-column-width {
+		width: 70%;
+	}
+}
+
+@media (max-width: 768px) {
+	#aboyuma-product-table {
+		width: 600px;
+	}
+}
+
+#recommend-product-table * {
+	font-size: 12px !important;
+	align-content: center;
+}
+
+/* Fix big th font bug when using jqueryDataTable scrollX option */
+.dt-column-title {
+	font-size: 12px !important;
+}
+
+#recommend-product-table a:not(.btn) {
+	text-decoration: underline;
+	color: #007bff;
+}
+
+#recommend-product-table a:not(.btn):hover {
+	text-decoration: none;
+}
+
+#recommend-product-table td {
+	align-content: center;
+}
+
+#latest-posts-section .post-thumbnail img {
+	object-fit: cover;
+	height: 80px;
+}
+
+#latest-posts-section .post-thumbnail-readmore a {
+	font-size: 0.8rem;
+}
+
+#other-recommend-product-section .post-thumbnail img {
+	object-fit: cover;
+	height: 80px;
+}
+
+#other-recommend-product-section .post-thumbnail-readmore a {
+	font-size: 0.8rem;
 }

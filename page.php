@@ -25,12 +25,12 @@ $container = get_theme_mod('understrap_container_type');
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-			<div class="col-md-4">
+			<div class="sidebar-left-column-width" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="col-md-8">
+			<div class="main-content-column-width">
 				<?php
 				while (have_posts()) {
 					the_post();
@@ -44,7 +44,19 @@ $container = get_theme_mod('understrap_container_type');
 				?>
 
 				<!-- Another front page templates-->
-
+				<?php if (is_front_page()) : ?>
+					<!-- Templates only for front page(Home)-->
+					<?php get_template_part('homepage-templates/news'); ?>
+					<?php get_template_part('homepage-templates/recommend-product'); ?>
+					<?php get_template_part('homepage-templates/latest-post'); ?>
+					<?php get_template_part('homepage-templates/other-recommend-product'); ?>
+					<!-- Widgets templates only for front page(Home)-->
+					<?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
+						<div id="recommend-video-widget-area">
+							<?php dynamic_sidebar('recommend-video-widget-area'); ?>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
 			</div>
 
 		</div><!-- .row -->

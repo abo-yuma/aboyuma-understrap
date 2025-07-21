@@ -97,3 +97,55 @@ function header_customizer_register($wp_customize) {
 	));
 }
 add_action('customize_register', 'header_customizer_register');
+
+// Footer customizer
+function aboyuma_customize_register($wp_customize) {
+	// Add a section for Footer Columns
+	$wp_customize->add_section('footer_columns', array(
+		'title' => __('Footer Columns', 'aboyuma'),
+		'priority' => 30,
+	));
+
+	// Column 1: About Us
+	$wp_customize->add_setting('footer_column_1_image', array(
+		'default' => '', // Default image URL if any.
+		'sanitize_callback' => 'esc_url_raw', // Sanitize the URL of the image.
+	));
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'footer_column_1_image',
+			array(
+				'label'    => __('Column 1 Image', 'aboyuma'),
+				'section'  => 'footer_columns',
+				'settings' => 'footer_column_1_image',
+			)
+		)
+	);
+
+	// Column 2: Our Services
+	$wp_customize->add_setting('footer_column_2_content', array(
+		'default' => __('เป็นตัวแทนจำหน่ายสินค้าแอมเวย์...', 'aboyuma'),
+		'sanitize_callback' => 'sanitize_textarea_field',
+	));
+	$wp_customize->add_control('footer_column_2_content', array(
+		'label' => __('Column 2 Content', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'textarea',
+	));
+
+	// Column 3: Contact Us
+	$wp_customize->add_setting('footer_column_3_content', array(
+		'default' => '
+					<li class="mb-3"><img src="https://img.icons8.com/?size=100&id=13912&format=png&color=000000" width="30px"> 佑馬高橋</li>
+					<li class="mb-3"><img src="https://img.icons8.com/?size=100&id=21746&format=png&color=000000" width="30px"> line@</li>',
+		'sanitize_callback' => 'wp_kses_post',
+	));
+	$wp_customize->add_control('footer_column_3_content', array(
+		'label' => __('Column 3 Content (HTML allowed)', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'textarea',
+	));
+}
+add_action('customize_register', 'aboyuma_customize_register');
