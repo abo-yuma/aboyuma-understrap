@@ -51,3 +51,7 @@ phpcs.xml
 dist/
 dist-product/
 **/img
+
+# Build folder
+css/
+js/
