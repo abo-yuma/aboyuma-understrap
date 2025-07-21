@@ -69,3 +69,31 @@ foreach ($theme_plugins as $plugin) {
 foreach ($theme_widgets as $widget) {
 	require get_template_directory() . $widget;
 }
+
+// === Header Image Customizer ===
+function header_customizer_register($wp_customize) {
+	// Add a section for Header Image
+	$wp_customize->add_section('aboyuma_header_image_section', array(
+		'title'       => __('Header Image', 'aboyuma'),
+		'priority'    => 30,
+	));
+
+	// Add a setting for the image
+	$wp_customize->add_setting('aboyuma_header_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+
+	// Add control for the image uploader
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize,
+		'aboyuma_header_image',
+		array(
+			'label'    => __('Upload Header Image', 'aboyuma'),
+			'description' => __('Height: >80px', 'aboyuma'),
+			'section'  => 'aboyuma_header_image_section',
+			'settings' => 'aboyuma_header_image',
+		)
+	));
+}
+add_action('customize_register', 'header_customizer_register');
