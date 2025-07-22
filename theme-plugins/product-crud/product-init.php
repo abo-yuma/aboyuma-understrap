@@ -270,6 +270,18 @@ function aboyuma_product_menu() {
 }
 add_action('admin_menu', 'aboyuma_product_menu');
 
+function aboyuma_customize_tinymce_toolbar($init) {
+    // Add toolbar options clearly separated
+    $init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
+    $init['toolbar2'] = 'blockquote code removeformat';
+
+    // Add available font sizes (pt is optional, WordPress TinyMCE understands both)
+    $init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+
+    return $init;
+}
+add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
+
 require_once get_template_directory() . '/theme-plugins/product-crud/product-functions.php';
 require_once get_template_directory() . '/theme-plugins/product-crud/product-list.php';
 require_once get_template_directory() . '/theme-plugins/product-crud/product-add.php';
