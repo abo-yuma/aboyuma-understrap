@@ -84,12 +84,6 @@ function aboyuma_product_edit() {
     }
   }
 
-
-  echo "<pre>";
-  var_dump($parentCategories);
-  var_dump($subCategories);
-  echo "</pre>";
-
   $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
   $productDetailImages = $wpdb->get_results("
     SELECT id, product_image_path, product_image_order 
@@ -144,6 +138,7 @@ function aboyuma_product_edit() {
     $product_sop_link = esc_url_raw(trim($_POST['product_sop_link']));
     $product_sale_article_link = esc_url_raw(trim($_POST['product_sale_article_link']));
     $product_is_pinned = intval($_POST['product_is_pinned']);
+    $product_slug = sanitize_text_field(trim($_POST['product_slug']));
     $modified = current_time('mysql');
 
     // Check if a file was uploaded
@@ -225,6 +220,10 @@ function aboyuma_product_edit() {
     if (is_null($product_is_pinned)) {
       $errors[] = 'Product is pinned flag is required.';
     }
+    // Validate product slug
+    if (empty($product_slug)) {
+      $errors[] = 'Product slug is required.';
+    }
     // If no errors, update the database
     if (empty($errors)) {
       $updated = $wpdb->update(
@@ -251,14 +250,15 @@ function aboyuma_product_edit() {
           'product_shop_link' => $product_shop_link,
           'product_sale_article_link' => $product_sale_article_link,
           'product_is_pinned' => $product_is_pinned,
+          'product_slug' => $product_slug,
           'modified' => $modified
         ],
         ['id' => $product_id],
         [
           '%s', // product_image
           '%s', // product_code
-          '%s', // product_brand_id
-          '%s', // product_category_id
+          '%d', // product_brand_id
+          '%d', // product_category_id
           '%s', // product_name
           '%s', // product_short_description
           '%s', // product_description
@@ -269,13 +269,14 @@ function aboyuma_product_edit() {
           '%s', // product_additive_properties
           '%s', // product_diet_properties
           '%s', // product_review
-          '%s', // product_price
-          '%s', // product_member_price
-          '%s', // product_is_sop
+          '%f', // product_price
+          '%f', // product_member_price
+          '%d', // product_is_sop
           '%s', // product_sop_link
           '%s', // product_shop_link
           '%s', // product_sale_article_link
-          '%s', // product_is_pinned
+          '%d', // product_is_pinned
+          '%s', // product_slug
           '%s' // modified
         ],
         ['%d']
@@ -855,6 +856,13 @@ function aboyuma_product_edit() {
             <label><input type="radio" name="product_is_pinned" value="1" <?php echo ($product->product_is_pinned == 1) ? 'checked' : ''; ?>>Yes</label>
             <label><input type="radio" name="product_is_pinned" value="0" <?php echo ($product->product_is_pinned == 0) ? 'checked' : ''; ?>>No</label>
             <small style="display:block;">The product is pinned.</small>
+          </td>
+        </tr>
+        <!-- Product Slug -->
+        <tr>
+          <th scope="row"><label for="product_slug">Product Slug</label></th>
+          <td>
+            <input type="text" name="product_slug" id="product_slug" class="regular-text" value="<?php echo esc_attr($product->product_slug); ?>" required>
           </td>
         </tr>
         <!-- Related dproduct -->
