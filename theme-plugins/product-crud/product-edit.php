@@ -95,11 +95,26 @@ function aboyuma_product_edit() {
   $errors = [];
 
   // Handle form submission
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_nonce']) && wp_verify_nonce($_POST['aboyuma_product_nonce'], 'aboyuma_product_edit')) {
+  if (
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_product_nonce'], 'aboyuma_product_edit')
+  ) {
     // Sanitize and assign form data
     $product_code = sanitize_text_field(trim($_POST['product_code']));
     $product_brand_id = sanitize_text_field(trim($_POST['product_brand_id']));
-    $product_category_id = sanitize_text_field(trim($_POST['product_category_id']));
+    $parent_category = isset($_POST['parent_category']) ? (int)$_POST['parent_category'] : 0;
+    $product_subcategory = isset($_POST['product_subcategory']) ? (int)$_POST['product_subcategory'] : 0;
+
+    // Determine which value to use for $product_category_id
+    if (!empty($product_subcategory)) {
+      // If subcategory is selected, use subcategory
+      $product_category_id = $product_subcategory;
+    } else {
+      // If subcategory is empty, use parent category
+      $product_category_id = $parent_category;
+    }
+    $product_category_id = absint(trim($product_category_id));
+    $product_name = sanitize_text_field(trim($_POST['product_name']));
     $product_name = sanitize_text_field(trim($_POST['product_name']));
     $product_short_description = wp_kses_post(trim($_POST['product_short_description']));
     $product_description = wp_kses_post(trim($_POST['product_description']));
@@ -550,9 +565,9 @@ function aboyuma_product_edit() {
         </tr>
         <!-- Subcategory -->
         <tr>
-          <th scope="row"><label for="product_category_id">Subcategory</label></th>
+          <th scope="row"><label for="product_subcategory">Subcategory</label></th>
           <td>
-            <select name="product_category_id" id="product_category_id" class="regular-text">
+            <select name="product_subcategory" id="product_subcategory" class="regular-text">
               <?php if (empty($subCategories)): ?>
                 <option value="">-- No Subcategories Found --</option>
               <?php else: ?>
@@ -1096,7 +1111,7 @@ function aboyuma_product_edit() {
       // Category selection
       $('#parent_category').on('change', function() {
         var parentId = $(this).val();
-        var $subSelect = $('#product_category_id');
+        var $subSelect = $('#product_subcategory');
         $subSelect.html('<option value="">Loading...</option>');
 
         $.ajax({

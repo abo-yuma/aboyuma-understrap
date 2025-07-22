@@ -36,13 +36,13 @@ function aboyuma_product_add() {
     // // echo '<pre>';
     // // echo var_dump();
     // // echo '</pre>';
-
+    // Get the posted values
 
     // // Dummy values
     // $product_image = ''; // LONGBLOB — leave empty or use base64 if testing image
     // $product_code = 'TEST123';
     // $product_brand_id = 1;
-    // $product_category_id = 2;
+    // //$product_category_id = 2;
     // $product_name = 'Test Product';
     // $product_short_description = 'Short desc';
     // $product_description = 'Full description here';
@@ -68,7 +68,7 @@ function aboyuma_product_add() {
     // $product_shop_link = 'https://example.com';
     // $product_sale_article_link = '';
     // $product_is_pinned = 0;
-    // //$product_slug = 'product-slug';
+    // $product_slug = 'product-slug';
     // $created = current_time('mysql');
     // $modified = current_time('mysql');
 
@@ -149,7 +149,18 @@ function aboyuma_product_add() {
     // Sanitize and assign form data
     $product_code = sanitize_text_field(trim($_POST['product_code']));
     $product_brand_id = sanitize_text_field(trim($_POST['product_brand']));
-    $product_category_id = sanitize_text_field(trim($_POST['product_category_id']));
+    $parent_category = isset($_POST['parent_category']) ? (int)$_POST['parent_category'] : 0;
+    $product_subcategory = isset($_POST['product_subcategory']) ? (int)$_POST['product_subcategory'] : 0;
+
+    // Determine which value to use for $product_category_id
+    if (!empty($product_subcategory)) {
+      // If subcategory is selected, use subcategory
+      $product_category_id = $product_subcategory;
+    } else {
+      // If subcategory is empty, use parent category
+      $product_category_id = $parent_category;
+    }
+    $product_category_id = absint(trim($product_category_id));
     $product_name = sanitize_text_field(trim($_POST['product_name']));
     $product_short_description = sanitize_textarea_field(trim($_POST['product_short_description']));
     $product_description = sanitize_textarea_field(trim($_POST['product_description']));
@@ -564,9 +575,9 @@ function aboyuma_product_add() {
         </tr>
         <!-- Product Sub Category -->
         <tr>
-          <th scope="row"><label for="product_category_id">Subcategory</label></th>
+          <th scope="row"><label for="product_subcategory">Subcategory</label></th>
           <td>
-            <select name="product_category_id" id="product_category_id" class="regular-text">
+            <select name="product_subcategory" id="product_subcategory" class="regular-text">
               <option value="">-- Select Subcategory --</option>
               <!-- AJAX-loaded options will go here -->
             </select>
@@ -1021,7 +1032,7 @@ function aboyuma_product_add() {
       // Category selection
       $('#parent_category').on('change', function() {
         var parentId = $(this).val();
-        var $subSelect = $('#product_category_id');
+        var $subSelect = $('#product_subcategory');
         $subSelect.html('<option value="">Loading...</option>');
 
         $.ajax({
