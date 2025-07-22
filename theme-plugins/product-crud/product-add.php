@@ -601,11 +601,7 @@ function aboyuma_product_add() {
             wp_editor($product_short_description_value, 'product_short_description', [
               'textarea_name' => 'product_short_description',
               'textarea_rows' => 5,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -620,11 +616,7 @@ function aboyuma_product_add() {
             wp_editor($product_description, 'product_description', [
               'textarea_name' => 'product_description',
               'textarea_rows' => 5,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -639,11 +631,7 @@ function aboyuma_product_add() {
             wp_editor($product_benefit, 'product_benefit', [
               'textarea_name' => 'product_benefit',
               'textarea_rows' => 5,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -669,11 +657,7 @@ function aboyuma_product_add() {
             wp_editor($product_detail, 'product_detail', [
               'textarea_name' => 'product_detail',
               'textarea_rows' => 20,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -688,11 +672,7 @@ function aboyuma_product_add() {
             wp_editor($product_specification, 'product_specification', [
               'textarea_name' => 'product_specification',
               'textarea_rows' => 20,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -707,11 +687,7 @@ function aboyuma_product_add() {
             wp_editor($product_comment, 'product_comment', [
               'textarea_name' => 'product_comment',
               'textarea_rows' => 10,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
@@ -765,11 +741,7 @@ function aboyuma_product_add() {
             wp_editor($product_review, 'product_review', [
               'textarea_name' => 'product_review',
               'textarea_rows' => 20,
-              'media_buttons' => true,
-              'tinymce' => [
-                'toolbar1' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent',
-                'toolbar2' => 'link unlink | formatselect | blockquote code',
-              ],
+              'media_buttons' => true
             ]);
             ?>
           </td>
