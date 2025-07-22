@@ -67,6 +67,7 @@ function create_aboyuma_table() {
     product_shop_link VARCHAR(255) NOT NULL,
     product_sale_article_link VARCHAR(255) NULL,
     product_is_pinned TINYINT(1) NOT NULL DEFAULT 0,
+    product_slug VARCHAR(255) NOT NULL, -- Added slug column here
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
   ) $charset_collate;");

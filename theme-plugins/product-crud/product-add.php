@@ -32,11 +32,13 @@ function aboyuma_product_add() {
     // 4. Prepare a mock insert with a known valid table and reference ID.
     // 5. Use `$wpdb->last_error` to debug SQL issues.
     // 6. Always `exit;` at the end to prevent further code execution.
-    // echo '<pre>';
-    // echo var_dump();
-    // echo '</pre>';
+    // $product_slug = sanitize_text_field(trim($_POST['product_slug']));
+    // // echo '<pre>';
+    // // echo var_dump();
+    // // echo '</pre>';
 
-    // Dummy values
+
+    // // Dummy values
     // $product_image = ''; // LONGBLOB — leave empty or use base64 if testing image
     // $product_code = 'TEST123';
     // $product_brand_id = 1;
@@ -66,10 +68,11 @@ function aboyuma_product_add() {
     // $product_shop_link = 'https://example.com';
     // $product_sale_article_link = '';
     // $product_is_pinned = 0;
+    // //$product_slug = 'product-slug';
     // $created = current_time('mysql');
     // $modified = current_time('mysql');
 
-    // // // Insert into DB
+    // // // // Insert into DB
     // $inserted = $wpdb->insert(
     //   $table_name,
     //   [
@@ -94,6 +97,7 @@ function aboyuma_product_add() {
     //     'product_shop_link' => $product_shop_link,
     //     'product_sale_article_link' => $product_sale_article_link,
     //     'product_is_pinned' => $product_is_pinned,
+    //     'product_slug' => $product_slug,
     //     'created' => $created,
     //     'modified' => $modified
     //   ],
@@ -119,6 +123,7 @@ function aboyuma_product_add() {
     //     '%s', // product_shop_link
     //     '%s', // product_sale_article_link
     //     '%d', // product_is_pinned
+    //     '%s', // product_slug
     //     '%s', // created
     //     '%s'  // modified
     //   ]
@@ -183,6 +188,7 @@ function aboyuma_product_add() {
     $product_sop_link = esc_url_raw(trim($_POST['product_sop_link']));
     $product_sale_article_link = esc_url_raw(trim($_POST['product_sale_article_link']));
     $product_is_pinned = intval($_POST['product_is_pinned']);
+    $product_slug = sanitize_text_field(trim($_POST['product_slug']));
     $created = current_time('mysql');
     $modified = current_time('mysql');
 
@@ -261,6 +267,10 @@ function aboyuma_product_add() {
     if (is_null($product_is_pinned)) {
       $errors[] = 'Product is pinned flag is required.';
     }
+    // Validate product slug
+    if (empty($product_slug)) {
+      $errors[] = 'Product slug is required.';
+    }
     // If no errors, insert data into the database
     if (empty($errors)) {
       // DB_INSERT: Insert into aboyuma_product table
@@ -288,14 +298,15 @@ function aboyuma_product_add() {
           'product_sop_link' => $product_sop_link,
           'product_sale_article_link' => $product_sale_article_link,
           'product_is_pinned' => $product_is_pinned,
+          'product_slug' => $product_slug,
           'created' => $created,
           'modified' => $modified
         ],
         [
           '%s', // product_image
           '%s', // product_code
-          '%s', // product_brand_id
-          '%s', // product_category_id
+          '%d', // product_brand_id
+          '%d', // product_category_id
           '%s', // product_name
           '%s', // product_short_description
           '%s', // product_description
@@ -306,13 +317,14 @@ function aboyuma_product_add() {
           '%s', // product_additive_properties
           '%s', // product_diet_properties
           '%s', // product_review
-          '%s', // product_price
-          '%s', // product_member_price
-          '%s', // product_is_sop
+          '%f', // product_price
+          '%f', // product_member_price
+          '%d', // product_is_sop
           '%s', // product_shop_link
           '%s', // product_sop_link
           '%s', // product_sale_article_link
-          '%s', // product_is_pinned
+          '%d', // product_is_pinned
+          '%s', // product_slug
           '%s', // created
           '%s' // modified
         ]
@@ -826,6 +838,13 @@ function aboyuma_product_add() {
               No
             </label>
             <small style="display:block;">For display the product at the top of dataTable.</small>
+          </td>
+        </tr>
+        <!-- Product Slug -->
+        <tr>
+          <th scope="row"><label for="product_slug">Product Slug</label></th>
+          <td>
+            <input type="text" name="product_slug" id="product_slug" class="regular-text">
           </td>
         </tr>
         <!-- Related Products -->
