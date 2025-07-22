@@ -46,27 +46,49 @@ function aboyuma_product_edit() {
   // Fetch all categories
   $categories = $wpdb->get_results("SELECT id, category_name, parent_id FROM $categoryTable");
 
-  // Setup IDs
-  $subcategory_id = $product->product_category_id;
-  $parent_category_id = null;
-  // Find parent category based on subcategory
-  foreach ($categories as $cat) {
-    if ((int)$cat->id === (int)$subcategory_id) {
-      $parent_category_id = (int)$cat->parent_id;
+  $selected_category_id = (int) $product->product_category_id;
+  $parent_category_id = 0; // default
+
+  // Find parent category of selected category
+  foreach ($categories as $category) {
+    if ((int) $category->id === $selected_category_id) {
+      $parent_category_id = (int) $category->parent_id;
       break;
     }
   }
-  // Separate into parent and subcategory arrays
+
+  // If the selected category is itself a parent (parent_id == 0),
+  // then we consider that as the parent category, and subcategory is empty
+  if ($parent_category_id === 0) {
+    $parent_category_id = $selected_category_id;
+    $subcategory_id = 0; // No subcategory selected
+  } else {
+    // Otherwise, selected category is a subcategory
+    $subcategory_id = $selected_category_id;
+  }
+
   $parentCategories = [];
   $subCategories = [];
 
   foreach ($categories as $category) {
-    if ((int)$category->parent_id === 0) {
+    if ((int) $category->parent_id === 0) {
       $parentCategories[] = $category;
-    } elseif ((int)$category->parent_id === (int)$parent_category_id) {
-      $subCategories[] = $category;
     }
   }
+
+  if ($parent_category_id !== 0) {
+    foreach ($categories as $category) {
+      if ((int) $category->parent_id === $parent_category_id) {
+        $subCategories[] = $category;
+      }
+    }
+  }
+
+
+  echo "<pre>";
+  var_dump($parentCategories);
+  var_dump($subCategories);
+  echo "</pre>";
 
   $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
   $productDetailImages = $wpdb->get_results("
@@ -518,7 +540,7 @@ function aboyuma_product_edit() {
               <option value="">-- Select Parent Category --</option>
               <?php foreach ($parentCategories as $category): ?>
                 <option value="<?php echo esc_attr($category->id); ?>"
-                  <?php selected($category->id, $parent_category_id); ?>>
+                  <?php echo selected((int) $category->id, (int) $parent_category_id, false); ?>>
                   <?php echo esc_html($category->category_name); ?>
                 </option>
               <?php endforeach; ?>
@@ -529,15 +551,20 @@ function aboyuma_product_edit() {
         <tr>
           <th scope="row"><label for="product_category_id">Subcategory</label></th>
           <td>
-            <select name="product_category_id" id="product_category_id" class="regular-text" required>
-              <option value="">-- Select Subcategory --</option>
-              <?php foreach ($subCategories as $category): ?>
-                <option value="<?php echo esc_attr($category->id); ?>"
-                  <?php selected($category->id, $subcategory_id); ?>>
-                  <?php echo esc_html($category->category_name); ?>
-                </option>
-              <?php endforeach; ?>
+            <select name="product_category_id" id="product_category_id" class="regular-text">
+              <?php if (empty($subCategories)): ?>
+                <option value="">-- No Subcategories Found --</option>
+              <?php else: ?>
+                <option value="">-- Select Subcategory --</option>
+                <?php foreach ($subCategories as $category): ?>
+                  <option value="<?php echo esc_attr($category->id); ?>"
+                    <?php echo selected((int)$category->id, (int)$subcategory_id, false); ?>>
+                    <?php echo esc_html($category->category_name); ?>
+                  </option>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </select>
+
           </td>
         </tr>
         <!-- Product Name -->
@@ -1079,7 +1106,7 @@ function aboyuma_product_edit() {
                 options += '<option value="' + subcat.id + '">' + subcat.category_name + '</option>';
               });
             } else {
-              options = '<option value="">No Subcategories Found</option>';
+              options = '<option value="">-- No Subcategories Found --</option>';
             }
             $subSelect.html(options);
           },
