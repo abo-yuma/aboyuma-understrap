@@ -4,7 +4,7 @@ body {
 	background-color: #f0f2f5;
 }
 .body-bg-dark-mode {
-	background-color: #313233;
+	background-color: #212529;
 }
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
@@ -210,18 +210,134 @@ footer {
 }
 
 /* customize dark mode 
-/* to override this class.
-.text-body {
-    --bs-text-opacity: 1;
-    color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+/* to override this class.*/
+/*
     Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
 */
-// [data-bs-theme="dark"] {
-// 	--bs-body-color-rgb: 226, 223, 210; // body color
-// 	--bs-emphasis-color: #e2dfd2; // table font color
-// 	--bs-link-color-rgb: 226, 223, 210;
-// }
+.text-body {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+}
+[data-bs-theme="dark"] {
+	--bs-body-color-rgb: 228,230,235; // body color
+	--bs-emphasis-color: #e2dfd2; // table font color
+	--bs-link-color-rgb: 228,230,235;
+}
 
 // [data-bs-theme="light"] {
 // 	--bs-link-color-rgb: 0, 0, 0;
 // }
+
+/* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
+.thumbnail {
+	cursor: pointer;
+	transition: opacity 0.3s ease;
+	width: 100%;
+	max-width: 70px;
+	height: 70px;
+	flex: 0 0 auto;
+	/* Prevent stretching issue in Firefox */
+}
+
+.thumbnail.active {
+	border: 2px solid rgb(81, 97, 198);
+	/* Active thumbnail border */
+	opacity: 1 !important;
+}
+
+.thumbnail:not(.active):hover {
+	opacity: 0.7;
+	/* Hover effect for inactive thumbnails */
+}
+
+.previewImageBox {
+	aspect-ratio: 1 / 1;
+	/* Make it square 1:1 for all screen size */
+}
+
+#previewImage {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* Thumbnail slider container and arrows */
+.thumbnail-slider-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.thumbnail-wrapper {
+	display: flex;
+	gap: 8px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	white-space: nowrap;
+}
+
+.thumbnail-wrapper::-webkit-scrollbar {
+	display: none;
+}
+
+.slider-arrow {
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	cursor: pointer;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 18px;
+	z-index: 2;
+}
+
+.left-arrow {
+	left: 5px;
+}
+
+.right-arrow {
+	right: 5px;
+}
+
+.slider-arrow:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.consistent-height .tab-content {
+	display: flex;
+}
+
+/*https://stackoverflow.com/a/61587938/8527193
+  .consistent-height .tab-content>.tab-pane {
+    display: block;
+    undo "display: none;" 
+    visibility: hidden;
+    margin-right: -100%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .consistent-height .tab-content>.active {
+    visibility: visible;
+  }
+  */
+
+#product-detail-info-container .tab-content {
+	height: 500px;
+	overflow-y: scroll;
+	padding-top: 10px;
+}
+
+#product-detail-info-container #related-product .related-product-label {
+	font-weight: 400;
+}
+
+#product-detail-info-container #related-product .product-review-label {
+	font-weight: 400;
+}
