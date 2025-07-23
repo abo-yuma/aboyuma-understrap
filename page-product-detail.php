@@ -109,7 +109,7 @@ $container = get_theme_mod('understrap_container_type');
                                     </div>
                                     <button id="nextThumbnail" class="slider-arrow right-arrow">&gt;</button>
                                 </div>
-                                <div id="product-qrcode" class="d-flex align-items-start gap-3">
+                                <div id="product-qrcode" class="d-flex align-items-start gap-3 mt-2">
                                     <?php
                                     // Generate the current URL in PHP.
                                     $current_url = esc_url((is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -216,8 +216,25 @@ $container = get_theme_mod('understrap_container_type');
                                         </div>
                                     </div>
                                 </div>
-                                <div id="purchase-description">
-                                    <small style="display: inline-block; line-height: 90%;"><span style="font-size: 30px;">🪪</span> สามารถสั่งซื้อพร้อมสมัครสมาชิกได้ โดยการกรอกรหัสนักธุรกิจแอมเวย์ผู้แนะนำครับ</small>
+                                <div id="purchase-description" class="mt-1">
+                                    <?php
+                                    $isPriceSame = $product->product_price == $product->product_member_price;
+                                    if ($isPriceSame) {
+                                    ?>
+                                        <small style="display: inline-block; line-height: 90%;">
+                                            <span style="font-size: 30px;">🪪</span>
+                                            สมัครสมาชิกเพื่อรับคะแนน A-POINT! 🪙
+                                        </small>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <small style="display: inline-block; line-height: 90%;">
+                                            <span style="font-size: 30px;">🪪</span>
+                                            สมัครสมาชิกเพื่อสั่งซื้อสินค้าในราคานี้และรับคะแนน A-POINT! 🪙
+                                        </small>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -243,7 +260,7 @@ $container = get_theme_mod('understrap_container_type');
                                 </button>
                             </div>
                         </nav>
-                        <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-content border border-top-0 rounded-bottom p-3" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-product-detail" role="tabpanel" aria-labelledby="nav-product-detail-tab">
                                 <?php
                                 echo apply_filters('the_content', $product->product_detail);
@@ -264,6 +281,7 @@ $container = get_theme_mod('understrap_container_type');
                                     ?>
                                 </div>
                             <?php endif; ?>
+                        </div>
                     </section>
                     <!-- SECTION: Related Products -->
                     <section id="related-products">
@@ -283,10 +301,15 @@ $container = get_theme_mod('understrap_container_type');
                     <!-- SECTION: product review -->
                     <section id="product-review">
                         <?php if (!empty($product->product_review)) : ?>
-                            <div id="product-review" class="mt-2">
-                                <span sclass="product-review-label">⭐ แอดมินรีวิว</span>
-                                <hr>
-                                <?php echo apply_filters('the_content', $product->product_review); ?>
+                            <div id="product-review" class="mt-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        ⭐ แอดมินรีวิว
+                                    </div>
+                                    <div class="card-body">
+                                        <?php echo apply_filters('the_content', $product->product_review); ?>
+                                    </div>
+                                </div>
                             </div>
                         <?php endif; ?>
                         <!-- SECTION: product sale article link -->
