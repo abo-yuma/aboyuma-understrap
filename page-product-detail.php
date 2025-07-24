@@ -47,29 +47,62 @@ $container = get_theme_mod('understrap_container_type');
                 $product_table_name = $wpdb->prefix . 'aboyuma_product';
                 $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
                 $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
-                $product = $wpdb->get_row("
+                $sql = $wpdb->prepare(
+                    "
                     SELECT
-                    p.*,
-                    b.brand_name,
-                    b.brand_image_url,
-                    c.category_name
+                        p.*,
+                        b.brand_name,
+                        b.brand_image_url,
+                        c.category_name
                     FROM
-                    $product_table_name AS p
+                        $product_table_name AS p
                     LEFT JOIN
-                    $productBrandTable AS b ON p.product_brand_id = b.id
+                        $productBrandTable AS b ON p.product_brand_id = b.id
                     LEFT JOIN
-                    $productCategoryTable AS c ON p.product_category_id = c.id
+                        $productCategoryTable AS c ON p.product_category_id = c.id
                     WHERE
-                    p.id = $product_id;
-                    ");
+                        p.id = %d
+                    ",
+                    $product_id
+                );
+
+                $product = $wpdb->get_row($sql);
                 if (!$product) {
                     echo '<div class="notice notice-error is-dismissible">
                     <p>Product not found.</p>
                     </div>';
                     return;
                 }
+
                 $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
-                $productDetailImages = $wpdb->get_results("SELECT * FROM $productImageTable WHERE product_id = $product_id");
+                $sql_images = $wpdb->prepare("
+                    SELECT id, product_id, product_image_path 
+                    FROM $productImageTable 
+                    WHERE product_id = %d
+                ", $product_id);
+                $productDetailImages = $wpdb->get_results($sql_images);
+
+                $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+                $sql_infographics = $wpdb->prepare("
+                    SELECT id, product_id, product_infographic_path
+                    FROM $productInfographicTable 
+                    WHERE product_id = %d
+                ", $product_id);
+                $productInfographics = $wpdb->get_results($sql_infographics);
+
+                $productRelateVideoTable = $wpdb->prefix . 'aboyuma_related_product_video';
+                $sql_videos = $wpdb->prepare("
+                    SELECT id, product_id, video_url, video_comment
+                    FROM $productRelateVideoTable 
+                    WHERE product_id = %d
+                ", $product_id);
+                $productRelateVideos = $wpdb->get_results($sql_videos);
+
+                $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+                $related_products = $wpdb->get_col($wpdb->prepare(
+                    "SELECT related_product_id FROM $relatedProductTable WHERE product_id = %d",
+                    $product_id
+                ));
                 // Display the detail
                 ?>
                 <div class="container entry-content" id="product-detail">
@@ -286,11 +319,6 @@ $container = get_theme_mod('understrap_container_type');
                     <!-- SECTION: Related Products -->
                     <section id="related-products">
                         <?php
-                        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
-                        $related_products = $wpdb->get_col($wpdb->prepare(
-                            "SELECT related_product_id FROM $relatedProductTable WHERE product_id = %d",
-                            $product_id
-                        ));
                         if (count($related_products) > 0) {
                             set_query_var('related_products', $related_products);
                             set_query_var('product_id', $product_id);
@@ -298,6 +326,64 @@ $container = get_theme_mod('understrap_container_type');
                         }
                         ?>
                     </section>
+
+                    <!-- SECTION: Product Infographic -->
+                    <section id="product-infographic" class="mt-4">
+                        <div class="container">
+                            <div class="row g-3">
+                                <?php
+                                if (!empty($productInfographics)) {
+                                    $upload_dir = wp_upload_dir();
+                                    $base_url = trailingslashit($upload_dir['baseurl']);
+
+                                    foreach ($productInfographics as $infographic) {
+                                        $image_url = esc_url($base_url . $infographic->product_infographic_path);
+                                ?>
+                                        <div class="col-md-6">
+                                            <div class="border rounded p-2 text-center">
+                                                <a href="<?php echo $image_url; ?>" data-fancybox="product-infographics">
+                                                    <img src="<?php echo $image_url; ?>" alt="Infographic" class="img-fluid"
+                                                        style="max-height: 200px; object-fit: contain;">
+                                                </a>
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </section>
+
+                    <?php if (!empty($productRelateVideos)) : ?>
+                        <section id="product-related-video" class="mt-4">
+                            <div class="container">
+                                <div class="row">
+                                    <?php foreach ($productRelateVideos as $index => $video) :
+                                        // Extract YouTube video ID from the URL
+                                        preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
+                                        $youtube_id = $matches[1] ?? '';
+                                        if (!$youtube_id) continue; // skip if no valid ID
+                                    ?>
+                                        <div class="col-md-6 mb-4">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe
+                                                    src="https://www.youtube.com/embed/<?php echo esc_attr($youtube_id); ?>"
+                                                    title="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>"
+                                                    allowfullscreen
+                                                    frameborder="0"></iframe>
+                                            </div>
+                                            <?php if (!empty($video->video_comment)) : ?>
+                                                <p class="mt-2"><?php echo esc_html($video->video_comment); ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </section>
+                    <?php endif; ?>
+
+
                     <!-- SECTION: product review -->
                     <section id="product-review">
                         <?php if (!empty($product->product_review)) : ?>
@@ -306,7 +392,7 @@ $container = get_theme_mod('understrap_container_type');
                                     <div class="card-header">
                                         ⭐ แอดมินรีวิว
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body">;
                                         <?php echo apply_filters('the_content', $product->product_review); ?>
                                     </div>
                                 </div>
