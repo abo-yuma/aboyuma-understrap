@@ -92,6 +92,14 @@ function aboyuma_product_edit() {
     ORDER BY product_image_order ASC
   ");
 
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+  $productInfographics = $wpdb->get_results("
+    SELECT id, product_infographic_path, product_infographic_order 
+    FROM $productInfographicTable 
+    WHERE product_id = $product_id
+    ORDER BY product_infographic_order ASC
+  ");
+
   $errors = [];
 
   // Handle form submission
@@ -410,6 +418,111 @@ function aboyuma_product_edit() {
             $wpdb->delete(
               $productImageTable,
               ['id' => intval($imageId)],
+              ['%d']
+            );
+          }
+        }
+
+        // DB_UPDATE: update aboyuma_product_ingraphic table
+        if (
+          isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
+          && !empty(array_filter($_FILES['product_infographics']['name']))
+        ) {
+
+          $infographic_files = $_FILES['product_infographics'];
+          $inforaphic_orders = $_POST['product_infographic_orders'];
+
+          // Get WordPress upload directory path
+          $infographic_upload_dir = wp_upload_dir();
+          $infographic_base_upload_path = trailingslashit($infographic_upload_dir['basedir']) . 'product-details/';
+
+          // ✅ Use product code to create subfolder
+          $infographic_safe_folder_name = sanitize_title($product_code);
+          $infographic_subdir = trailingslashit($infographic_base_upload_path . $infographic_safe_folder_name . '/infographic');
+
+          // ✅ If folder exists, delete all images inside
+          if (file_exists($infographic_subdir)) {
+            $existing_infographic_files = glob($infographic_subdir . '*');
+            foreach ($existing_infographic_files as $existing_infographic_file) {
+              if (is_file($existing_infographic_file)) {
+                unlink($existing_infographic_file);
+              }
+            }
+          } else {
+            // ✅ Create subfolder if it doesn’t exist
+            wp_mkdir_p($infographic_subdir);
+          }
+
+          $now = current_time('mysql');
+          // NOTE: using => $name is important.
+          foreach ($infographic_files['name'] as $index => $infographic_name) {
+            if ($infographic_files['error'][$index] == UPLOAD_ERR_OK) {
+
+              $infographic_tmp_name = $infographic_files['tmp_name'][$index];
+              $infographic_order = intval($inforaphic_orders[$index]);
+
+              // Generate unique filename to prevent collision
+              $extension = pathinfo($infographic_name, PATHINFO_EXTENSION);
+              $infographic_new_filename = uniqid('product_', true) . '.' . $extension;
+
+              // Full path to save the image
+              $infographic_destination = $infographic_subdir . $infographic_new_filename;
+
+              // Move uploaded file to custom uploads folder
+              if (move_uploaded_file($infographic_tmp_name, $infographic_destination)) {
+
+                // ✅ Store relative URL path in DB
+                $infographic_path = 'product-details/' . $infographic_safe_folder_name . '/infographic/' . $infographic_new_filename;
+
+                // Insert the image into the database
+                $wpdb->insert(
+                  $productInfographicTable,
+                  [
+                    'product_infographic_path' => $infographic_path,
+                    'product_id' => $product_id, // Use the inserted product ID
+                    'product_infographic_order' => $infographic_order,
+                    'created' => $now,
+                    'modified' => $now,
+                  ],
+                  [
+                    '%s',
+                    '%d',
+                    '%d',
+                    '%s',
+                    '%s'
+                  ]
+                );
+              }
+            } else {
+              echo "File uploaded failed: " . $infographic_files['name'][$index];
+              echo " Error Code: " . $infographic_files['error'][$index]; // This should give you the error code
+              var_dump($infographic_files['error'][$index]); // Check the actual value and type
+              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
+              die();
+            }
+          }
+        }
+
+        // Optional: Delete infographics if necessary
+        if (!empty($_POST['deleted_infographic_ids'])) {
+          $deletedInfographicIds = $_POST['deleted_infographic_ids'];
+          foreach ($deletedInfographicIds as $infographicId) {
+            // ✅ Step 1: Get the infographic path
+            $infographic = $wpdb->get_row(
+              $wpdb->prepare("SELECT product_infographic_path FROM $productInfographicTable WHERE id = %d", $infographicId)
+            );
+            if ($infographic) {
+              $upload_dir = wp_upload_dir();
+              $full_path = trailingslashit($upload_dir['basedir']) . $infographic->product_infographic_path;
+              // ✅ Step 2: Delete the file if it exists
+              if (file_exists($full_path)) {
+                unlink($full_path);
+              }
+            }
+            // ✅ Step 3: Delete the DB record
+            $wpdb->delete(
+              $productInfographicTable,
+              ['id' => intval($infographicId)],
               ['%d']
             );
           }
@@ -852,6 +965,32 @@ function aboyuma_product_edit() {
             <input type="text" name="product_slug" id="product_slug" class="regular-text" value="<?php echo esc_attr($product->product_slug); ?>" required>
           </td>
         </tr>
+        <!-- Product Infographics -->
+        <tr>
+          <th scope="row"><label for="product_benefit">Product Infographics</label></th>
+          <td>
+            <div id="infographic-upload-container">
+              <!-- Existing Infographics -->
+              <?php
+              $infographic_upload_dir = wp_upload_dir(); // ✅ Add before the loop
+              $infographic_base_url = trailingslashit($infographic_upload_dir['baseurl']);
+              foreach ($productInfographics as $infographic) :
+                $infographic_url = $infographic_base_url . $infographic->product_infographic_path;
+                echo '<pre>' . $infographic_url . '</pre>';
+              ?>
+                <div class="infographic-preview-container" data-id="<?= $infographic->id; ?>">
+                  <img src="<?= esc_url($infographic_url); ?>" class="infographic-preview">
+                  <input type="number" name="existing_infographic_orders[]" value="<?= $infographic->product_infographic_order; ?>" class="order-input">
+                  <input type="hidden" name="existing_infographic_ids[]" value="<?= $infographic->id; ?>">
+                  <label><input type="checkbox" name="deleted_infographic_ids[]" value="<?= $infographic->id; ?>"> Delete</label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <!-- New Infographic Uploads -->
+            <button type="button" id="add-infographic-field">Add Infographic</button>
+            <small>**Product detail infographics with order number to display in product detail page</small>
+          </td>
+        </tr>
         <!-- Related dproduct -->
         <?php
         // Fetch all products
@@ -1014,6 +1153,7 @@ function aboyuma_product_edit() {
         }
       });
 
+      // ===== Product Detail Images Script ===== //
       let imageCount = 0;
 
       // Add a new image input field for product detail images
@@ -1024,7 +1164,7 @@ function aboyuma_product_edit() {
         <img src="" class="image-preview hidden" alt="Preview">
         <input type="file" name="product_images[]" class="product-image-input">
         <input type="number" name="product_image_orders[]" class="order-input" placeholder="">
-        <span class="remove-button">Remove</span>
+        <span id='remove-image-button' class="remove-button">Remove</span>
       </div>`;
         $('#image-upload-container').append(newField);
       });
@@ -1046,9 +1186,48 @@ function aboyuma_product_edit() {
         }
       });
       // Remove an image input field
-      $(document).on('click', '.remove-button', function() {
+      $(document).on('click', '#remove-image-button', function() {
         $(this).closest('.image-preview-container').remove();
       });
+      // ===== End Product Detail Images Script ===== //
+
+      // ===== Product Infographics Script ===== //
+      let infographicCount = 0;
+
+      // Add a new infographic input field for product detail infographics
+      $('#add-infographic-field').on('click', function() {
+        infographicCount++;
+        const newInfographicField = `
+      <div class="infographic-preview-container" data-index="${infographicCount}">
+        <img src="" class="infographic-preview hidden" alt="Preview">
+        <input type="file" name="product_infographics[]" class="product-infographic-input">
+        <input type="number" name="product_infographic_orders[]" class="order-input" placeholder="">
+        <span id='remove-infographic-button' class="remove-button">Remove</span>
+      </div>`;
+        $('#infographic-upload-container').append(newInfographicField);
+      });
+
+      // Preview the selected detail infographics
+      $(document).on('change', '.product-infographic-input', function() {
+        const file = this.files[0];
+        const preview = $(this).siblings('.infographic-preview');
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.attr('src', e.target.result); // Set the infographic preview source
+            preview.removeClass('hidden'); // Show the infographic
+          };
+          reader.readAsDataURL(file); // Read the file as a data URL
+        } else {
+          preview.attr('src', ''); // Clear the infographic preview
+          preview.addClass('hidden'); // Hide the infographic
+        }
+      });
+      // Remove an infographic input field
+      $(document).on('click', '#remove-infographic-button', function() {
+        $(this).closest('.infographic-preview-container').remove();
+      });
+      // ===== End Product Infographic Script ===== //
 
       // HACK: remove selection of select option multiple selection
       $('.related-product-select-multiple option').on('mousedown', function(e) {

@@ -7,6 +7,7 @@ function aboyuma_product_add() {
   $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
   $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
   $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
   // Fetch brands
   $brands = $wpdb->get_results("SELECT id, brand_name FROM $productBrandTable");
   // Fetch categories
@@ -39,110 +40,8 @@ function aboyuma_product_add() {
     // Get the posted values
 
     // // Dummy values
-    // $product_image = ''; // LONGBLOB — leave empty or use base64 if testing image
-    // $product_code = 'TEST123';
-    // $product_brand_id = 1;
-    // //$product_category_id = 2;
-    // $product_name = 'Test Product';
-    // $product_short_description = 'Short desc';
-    // $product_description = 'Full description here';
-    // $product_benefit = 'Benefits...';
-    // $product_detail = 'Detailed info...';
-    // $product_specification = 'Specs...';
-    // $product_comment = 'Comment...';
-    // $product_additive_properties_json = json_encode([
-    //   'no_color' => false,
-    //   'no_flavoring' => false,
-    //   'no_preservative' => false,
-    // ]);
-    // $product_diet_properties_json = json_encode([
-    //   'vegetarian' => false,
-    //   'vegan' => true,
-    //   'practical vegan' => true,
-    // ]);
-    // $product_review = 'Good product!';
-    // $product_price = 99.99;
-    // $product_member_price = 89.99;
-    // $product_is_sop = 0;
-    // $product_sop_link = '';
-    // $product_shop_link = 'https://example.com';
-    // $product_sale_article_link = '';
-    // $product_is_pinned = 0;
-    // $product_slug = 'product-slug';
-    // $created = current_time('mysql');
-    // $modified = current_time('mysql');
-
-    // // // // Insert into DB
-    // $inserted = $wpdb->insert(
-    //   $table_name,
-    //   [
-    //     'product_image' => $product_image,
-    //     'product_code' => $product_code,
-    //     'product_brand_id' => $product_brand_id,
-    //     'product_category_id' => $product_category_id,
-    //     'product_name' => $product_name,
-    //     'product_short_description' => $product_short_description,
-    //     'product_description' => $product_description,
-    //     'product_benefit' => $product_benefit,
-    //     'product_detail' => $product_detail,
-    //     'product_specification' => $product_specification,
-    //     'product_comment' => $product_comment,
-    //     'product_additive_properties' => $product_additive_properties_json,
-    //     'product_diet_properties' => $product_diet_properties_json,
-    //     'product_review' => $product_review,
-    //     'product_price' => $product_price,
-    //     'product_member_price' => $product_member_price,
-    //     'product_is_sop' => $product_is_sop,
-    //     'product_sop_link' => $product_sop_link,
-    //     'product_shop_link' => $product_shop_link,
-    //     'product_sale_article_link' => $product_sale_article_link,
-    //     'product_is_pinned' => $product_is_pinned,
-    //     'product_slug' => $product_slug,
-    //     'created' => $created,
-    //     'modified' => $modified
-    //   ],
-    //   [
-    //     '%s', // product_image
-    //     '%s', // product_code
-    //     '%d', // product_brand_id
-    //     '%d', // product_category_id
-    //     '%s', // product_name
-    //     '%s', // product_short_description
-    //     '%s', // product_description
-    //     '%s', // product_benefit
-    //     '%s', // product_detail
-    //     '%s', // product_specification
-    //     '%s', // product_comment
-    //     '%s', // product_additive_properties (JSON)
-    //     '%s', // product_diet_properties (JSON)
-    //     '%s', // product_review
-    //     '%f', // product_price
-    //     '%f', // product_member_price
-    //     '%d', // product_is_sop
-    //     '%s', // product_sop_link
-    //     '%s', // product_shop_link
-    //     '%s', // product_sale_article_link
-    //     '%d', // product_is_pinned
-    //     '%s', // product_slug
-    //     '%s', // created
-    //     '%s'  // modified
-    //   ]
-    // );
-
-    // if ($inserted) {
-    //   // Get the ID of the inserted product
-    //   $inserted_product_id = $wpdb->insert_id;
-
-    //   echo '✅ Dummy product inserted successfully.';
-    // } else {
-    //   echo '❌ Failed to insert dummy product.<br>';
-    //   echo 'MySQL Error: ' . $wpdb->last_error . '<br>';
-    //   echo '<pre>';
-    //   print_r($wpdb->last_query);
-    //   echo '</pre>';
-    // }
+    // include(get_template_directory() . '/theme-plugins/product-crud/inc/test-product-add.php');
     // exit;
-
     // ===== DEBUG SPACE END =====
 
     // ===== Product Data Insert =====
@@ -376,7 +275,7 @@ function aboyuma_product_add() {
           }
 
           $now = current_time('mysql');
-          // NOTE: using => $name is important.
+          // NOTE: using as $index => $name is important.
           foreach ($files['name'] as $index => $name) {
             if ($files['error'][$index] == UPLOAD_ERR_OK) {
 
@@ -419,6 +318,86 @@ function aboyuma_product_add() {
               echo "File uploaded failed: " . $files['name'][$index];
               echo " Error Code: " . $files['error'][$index]; // This should give you the error code
               var_dump($files['error'][$index]); // Check the actual value and type
+              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
+              die();
+            }
+          }
+        }
+
+        // DB_INSERT: Insert into aboyuma_product_ingraphic table
+        if (
+          isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
+          && !empty(array_filter($_FILES['product_infographics']['name']))
+        ) {
+
+          $infographic_files = $_FILES['product_infographics'];
+          $inforaphic_orders = $_POST['product_infographic_orders'];
+
+          // Get WordPress upload directory path
+          $infographic_upload_dir = wp_upload_dir();
+          $infographic_base_upload_path = trailingslashit($infographic_upload_dir['basedir']) . 'product-details/';
+
+          // ✅ Use product code to create subfolder
+          $infographic_safe_folder_name = sanitize_title($product_code);
+          $infographic_subdir = trailingslashit($infographic_base_upload_path . $infographic_safe_folder_name . '/infographic');
+
+          // ✅ If folder exists, delete all images inside
+          if (file_exists($infographic_subdir)) {
+            $existing_infographic_files = glob($infographic_subdir . '*');
+            foreach ($existing_infographic_files as $existing_infographic_file) {
+              if (is_file($existing_infographic_file)) {
+                unlink($existing_infographic_file);
+              }
+            }
+          } else {
+            // ✅ Create subfolder if it doesn’t exist
+            wp_mkdir_p($infographic_subdir);
+          }
+
+          $now = current_time('mysql');
+          // NOTE: using => $name is important.
+          foreach ($infographic_files['name'] as $index => $infographic_name) {
+            if ($infographic_files['error'][$index] == UPLOAD_ERR_OK) {
+
+              $infographic_tmp_name = $infographic_files['tmp_name'][$index];
+              $infographic_order = intval($inforaphic_orders[$index]);
+
+              // Generate unique filename to prevent collision
+              $extension = pathinfo($infographic_name, PATHINFO_EXTENSION);
+              $infographic_new_filename = uniqid('product_', true) . '.' . $extension;
+
+              // Full path to save the image
+              $infographic_destination = $infographic_subdir . $infographic_new_filename;
+
+              // Move uploaded file to custom uploads folder
+              if (move_uploaded_file($infographic_tmp_name, $infographic_destination)) {
+
+                // ✅ Store relative URL path in DB
+                $infographic_path = 'product-details/' . $infographic_safe_folder_name . '/infographic/' . $infographic_new_filename;
+
+                // Insert the image into the database
+                $wpdb->insert(
+                  $productInfographicTable,
+                  [
+                    'product_infographic_path' => $infographic_path,
+                    'product_id' => $inserted_product_id, // Use the inserted product ID
+                    'product_infographic_order' => $infographic_order,
+                    'created' => $now,
+                    'modified' => $now,
+                  ],
+                  [
+                    '%s',
+                    '%d',
+                    '%d',
+                    '%s',
+                    '%s'
+                  ]
+                );
+              }
+            } else {
+              echo "File uploaded failed: " . $infographic_files['name'][$index];
+              echo " Error Code: " . $infographic_files['error'][$index]; // This should give you the error code
+              var_dump($infographic_files['error'][$index]); // Check the actual value and type
               var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
               die();
             }
@@ -638,7 +617,7 @@ function aboyuma_product_add() {
         </tr>
         <!-- Product Detail Images -->
         <tr>
-          <th scope="row"><label for="product_benefit">Product Detail Images</label></th>
+          <th scope="row"><label for="product_images">Product Detail Images</label></th>
           <td>
             <div id="image-upload-container">
               <!-- Dynamic image fields will appear here -->
@@ -830,6 +809,17 @@ function aboyuma_product_add() {
             <input type="text" name="product_slug" id="product_slug" class="regular-text">
           </td>
         </tr>
+        <!-- Product Infographics -->
+        <tr>
+          <th scope="row"><label for="product_infographics">Product Infographic</label></th>
+          <td>
+            <div id="infographic-upload-container">
+              <!-- Dynamic Infographic fields will appear here -->
+            </div>
+            <button type="button" id="add-infographic-field">Add Infographic</button>
+            <small>**Product infographic with order number to display in product detail page</small>
+          </td>
+        </tr>
         <!-- Related Products -->
         <?php
         // Fetch all products
@@ -935,6 +925,7 @@ function aboyuma_product_add() {
         }
       });
 
+      // ===== Product Detail Images Script ===== //
       let imageCount = 0;
 
       // Add a new image input field for product detail images
@@ -970,6 +961,45 @@ function aboyuma_product_add() {
       $(document).on('click', '.remove-button', function() {
         $(this).closest('.image-preview-container').remove();
       });
+      // ===== End Product Detail Images Script ===== //
+
+      // ===== Product Infographics Script ===== //
+      let infographicCount = 0;
+
+      // Add a new image input field for product infographics
+      $('#add-infographic-field').on('click', function() {
+        infographicCount++;
+        const newField = `
+      <div class="infographic-preview-container" data-index="${infographicCount}">
+        <img src="" class="infographic-preview hidden" alt="Preview">
+        <input type="file" name="product_infographics[]" class="product-infographic-input">
+        <input type="number" name="product_infographic_orders[]" class="order-input" placeholder="">
+        <span class="remove-button">Remove</span>
+      </div>`;
+        $('#infographic-upload-container').append(newField);
+      });
+
+      // Preview the selected infographics
+      $(document).on('change', '.product-infographic-input', function() {
+        const file = this.files[0];
+        const preview = $(this).siblings('.infographic-preview');
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.attr('src', e.target.result); // Set the infographic preview source
+            preview.removeClass('hidden'); // Show the infographic
+          };
+          reader.readAsDataURL(file); // Read the file as a data URL
+        } else {
+          preview.attr('src', ''); // Clear the infographic preview
+          preview.addClass('hidden'); // Hide the infographic
+        }
+      });
+      // Remove an infographic input field
+      $(document).on('click', '.remove-button', function() {
+        $(this).closest('.infographic-preview-container').remove();
+      });
+      // ===== End Product Infographic Script ===== //
 
       // HACK: remove selection of select option multiple selection
       $('.related-product-select-multiple option').on('mousedown', function(e) {
@@ -1053,13 +1083,15 @@ function aboyuma_product_add() {
     });
   </script>
   <style>
-    .image-preview-container {
+    .image-preview-container,
+    .infographic-preview-container {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
 
-    .image-preview {
+    .image-preview,
+    .infographic-preview {
       width: 100px;
       height: 100px;
       object-fit: cover;
