@@ -23,6 +23,7 @@ function create_aboyuma_table() {
   $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
   $productTagTable = $wpdb->prefix . 'aboyuma_product_tag';
   $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
   $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
   $relatedProductVideoTable = $wpdb->prefix . 'aboyuma_related_product_video';
 
@@ -87,6 +88,14 @@ function create_aboyuma_table() {
     created DATETIME NOT NULL,
     modified DATETIME NOT NULL
   ) $charset_collate;");
+  array_push($queries, "CREATE TABLE $productInfographicTable (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    product_id INT UNSIGNED NOT NULL,
+    product_infographic_path VARCHAR(255) NOT NULL,
+    product_infographic_order TINYINT(1) NOT NULL,
+    created DATETIME NOT NULL,
+    modified DATETIME NOT NULL
+  ) $charset_collate;");
   array_push($queries, "CREATE TABLE $relatedProductTable (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_id INT UNSIGNED NOT NULL,
@@ -133,6 +142,9 @@ function create_aboyuma_table() {
       REFERENCES $productTable(id) ON DELETE CASCADE"],
     [$productImageTable, 'fk_aboyuma_product_image_product_id', "ALTER TABLE $productImageTable 
       ADD CONSTRAINT fk_aboyuma_product_image_product_id FOREIGN KEY (product_id) 
+      REFERENCES $productTable(id) ON DELETE CASCADE"],
+    [$productInfographicTable, 'fk_aboyuma_product_infographic_product_id', "ALTER TABLE $productInfographicTable 
+      ADD CONSTRAINT fk_aboyuma_product_infographic_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
     [$relatedProductTable, 'fk_aboyuma_related_product_product_id', "ALTER TABLE $relatedProductTable 
       ADD CONSTRAINT fk_aboyuma_related_product_product_id FOREIGN KEY (product_id) 
@@ -271,14 +283,14 @@ function aboyuma_product_menu() {
 add_action('admin_menu', 'aboyuma_product_menu');
 
 function aboyuma_customize_tinymce_toolbar($init) {
-    // Add toolbar options clearly separated
-    $init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
-    $init['toolbar2'] = 'blockquote code removeformat';
+  // Add toolbar options clearly separated
+  $init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
+  $init['toolbar2'] = 'blockquote code removeformat';
 
-    // Add available font sizes (pt is optional, WordPress TinyMCE understands both)
-    $init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+  // Add available font sizes (pt is optional, WordPress TinyMCE understands both)
+  $init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
 
-    return $init;
+  return $init;
 }
 add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
 
