@@ -43,6 +43,8 @@ function aboyuma_product_detail() {
   }
   $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
   $productDetailImages = $wpdb->get_results("SELECT * FROM $productImageTable WHERE product_id = $product_id");
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+  $productInfographics = $wpdb->get_results("SELECT * FROM $productInfographicTable WHERE product_id = $product_id");
 
   // Display the detail
 ?>
@@ -121,7 +123,7 @@ function aboyuma_product_detail() {
         </tr>
         <!-- Product Detail Images -->
         <tr>
-          <th scope="row"><label for="product_benefit">Product Detail Images</label></th>
+          <th scope="row"><label for="product_image">Product Detail Images</label></th>
           <td>
             <div id="image-upload-container">
               <!-- Existing Images -->
@@ -269,6 +271,21 @@ function aboyuma_product_detail() {
             <label><input type="radio" name="product_is_pinned" value="0" <?php echo ($product->product_is_pinned == 0) ? 'checked' : ''; ?> disabled>No</label>
           </td>
         </tr>
+        <!-- Product Infographic -->
+        <tr>
+          <th scope="row"><label for="product_infographic">Product Infographic</label></th>
+          <td>
+            <div id="infographic-upload-container">
+              <!-- Existing Infographics -->
+              <?php foreach ($productInfographics as $infographic) : ?>
+                <div class="infographic-preview-container" data-id="<?= $infographic->id; ?>">
+                  <img src="<?= esc_url(wp_upload_dir()['baseurl'] . '/' . $infographic->product_infographic_path); ?>" class="infographic-preview">
+                  <input type="number" name="existing_infographic_orders[]" value="<?= $infographic->product_infographic_order; ?>" class="order-input" disabled>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </td>
+        </tr>
         <!-- Related product -->
         <?php
         $related_products = $wpdb->get_results($wpdb->prepare(
@@ -375,7 +392,8 @@ function aboyuma_product_detail() {
     </form>
   </div>
   <style>
-    .image-preview {
+    .image-preview,
+    .infographic-preview {
       width: 100px;
       height: 100px;
       object-fit: cover;

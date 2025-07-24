@@ -1312,13 +1312,15 @@ function aboyuma_product_edit() {
     });
   </script>
   <style>
-    .image-preview-container {
+    .image-preview-container,
+    .infographic-preview-container {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
 
-    .image-preview {
+    .image-preview,
+    .infographic-preview {
       width: 100px;
       height: 100px;
       object-fit: cover;
