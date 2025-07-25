@@ -507,3 +507,52 @@ function ajax_filter_products() {
 // 🔄 Register AJAX for both guests and logged-in users
 add_action('wp_ajax_filter_products', 'ajax_filter_products');
 add_action('wp_ajax_nopriv_filter_products', 'ajax_filter_products');
+
+function aboyuma_get_related_products() {
+	check_ajax_referer('aboyuma_related_nonce', '_ajax_nonce');
+
+	$product_id = intval($_GET['product_id'] ?? 0);
+	$related_products = isset($_GET['related_products']) ? array_map('intval', (array) $_GET['related_products']) : [];
+
+	global $wpdb;
+	$placeholders = implode(',', array_fill(0, count($related_products), '%d'));
+	$product_table = $wpdb->prefix . 'aboyuma_product';
+	$related_table = $wpdb->prefix . 'aboyuma_related_product';
+
+	$sql = "
+        SELECT 
+        p.id,
+        p.product_image,
+        p.product_name,
+        r.related_product_comment
+        FROM $product_table p
+        INNER JOIN $related_table r
+        ON p.id = r.related_product_id
+        WHERE r.product_id = %d
+        AND r.related_product_id IN ($placeholders)
+        ORDER BY p.product_name ASC
+    ";
+	$prepared_sql = $wpdb->prepare($sql, $product_id, ...$related_products);
+	$results = $wpdb->get_results($prepared_sql);
+
+	$data = [];
+
+	foreach ($results as $product) {
+		$image = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+		$name = esc_html($product->product_name);
+		$comment = wp_kses_post($product->related_product_comment);
+		$link = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+		$data[] = [
+			$image,
+			$name,
+			$comment,
+			"<a href='{$link}'>[รายละเอียด]</a>"
+		];
+	}
+
+	wp_send_json([
+		'data' => $data
+	]);
+}
+add_action('wp_ajax_get_related_products', 'aboyuma_get_related_products');
+add_action('wp_ajax_nopriv_get_related_products', 'aboyuma_get_related_products');

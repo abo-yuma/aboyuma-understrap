@@ -316,16 +316,6 @@ $container = get_theme_mod('understrap_container_type');
                             <?php endif; ?>
                         </div>
                     </section>
-                    <!-- SECTION: Related Products -->
-                    <section id="related-products">
-                        <?php
-                        if (count($related_products) > 0) {
-                            set_query_var('related_products', $related_products);
-                            set_query_var('product_id', $product_id);
-                            get_template_part('template-parts/product-detail/related-product');
-                        }
-                        ?>
-                    </section>
 
                     <!-- SECTION: Product Infographic -->
                     <section id="product-infographic" class="mt-4">
@@ -387,25 +377,35 @@ $container = get_theme_mod('understrap_container_type');
                                         $youtube_id = $matches[1] ?? '';
                                         if (!$youtube_id) continue; // skip if no valid ID
                                     ?>
-                                        <div class="col-md-4">
-                                            <div class="ratio ratio-16x9">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
                                                 <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
                                                     data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
-                                                    <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg" alt="YouTube thumbnail">
+                                                    <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
+                                                        alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
                                                 </a>
                                             </div>
                                             <?php if (!empty($video->video_comment)) : ?>
-                                                <span class="mt-2"><?php echo esc_html($video->video_comment); ?></span>
+                                                <span class="mt-2 d-block"><?php echo esc_html($video->video_comment); ?></span>
                                             <?php endif; ?>
                                         </div>
+
                                     <?php endforeach; ?>
                                 </div>
                             </div>
                         </section>
                     <?php endif; ?>
 
-
-
+                    <!-- SECTION: Related Products -->
+                    <section id="related-products">
+                        <?php
+                        if (count($related_products) > 0) {
+                            set_query_var('related_products', $related_products);
+                            set_query_var('product_id', $product_id);
+                            get_template_part('page-templates/product-detail/related-product');
+                        }
+                        ?>
+                    </section>
 
                 </div>
             </div>
