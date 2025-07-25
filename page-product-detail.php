@@ -353,7 +353,7 @@ $container = get_theme_mod('understrap_container_type');
                                     <div class="card-header">
                                         ⭐ แอดมินรีวิว
                                     </div>
-                                    <div class="card-body">;
+                                    <div class="card-body">
                                         <?php echo apply_filters('the_content', $product->product_review); ?>
                                     </div>
                                 </div>

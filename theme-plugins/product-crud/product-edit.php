@@ -345,10 +345,10 @@ function aboyuma_product_edit() {
 
           // ✅ STEP 2: Use product code to create subfolder
           $safe_folder_name = sanitize_title($product_code);
-          $product_subdir = trailingslashit($base_upload_path . $safe_folder_name);
+          $image_subdir = trailingslashit($base_upload_path . $safe_folder_name);
 
           // ✅ STEP 3: Create subfolder if it doesn't exist
-          if (!file_exists($product_subdir)) {
+          if (!file_exists($image_subdir)) {
             error_log("ERROR: Product image folder missing");
           }
 
@@ -363,9 +363,9 @@ function aboyuma_product_edit() {
               // ✅ STEP 4: Generate a safe, unique filename
               $extension = pathinfo($name, PATHINFO_EXTENSION);
               $new_filename = uniqid('product_', true) . '.' . $extension;
-              $destination = $product_subdir . $new_filename;
+              $image_destination = $image_subdir . $new_filename;
 
-              if (move_uploaded_file($tmp_name, $destination)) {
+              if (move_uploaded_file($tmp_name, $image_destination)) {
                 // ✅ STEP 5: Store relative path in DB
                 $image_path = 'product-details/' . $safe_folder_name . '/' . $new_filename;
 
@@ -440,17 +440,9 @@ function aboyuma_product_edit() {
           $infographic_safe_folder_name = sanitize_title($product_code);
           $infographic_subdir = trailingslashit($infographic_base_upload_path . $infographic_safe_folder_name . '/infographic');
 
-          // ✅ If folder exists, delete all images inside
-          if (file_exists($infographic_subdir)) {
-            $existing_infographic_files = glob($infographic_subdir . '*');
-            foreach ($existing_infographic_files as $existing_infographic_file) {
-              if (is_file($existing_infographic_file)) {
-                unlink($existing_infographic_file);
-              }
-            }
-          } else {
-            // ✅ Create subfolder if it doesn’t exist
-            wp_mkdir_p($infographic_subdir);
+          // ✅ STEP 3: Create subfolder if it doesn't exist
+          if (!file_exists($infographic_subdir)) {
+            error_log("ERROR: Product infographic folder missing");
           }
 
           $now = current_time('mysql');
