@@ -170,6 +170,12 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			$theme_version,
 			true // load in footer
 		);
+
+		// Bootstrap icon
+		wp_enqueue_style(
+			'bootstrap-icons',
+			'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'
+		);
 	}
 }
 add_action('wp_enqueue_scripts', 'aboyuma_enqueue_scripts');

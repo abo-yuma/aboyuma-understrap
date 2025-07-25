@@ -359,7 +359,10 @@ $container = get_theme_mod('understrap_container_type');
                                 </div>
                             </div>
                         <?php endif; ?>
-                        <!-- SECTION: product sale article link -->
+                    </section>
+
+                    <!-- SECTION: product sale article link -->
+                    <section>
                         <?php if (!empty($product->product_sale_article_link)) : ?>
                             <div id="product_sale_article_link" class="product_sale_article_link">
                                 <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
@@ -377,7 +380,7 @@ $container = get_theme_mod('understrap_container_type');
                                         $youtube_id = $matches[1] ?? '';
                                         if (!$youtube_id) continue; // skip if no valid ID
                                     ?>
-                                        <div class="col-md-6 mb-4">
+                                        <div class="col-md-6">
                                             <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
                                                 <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
                                                     data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
@@ -397,7 +400,7 @@ $container = get_theme_mod('understrap_container_type');
                     <?php endif; ?>
 
                     <!-- SECTION: Related Products -->
-                    <section id="related-products">
+                    <section id="related-products" class="mt-4">
                         <?php
                         if (count($related_products) > 0) {
                             set_query_var('related_products', $related_products);
@@ -405,6 +408,21 @@ $container = get_theme_mod('understrap_container_type');
                             get_template_part('page-templates/product-detail/related-product');
                         }
                         ?>
+                    </section>
+
+                    <!-- SECTION: what people talk about this product -->
+
+                    <section class="mt-4">
+                        <?php
+                        $product_name = $product->product_name; // Replace this dynamically
+                        $hashtag = strtolower(str_replace([' ', '-'], '', $product_name));
+                        ?>
+                        <div id="people_review_product" class="people_review_product">
+                            <i class="bi bi-facebook" style="color: #1877F2; font-size: 1.2rem;"></i>
+                            <a href="https://www.facebook.com/hashtag/<?php echo urlencode($hashtag); ?>" target="_blank" rel="noopener noreferrer">
+                                ผู้คนพูดถึงสินค้านี้อย่างไรบ้าง?
+                            </a>
+                        </div>
                     </section>
 
                 </div>
