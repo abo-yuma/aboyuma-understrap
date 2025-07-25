@@ -339,7 +339,7 @@ $container = get_theme_mod('understrap_container_type');
                                     foreach ($productInfographics as $infographic) {
                                         $image_url = esc_url($base_url . $infographic->product_infographic_path);
                                 ?>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="border rounded p-2 text-center">
                                                 <a href="<?php echo $image_url; ?>" data-fancybox="product-infographics">
                                                     <img src="<?php echo $image_url; ?>" alt="Infographic" class="img-fluid"
@@ -354,35 +354,6 @@ $container = get_theme_mod('understrap_container_type');
                             </div>
                         </div>
                     </section>
-
-                    <?php if (!empty($productRelateVideos)) : ?>
-                        <section id="product-related-video" class="mt-4">
-                            <div class="container">
-                                <div class="row">
-                                    <?php foreach ($productRelateVideos as $index => $video) :
-                                        // Extract YouTube video ID from the URL
-                                        preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
-                                        $youtube_id = $matches[1] ?? '';
-                                        if (!$youtube_id) continue; // skip if no valid ID
-                                    ?>
-                                        <div class="col-md-6 mb-4">
-                                            <div class="ratio ratio-16x9">
-                                                <iframe
-                                                    src="https://www.youtube.com/embed/<?php echo esc_attr($youtube_id); ?>"
-                                                    title="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>"
-                                                    allowfullscreen
-                                                    frameborder="0"></iframe>
-                                            </div>
-                                            <?php if (!empty($video->video_comment)) : ?>
-                                                <p class="mt-2"><?php echo esc_html($video->video_comment); ?></p>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </section>
-                    <?php endif; ?>
-
 
                     <!-- SECTION: product review -->
                     <section id="product-review">
@@ -405,6 +376,36 @@ $container = get_theme_mod('understrap_container_type');
                             </div>
                         <?php endif; ?>
                     </section>
+
+                    <?php if (!empty($productRelateVideos)) : ?>
+                        <section id="product-related-video" class="mt-4">
+                            <div class="container">
+                                <div class="row">
+                                    <?php foreach ($productRelateVideos as $index => $video) :
+                                        // Extract YouTube video ID from the URL
+                                        preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
+                                        $youtube_id = $matches[1] ?? '';
+                                        if (!$youtube_id) continue; // skip if no valid ID
+                                    ?>
+                                        <div class="col-md-4">
+                                            <div class="ratio ratio-16x9">
+                                                <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
+                                                    data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
+                                                    <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg" alt="YouTube thumbnail">
+                                                </a>
+                                            </div>
+                                            <?php if (!empty($video->video_comment)) : ?>
+                                                <span class="mt-2"><?php echo esc_html($video->video_comment); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </section>
+                    <?php endif; ?>
+
+
+
 
                 </div>
             </div>
