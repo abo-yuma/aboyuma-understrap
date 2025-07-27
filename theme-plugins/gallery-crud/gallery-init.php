@@ -45,18 +45,6 @@ function create_aboyuma_gallery_table() {
     dbDelta($sql);
   }
 
-  // 🔍 Helper function to check if FK exists
-  function fk_exists($table, $fk_name) {
-    global $wpdb;
-    $db_name = DB_NAME;
-    $sql = $wpdb->prepare("
-            SELECT CONSTRAINT_NAME
-            FROM information_schema.REFERENTIAL_CONSTRAINTS
-            WHERE CONSTRAINT_SCHEMA = %s AND CONSTRAINT_NAME = %s
-        ", $db_name, $fk_name);
-    return $wpdb->get_var($sql) !== null;
-  }
-
   // 🔁 Add foreign keys if not exists
   $foreign_keys = [
     // Delete images if gallery is deleted

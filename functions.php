@@ -569,3 +569,5 @@ foreach ($theme_plugins as $plugin) {
 foreach ($theme_widgets as $widget) {
 	require get_template_directory() . $widget;
 }
+
+require_once get_template_directory() . '/inc/db-helpers.php';
