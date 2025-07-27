@@ -84,3 +84,32 @@ function create_aboyuma_gallery_table() {
 add_action('after_switch_theme', 'create_aboyuma_gallery_table');
 
 // Load page templates
+function aboyuma_gallery_menu() {
+  add_menu_page(
+    'Gallery',
+    'Gallery',
+    'manage_options',
+    'aboyuma-gallery',
+    'aboyuma_gallery_list_page',
+    'dashicons-format-image',
+    25
+  );
+  add_submenu_page(
+    'aboyuma-gallery',
+    'Add Gallery',
+    'Add Gallery',
+    'manage_options',
+    'aboyuma-gallery-add',
+    'aboyuma_gallery_add_page'
+  );
+  add_submenu_page(
+    null,
+    'Edit Gallery',
+    'Edit Gallery',
+    'manage_options',
+    'aboyuma-gallery-edit',
+    'aboyuma_gallery_edit_page'
+  );
+}
+// ✅ Register admin menus (List, Add, Edit - hidden)
+add_action('admin_menu', 'aboyuma_gallery_menu');
