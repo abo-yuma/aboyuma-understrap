@@ -36,9 +36,9 @@ function create_aboyuma_gallery_table() {
     caption VARCHAR(255) DEFAULT NULL,
     image_order INT UNSIGNED DEFAULT 0,
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
   ) $charset_collate;");
-
 
   // Run table creation queries
   foreach ($queries as $sql) {
