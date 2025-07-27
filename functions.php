@@ -47,29 +47,6 @@ foreach ($understrap_includes as $file) {
 
 // ===== ABO YUMA custom add-on ===== //
 
-// Array of custom theme plugin files
-$theme_plugins = [
-	'/theme-plugins/news-crud/init.php',
-	'/theme-plugins/product-crud/product-init.php',
-];
-
-// Array of custom theme widget files
-$theme_widgets = [
-	'/theme-widgets/authorbox-widget/authorbox-widget.php',
-	'/theme-widgets/recommend-video-widget/recommend-video-widget.php',
-	'/theme-widgets/quick-links-widget/quick-links-widget.php',
-];
-
-// Require all plugins
-foreach ($theme_plugins as $plugin) {
-	require get_template_directory() . $plugin;
-}
-
-// Require all widgets
-foreach ($theme_widgets as $widget) {
-	require get_template_directory() . $widget;
-}
-
 // === Header Image Customizer ===
 function header_customizer_register($wp_customize) {
 	// Add a section for Header Image
@@ -556,3 +533,39 @@ function aboyuma_get_related_products() {
 }
 add_action('wp_ajax_get_related_products', 'aboyuma_get_related_products');
 add_action('wp_ajax_nopriv_get_related_products', 'aboyuma_get_related_products');
+
+function aboyuma_customize_tinymce_toolbar($init) {
+	// Add toolbar options clearly separated
+	$init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
+	$init['toolbar2'] = 'blockquote code removeformat';
+
+	// Add available font sizes (pt is optional, WordPress TinyMCE understands both)
+	$init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+
+	return $init;
+}
+add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
+
+// Array of custom theme plugin files
+$theme_plugins = [
+	'/theme-plugins/news-crud/init.php',
+	'/theme-plugins/product-crud/product-init.php',
+	'/theme-plugins/gallery-crud/gallery-init.php',
+];
+
+// Array of custom theme widget files
+$theme_widgets = [
+	'/theme-widgets/authorbox-widget/authorbox-widget.php',
+	'/theme-widgets/recommend-video-widget/recommend-video-widget.php',
+	'/theme-widgets/quick-links-widget/quick-links-widget.php',
+];
+
+// Require all plugins
+foreach ($theme_plugins as $plugin) {
+	require get_template_directory() . $plugin;
+}
+
+// Require all widgets
+foreach ($theme_widgets as $widget) {
+	require get_template_directory() . $widget;
+}
