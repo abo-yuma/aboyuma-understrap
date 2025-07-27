@@ -1,0 +1,86 @@
+<?php
+/*
+aboyuma Gallery Crud
+Crud without plugin, implement in theme.
+Reference: 
+https://github.com/eduardoarandah/wordpress-crud-example
+https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins#content-section-6-deleting-aboyuma-data
+*/
+// Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
+function create_aboyuma_gallery_table() {
+  require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+  global $wpdb;
+
+  $galleryTable = $wpdb->prefix . 'aboyuma_gallery';
+  $galleryImageTable = $wpdb->prefix . 'aboyuma_gallery_image';
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $queries = [];
+
+  // Create aboyuma_gallery table
+  array_push($queries, "CREATE TABLE $galleryTable (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    cover_image_id INT UNSIGNED DEFAULT NULL,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+  ) $charset_collate;");
+
+  // Create aboyuma_gallery_image table
+  array_push($queries, "CREATE TABLE $galleryImageTable (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    gallery_id INT UNSIGNED NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    caption VARCHAR(255) DEFAULT NULL,
+    image_order INT UNSIGNED DEFAULT 0,
+    created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+  ) $charset_collate;");
+
+
+  // Run table creation queries
+  foreach ($queries as $sql) {
+    dbDelta($sql);
+  }
+
+  // 🔍 Helper function to check if FK exists
+  function fk_exists($table, $fk_name) {
+    global $wpdb;
+    $db_name = DB_NAME;
+    $sql = $wpdb->prepare("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.REFERENTIAL_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = %s AND CONSTRAINT_NAME = %s
+        ", $db_name, $fk_name);
+    return $wpdb->get_var($sql) !== null;
+  }
+
+  // 🔁 Add foreign keys if not exists
+  $foreign_keys = [
+    // Delete images if gallery is deleted
+    [
+      $galleryImageTable,
+      'fk_aboyuma_gallery_image_gallery_id',
+      "ALTER TABLE $galleryImageTable ADD CONSTRAINT fk_aboyuma_gallery_image_gallery_id 
+       FOREIGN KEY (gallery_id) REFERENCES $galleryTable(id) ON DELETE CASCADE;"
+    ],
+    // Set NULL if the cover image is deleted
+    [
+      $galleryTable,
+      'fk_aboyuma_gallery_cover_image_id',
+      "ALTER TABLE $galleryTable ADD CONSTRAINT fk_aboyuma_gallery_cover_image_id 
+       FOREIGN KEY (cover_image_id) REFERENCES $galleryImageTable(id) ON DELETE SET NULL;"
+    ],
+  ];
+
+  foreach ($foreign_keys as [$table, $fk_name, $sql]) {
+    if (!fk_exists($table, $fk_name)) {
+      $wpdb->query($sql);
+    }
+  }
+}
+add_action('after_switch_theme', 'create_aboyuma_gallery_table');
+
+// Load page templates
