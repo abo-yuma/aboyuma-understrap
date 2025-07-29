@@ -101,3 +101,8 @@ function aboyuma_gallery_menu() {
 }
 // ✅ Register admin menus (List, Add, Edit - hidden)
 add_action('admin_menu', 'aboyuma_gallery_menu');
+
+// Load page templates
+require_once get_template_directory() . '/theme-plugins/gallery-crud/gallery-list.php';
+require_once get_template_directory() . '/theme-plugins/gallery-crud/gallery-add.php';
+require_once get_template_directory() . '/theme-plugins/gallery-crud/gallery-edit.php';
