@@ -12,6 +12,13 @@ function aboyuma_news_edit_page() {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Verify nonce
+        if (
+            !isset($_POST['aboyuma_news_nonce']) ||
+            !wp_verify_nonce($_POST['aboyuma_news_nonce'], 'aboyuma_edit_news_action')
+        ) {
+            wp_die('Security check failed.');
+        }
         $text = sanitize_text_field($_POST['news_text']);
         $date = sanitize_text_field($_POST['display_date']);
         $wpdb->update($table, [
@@ -37,7 +44,10 @@ function aboyuma_news_edit_page() {
                     <td><input type="date" name="display_date" id="display_date" value="<?= esc_attr($news->display_date) ?>"></td>
                 </tr>
             </table>
-            <?php submit_button('Update News'); ?>
+            <?php 
+             wp_nonce_field('aboyuma_edit_news_action', 'aboyuma_news_nonce');
+            submit_button('Update News'); 
+            ?>
         </form>
     </div>
 <?php
