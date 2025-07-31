@@ -549,8 +549,7 @@ add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
 // Array of custom theme plugin files
 $theme_plugins = [
 	'/theme-plugins/news-crud/init.php',
-	'/theme-plugins/product-crud/product-init.php',
-	'/theme-plugins/gallery-crud/gallery-init.php',
+	'/theme-plugins/product-crud/product-init.php'
 ];
 
 // Array of custom theme widget files
