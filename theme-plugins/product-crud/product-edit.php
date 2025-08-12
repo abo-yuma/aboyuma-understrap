@@ -349,7 +349,9 @@ function aboyuma_product_edit() {
 
           // ✅ STEP 3: Create subfolder if it doesn't exist
           if (!file_exists($image_subdir)) {
-            error_log("ERROR: Product image folder missing");
+            if (!wp_mkdir_p($image_subdir)) {
+              wp_die('Unable to create product image folder: ' . esc_html($image_subdir));
+            }
           }
 
           $now = current_time('mysql');
@@ -409,9 +411,14 @@ function aboyuma_product_edit() {
             if ($image) {
               $upload_dir = wp_upload_dir();
               $full_path = trailingslashit($upload_dir['basedir']) . $image->product_image_path;
-              // ✅ Step 2: Delete the file if it exists
-              if (file_exists($full_path)) {
-                unlink($full_path);
+              $upload_basedir = wp_normalize_path($upload_dir['basedir']);
+              $full_path_normalized = wp_normalize_path($full_path);
+
+              // ✅ Step 2: Securely delete the file if it exists and is inside uploads dir
+              if (strpos($full_path_normalized, $upload_basedir) !== 0 || !is_file($full_path)) {
+                error_log("Attempt to delete file outside upload directory or invalid file: {$full_path}");
+              } elseif (!unlink($full_path)) {
+                error_log("Failed to delete product image file: {$full_path}");
               }
             }
             // ✅ Step 3: Delete the DB record
@@ -423,7 +430,7 @@ function aboyuma_product_edit() {
           }
         }
 
-        // DB_UPDATE: update aboyuma_product_ingraphic table
+        // DB_UPDATE: update aboyuma_product_infographic table
         if (
           isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
           && !empty(array_filter($_FILES['product_infographics']['name']))
@@ -442,7 +449,9 @@ function aboyuma_product_edit() {
 
           // ✅ STEP 3: Create subfolder if it doesn't exist
           if (!file_exists($infographic_subdir)) {
-            error_log("ERROR: Product infographic folder missing");
+            if (!wp_mkdir_p($infographic_subdir)) {
+              wp_die('Unable to create product infographic folder: ' . esc_html($infographic_subdir));
+            }
           }
 
           $now = current_time('mysql');
@@ -506,9 +515,13 @@ function aboyuma_product_edit() {
             if ($infographic) {
               $upload_dir = wp_upload_dir();
               $full_path = trailingslashit($upload_dir['basedir']) . $infographic->product_infographic_path;
-              // ✅ Step 2: Delete the file if it exists
-              if (file_exists($full_path)) {
-                unlink($full_path);
+              $upload_basedir = wp_normalize_path($upload_dir['basedir']);
+              $full_path_normalized = wp_normalize_path($full_path);
+              // ✅ Step 2: Securely delete the file if it exists and is inside uploads directory
+              if (strpos($full_path_normalized, $upload_basedir) !== 0 || !is_file($full_path)) {
+                error_log("Attempt to delete file outside upload directory or invalid file: {$full_path}");
+              } elseif (!unlink($full_path)) {
+                error_log("Failed to delete product infographic file: {$full_path}");
               }
             }
             // ✅ Step 3: Delete the DB record
