@@ -19,17 +19,47 @@ function delete_product() {
   $base_upload_path = trailingslashit($upload_dir['basedir']) . 'product-details/';
   $safe_folder_name = sanitize_title($product_code);
   $product_subdir = trailingslashit($base_upload_path . $safe_folder_name);
+  $infographic_subdir = trailingslashit($product_subdir . 'infographic/');
 
-  if (file_exists($product_subdir)) {
-    $files = glob($product_subdir . '*');
+  // Normalize paths for security check
+  $upload_basedir = wp_normalize_path($upload_dir['basedir']);
+  $product_subdir_normalized = wp_normalize_path($product_subdir);
+  $infographic_subdir_normalized = wp_normalize_path($infographic_subdir);
+
+  // Helper function to delete all files in a folder safely
+  function delete_files_in_folder($folder_path, $folder_path_normalized, $upload_basedir) {
+    if (
+      !file_exists($folder_path) || !is_dir($folder_path)
+      || strpos($folder_path_normalized, $upload_basedir) !== 0
+    ) {
+      error_log("Folder missing or invalid: {$folder_path}");
+      return;
+    }
+
+    $files = glob($folder_path . '*');
+    if ($files === false) {
+      error_log("Failed to read files from folder: {$folder_path}");
+      return;
+    }
+
     foreach ($files as $file) {
-      if (is_file($file)) {
-        unlink($file);
+      if (is_file($file) && !unlink($file)) {
+        error_log("Failed to delete file: {$file}");
       }
     }
-    rmdir($product_subdir); // Remove the empty directory
+
+    if (!rmdir($folder_path)) {
+      error_log("Failed to remove directory: {$folder_path}");
+    }
   }
-  
+
+  // Delete files & remove infographic folder
+  delete_files_in_folder($infographic_subdir, $infographic_subdir_normalized, $upload_basedir);
+
+  // Delete files & remove product folder (after infographic removed)
+  delete_files_in_folder($product_subdir, $product_subdir_normalized, $upload_basedir);
+
+
   $result = $wpdb->delete($table_name, array('id' => $id));
   wp_send_json_success($result);
 }
