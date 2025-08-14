@@ -1,23 +1,18 @@
 <?php
 function aboyuma_gallery_list_page() {
     global $wpdb;
-    $table = $wpdb->prefix . 'aboyuma_gallery';
-    $rows = $wpdb->get_results("SELECT * FROM $table ORDER BY id DESC");
+    $gallery_table  = $wpdb->prefix . 'aboyuma_gallery';
+    $image_table   = $wpdb->prefix . 'aboyuma_gallery_image';
 
-    // Enqueue DataTables CSS/JS
-    wp_enqueue_style('datatables-css', 'https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css');
-    wp_enqueue_script('datatables-js', 'https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js', ['jquery'], null, true);
-
-    // Add inline script to init DataTable
-    wp_add_inline_script('datatables-js', "
-      jQuery(document).ready(function($) {
-        $('.widefat').DataTable({
-          order: [[0, 'desc']],
-          pageLength: 10,
-          lengthMenu: [5, 10, 25, 50]
-        });
-      });
+    // Fetch rows with cover image path
+    $rows = $wpdb->get_results("
+        SELECT g.*, gi.image_path
+        FROM {$gallery_table} g
+        LEFT JOIN {$image_table} gi 
+            ON g.cover_image_id = gi.id
+        ORDER BY g.id DESC
     ");
+
 ?>
     <div class="wrap">
         <h1>Gallery List</h1>
@@ -26,6 +21,7 @@ function aboyuma_gallery_list_page() {
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Cover</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Created</th>
@@ -37,6 +33,18 @@ function aboyuma_gallery_list_page() {
                 <?php foreach ($rows as $row): ?>
                     <tr>
                         <td><?= esc_html($row->id) ?></td>
+                        <td>
+                            <?php
+                            if (!empty($row->image_path)) {
+                                $uploads = wp_get_upload_dir();
+                                // Prepend the uploads URL to your relative path
+                                $image_url = esc_url($uploads['baseurl'] . '/' . $row->image_path);
+                                echo '<img src="' . $image_url . '" alt="" style="max-width:60px; max-height:60px;">';
+                            } else {
+                                echo '<span style="color:#999;">No image</span>';
+                            }
+                            ?>
+                        </td>
                         <td><?= esc_html($row->title) ?></td>
                         <td><?= esc_html($row->description) ?></td>
                         <td><?= esc_html($row->created) ?></td>
@@ -50,5 +58,21 @@ function aboyuma_gallery_list_page() {
             </tbody>
         </table>
     </div>
+    <script>
+        jQuery(document).ready(function($) {
+            $('table.aboyuma-gallery-list').DataTable({
+                order: [
+                    [0, 'desc']
+                ],
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                columnDefs: [{
+                        orderable: false,
+                        targets: 1
+                    } // disable sorting on Cover column
+                ]
+            });
+        });
+    </script>
 <?php
 }
