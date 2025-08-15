@@ -31,15 +31,20 @@ function aboyuma_gallery_edit_page() {
         // echo '</pre>';
         // exit;
 
-        // Update gallery description
+        $gallery_title = isset($_POST['gallery_title']) ? sanitize_text_field($_POST['gallery_title']) : '';
         $gallery_description = sanitize_textarea_field($_POST['gallery_description'] ?? '');
 
         $wpdb->update(
             $gallery_table,
-            ['description' => $gallery_description],
-            ['id' => $gallery_id],
-            ['%s'], // format for description (string)
-            ['%d']  // format for id (integer)
+            [
+                'title'       => $gallery_title,
+                'description' => $gallery_description
+            ],
+            [
+                'id' => $gallery_id
+            ],
+            ['%s', '%s'], // formats for title and description
+            ['%d']        // format for id
         );
 
 
@@ -222,9 +227,15 @@ function aboyuma_gallery_edit_page() {
     ));
 ?>
     <div class="wrap">
-        <h1>Edit Gallery: <?= esc_html($gallery->title); ?></h1>
+        <h1>Edit Gallery</h1>
         <form id="aboyuma-edit-gallery-form" enctype="multipart/form-data">
             <table class="form-table">
+                <tr>
+                    <th scope="row"><label for="gallery_title">Title</label></th>
+                    <td>
+                        <input type="text" id="gallery_title" name="gallery_title" value="<?= esc_attr($gallery->title); ?>" style="width: 300px;">
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row"><label for="gallery_images">Gallery Description</label></th>
                     <td>
@@ -244,7 +255,7 @@ function aboyuma_gallery_edit_page() {
                                     <input type="hidden" name="existing_image_ids[]" value="<?= $galleryImage->id; ?>">
                                     <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $galleryImage->id; ?>"> Delete</label><br>
                                     <label><input type="radio" name="cover_image_id" value="<?= $galleryImage->id; ?>" <?= ($gallery->cover_image_id == $galleryImage->id) ? 'checked' : ''; ?>> Cover</label><br>
-                                    <input type="text" name="captions[<?= $galleryImage->id; ?>]" value="<?= esc_attr($galleryImage->caption); ?>" placeholder="Caption" style="width: 100%;">
+                                    <textarea name="captions[<?= $galleryImage->id; ?>]" placeholder="Caption" style="width: 100%;" rows="5"><?= esc_textarea($galleryImage->caption); ?></textarea>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -310,7 +321,7 @@ function aboyuma_gallery_edit_page() {
                             <img src="${event.target.result}" width="150" alt="">
                             <input type="hidden" name="gallery_image_indexes[]" value="${thisIndex}">
                             <input type="hidden" name="gallery_image_filenames[]" value="${file.name}">
-                            <input type="text" name="gallery_image_captions[]" placeholder="Caption" style="width: 100%;">
+                            <textarea name="gallery_image_captions[]" placeholder="Caption" style="width: 100%;" rows="5"></textarea>
                             <label><input type="radio" name="cover_image_temp_index" value="${thisIndex}"> Cover</label><br>
                             <span class="remove-image-button" style="color:red;cursor:pointer;">Remove</span>
                         </li>
