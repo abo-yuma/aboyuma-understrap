@@ -17,7 +17,7 @@ function aboyuma_gallery_list_page() {
     <div class="wrap">
         <h1>Gallery List</h1>
         <a href="admin.php?page=aboyuma-gallery-add" class="button button-primary">Add New</a>
-        <table class="widefat striped">
+        <table id="aboyuma-gallery-list" class="widefat striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -39,7 +39,7 @@ function aboyuma_gallery_list_page() {
                                 $uploads = wp_get_upload_dir();
                                 // Prepend the uploads URL to your relative path
                                 $image_url = esc_url($uploads['baseurl'] . '/' . $row->image_path);
-                                echo '<img src="' . $image_url . '" alt="" style="max-width:60px; max-height:60px;">';
+                                echo '<img src="' . $image_url . '" alt="" style="max-width:150px; max-height:150px;">';
                             } else {
                                 echo '<span style="color:#999;">No image</span>';
                             }
@@ -60,7 +60,7 @@ function aboyuma_gallery_list_page() {
     </div>
     <script>
         jQuery(document).ready(function($) {
-            $('table.aboyuma-gallery-list').DataTable({
+            $('#aboyuma-gallery-list').DataTable({
                 order: [
                     [0, 'desc']
                 ],
