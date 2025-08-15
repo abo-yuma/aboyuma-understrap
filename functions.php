@@ -546,6 +546,99 @@ function aboyuma_customize_tinymce_toolbar($init) {
 }
 add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
 
+// Auto register menu on theme activation
+function aboyuma_register_menu() {
+	// 1️⃣ Register a menu location
+	register_nav_menu('primary', __('Primary', 'aboyuma'));
+
+	// 2️⃣ Define the pages to create
+	$pages = [
+		'home'                  => 'หน้าหลัก', // ✅ Added to Menu
+		'about'                 => 'เกี่ยวกับ', // ✅ Parent Menu
+		'about-aboyuma'         => 'เกี่ยวกับ ABO YUMA', // 🔹 Submenu under "About"
+		'about-amway'           => 'เกี่ยวกับแอมเวย์',  // 🔹 Submenu under "About"
+		'contact'               => 'ติดต่อ', // ✅ Added to Menu
+		'product'               => 'สินค้าแนะนำ', // ✅ Added to Menu
+		'gallery'               => 'แกลอรี่', // ✅ Added to Menu
+		'product-detail'        => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
+	];
+
+	$created_page_ids = [];
+	$excluded_from_menu = ['product-detail']; // Pages to create but not add to menu
+
+	foreach ($pages as $slug => $title) {
+		// Check if page already exists
+		$existing_page = get_page_by_path($slug);
+		if (!$existing_page) {
+			// Create the page
+			$page_id = wp_insert_post([
+				'post_title'   => $title,
+				'post_name'    => $slug,
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+			]);
+			if ($page_id) {
+				$created_page_ids[$slug] = $page_id;
+			}
+		} else {
+			$created_page_ids[$slug] = $existing_page->ID;
+		}
+	}
+
+	// 3️⃣ Create the menu if it doesn’t exist
+	$menu_name = 'Primary';
+	$menu_exists = wp_get_nav_menu_object($menu_name);
+	if (!$menu_exists) {
+		$menu_id = wp_create_nav_menu($menu_name);
+	} else {
+		$menu_id = $menu_exists->term_id;
+	}
+
+	// 4️⃣ Add menu items (EXCEPT excluded pages)
+	$menu_item_ids = []; // Store menu item IDs to use for submenus
+	foreach ($created_page_ids as $slug => $page_id) {
+		if (in_array($slug, $excluded_from_menu)) {
+			continue; // Skip 'product-detail'
+		}
+
+		// กำหนด parent id สำหรับเมนูที่เป็น sub-menu
+		$parent_id = 0;
+		if (in_array($slug, ['about-aboyuma', 'about-amway']) && !empty($menu_item_ids['about'])) {
+			$parent_id = $menu_item_ids['about']; // ทำให้เป็น submenu ใต้ "เกี่ยวกับ"
+		}
+
+		// Check if page is already in the menu
+		$menu_items = wp_get_nav_menu_items($menu_id);
+		$page_in_menu = false;
+		if ($menu_items) {
+			foreach ($menu_items as $item) {
+				if ((int) $item->object_id === (int) $page_id) {
+					$page_in_menu = true;
+					$menu_item_ids[$slug] = $item->ID;
+					break;
+				}
+			}
+		}
+
+		if (!$page_in_menu) {
+			$menu_item_id = wp_update_nav_menu_item($menu_id, 0, [
+				'menu-item-title'      => get_the_title($page_id),
+				'menu-item-object'     => 'page',
+				'menu-item-object-id'  => $page_id,
+				'menu-item-type'       => 'post_type',
+				'menu-item-status'     => 'publish',
+				'menu-item-parent-id'  => $parent_id, // กำหนด parent ถ้าเป็น submenu
+			]);
+
+			$menu_item_ids[$slug] = $menu_item_id;
+		}
+	}
+
+	// 5️⃣ Set menu location
+	set_theme_mod('nav_menu_locations', ['primary' => $menu_id]);
+}
+add_action('after_switch_theme', 'aboyuma_register_menu');
+
 // Array of custom theme plugin files
 $theme_plugins = [
 	'/theme-plugins/news-crud/init.php',
