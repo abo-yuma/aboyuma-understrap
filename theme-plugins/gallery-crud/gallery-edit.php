@@ -33,17 +33,19 @@ function aboyuma_gallery_edit_page() {
 
         $gallery_title = isset($_POST['gallery_title']) ? sanitize_text_field($_POST['gallery_title']) : '';
         $gallery_description = sanitize_textarea_field($_POST['gallery_description'] ?? '');
+        $gallery_date = !empty($_POST['gallery_date']) ? $_POST['gallery_date'] : NULL; // 'YYYY-MM-DD'
 
         $wpdb->update(
             $gallery_table,
             [
-                'title'       => $gallery_title,
-                'description' => $gallery_description
+                'title'        => $gallery_title,
+                'description'  => $gallery_description,
+                'gallery_date' => $gallery_date
             ],
             [
                 'id' => $gallery_id
             ],
-            ['%s', '%s'], // formats for title and description
+            ['%s', '%s', '%s'], // formats for title and description
             ['%d']        // format for id
         );
 
@@ -243,6 +245,14 @@ function aboyuma_gallery_edit_page() {
                     </td>
                 </tr>
                 <tr>
+                    <th><label for="gallery_date">Gallery Date</label></th>
+                    <td>
+                        <input type="date" id="gallery_date" name="gallery_date"
+                            value="<?php echo isset($gallery->gallery_date) ? esc_attr(date('Y-m-d', strtotime($gallery->gallery_date))) : ''; ?>">
+                        <small>วันที่ที่เกี่ยวข้องกับแกลอรี่</small>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="gallery_images">Gallery Images</label></th>
                     <td>
                         <input type="file" id="gallery-multi-upload" accept="image/*" multiple>
@@ -253,7 +263,7 @@ function aboyuma_gallery_edit_page() {
                                 <li class="image-preview-container existing-image" data-id="<?= $galleryImage->id; ?>">
                                     <img src="<?= $image_url; ?>" width="150" alt="">
                                     <input type="hidden" name="existing_image_ids[]" value="<?= $galleryImage->id; ?>">
-                                    <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $galleryImage->id; ?>"> Delete</label><br>
+                                    <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $galleryImage->id; ?>">Delete</label><br>
                                     <label><input type="radio" name="cover_image_id" value="<?= $galleryImage->id; ?>" <?= ($gallery->cover_image_id == $galleryImage->id) ? 'checked' : ''; ?>> Cover</label><br>
                                     <textarea name="captions[<?= $galleryImage->id; ?>]" placeholder="Caption" style="width: 100%;" rows="5"><?= esc_textarea($galleryImage->caption); ?></textarea>
                                 </li>

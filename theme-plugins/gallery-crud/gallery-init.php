@@ -22,6 +22,7 @@ function create_aboyuma_gallery_table() {
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    gallery_date DATE DEFAULT NULL,
     cover_image_id INT UNSIGNED DEFAULT NULL,
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
