@@ -1,19 +1,24 @@
 <?php
 function aboyuma_gallery_add_page() {
     global $wpdb;
-    $table = $wpdb->prefix . 'aboyuma_gallery';
+    $gallery_table = $wpdb->prefix . 'aboyuma_gallery';
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = sanitize_text_field($_POST['title'] ?? '');
         $description = sanitize_textarea_field($_POST['description'] ?? '');
+        $gallery_date = !empty($_POST['gallery_date']) ? $_POST['gallery_date'] : NULL; // 'YYYY-MM-DD'
 
         // Insert gallery
-        $wpdb->insert($table, [
-            'title'       => $title,
-            'description' => $description,
-            'cover_image_id' => null
-        ]);
+        $wpdb->insert(
+            $gallery_table,
+            [
+                'title' => $title,
+                'description' => $description,
+                'gallery_date' => $gallery_date
+            ],
+            ['%s', '%s', '%s']
+        );
         $gallery_id = $wpdb->insert_id;
 
         // Redirect to edit images page
@@ -32,6 +37,13 @@ function aboyuma_gallery_add_page() {
                 <tr>
                     <th scope="row"><label for="description">Description</label></th>
                     <td><textarea name="description" id="description" class="large-text" rows="5"></textarea></td>
+                </tr>
+                <tr>
+                    <th><label for="gallery_date">Gallery Date</label></th>
+                    <td>
+                        <input type="date" id="gallery_date" name="gallery_date">
+                        <small>วันที่ที่เกี่ยวข้องกับแกลอรี่</small>
+                    </td>
                 </tr>
             </table>
             <?php submit_button('Add Gallery'); ?>

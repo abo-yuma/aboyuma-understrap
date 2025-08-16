@@ -34,16 +34,18 @@ function aboyuma_gallery_list_page() {
                     <tr>
                         <td><?= esc_html($row->id) ?></td>
                         <td>
-                            <?php
-                            if (!empty($row->image_path)) {
-                                $uploads = wp_get_upload_dir();
-                                // Prepend the uploads URL to your relative path
-                                $image_url = esc_url($uploads['baseurl'] . '/' . $row->image_path);
-                                echo '<img src="' . $image_url . '" alt="" style="max-width:150px; max-height:150px;">';
-                            } else {
-                                echo '<span style="color:#999;">No image</span>';
-                            }
-                            ?>
+                            <div class="gallery-cover-wrapper">
+                                <?php
+                                if (!empty($row->image_path)) {
+                                    $uploads = wp_get_upload_dir();
+                                    // Prepend the uploads URL to your relative path
+                                    $image_url = esc_url($uploads['baseurl'] . '/' . $row->image_path);
+                                    echo '<img src="' . $image_url . '" alt="" class="gallery-cover">';
+                                } else {
+                                    echo '<span style="color:#999;">No image</span>';
+                                }
+                                ?>
+                            </div>
                         </td>
                         <td><?= esc_html($row->title) ?></td>
                         <td><?= esc_html($row->description) ?></td>
@@ -74,5 +76,29 @@ function aboyuma_gallery_list_page() {
             });
         });
     </script>
+    <style>
+        .gallery-cover-wrapper {
+            width: 150px;
+            /* fixed box size */
+            height: 150px;
+            overflow: hidden;
+            /* hide any overflow if image is larger */
+            display: flex;
+            align-items: center;
+            /* vertical centering */
+            justify-content: center;
+            /* horizontal centering */
+            background-color: #f0f0f0;
+            /* optional: placeholder color */
+        }
+
+        .gallery-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* fill box, crop if necessary */
+            object-position: center;
+        }
+    </style>
 <?php
 }
