@@ -319,6 +319,8 @@ $container = get_theme_mod('understrap_container_type');
 
                     <!-- SECTION: Product Infographic -->
                     <section id="product-infographic" class="mt-4">
+
+
                         <div class="container">
                             <div class="row g-3">
                                 <?php
@@ -330,10 +332,9 @@ $container = get_theme_mod('understrap_container_type');
                                         $image_url = esc_url($base_url . $infographic->product_infographic_path);
                                 ?>
                                         <div class="col-md-4">
-                                            <div class="border rounded p-2 text-center">
+                                            <div class="border rounded p-2 text-center infographic-img-wrapper">
                                                 <a href="<?php echo $image_url; ?>" data-fancybox="product-infographics">
-                                                    <img src="<?php echo $image_url; ?>" alt="Infographic" class="img-fluid"
-                                                        style="max-height: 200px; object-fit: contain;">
+                                                    <img src="<?php echo $image_url; ?>" alt="Infographic" class="infographic-image">
                                                 </a>
                                             </div>
                                         </div>
@@ -343,22 +344,6 @@ $container = get_theme_mod('understrap_container_type');
                                 ?>
                             </div>
                         </div>
-                    </section>
-
-                    <!-- SECTION: product review -->
-                    <section id="product-review">
-                        <?php if (!empty($product->product_review)) : ?>
-                            <div id="product-review" class="mt-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        ⭐ แอดมินรีวิว
-                                    </div>
-                                    <div class="card-body">
-                                        <?php echo apply_filters('the_content', $product->product_review); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
                     </section>
 
                     <!-- SECTION: product sale article link -->
@@ -408,6 +393,22 @@ $container = get_theme_mod('understrap_container_type');
                             get_template_part('page-templates/product-detail/related-product');
                         }
                         ?>
+                    </section>
+
+                    <!-- SECTION: product review -->
+                    <section id="product-review">
+                        <?php if (!empty($product->product_review)) : ?>
+                            <div id="product-review" class="mt-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        ⭐ แอดมินรีวิว
+                                    </div>
+                                    <div class="card-body">
+                                        <?php echo apply_filters('the_content', $product->product_review); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     </section>
 
                     <!-- SECTION: what people talk about this product -->
@@ -505,6 +506,14 @@ $container = get_theme_mod('understrap_container_type');
         width: 70px;
         height: 70px;
         object-fit: contain;
+    }
+
+    .infographic-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        /* force square */
+        object-fit: cover;
+        /* cover without distortion */
     }
 </style>
 <?php
