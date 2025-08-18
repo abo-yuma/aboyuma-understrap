@@ -559,12 +559,13 @@ function aboyuma_register_menu() {
 		'about-amway'           => 'เกี่ยวกับแอมเวย์',  // 🔹 Submenu under "About"
 		'contact'               => 'ติดต่อ', // ✅ Added to Menu
 		'product'               => 'สินค้าแนะนำ', // ✅ Added to Menu
-		'gallery'               => 'แกลอรี่', // ✅ Added to Menu
 		'product-detail'        => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
+		'gallery'               => 'แกลอรี่', // ✅ Added to Menu
+		'gallery-image'         => 'รูปแกลอรี่', // ❌ Not Added to Menu
 	];
 
 	$created_page_ids = [];
-	$excluded_from_menu = ['product-detail']; // Pages to create but not add to menu
+	$excluded_from_menu = ['product-detail', 'gallery-image']; // Pages to create but not add to menu
 
 	foreach ($pages as $slug => $title) {
 		// Check if page already exists

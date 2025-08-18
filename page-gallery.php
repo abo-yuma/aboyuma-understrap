@@ -85,7 +85,10 @@ $container = get_theme_mod('understrap_container_type');
                                     </td>
                                     <td>
                                         <?php
-                                        $gallery_url = 'gallery-image.php?id=' . intval($row->id);
+                                        $gallery_url = add_query_arg(
+                                            array('id' => intval($row->id)),
+                                            home_url('/gallery-image')
+                                        );
                                         echo '<a href="' . esc_url($gallery_url) . '">ดูแกลอรี่</a>';
                                         ?>
                                     </td>
@@ -138,15 +141,6 @@ $container = get_theme_mod('understrap_container_type');
 <style>
     #aboyuma-gallery-list td {
         align-content: center;
-    }
-
-    /* 
-    DataTables (especially with Bootstrap styling) often moves the <thead> inside a wrapper table, 
-    or applies border-collapse: collapse / overrides border styles. 
-    */
-    #aboyuma-gallery-list.dataTable thead th {
-        text-align: center;
-        vertical-align: middle;
     }
 
     .gallery-cover-wrapper {
