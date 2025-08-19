@@ -350,32 +350,32 @@ $container = get_theme_mod('understrap_container_type');
                         <section id="product-related-video" class="mt-4">
                             <span class="related-product-label">▶️ วิดีโอที่เกี่ยวข้อง</span> <!-- same size to bootstrap tab panel font size -->
                             <hr>
-                            <div class="container">
-                                <div class="row">
-                                    <?php foreach ($productRelateVideos as $index => $video) :
-                                        // Extract YouTube video ID from the URL
-                                        preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
-                                        $youtube_id = $matches[1] ?? '';
-                                        if (!$youtube_id) continue; // skip if no valid ID
-                                    ?>
-                                        <div class="col-md-6 mt-2">
-                                            <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
-                                                <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
-                                                    data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
-                                                    <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
-                                                        alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
-                                                    <!-- Play button overlay -->
-                                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
-                                                </a>
-                                            </div>
-                                            <?php if (!empty($video->video_comment)) : ?>
-                                                <small class="d-block mt-1"><?php echo esc_html($video->video_comment); ?></small>
-                                            <?php endif; ?>
-                                        </div>
 
-                                    <?php endforeach; ?>
-                                </div>
+                            <div class="row p-3">
+                                <?php foreach ($productRelateVideos as $index => $video) :
+                                    // Extract YouTube video ID from the URL
+                                    preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
+                                    $youtube_id = $matches[1] ?? '';
+                                    if (!$youtube_id) continue; // skip if no valid ID
+                                ?>
+                                    <div class="col-md-6 mt-2">
+                                        <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
+                                            <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
+                                                data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
+                                                <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
+                                                    alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
+                                                <!-- Play button overlay -->
+                                                <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
+                                            </a>
+                                        </div>
+                                        <?php if (!empty($video->video_comment)) : ?>
+                                            <small class="d-block mt-1"><?php echo esc_html($video->video_comment); ?></small>
+                                        <?php endif; ?>
+                                    </div>
+
+                                <?php endforeach; ?>
                             </div>
+
                         </section>
                     <?php endif; ?>
 
