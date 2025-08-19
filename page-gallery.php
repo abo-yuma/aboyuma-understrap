@@ -24,7 +24,7 @@ $container = get_theme_mod('understrap_container_type');
 
     <div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-        <div class="row">
+        <div class="row py-3">
             <div class="sidebar-left-column-width" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
@@ -49,7 +49,7 @@ $container = get_theme_mod('understrap_container_type');
                             ON g.cover_image_id = gi.id
                     ");
                     ?>
-                    <table id="aboyuma-gallery-list" class="table table-striped">
+                    <table id="aboyuma-gallery-list" class="table">
                         <thead>
                             <tr>
                                 <th>แกลอรี่</th>
