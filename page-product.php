@@ -88,7 +88,7 @@ $container = get_theme_mod('understrap_container_type');
                         </div>
                     </form>
                     <div id="filter-message-area"></div>
-                    <table id="aboyuma-product-table" class="table table-striped">
+                    <table id="aboyuma-product-table" class="table table-bordered table-striped border-top">
                         <thead>
                             <tr>
                                 <th>สินค้า</th>
