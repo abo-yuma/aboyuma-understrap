@@ -80,6 +80,11 @@ body {
 	}
 }
 
+.main-content-wrapper {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 /* Sidebar */
 
 .widget-area {
@@ -87,12 +92,6 @@ body {
 		list-style: none;
 		padding: 0;
 	}
-}
-
-#sidebar-left {
-	padding-top: 10px;
-	padding-bottom: 10px;
-	//background-color: #3a3b3c;
 }
 
 #sidebar-left.card {

@@ -33,7 +33,7 @@ $container = get_theme_mod('understrap_container_type');
 
     <div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-        <div class="row">
+        <div class="row py-3">
             <div class="sidebar-left-column-width" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
@@ -105,7 +105,7 @@ $container = get_theme_mod('understrap_container_type');
                 ));
                 // Display the detail
                 ?>
-                <div class="container entry-content" id="product-detail">
+                <div class="entry-content" id="product-detail">
                     <section id="product-image-and-description" class="mb-4">
                         <div class="row">
                             <!-- Main Image Preview Section -->

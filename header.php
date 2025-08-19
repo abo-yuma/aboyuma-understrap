@@ -35,7 +35,7 @@ defined('ABSPATH') || exit;
 				<div id="main-image" class="container g-0">
 					<div class="row">
 						<img src="<?php echo esc_url(get_theme_mod('aboyuma_header_image', '')); ?>"
-							width="100%" height="230px">
+							style="height: 250px;">
 					</div>
 				</div>
 				<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
