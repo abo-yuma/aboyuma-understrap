@@ -139,6 +139,10 @@ $container = get_theme_mod('understrap_container_type');
     });
 </script>
 <style>
+    #aboyuma-gallery-list thead {
+        display: none;
+    }
+
     #aboyuma-gallery-list td {
         align-content: center;
     }
