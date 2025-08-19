@@ -31,7 +31,7 @@
         echo '<div style="color:red;">MySQL Error: ' . $wpdb->last_error . '</div>';
     }
     ?>
-    <span class="related-product-label">🛒สินค้าที่แนะนำคู่กัน</span> <!-- same size to bootstrap tab panel font size -->
+    <span class="related-product-label">🛒 สินค้าที่แนะนำคู่กัน</span> <!-- same size to bootstrap tab panel font size -->
     <hr>
     <table id="recommend-product-table" class="table table-striped table-border" width="100%">
         <thead>

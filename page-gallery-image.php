@@ -90,7 +90,7 @@ $container = get_theme_mod('understrap_container_type');
                                         $uploads   = wp_get_upload_dir();
                                         $image_url = esc_url($uploads['baseurl'] . '/' . $image->image_path);
                                     ?>
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-3 mb-3">
                                             <div class="card">
                                                 <a href="<?= $image_url ?>" title="<?= esc_attr($image->caption) ?>">
                                                     <img src="<?= $image_url ?>" class="gallery-image" alt="<?= esc_attr($image->caption) ?>">

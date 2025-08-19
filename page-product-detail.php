@@ -346,17 +346,10 @@ $container = get_theme_mod('understrap_container_type');
                         </div>
                     </section>
 
-                    <!-- SECTION: product sale article link -->
-                    <section>
-                        <?php if (!empty($product->product_sale_article_link)) : ?>
-                            <div id="product_sale_article_link" class="product_sale_article_link">
-                                <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
-                            </div>
-                        <?php endif; ?>
-                    </section>
-
                     <?php if (!empty($productRelateVideos)) : ?>
                         <section id="product-related-video" class="mt-4">
+                            <span class="related-product-label">▶️ วิดีโอที่เกี่ยวข้อง</span> <!-- same size to bootstrap tab panel font size -->
+                            <hr>
                             <div class="container">
                                 <div class="row">
                                     <?php foreach ($productRelateVideos as $index => $video) :
@@ -365,16 +358,18 @@ $container = get_theme_mod('understrap_container_type');
                                         $youtube_id = $matches[1] ?? '';
                                         if (!$youtube_id) continue; // skip if no valid ID
                                     ?>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mt-2">
                                             <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
                                                 <a data-fancybox href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
                                                     data-caption="<?php echo esc_attr($video->video_comment ?: 'Related Video'); ?>">
                                                     <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
                                                         alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
+                                                    <!-- Play button overlay -->
+                                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
                                                 </a>
                                             </div>
                                             <?php if (!empty($video->video_comment)) : ?>
-                                                <span class="mt-2 d-block"><?php echo esc_html($video->video_comment); ?></span>
+                                                <small class="d-block mt-1"><?php echo esc_html($video->video_comment); ?></small>
                                             <?php endif; ?>
                                         </div>
 
@@ -401,10 +396,15 @@ $container = get_theme_mod('understrap_container_type');
                             <div id="product-review" class="mt-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        ⭐ แอดมินรีวิว
+                                        ⭐ คอมเมนต์
                                     </div>
                                     <div class="card-body">
                                         <?php echo apply_filters('the_content', $product->product_review); ?>
+                                        <?php if (!empty($product->product_sale_article_link)) : ?>
+                                            <div id="product_sale_article_link" class="product_sale_article_link">
+                                                <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -502,6 +502,11 @@ $container = get_theme_mod('understrap_container_type');
     }
 </script>
 <style>
+    .fancybox__backdrop {
+        background: rgba(0, 0, 0, 0.8);
+        /* same as Magnific Popup */
+    }
+
     #qrcode img {
         width: 70px;
         height: 70px;
@@ -514,6 +519,32 @@ $container = get_theme_mod('understrap_container_type');
         /* force square */
         object-fit: cover;
         /* cover without distortion */
+    }
+
+    .play-btn {
+        width: 60px;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.6);
+        /* semi-transparent black */
+        border-radius: 12px;
+        /* rounded corners instead of circle */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Triangle in the middle */
+    .play-btn::before {
+        content: '';
+        display: block;
+        margin-left: 3px;
+        /* center the triangle visually */
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 12px 0 12px 20px;
+        /* triangle size */
+        border-color: transparent transparent transparent white;
     }
 </style>
 <?php
