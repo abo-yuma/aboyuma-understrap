@@ -218,14 +218,21 @@ footer {
 	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }
 [data-bs-theme="dark"] {
-	--bs-body-color-rgb: 228,230,235; // body color
+	--bs-body-color-rgb: 228, 230, 235; // body color
 	--bs-emphasis-color: #e2dfd2; // table font color
-	--bs-link-color-rgb: 228,230,235;
+	--bs-link-color-rgb: 228, 230, 235;
 }
 
 // [data-bs-theme="light"] {
 // 	--bs-link-color-rgb: 0, 0, 0;
 // }
+
+/* Fix DataTables border in Bootstrap dark mode */
+[data-bs-theme="dark"] table.dataTable,
+[data-bs-theme="dark"] table.dataTable th,
+[data-bs-theme="dark"] table.dataTable td {
+	border-color: var(--bs-border-color) !important;
+}
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
 .thumbnail {
