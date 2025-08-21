@@ -13,7 +13,7 @@ defined('ABSPATH') || exit;
 
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> data-bs-theme="light">
 
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
@@ -26,7 +26,7 @@ defined('ABSPATH') || exit;
 	<?php do_action('wp_body_open'); ?>
 	<div class="site" id="page">
 		<!-- ******************* The Main Wrapper Holding Header, Main and Footer ******************* -->
-		<div id="main-wrapper" class="main-wrapper container p-0">
+		<div id="main-wrapper" class="main-wrapper container p-0 bg-body text-body">
 			<header id="wrapper-header">
 
 				<a class="skip-link <?php echo understrap_get_screen_reader_class(true); ?>" href="#content">
