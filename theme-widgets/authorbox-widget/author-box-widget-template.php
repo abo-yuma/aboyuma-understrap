@@ -1,6 +1,6 @@
 <!-- Bootstrap 5 Author Card -->
-<div id="aboyuma-author-box" class="card text-center">
-  <div class="card-body">
+<div id="aboyuma-author-box" class="text-center">
+  <div class="author-box-body">
     <div id="author-image" class="mb-2">
       <img src="<?php echo esc_url($image); ?>" class="card-img-top" alt="Profile image"
         style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">
@@ -29,5 +29,5 @@
       </ul>
     </div>
 
-  </div>
+  
 </div>
