@@ -1,11 +1,5 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
-body {
-	background-color: #f0f2f5;
-}
-.body-bg-dark-mode {
-	background-color: #212529;
-}
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
 	.container {
@@ -107,19 +101,7 @@ body {
 	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
-// aboyuma-author-box style
-#aboyuma-author-box .card-body {
-	background-color: #ecedef;
-	padding: 0.6rem;
-}
-#aboyuma-author-box .card-body.dark-mode {
-	background-color: #323335;
-}
-
 // ===== Main content ===== //
-.main-wrapper {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
 
 // ===== Footer ===== //
 .footer-bg-background {
@@ -220,7 +202,6 @@ footer {
 [data-bs-theme="dark"] {
 	--bs-body-color-rgb: 228, 230, 235; // body color
 	--bs-emphasis-color: #e2dfd2; // table font color
-	--bs-link-color-rgb: 228, 230, 235;
 }
 
 // [data-bs-theme="light"] {
@@ -228,10 +209,42 @@ footer {
 // }
 
 /* Fix DataTables border in Bootstrap dark mode */
+
+/* Light mode */
+[data-bs-theme="light"] body {
+	background-color: #f0f2f5;
+}
+
+[data-bs-theme="light"] #aboyuma-author-box .card-body {
+	background-color: #ecedef;
+	padding: 0.6rem;
+}
+
+[data-bs-theme="dark"] body {
+	background-color: #333636;
+}
+
+[data-bs-theme="dark"] #aboyuma-author-box .card-body {
+	background-color: #323335;
+	padding: 0.6rem;
+}
+
 [data-bs-theme="dark"] table.dataTable,
 [data-bs-theme="dark"] table.dataTable th,
 [data-bs-theme="dark"] table.dataTable td {
 	border-color: var(--bs-border-color) !important;
+}
+
+/* Light mode */
+[data-bs-theme="light"] .main-wrapper {
+	border: 1px solid rgba(0, 0, 0, 0.250); /* darker than card */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
+
+[data-bs-theme="dark"] .main-wrapper {
+	border: 1px solid rgba(255, 255, 255, 0.12); /* softer light-gray border */
+box-shadow: 0 4px 12px rgba(120, 120, 120, 0.4); /* lighter gray shadow */
+
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
