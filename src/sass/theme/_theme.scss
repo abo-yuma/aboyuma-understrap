@@ -21,14 +21,42 @@
 	margin-bottom: $grid-gutter-width;
 }
 
-.navbar-expand-md .navbar-nav .dropdown-menu {
+/* Light mode */
+[data-bs-theme="light"] .navbar-expand-md .navbar-nav .dropdown-menu {
 	background-color: #171718;
 }
-.navbar-expand-md .navbar-nav .dropdown-menu .dropdown-item {
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
 	color: #949494;
 }
-.navbar-expand-md .navbar-nav .dropdown-menu .dropdown-item:hover {
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
 	color: #000000;
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #1f1f1f; /* slightly lighter than original dark */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
+	color: #dcdcdc; /* lighter gray text for readability */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
+	color: #ffffff; /* hover white for contrast */
 }
 
 /* Only apply hover on screens wider than 768px */
@@ -237,14 +265,13 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
-	border: 1px solid rgba(0, 0, 0, 0.250); /* darker than card */
+	border: 1px solid rgba(0, 0, 0, 0.25); /* darker than card */
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
 }
 
 [data-bs-theme="dark"] .main-wrapper {
 	border: 1px solid rgba(255, 255, 255, 0.12); /* softer light-gray border */
-box-shadow: 0 4px 12px rgba(120, 120, 120, 0.4); /* lighter gray shadow */
-
+	box-shadow: 0 4px 12px rgba(120, 120, 120, 0.4); /* lighter gray shadow */
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
