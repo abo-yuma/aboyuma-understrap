@@ -243,18 +243,24 @@ footer {
 	background-color: #f0f2f5;
 }
 
-[data-bs-theme="light"] #aboyuma-author-box .card-body {
-	background-color: #ecedef;
-	padding: 0.6rem;
-}
-
 [data-bs-theme="dark"] body {
 	background-color: #333636;
 }
 
-[data-bs-theme="dark"] #aboyuma-author-box .card-body {
+[data-bs-theme="light"] aside {
+	background-color: #f8f9fc;
+}
+
+[data-bs-theme="dark"] aside {
+	background-color: #26292d;
+}
+
+[data-bs-theme="light"] aside:has(#aboyuma-author-box) {
+	background-color: #ecedef;
+}
+
+[data-bs-theme="dark"] aside:has(#aboyuma-author-box) {
 	background-color: #323335;
-	padding: 0.6rem;
 }
 
 [data-bs-theme="dark"] table.dataTable,
