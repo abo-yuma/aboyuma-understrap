@@ -49,7 +49,7 @@ $container = get_theme_mod('understrap_container_type');
                             ON g.cover_image_id = gi.id
                     ");
                     ?>
-                    <table id="aboyuma-gallery-list" class="table">
+                    <table id="aboyuma-gallery-list" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>แกลอรี่</th>
