@@ -108,6 +108,10 @@ $container = get_theme_mod('understrap_container_type');
                 <div class="entry-content" id="product-detail">
                     <section id="product-image-and-description" class="mb-4">
                         <div class="row">
+                            <div id="product-category-brand-label" class="col-md-12 mb-2">
+                                <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
+                                <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
+                            </div>
                             <!-- Main Image Preview Section -->
                             <div class="col-md-7">
                                 <div id="previewImageBox" class="previewImageBox border rounded">
@@ -142,34 +146,6 @@ $container = get_theme_mod('understrap_container_type');
                                     </div>
                                     <button id="nextThumbnail" class="slider-arrow right-arrow">&gt;</button>
                                 </div>
-                                <div id="product-qrcode" class="d-flex align-items-start gap-3 mt-2">
-                                    <?php
-                                    // Generate the current URL in PHP.
-                                    $current_url = esc_url((is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-                                    // Generate the QR code image URL from the current URL.
-                                    $qrcode_url = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode($current_url);
-                                    ?>
-                                    <!-- Product Link Qrcode -->
-                                    <div id="qrcode" class="product-share-qrcode">
-                                        <img src="<?= esc_url($qrcode_url); ?>" alt="QR Code" width="100" height="100">
-                                    </div>
-                                    <!-- Product Share Link Copy -->
-                                    <div class="product-share-link">
-                                        <label for="shareLink" class="form-label">Share this product:</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control form-control-sm" id="shareLink"
-                                                value="<?= $current_url; ?>" readonly>
-                                            <button type="button" class="btn btn-outline-secondary" id="copyButton"
-                                                data-clipboard-target="#shareLink"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="bottom"
-                                                data-bs-trigger="manual"
-                                                title="Copied!">
-                                                <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- End Main Image Preview Section -->
 
@@ -179,10 +155,6 @@ $container = get_theme_mod('understrap_container_type');
                                     <div class="card-body">
                                         <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
                                         <small><?php echo '#' . esc_html($product->product_code); ?></small>
-                                        <div id="product-category-brand-label">
-                                            <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
-                                            <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
-                                        </div>
                                         <div class="card-text" style="font-size: 13px;">
                                             <div class="product_description mb-2">
                                                 <?php echo apply_filters('the_content', $product->product_description); ?>
@@ -291,6 +263,11 @@ $container = get_theme_mod('understrap_container_type');
                                     type="button" role="tab" aria-controls="nav-product-comment" aria-selected="false">
                                     ⚠️ หมายเหตุ
                                 </button>
+                                <button class="nav-link" id="nav-product-review-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-product-review"
+                                    type="button" role="tab" aria-controls="nav-product-review" aria-selected="false">
+                                    ⭐ รีวิว
+                                </button>
                             </div>
                         </nav>
                         <div class="tab-content rounded-bottom p-3" id="nav-tabContent">
@@ -312,6 +289,19 @@ $container = get_theme_mod('understrap_container_type');
                                     <?php
                                     echo apply_filters('the_content', $product->product_comment);
                                     ?>
+                                </div>
+                            <?php endif; ?>
+                            <!-- SECTION: product review -->
+                            <?php if (!empty($product->product_review)) : ?>
+                                <div class="tab-pane fade" id="nav-product-review" role="tabpanel" aria-labelledby="nav-product-review-tab">
+                                    <?php
+                                    echo apply_filters('the_content', $product->product_review);
+                                    ?>
+                                    <?php if (!empty($product->product_sale_article_link)) : ?>
+                                        <div id="product_sale_article_link" class="product_sale_article_link">
+                                            <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -388,27 +378,6 @@ $container = get_theme_mod('understrap_container_type');
                             get_template_part('page-templates/product-detail/related-product');
                         }
                         ?>
-                    </section>
-
-                    <!-- SECTION: product review -->
-                    <section id="product-review">
-                        <?php if (!empty($product->product_review)) : ?>
-                            <div id="product-review" class="mt-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        ⭐ คอมเมนต์
-                                    </div>
-                                    <div class="card-body">
-                                        <?php echo apply_filters('the_content', $product->product_review); ?>
-                                        <?php if (!empty($product->product_sale_article_link)) : ?>
-                                            <div id="product_sale_article_link" class="product_sale_article_link">
-                                                <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
                     </section>
 
                     <!-- SECTION: what people talk about this product -->
