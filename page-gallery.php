@@ -49,7 +49,7 @@ $container = get_theme_mod('understrap_container_type');
                             ON g.cover_image_id = gi.id
                     ");
                     ?>
-                    <table id="aboyuma-gallery-list" class="table table-striped table-bordered">
+                    <table id="aboyuma-gallery-list" class="table table-striped table-bordered border-top border-bottom">
                         <thead>
                             <tr>
                                 <th>แกลอรี่</th>
@@ -62,7 +62,7 @@ $container = get_theme_mod('understrap_container_type');
                             <?php foreach ($rows as $row): ?>
                                 <tr>
                                     <td>
-                                        <div class="card gallery-card p-2">
+                                        <div class="gallery-card p-2">
                                             <div class="gallery-cover-wrapper">
                                                 <?php
                                                 if (!empty($row->image_path)) {
@@ -116,7 +116,7 @@ $container = get_theme_mod('understrap_container_type');
             lengthMenu: [5, 10, 25, 50],
             columnDefs: [{
                     orderable: false,
-                    targets: [0, 3]
+                    targets: [0, 1, 2, 3]
                 }, // Cover + Action not sortable
                 {
                     width: "30%",
@@ -139,9 +139,6 @@ $container = get_theme_mod('understrap_container_type');
     });
 </script>
 <style>
-    #aboyuma-gallery-list thead {
-        display: none;
-    }
 
     #aboyuma-gallery-list td {
         align-content: center;
