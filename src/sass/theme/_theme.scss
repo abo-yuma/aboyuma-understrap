@@ -223,13 +223,17 @@ footer {
 /*
     Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
 */
+[data-bs-theme="dark"] {
+	--bs-body-bg: #303233;
+	--bs-body-bg-rgb: 48, 50, 51;
+}
 .text-body {
 	--bs-text-opacity: 1;
 	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }
 [data-bs-theme="dark"] {
-	--bs-body-color-rgb: 228, 230, 235; // body color
-	--bs-emphasis-color: #e2dfd2; // table font color
+	--bs-body-color-rgb: 226, 229, 233; // body color rgb(226 229 233)
+	--bs-emphasis-color: #e2e5e9; // table font color
 }
 
 // [data-bs-theme="light"] {
@@ -244,15 +248,7 @@ footer {
 }
 
 [data-bs-theme="dark"] body {
-	background-color: #333636;
-}
-
-[data-bs-theme="light"] aside {
-	background-color: #f8f9fc;
-}
-
-[data-bs-theme="dark"] aside {
-	background-color: #26292d;
+	background-color: #292727;
 }
 
 [data-bs-theme="light"] aside:has(#aboyuma-author-box) {
@@ -277,7 +273,7 @@ footer {
 
 [data-bs-theme="dark"] .main-wrapper {
 	border: 1px solid rgba(255, 255, 255, 0.12); /* softer light-gray border */
-	box-shadow: 0 4px 12px rgba(120, 120, 120, 0.4); /* lighter gray shadow */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
