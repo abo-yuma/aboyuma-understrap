@@ -293,7 +293,7 @@ $container = get_theme_mod('understrap_container_type');
                                 </button>
                             </div>
                         </nav>
-                        <div class="tab-content border border-top-0 rounded-bottom p-3" id="nav-tabContent">
+                        <div class="tab-content rounded-bottom p-3" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-product-detail" role="tabpanel" aria-labelledby="nav-product-detail-tab">
                                 <?php
                                 echo apply_filters('the_content', $product->product_detail);
