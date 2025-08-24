@@ -92,9 +92,8 @@ $container = get_theme_mod('understrap_container_type');
                         <thead>
                             <tr>
                                 <th>สินค้า</th>
-                                <th>ชื่อ</th>
                                 <th>คำอธิบาย</th>
-                                <th>สรรพคุณ</th>
+                                <th>คุณสมบัติ</th>
                                 <th>รายละเอียด</th>
                             </tr>
                         </thead>
@@ -125,27 +124,19 @@ $container = get_theme_mod('understrap_container_type');
         }
     }
 
-    #aboyuma-product-table * {
+    #aboyuma-product-table th,
+    #aboyuma-product-table td {
+        text-align: center;
+        /* horizontal center */
+        vertical-align: middle;
+        /* vertical center */
         font-size: 12px !important;
-        align-content: center;
     }
 
-    /* Fix big th font bug when using jqueryDataTable scrollX option */
+
+    /* NOTE: Fix big th font bug when using jqueryDataTable scrollX option */
     .dt-column-title {
         font-size: 12px !important;
-    }
-
-    #aboyuma-product-table a:not(.btn) {
-        text-decoration: underline;
-        color: #007bff;
-    }
-
-    #aboyuma-product-table a:not(.btn):hover {
-        text-decoration: none;
-    }
-
-    #aboyuma-product-table td {
-        align-content: center;
     }
 </style>
 <?php

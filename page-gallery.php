@@ -119,11 +119,11 @@ $container = get_theme_mod('understrap_container_type');
                     targets: [0, 1, 2, 3]
                 }, // Cover + Action not sortable
                 {
-                    width: "30%",
+                    width: "45%",
                     targets: 0
                 }, // Cover
                 {
-                    width: "40%",
+                    width: "25%",
                     targets: 1
                 }, // Description
                 {
@@ -131,7 +131,7 @@ $container = get_theme_mod('understrap_container_type');
                     targets: 2
                 }, // Date
                 {
-                    width: "15%",
+                    width: "25%",
                     targets: 3
                 } // Action
             ]
@@ -139,16 +139,21 @@ $container = get_theme_mod('understrap_container_type');
     });
 </script>
 <style>
-
+    #aboyuma-gallery-list th,
     #aboyuma-gallery-list td {
-        align-content: center;
+        text-align: center;
+        /* horizontal center */
+        vertical-align: middle;
+        /* vertical center */
+        font-size: 15px !important;
     }
+
 
     .gallery-cover-wrapper {
         position: relative;
         /* important for overlay */
         width: 100%;
-        height: 150px;
+        height: 200px;
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -175,6 +180,7 @@ $container = get_theme_mod('understrap_container_type');
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
         /* for readability */
         padding: 5px 10px;
+        font-size: 1.75rem;
     }
 </style>
 <?php

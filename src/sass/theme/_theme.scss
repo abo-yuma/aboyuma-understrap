@@ -223,21 +223,21 @@ footer {
 /*
     Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
 */
-// [data-bs-theme="dark"] {
-// 	--bs-body-bg: #303233;
-// 	--bs-body-bg-rgb: 48, 50, 51;
-// }
+[data-bs-theme="dark"] {
+	--bs-body-bg: #252627;
+	--bs-body-bg-rgb: 37, 38, 39;
+}
 .text-body {
 	--bs-text-opacity: 1;
 	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }
 [data-bs-theme="dark"] {
 	--bs-body-color-rgb: 220, 225, 230; // body color rgb(226 229 233)
-	--bs-emphasis-color: #dce1e6; // table font color
+	--bs-emphasis-color: #dbe1e6; // table font color
 }
 
 [data-bs-theme="dark"] .card {
-	--bs-card-color: #dce1e6;
+	--bs-card-color: #dbe1e6;
 }
 
 // [data-bs-theme="light"] {
@@ -252,14 +252,22 @@ footer {
 }
 
 [data-bs-theme="dark"] body {
-	background-color: #343131;
+	background-color: #3f3e3e;
 }
 
-[data-bs-theme="light"] aside:has(#aboyuma-author-box) {
-	background-color: #ecedef;
+// [data-bs-theme="light"] aside:has(#aboyuma-author-box) {
+// 	background-color: #ecedef;
+// }
+
+// [data-bs-theme="dark"] aside:has(#aboyuma-author-box) {
+// 	background-color: #323335;
+// }
+
+[data-bs-theme="light"] aside {
+	background-color: #f2f3f6;
 }
 
-[data-bs-theme="dark"] aside:has(#aboyuma-author-box) {
+[data-bs-theme="dark"] aside {
 	background-color: #323335;
 }
 
