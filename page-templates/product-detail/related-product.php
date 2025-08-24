@@ -37,7 +37,7 @@
         <thead>
             <tr>
                 <th>สินค้า</th>
-                <th>ชื่อ</th>
+                <th>คำอธิบาย</th>
                 <th>เหตุผล</th>
                 <th>รายละเอียด</th>
             </tr>
@@ -57,20 +57,20 @@
 
             if (isDesktop) {
                 columnDefs = [{
-                        width: '15%',
-                        targets: 0
+                        width: "25%",
+                        targets: [0],
                     },
                     {
-                        width: '15%',
-                        targets: 1
+                        width: "30%",
+                        targets: [1],
                     },
                     {
-                        width: '55%',
-                        targets: 2
+                        width: "30%",
+                        targets: [2],
                     },
                     {
-                        width: '15%',
-                        targets: 3
+                        width: "15%",
+                        targets: [3],
                     }
                 ];
             }
@@ -90,7 +90,7 @@
                         title: "สินค้า"
                     },
                     {
-                        title: "ชื่อ"
+                        title: "คำอธิบาย"
                     },
                     {
                         title: "เหตุผล"

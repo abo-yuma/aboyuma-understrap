@@ -469,12 +469,17 @@ function ajax_filter_products() {
 	foreach ($products as $product) {
 		$image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
 		$detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+		// Combine image and name in one column
+		$image_and_name = '
+        <div style="text-align:center;">
+            ' . $image_url . '
+            <span>' . esc_html($product->product_name) . '</span>
+        </div>';
 		$data[] = [
-			$image_url,
-			esc_html($product->product_name),
+			$image_and_name,
 			htmlspecialchars_decode($product->product_short_description),
 			htmlspecialchars_decode($product->product_benefit),
-			'<a href="' . $detail_url . '">[รายละเอียด]</a>' // Only show the text as a link
+			'<a href="' . $detail_url . '">รายละเอียด</a>' // Only show the text as a link
 		];
 	}
 	// Return plain array dataSrc should set to ''
@@ -501,6 +506,7 @@ function aboyuma_get_related_products() {
         p.id,
         p.product_image,
         p.product_name,
+		p.product_short_description,
         r.related_product_comment
         FROM $product_table p
         INNER JOIN $related_table r
@@ -515,13 +521,19 @@ function aboyuma_get_related_products() {
 	$data = [];
 
 	foreach ($results as $product) {
-		$image = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+		$image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
 		$name = esc_html($product->product_name);
+		// Combine image and name in one column
+		$image_and_name = '
+        <div style="text-align:center;">
+            ' . $image_url . '
+            <span>' . $name . '</span>
+        </div>';
 		$comment = wp_kses_post($product->related_product_comment);
 		$link = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
 		$data[] = [
-			$image,
-			$name,
+			$image_and_name,
+			htmlspecialchars_decode($product->product_short_description),
 			$comment,
 			"<a href='{$link}'>[รายละเอียด]</a>"
 		];

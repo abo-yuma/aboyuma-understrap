@@ -108,10 +108,6 @@ $container = get_theme_mod('understrap_container_type');
                 <div class="entry-content" id="product-detail">
                     <section id="product-image-and-description" class="mb-4">
                         <div class="row">
-                            <div id="product-category-brand-label" class="col-md-12 mb-2">
-                                <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
-                                <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
-                            </div>
                             <!-- Main Image Preview Section -->
                             <div class="col-md-7">
                                 <div id="previewImageBox" class="previewImageBox border rounded">
@@ -155,6 +151,10 @@ $container = get_theme_mod('understrap_container_type');
                                     <div class="card-body">
                                         <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
                                         <small><?php echo '#' . esc_html($product->product_code); ?></small>
+                                        <div id="product-category-brand-label" class="col-md-12 mb-2">
+                                            <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
+                                            <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
+                                        </div>
                                         <div class="card-text" style="font-size: 13px;">
                                             <div class="product_description mb-2">
                                                 <?php echo apply_filters('the_content', $product->product_description); ?>
@@ -301,6 +301,16 @@ $container = get_theme_mod('understrap_container_type');
                                         <div id="product_sale_article_link" class="product_sale_article_link">
                                             <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
                                         </div>
+                                        <?php
+                                        $product_name = $product->product_name; // Replace this dynamically
+                                        $hashtag = strtolower(str_replace([' ', '-'], '', $product_name));
+                                        ?>
+                                        <div id="people_review_product" class="people_review_product">
+                                            <i class="bi bi-facebook" style="color: #1877F2; font-size: 1.2rem;"></i>
+                                            <a href="https://www.facebook.com/hashtag/<?php echo urlencode($hashtag); ?>" target="_blank" rel="noopener noreferrer">
+                                                ผู้คนพูดถึงสินค้านี้อย่างไรบ้าง?
+                                            </a>
+                                        </div>
                                     <?php endif; ?>
                                 </div>
                             <?php endif; ?>
@@ -378,21 +388,6 @@ $container = get_theme_mod('understrap_container_type');
                             get_template_part('page-templates/product-detail/related-product');
                         }
                         ?>
-                    </section>
-
-                    <!-- SECTION: what people talk about this product -->
-
-                    <section class="mt-4">
-                        <?php
-                        $product_name = $product->product_name; // Replace this dynamically
-                        $hashtag = strtolower(str_replace([' ', '-'], '', $product_name));
-                        ?>
-                        <div id="people_review_product" class="people_review_product">
-                            <i class="bi bi-facebook" style="color: #1877F2; font-size: 1.2rem;"></i>
-                            <a href="https://www.facebook.com/hashtag/<?php echo urlencode($hashtag); ?>" target="_blank" rel="noopener noreferrer">
-                                ผู้คนพูดถึงสินค้านี้อย่างไรบ้าง?
-                            </a>
-                        </div>
                     </section>
 
                 </div>
