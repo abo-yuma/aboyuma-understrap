@@ -41,6 +41,10 @@ $container = get_theme_mod('understrap_container_type');
             </div>
             <div class="main-content-column-width order-1 order-md-2">
                 <?php
+                the_post();
+                get_template_part('loop-templates/content', 'page');
+                ?>
+                <?php
                 global $wpdb;
 
                 // Get existing data for the product
@@ -106,6 +110,7 @@ $container = get_theme_mod('understrap_container_type');
                 // Display the detail
                 ?>
                 <div class="entry-content" id="product-detail">
+                    <section id="modified-date" class="modified-date"> aaaa date </section>
                     <section id="product-image-and-description" class="mb-4">
                         <div class="row">
                             <!-- Main Image Preview Section -->
