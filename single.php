@@ -18,12 +18,12 @@ $container = get_theme_mod('understrap_container_type');
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
 		<div class="row py-3">
-			<div class="sidebar-left-column-width" id="sidebar-left">
+			<div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="main-content-column-width">
+			<div class="main-content-column-width order-1 order-md-2">
 				<?php
 				while (have_posts()) {
 					the_post();

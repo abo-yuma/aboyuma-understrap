@@ -129,6 +129,18 @@
 	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
+/* reverse widget order on mobile */
+@media (max-width: 767.98px) {
+	#widget-area {
+		display: flex;
+		flex-direction: column-reverse; /* reverse order on mobile */
+	}
+
+	#widget-area > .widget {
+		display: block; /* ensure widgets behave as block items */
+	}
+}
+
 // ===== Main content ===== //
 
 // ===== Footer ===== //

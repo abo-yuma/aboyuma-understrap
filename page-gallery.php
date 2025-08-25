@@ -25,12 +25,12 @@ $container = get_theme_mod('understrap_container_type');
     <div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
         <div class="row py-3">
-            <div class="sidebar-left-column-width" id="sidebar-left">
+            <div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column-width">
+            <div class="main-content-column-width order-1 order-md-2">
                 <?php
                 the_post();
                 get_template_part('loop-templates/content', 'page');
@@ -49,7 +49,7 @@ $container = get_theme_mod('understrap_container_type');
                             ON g.cover_image_id = gi.id
                     ");
                     ?>
-                    <table id="aboyuma-gallery-list" class="table table-striped table-bordered border-top border-bottom">
+                    <table id="aboyuma-gallery-list" class="table">
                         <thead>
                             <tr>
                                 <th>แกลอรี่</th>
@@ -147,7 +147,6 @@ $container = get_theme_mod('understrap_container_type');
         /* vertical center */
         font-size: 15px !important;
     }
-
 
     .gallery-cover-wrapper {
         position: relative;
