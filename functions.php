@@ -169,10 +169,26 @@ function setPageViews($pageID) {
 	}
 }
 
+// --- Get Page Views ---
+function getPageViews($pageID) {
+	$count_key = 'page_views_count';
+	$count = get_transient('page_views_' . $pageID);
+
+	if ($count === false) {
+		$count = get_post_meta($pageID, $count_key, true);
+		if ($count == '') {
+			$count = 0;
+			update_post_meta($pageID, $count_key, $count);
+		}
+		set_transient('page_views_' . $pageID, $count, 12 * HOUR_IN_SECONDS);
+	}
+
+	return $count . ' Views';
+}
+
 // --- Set Post Views ---
 function setPostViews($postID) {
 	if (function_exists('visitor_is_bot') && visitor_is_bot()) return;
-	if (is_user_logged_in() && current_user_can('manage_options')) return;
 
 	$ip = get_real_ip();
 	$ip_transient_key = 'post_viewed_' . $postID . '_' . md5($ip);
@@ -191,23 +207,6 @@ function setPostViews($postID) {
 
 		set_transient($ip_transient_key, true, 24 * HOUR_IN_SECONDS);
 	}
-}
-
-// --- Get Page Views ---
-function getPageViews($pageID) {
-	$count_key = 'page_views_count';
-	$count = get_transient('page_views_' . $pageID);
-
-	if ($count === false) {
-		$count = get_post_meta($pageID, $count_key, true);
-		if ($count == '') {
-			$count = 0;
-			update_post_meta($pageID, $count_key, $count);
-		}
-		set_transient('page_views_' . $pageID, $count, 12 * HOUR_IN_SECONDS);
-	}
-
-	return $count . ' Views';
 }
 
 // --- Get Post Views ---
@@ -390,7 +389,7 @@ function display_visitor_stats() {
 	echo '<div class="aboyuma-visitor-wrapper">';
 	echo '<div class="aboyuma-visitor-title" style="font-weight:bold; margin-bottom:0.3em;">สถิติ :</div>';
 	echo '<ul class="aboyuma-visitor-info" style="list-style:none; padding-left:0; margin:0;">';
-	// echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมวันนี้ ' . number_format($today_visitors) . ' คน</li>';
+	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมวันนี้ ' . number_format($today_visitors) . ' คน</li>';
 	// echo '<li style="margin-bottom:0.2em;">👁️‍🗨️ ผู้ชมเมื่อวาน ' . number_format($yesterday_visitors) . ' คน</li>';
 	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมเดือนนี้ ' . number_format($month_visitors) . ' คน</li>';
 	// echo '<li style="margin-bottom:0.2em;">📅 ผู้ชมปีนี้ ' . number_format($year_visitors) . ' คน</li>';

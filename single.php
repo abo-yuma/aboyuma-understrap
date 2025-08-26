@@ -27,12 +27,18 @@ $container = get_theme_mod('understrap_container_type');
 				<?php
 				while (have_posts()) {
 					the_post();
+
+					// Track post views
+					if (function_exists('setPostViews')) {
+						setPostViews(get_the_ID());
+					}
+
 					get_template_part('loop-templates/content', 'single');
 
 					// If comments are open or we have at least one comment, load up the comment template.
-					if (comments_open() || get_comments_number()) {
-						comments_template();
-					}
+					// if (comments_open() || get_comments_number()) {
+					// 	comments_template();
+					// }
 				}
 				?>
 
