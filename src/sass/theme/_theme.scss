@@ -252,6 +252,10 @@ footer {
 	--bs-card-color: #dbe1e6;
 }
 
+[data-bs-theme="dark"] .btn-dark {
+	--bs-btn-bg: #53565c;
+}
+
 // [data-bs-theme="light"] {
 // 	--bs-link-color-rgb: 0, 0, 0;
 // }

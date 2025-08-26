@@ -154,7 +154,7 @@ $container = get_theme_mod('understrap_container_type');
                             <div id="product_description" class="col-md-5">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
+                                        <h5 class="card-title m-0 fw-bold"><?php echo esc_html($product->product_name); ?></h5>
                                         <small><?php echo '#' . esc_html($product->product_code); ?></small>
                                         <div id="product-category-brand-label" class="col-md-12 mb-2">
                                             <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
@@ -256,7 +256,7 @@ $container = get_theme_mod('understrap_container_type');
                                 <button class="nav-link active" id="nav-product-detail-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-detail"
                                     type="button" role="tab" aria-controls="nav-product-detail" aria-selected="true">
-                                    📒 เลคเชอร์
+                                    📒 คุณสมบัติ
                                 </button>
                                 <button class="nav-link" id="nav-product-specification-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-specification"
