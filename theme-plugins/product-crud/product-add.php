@@ -887,11 +887,7 @@ function aboyuma_product_add() {
           <td style="padding: 0;">
             <table id="video-form-table">
               <tbody id="video-form-rows">
-                <tr>
-                  <td><input type="url" name="video_datas[0][video_url]" placeholder="https://www.youtube.com/watch?v=..." style="width: 300px;"></td>
-                  <td><input type="text" name="video_datas[0][video_comment]" maxlength="255" style="width: 200px;" placeholder="Video comment.."></td>
-                  <td><button type="button" class="button remove-row">✕</button></td>
-                </tr>
+                <!-- No default row -->
               </tbody>
             </table>
             <p style="margin-top: 10px;">
@@ -1063,7 +1059,7 @@ function aboyuma_product_add() {
       });
 
       // Related Product Video
-      let videoIndex = 1;
+      let videoIndex = $('#video-form-rows tr').length;
 
       $('#add-video-row').on('click', function() {
         const videoForm = `
@@ -1079,6 +1075,14 @@ function aboyuma_product_add() {
 
       $('#video-form-table').on('click', '.remove-row', function() {
         $(this).closest('tr').remove();
+        // Re-number all remaining rows
+        $('#video-form-rows tr').each(function(index) {
+          $(this).find('input[name*="[video_url]"]').attr('name', `video_datas[${index}][video_url]`);
+          $(this).find('input[name*="[video_comment]"]').attr('name', `video_datas[${index}][video_comment]`);
+        });
+
+        // Reset videoIndex
+        videoIndex = $('#video-form-rows tr').length;
       });
     });
   </script>
