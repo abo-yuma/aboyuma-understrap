@@ -130,13 +130,13 @@ $container = get_theme_mod('understrap_container_type');
         /* horizontal center */
         vertical-align: middle;
         /* vertical center */
-        font-size: 12px !important;
+        font-size: 12.5px !important;
     }
 
 
     /* NOTE: Fix big th font bug when using jqueryDataTable scrollX option */
     .dt-column-title {
-        font-size: 12px !important;
+        font-size: 12.5px !important;
     }
 </style>
 <?php
