@@ -160,7 +160,7 @@ $container = get_theme_mod('understrap_container_type');
                                             <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
                                             <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
                                         </div>
-                                        <div class="card-text" style="font-size: 13px;">
+                                        <div class="card-text" style="font-size: 13.5px;">
                                             <div class="product_description mb-2">
                                                 <?php echo apply_filters('the_content', $product->product_description); ?>
                                             </div>

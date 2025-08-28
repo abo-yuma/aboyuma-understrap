@@ -61,6 +61,15 @@ function aboyuma_product_add() {
     }
     $product_category_id = absint(trim($product_category_id));
     $product_name = sanitize_text_field(trim($_POST['product_name']));
+    $product_tablet_count = isset($_POST['product_tablet_count']) && $_POST['product_tablet_count'] !== ''
+      ? absint($_POST['product_tablet_count'])
+      : null; // NULL if not provided
+    $product_serving_size = isset($_POST['product_serving_size']) && $_POST['product_serving_size'] !== ''
+      ? sanitize_text_field(trim($_POST['product_serving_size']))
+      : null; // NULL if not provided
+    $product_total_servings = isset($_POST['product_total_servings']) && $_POST['product_total_servings'] !== ''
+      ? absint($_POST['product_total_servings'])
+      : null; // NULL if not provided
     $product_short_description = sanitize_textarea_field(trim($_POST['product_short_description']));
     $product_description = sanitize_textarea_field(trim($_POST['product_description']));
     $product_benefit = sanitize_textarea_field(trim($_POST['product_benefit']));
@@ -105,50 +114,54 @@ function aboyuma_product_add() {
     // Validate fields
     // Validate product image url
     // Check if a file was uploaded
-    if (empty($_FILES['product_image']['tmp_name'])) {
+    // Set bypass flag if WP_DEBUG is enabled
+    $bypass_required = defined('WP_DEBUG') && WP_DEBUG ? true : false;
+
+    $product_image = null; // default value
+
+    if (!empty($_FILES['product_image']['tmp_name'])) {
+      $product_image = file_get_contents($_FILES['product_image']['tmp_name']);
+    } elseif (!$bypass_required) {
       $errors[] = 'Product image is required.';
-    } else {
-      $image_tmp = $_FILES['product_image']['tmp_name'];
-      $product_image = file_get_contents($image_tmp); // Convert the image to binary
     }
     // Validate product code
-    if (empty($product_code)) {
+    if (empty($product_code) && !$bypass_required) {
       $errors[] = 'Product code is required.';
     }
     // Validate product brand
-    if (empty($product_brand_id)) {
+    if (empty($product_brand_id) && !$bypass_required) {
       $errors[] = 'Product brand is required.';
     }
     // Validate product category
-    if (empty($product_category_id)) {
+    if (empty($product_category_id) && !$bypass_required) {
       $errors[] = 'Product category is required.';
     }
     // Validate product name
-    if (empty($product_name)) {
+    if (empty($product_name) && !$bypass_required) {
       $errors[] = 'Product name is required.';
     }
     // Validate product description
-    if (empty($product_short_description)) {
+    if (empty($product_short_description) && !$bypass_required) {
       $errors[] = 'Product short description is required.';
     }
     // Validate product description
-    if (empty($product_description)) {
+    if (empty($product_description) && !$bypass_required) {
       $errors[] = 'Product description is required.';
     }
     // Validate product benefit
-    if (empty($product_benefit)) {
+    if (empty($product_benefit) && !$bypass_required) {
       $errors[] = 'Product benefit is required.';
     }
     // Validate product detail
-    if (empty($product_detail)) {
+    if (empty($product_detail) && !$bypass_required) {
       $errors[] = 'Product detail is required.';
     }
     // Validate product price
-    if (empty($product_price)) {
+    if (empty($product_price) && !$bypass_required) {
       $errors[] = 'Product price is required.';
     }
     // Validate product member price
-    if (empty($product_member_price)) {
+    if (empty($product_member_price) && !$bypass_required) {
       $errors[] = 'Product member price is required.';
     }
     // Validate product price
@@ -162,9 +175,10 @@ function aboyuma_product_add() {
       }
     }
     // Validate Product Shop Link
-    if (empty($product_shop_link)) {
+    // Validate Product Shop Link
+    if (empty($product_shop_link) && !$bypass_required) {
       $errors[] = 'Product Shop link is required.';
-    } elseif (!filter_var($product_shop_link, FILTER_VALIDATE_URL)) {
+    } elseif (!empty($product_shop_link) && !filter_var($product_shop_link, FILTER_VALIDATE_URL) && !$bypass_required) {
       $errors[] = 'Product Shop link must be a valid URL.';
     }
     // Validate product sale article link
@@ -178,7 +192,7 @@ function aboyuma_product_add() {
       $errors[] = 'Product is pinned flag is required.';
     }
     // Validate product slug
-    if (empty($product_slug)) {
+    if (empty($product_slug) && !$bypass_required) {
       $errors[] = 'Product slug is required.';
     }
     // If no errors, insert data into the database
@@ -192,6 +206,9 @@ function aboyuma_product_add() {
           'product_brand_id' => $product_brand_id,
           'product_category_id' => $product_category_id,
           'product_name' => $product_name,
+          'product_tablet_count' => $product_tablet_count,
+          'product_serving_size' => $product_serving_size,
+          'product_total_servings' => $product_total_servings,
           'product_short_description' => $product_short_description,
           'product_description' => $product_description,
           'product_benefit' => $product_benefit,
@@ -218,6 +235,9 @@ function aboyuma_product_add() {
           '%d', // product_brand_id
           '%d', // product_category_id
           '%s', // product_name
+          '%d', // product_tablet_count
+          '%s', // product_serving_size
+          '%d', // product_total_servings
           '%s', // product_short_description
           '%s', // product_description
           '%s', // product_benefit
@@ -568,6 +588,33 @@ function aboyuma_product_add() {
           <td>
             <input type="text" name="product_name" id="product_name" class="regular-text"
               value="<?php echo isset($_POST['product_name']) ? esc_attr($_POST['product_name']) : ''; ?>">
+          </td>
+        </tr>
+        <!-- Product Tablet Count -->
+        <tr>
+          <th scope="row"><label for="product_tablet_count">Tablet Count</label></th>
+          <td>
+            <input type="number" name="product_tablet_count" id="product_tablet_count" min="0"
+              value="<?php echo isset($_POST['product_tablet_count']) ? esc_attr($_POST['product_tablet_count']) : ''; ?>"
+              placeholder="Leave blank if not tablets">
+          </td>
+        </tr>
+        <!-- Product Serving Size -->
+        <tr>
+          <th scope="row"><label for="product_serving_size">Serving Size</label></th>
+          <td>
+            <input type="text" name="product_serving_size" id="product_serving_size" class="regular-text"
+              value="<?php echo isset($_POST['product_serving_size']) ? esc_attr($_POST['product_serving_size']) : ''; ?>"
+              placeholder="e.g., 2 tablets, 1 sachet (51 g)">
+          </td>
+        </tr>
+        <!-- Product Total Servings -->
+        <tr>
+          <th scope="row"><label for="product_total_servings">Total Servings</label></th>
+          <td>
+            <input type="number" name="product_total_servings" id="product_total_servings" min="0"
+              value="<?php echo isset($_POST['product_total_servings']) ? esc_attr($_POST['product_total_servings']) : ''; ?>"
+              placeholder="Leave blank if not applicable">
           </td>
         </tr>
         <!-- Product Short Description -->

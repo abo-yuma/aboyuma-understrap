@@ -48,30 +48,34 @@ function create_aboyuma_table() {
   array_push($queries, "CREATE TABLE $productTable (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_image LONGBLOB NOT NULL,
-    product_code VARCHAR(10) NOT NULL,
-    product_brand_id INT UNSIGNED NOT NULL,
-    product_category_id INT UNSIGNED NOT NULL,
-    product_name VARCHAR(255) NOT NULL,
-    product_short_description LONGTEXT NOT NULL,
-    product_description LONGTEXT NOT NULL,
-    product_benefit LONGTEXT NOT NULL,
-    product_detail LONGTEXT NOT NULL,
-    product_specification LONGTEXT NULL,
-    product_comment TEXT NULL,
-    product_additive_properties JSON NULL,
-    product_diet_properties JSON NULL,
-    product_review LONGTEXT NULL,
-    product_price DECIMAL(10,2) NOT NULL, -- Precise monetary value
-    product_member_price DECIMAL(10,2) NOT NULL, -- Precise monetary value
-    product_is_sop TINYINT(1) NOT NULL DEFAULT 0,
-    product_sop_link VARCHAR(255) NULL,
-    product_shop_link VARCHAR(255) NOT NULL,
-    product_sale_article_link VARCHAR(255) NULL,
-    product_is_pinned TINYINT(1) NOT NULL DEFAULT 0,
-    product_slug VARCHAR(255) NOT NULL, -- Added slug column here
-    created DATETIME NOT NULL,
-    modified DATETIME NOT NULL
+    product_code VARCHAR(10) NOT NULL DEFAULT '',                 -- Product code
+    product_brand_id INT UNSIGNED NOT NULL DEFAULT 0,             -- Brand ID
+    product_category_id INT UNSIGNED NOT NULL DEFAULT 0,          -- Category ID
+    product_name VARCHAR(255) NOT NULL DEFAULT '',                -- Product name
+    product_tablet_count INT UNSIGNED NULL,                       -- Number of tablets/capsules, NULL if not applicable
+    product_serving_size VARCHAR(50) NULL,                        -- e.g., '2 tablets', '1 sachet (51 g)'
+    product_total_servings INT UNSIGNED NULL,                     -- Number of servings in the package
+    product_short_description LONGTEXT NOT NULL DEFAULT '',       -- Short description
+    product_description LONGTEXT NOT NULL DEFAULT '',             -- Full description
+    product_benefit LONGTEXT NOT NULL DEFAULT '',                 -- Benefits
+    product_detail LONGTEXT NOT NULL DEFAULT '',                  -- Detailed info
+    product_specification LONGTEXT NULL,                           -- Specification
+    product_comment TEXT NULL,                                     -- Comment
+    product_additive_properties JSON NULL,                         -- Additive properties (JSON)
+    product_diet_properties JSON NULL,                              -- Diet properties (JSON)
+    product_review LONGTEXT NULL,                                    -- Reviews
+    product_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,             -- Precise monetary value
+    product_member_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,      -- Precise monetary value
+    product_is_sop TINYINT(1) NOT NULL DEFAULT 0,                  -- SOP flag
+    product_sop_link VARCHAR(255) NULL,                             -- SOP link
+    product_shop_link VARCHAR(255) NOT NULL DEFAULT '',             -- Shop link
+    product_sale_article_link VARCHAR(255) NULL,                    -- Sale article link
+    product_is_pinned TINYINT(1) NOT NULL DEFAULT 0,               -- Pinned flag
+    product_slug VARCHAR(255) NOT NULL DEFAULT '',                  -- Product slug
+    created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,           -- Created timestamp
+    modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Modified timestamp
   ) $charset_collate;");
+
   array_push($queries, "CREATE TABLE $productTagTable (
     product_id INT UNSIGNED NOT NULL,
     tag_name VARCHAR(255) NOT NULL,
