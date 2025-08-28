@@ -1,5 +1,11 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+}
+
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
 	.container {
@@ -19,44 +25,6 @@
 
 .navbar-static-top {
 	margin-bottom: $grid-gutter-width;
-}
-
-/* Light mode */
-[data-bs-theme="light"] .navbar-expand-md .navbar-nav .dropdown-menu {
-	background-color: #171718;
-}
-[data-bs-theme="light"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item {
-	color: #949494;
-}
-[data-bs-theme="light"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item:hover {
-	color: #000000;
-}
-
-/* Dark mode */
-[data-bs-theme="dark"] .navbar-expand-md .navbar-nav .dropdown-menu {
-	background-color: #1f1f1f; /* slightly lighter than original dark */
-}
-[data-bs-theme="dark"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item {
-	color: #dcdcdc; /* lighter gray text for readability */
-}
-[data-bs-theme="dark"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item:hover {
-	color: #ffffff; /* hover white for contrast */
 }
 
 /* Only apply hover on screens wider than 768px */
@@ -236,20 +204,20 @@ footer {
     Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
 */
 [data-bs-theme="dark"] {
-	--bs-body-bg: #252627;
-	--bs-body-bg-rgb: 37, 38, 39;
+	--bs-body-bg: #212529;
+	--bs-body-bg-rgb: 33, 37, 41;
 }
 .text-body {
 	--bs-text-opacity: 1;
 	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }
 [data-bs-theme="dark"] {
-	--bs-body-color-rgb: 220, 225, 230; // body color rgb(226 229 233)
-	--bs-emphasis-color: #dbe1e6; // table font color
+	--bs-body-color-rgb: 222, 226, 230; // body color
+	--bs-emphasis-color: #dee2e6; // table font color
 }
 
 [data-bs-theme="dark"] .card {
-	--bs-card-color: #dbe1e6;
+	--bs-card-color: #dee2e6;
 }
 
 [data-bs-theme="dark"] .btn-dark {
@@ -284,7 +252,7 @@ footer {
 }
 
 [data-bs-theme="dark"] aside {
-	background-color: #323335;
+	background-color: #25282c;
 }
 
 [data-bs-theme="dark"] table.dataTable,
@@ -302,6 +270,44 @@ footer {
 [data-bs-theme="dark"] .main-wrapper {
 	border: 1px solid rgba(255, 255, 255, 0.12); /* softer light-gray border */
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
+
+/* Light mode */
+[data-bs-theme="light"] .navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #171718;
+}
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
+	color: #949494;
+}
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
+	color: #000000;
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #1f1f1f; /* slightly lighter than original dark */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
+	color: #dcdcdc; /* lighter gray text for readability */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
+	color: #ffffff; /* hover white for contrast */
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */

@@ -74,6 +74,16 @@ if (! function_exists('understrap_offcanvas_admin_bar_inline_styles')) {
 if (! function_exists('aboyuma_enqueue_scripts')) {
 	function aboyuma_enqueue_scripts() {
 		$theme_version = wp_get_theme()->get('Version');
+
+		// Bootstrap JS bundle (includes Popper)
+		wp_enqueue_script(
+			'bootstrap-js',
+			'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+			array('jquery'),
+			'5.3.3',
+			true
+		);
+
 		// Enqueue your custom styles and scripts here
 		// Addition scripts
 		// Fontawesome icon
