@@ -1,6 +1,23 @@
 // Add your JS customizations here
+
 (function ($) {
 	("use strict");
+
+	jQuery(document).ready(function ($) {
+		var tooltipTriggerList = [].slice.call(
+			document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		);
+		tooltipTriggerList.forEach(function (el) {
+			new bootstrap.Tooltip(el);
+		});
+
+		var popoverTriggerList = [].slice.call(
+			document.querySelectorAll('[data-bs-toggle="popover"]')
+		);
+		popoverTriggerList.forEach(function (el) {
+			new bootstrap.Popover(el);
+		});
+	});
 
 	// Scroll To Top Button
 	var offset = 200;
