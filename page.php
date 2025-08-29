@@ -41,8 +41,8 @@ $container = get_theme_mod('understrap_container_type');
 				<?php if (is_front_page()) : ?>
 					<!-- Templates only for front page(Home)-->
 					<?php get_template_part('homepage-templates/news'); ?>
-					<?php get_template_part('homepage-templates/recommend-product'); ?>
 					<?php get_template_part('homepage-templates/latest-post'); ?>
+					<?php get_template_part('homepage-templates/recommend-product'); ?>
 					<?php get_template_part('homepage-templates/other-recommend-product'); ?>
 					<!-- Widgets templates only for front page(Home)-->
 					<?php if (is_active_sidebar('recommend-video-widget-area')) : ?>

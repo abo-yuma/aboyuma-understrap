@@ -1,6 +1,6 @@
 <!-- Recommend Video Widget Section -->
 <div id="home-other-recommend-product" class="mb-2">
-    <span style="font-weight: bold;">▶️วิดีโอแนะนำ:</span>
+    <span style="font-weight: bold;">▶️ วิดีโอแนะนำ:</span>
     <hr>
     <?php if (!empty($data['video_1']) || !empty($data['video_2'])): ?>
         <div class="container aboyuma-video-wrapper">
