@@ -8,7 +8,7 @@
     );
     $latest_posts = new WP_Query($args);
     ?>
-    <span style="font-weight: bold;">🛍️สินค้าแนะนำอื่นๆ:</span>
+    <span style="font-weight: bold;">🛍️ สินค้าแนะนำอื่นๆ:</span>
     <hr>
     <?php
     if ($latest_posts->have_posts()) : ?>

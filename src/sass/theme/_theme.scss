@@ -239,13 +239,15 @@ footer {
 	background-color: #3f3e3e;
 }
 
-// [data-bs-theme="light"] aside:has(#aboyuma-author-box) {
-// 	background-color: #ecedef;
-// }
+[data-bs-theme="light"] aside:has(#aboyuma-author-box) {
+	background-color: #F9F6F0;
+	border-color: #ddceb8;
+}
 
-// [data-bs-theme="dark"] aside:has(#aboyuma-author-box) {
-// 	background-color: #323335;
-// }
+[data-bs-theme="dark"] aside:has(#aboyuma-author-box) {
+	background-color: #333130;
+	border-color: #4d4a48;
+}
 
 [data-bs-theme="light"] aside {
 	background-color: #f2f3f6;

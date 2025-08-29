@@ -13,7 +13,7 @@
 
     $latest_posts = new WP_Query($args);
     ?>
-    <span style="font-weight: bold;">📰บทความล่าสุด:</span>
+    <span style="font-weight: bold;">📰 บทความล่าสุด:</span>
     <hr>
     <?php
     if ($latest_posts->have_posts()) : ?>

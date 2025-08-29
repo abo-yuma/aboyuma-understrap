@@ -114,54 +114,50 @@ function aboyuma_product_add() {
     // Validate fields
     // Validate product image url
     // Check if a file was uploaded
-    // Set bypass flag if WP_DEBUG is enabled
-    $bypass_required = defined('WP_DEBUG') && WP_DEBUG ? true : false;
-
-    $product_image = null; // default value
 
     if (!empty($_FILES['product_image']['tmp_name'])) {
       $product_image = file_get_contents($_FILES['product_image']['tmp_name']);
-    } elseif (!$bypass_required) {
+    } else {
       $errors[] = 'Product image is required.';
     }
     // Validate product code
-    if (empty($product_code) && !$bypass_required) {
+    if (empty($product_code)) {
       $errors[] = 'Product code is required.';
     }
     // Validate product brand
-    if (empty($product_brand_id) && !$bypass_required) {
+    if (empty($product_brand_id)) {
       $errors[] = 'Product brand is required.';
     }
     // Validate product category
-    if (empty($product_category_id) && !$bypass_required) {
+    if (empty($product_category_id)) {
       $errors[] = 'Product category is required.';
     }
     // Validate product name
-    if (empty($product_name) && !$bypass_required) {
+    if (empty($product_name)) {
       $errors[] = 'Product name is required.';
     }
     // Validate product description
-    if (empty($product_short_description) && !$bypass_required) {
+    if (empty($product_short_description)) {
       $errors[] = 'Product short description is required.';
     }
     // Validate product description
-    if (empty($product_description) && !$bypass_required) {
+    if (empty($product_description)) {
       $errors[] = 'Product description is required.';
     }
     // Validate product benefit
-    if (empty($product_benefit) && !$bypass_required) {
+    if (empty($product_benefit)) {
       $errors[] = 'Product benefit is required.';
     }
     // Validate product detail
-    if (empty($product_detail) && !$bypass_required) {
+    if (empty($product_detail)) {
       $errors[] = 'Product detail is required.';
     }
     // Validate product price
-    if (empty($product_price) && !$bypass_required) {
+    if (empty($product_price)) {
       $errors[] = 'Product price is required.';
     }
     // Validate product member price
-    if (empty($product_member_price) && !$bypass_required) {
+    if (empty($product_member_price)) {
       $errors[] = 'Product member price is required.';
     }
     // Validate product price
@@ -176,9 +172,9 @@ function aboyuma_product_add() {
     }
     // Validate Product Shop Link
     // Validate Product Shop Link
-    if (empty($product_shop_link) && !$bypass_required) {
+    if (empty($product_shop_link)) {
       $errors[] = 'Product Shop link is required.';
-    } elseif (!empty($product_shop_link) && !filter_var($product_shop_link, FILTER_VALIDATE_URL) && !$bypass_required) {
+    } elseif (!empty($product_shop_link) && !filter_var($product_shop_link, FILTER_VALIDATE_URL)) {
       $errors[] = 'Product Shop link must be a valid URL.';
     }
     // Validate product sale article link
@@ -192,7 +188,7 @@ function aboyuma_product_add() {
       $errors[] = 'Product is pinned flag is required.';
     }
     // Validate product slug
-    if (empty($product_slug) && !$bypass_required) {
+    if (empty($product_slug)) {
       $errors[] = 'Product slug is required.';
     }
     // If no errors, insert data into the database

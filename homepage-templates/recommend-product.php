@@ -16,7 +16,7 @@
         echo '<div style="color:red;">MySQL Error: ' . $wpdb->last_error . '</div>';
     }
     ?>
-    <span style="font-weight: bold;">🏆สินค้าแนะนำ:</span>
+    <span style="font-weight: bold;">🏆 สินค้าแอมเวย์แนะนำ:</span>
     <hr>
     <table id="recommend-product-table" class="table table-striped table-border">
         <thead>
