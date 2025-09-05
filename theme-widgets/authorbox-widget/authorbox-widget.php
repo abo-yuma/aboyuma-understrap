@@ -16,15 +16,12 @@ class My_Custom_Author_Widget extends WP_Widget {
 
 		// Get the widget data
 		$title = isset($instance['title']) ? $instance['title'] : esc_html__('ภรัณยู (ยูมะ)', 'text_domain');
-		$position = isset($instance['position']) ? $instance['position'] : esc_html__('', 'text_domain');
 		$bio = isset($instance['bio']) ? $instance['bio'] : esc_html__('💻 ปัจจุบันทำงาน IT Application Support ที่บริษัทแมป มาร์เกตติ้ง ควบคู่กับการทำธุรกิจแอมเวย์เพื่อหาทุนต่อยอดทำพันธกิจคริสเตียนเเละสร้างมูลนิธิช่วยเหลือผู้คน ✝️', 'text_domain');
 		$aboyumaQualifiedTitle = isset($instance['aboyumaQualifiedTitle']) ? $instance['aboyumaQualifiedTitle'] : esc_html__('นักธุรกิจแอมเวย์ รหัส 6672883', 'text_domain');
-		$memberRegisterLinkIcon = isset($instance['memberRegisterLinkIcon']) ? $instance['memberRegisterLinkIcon'] : esc_html__('fa fa-address-card', 'text_domain');
 		$memberRegisterLinkUrl = isset($instance['memberRegisterLinkUrl']) ? $instance['memberRegisterLinkUrl'] : esc_html__('https://th.ashare.me/25ATQlcb', 'text_domain');
 		$memberRegisterLink = isset($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$memberRegisterLinkInfoModalTitle = isset($instance['memberRegisterLinkInfoModalTitle']) ? $instance['memberRegisterLinkInfoModalTitle'] : esc_html__('เกี่ยวกับลิงก์สมัครสมาชิก', 'text_domain');
 		$memberRegisterLinkInfoModalContent = isset($instance['memberRegisterLinkInfoModalContent']) ? $instance['memberRegisterLinkInfoModalContent'] : esc_html__('ลิงก์นี้เป็นลิงก์สมัครสมาชิกแอมเวย์ของ ABO YUMA เมื่อเปิดลิงก์สมัครเเล้วใน url จะระบุว่า referringABO=6672883', 'text_domain');
-		$aboRegisterLinkIcon = isset($instance['aboRegisterLinkIcon']) ? $instance['aboRegisterLinkIcon'] : esc_html__('fa fa-address-card', 'text_domain');
 		$aboRegisterLinkUrl = isset($instance['aboRegisterLinkUrl']) ? $instance['aboRegisterLinkUrl'] : esc_html__('https://th.ashare.me/25ATQlcb', 'text_domain');
 		$aboRegisterLink = isset($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$aboRegisterLinkInfoModalTitle = isset($instance['aboRegisterLinkInfoModalTitle']) ? $instance['aboRegisterLinkInfoModalTitle'] : esc_html__('เกี่ยวกับลิงก์สมัครสมาชิก', 'text_domain');
@@ -63,15 +60,12 @@ class My_Custom_Author_Widget extends WP_Widget {
 	// Widget form in the admin dashboard
 	public function form($instance) {
 		$title = !empty($instance['title']) ? $instance['title'] : esc_html__('ภรัณยู (ยูมะ)', 'text_domain');
-		$position = !empty($instance['position']) ? $instance['position'] : esc_html__('', 'text_domain');
 		$bio = !empty($instance['bio']) ? $instance['bio'] : esc_html__('💻 ปัจจุบันทำงาน IT Application Support ที่บริษัทแมป มาร์เกตติ้ง ควบคู่กับการทำธุรกิจแอมเวย์เพื่อหาทุนต่อยอดทำพันธกิจคริสเตียนเเละสร้างมูลนิธิช่วยเหลือผู้คน ✝️', 'text_domain');
 		$image = !empty($instance['image']) ? $instance['image'] : '';
 		$aboyumaQualifiedTitle = !empty($instance['aboyumaQualifiedTitle']) ? $instance['aboyumaQualifiedTitle'] : esc_html__('นักธุรกิจแอมเวย์ รหัส 6672883', 'text_domain');
-		$memberRegisterLinkIcon = !empty($instance['memberRegisterLinkIcon']) ? $instance['memberRegisterLinkIcon'] : esc_html__('fa fa-address-card', 'text_domain');
 		$memberRegisterLinkUrl = !empty($instance['memberRegisterLinkUrl']) ? $instance['memberRegisterLinkUrl'] : esc_html__('https://th.ashare.me/25ATQlcb', 'text_domain');
 		$memberRegisterLink = !empty($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$memberRegisterLinkInfoModalTitle = !empty($instance['memberRegisterLinkInfoModalTitle']) ? $instance['memberRegisterLinkInfoModalTitle'] : esc_html__('เกี่ยวกับลิงก์สมัครนักธุรกิจแอมเวย์', 'text_domain');
-		$aboRegisterLinkIcon = !empty($instance['aboRegisterLinkIcon']) ? $instance['aboRegisterLinkIcon'] : esc_html__('fa fa-address-card', 'text_domain');
 		$aboRegisterLinkUrl = !empty($instance['aboRegisterLinkUrl']) ? $instance['aboRegisterLinkUrl'] : esc_html__('https://th.ashare.me/25ATQlcb', 'text_domain');
 		$aboRegisterLink = !empty($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$aboRegisterLinkInfoModalTitle = !empty($instance['aboRegisterLinkInfoModalTitle']) ? $instance['aboRegisterLinkInfoModalTitle'] : esc_html__('เกี่ยวกับลิงก์สมัครนักธุรกิจแอมเวย์', 'text_domain');
@@ -79,10 +73,6 @@ class My_Custom_Author_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('title')); ?>"><?php esc_html_e('Title:', 'text_domain'); ?></label>
 			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" value="<?php echo esc_attr($title); ?>">
-		</p>
-		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('position')); ?>"><?php esc_html_e('Position:', 'text_domain'); ?></label>
-			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('position')); ?>" name="<?php echo esc_attr($this->get_field_name('position')); ?>" type="text" value="<?php echo esc_attr($position); ?>">
 		</p>
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('bio')); ?>"><?php esc_html_e('Bio:', 'text_domain'); ?></label>
@@ -96,12 +86,6 @@ class My_Custom_Author_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('aboyumaQualifiedTitle')); ?>"><?php esc_html_e('aboyumaQualifiedTitle:', 'text_domain'); ?></label>
 			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('aboyumaQualifiedTitle')); ?>" name="<?php echo esc_attr($this->get_field_name('aboyumaQualifiedTitle')); ?>" type="text" value="<?php echo esc_attr($aboyumaQualifiedTitle); ?>">
-		</p>
-		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('memberRegisterLinkIcon')); ?>"><?php esc_html_e('memberRegisterLinkIcon:', 'text_domain'); ?></label>
-			<textarea class="widefat" id="<?php echo esc_attr($this->get_field_id('memberRegisterLinkIcon')); ?>" name="<?php echo esc_attr($this->get_field_name('memberRegisterLinkIcon')); ?>"><?php echo esc_attr($memberRegisterLinkIcon); ?></textarea>
-			<small>*Use font awesome icon 4.7.0</small>
-			<a href="https://fontawesome.com/v4/icons/" target="_blank">Fontawesome icon 4.7.0</a>
 		</p>
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('memberRegisterLinkUrl')); ?>"><?php esc_html_e('memberRegisterLinkUrl:', 'text_domain'); ?></label>
@@ -139,12 +123,6 @@ class My_Custom_Author_Widget extends WP_Widget {
 			</small>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr($this->get_field_id('aboRegisterLinkIcon')); ?>"><?php esc_html_e('aboRegisterLinkIcon:', 'text_domain'); ?></label>
-			<textarea class="widefat" id="<?php echo esc_attr($this->get_field_id('aboRegisterLinkIcon')); ?>" name="<?php echo esc_attr($this->get_field_name('aboRegisterLinkIcon')); ?>"><?php echo esc_attr($aboRegisterLinkIcon); ?></textarea>
-			<small>*Use font awesome icon 4.7.0</small>
-			<a href="https://fontawesome.com/v4/icons/" target="_blank">Fontawesome icon 4.7.0</a>
-		</p>
-		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('aboRegisterLinkUrl')); ?>"><?php esc_html_e('aboRegisterLinkUrl:', 'text_domain'); ?></label>
 			<textarea class="widefat" id="<?php echo esc_attr($this->get_field_id('aboRegisterLinkUrl')); ?>" name="<?php echo esc_attr($this->get_field_name('aboRegisterLinkUrl')); ?>"><?php echo esc_attr($aboRegisterLinkUrl); ?></textarea>
 		</p>
@@ -154,7 +132,7 @@ class My_Custom_Author_Widget extends WP_Widget {
 		</p>
 		<p>
 			<label for="<?php echo esc_attr($this->get_field_id('aboRegisterLinkInfoModalTitle')); ?>"><?php esc_html_e('aboRegisterLinkInfoModalTitle:', 'text_domain'); ?></label>
-			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('aboRegisterLinkInfoModalTitle')); ?>" name="<?php echo esc_attr($this->get_field_name('aboRegisterLinkInfoModalTitle')); ?>" type="text" value="<?php echo esc_attr($memberRegisterLinkInfoModalTitle); ?>">
+			<input class="widefat" id="<?php echo esc_attr($this->get_field_id('aboRegisterLinkInfoModalTitle')); ?>" name="<?php echo esc_attr($this->get_field_name('aboRegisterLinkInfoModalTitle')); ?>" type="text" value="<?php echo esc_attr($aboRegisterLinkInfoModalTitle); ?>">
 		</p>
 		<p>
 			<!-- Label for the textarea field -->
@@ -187,11 +165,9 @@ class My_Custom_Author_Widget extends WP_Widget {
 	public function update($new_instance, $old_instance) {
 		$instance = array();
 		$instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
-		$instance['position'] = (!empty($new_instance['position'])) ? sanitize_text_field($new_instance['position']) : '';
 		$instance['bio'] = (!empty($new_instance['bio'])) ? sanitize_textarea_field($new_instance['bio']) : '';
 		$instance['aboyumaQualifiedTitle'] = (!empty($new_instance['aboyumaQualifiedTitle'])) ? sanitize_text_field($new_instance['aboyumaQualifiedTitle']) : '';
 		$instance['image'] = (!empty($new_instance['image'])) ? esc_url($new_instance['image']) : '';
-		$instance['memberRegisterLinkIcon'] = (!empty($new_instance['memberRegisterLinkIcon'])) ? sanitize_textarea_field($new_instance['memberRegisterLinkIcon']) : '';
 		$instance['memberRegisterLinkUrl'] = (!empty($new_instance['memberRegisterLinkUrl'])) ? esc_url($new_instance['memberRegisterLinkUrl']) : '';
 		$instance['memberRegisterLink'] = (!empty($new_instance['memberRegisterLink'])) ? sanitize_textarea_field($new_instance['memberRegisterLink']) : '';
 		$instance['memberRegisterLinkInfoModalTitle'] = (!empty($new_instance['memberRegisterLinkInfoModalTitle'])) ? sanitize_textarea_field($new_instance['memberRegisterLinkInfoModalTitle']) : '';
@@ -214,7 +190,6 @@ class My_Custom_Author_Widget extends WP_Widget {
 			: '';
 
 
-		$instance['aboRegisterLinkIcon'] = (!empty($new_instance['aboRegisterLinkIcon'])) ? sanitize_textarea_field($new_instance['aboRegisterLinkIcon']) : '';
 		$instance['aboRegisterLinkUrl'] = (!empty($new_instance['aboRegisterLinkUrl'])) ? esc_url($new_instance['aboRegisterLinkUrl']) : '';
 		$instance['aboRegisterLink'] = (!empty($new_instance['aboRegisterLink'])) ? sanitize_textarea_field($new_instance['aboRegisterLink']) : '';
 		$instance['aboRegisterLinkInfoModalTitle'] = (!empty($new_instance['aboRegisterLinkInfoModalTitle'])) ? sanitize_textarea_field($new_instance['aboRegisterLinkInfoModalTitle']) : '';
