@@ -9,7 +9,6 @@
       <span class="card-title" style="margin-bottom: 0; font-weight: bold;">🧑‍💻 <?php echo esc_html($title); ?></span>
       <img src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" id="aboyuma-qualified"
         data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo esc_html($aboyumaQualifiedTitle); ?>" width="16px">
-      <p style="margin-bottom: 0; font-size: 13px;line-height: 1;"> <?php echo esc_html($position); ?></p>
       <p style="margin-bottom: 0; font-size: 13px;line-height: 1.2;" class="card-text"><?php echo esc_html($bio); ?></p>
     </div>
     <div id="aboyuma-member-register-link" class="mt-1">
