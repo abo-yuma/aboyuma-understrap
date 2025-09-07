@@ -109,6 +109,12 @@ body {
 	}
 }
 
+/* Target only the archive widget list items */
+.widget_archive ul li::before {
+	content: "📝 "; /* replace with any emoji you like */
+	font-size: 1em; /* adjust size */
+}
+
 // ===== Main content ===== //
 
 // ===== Footer ===== //
