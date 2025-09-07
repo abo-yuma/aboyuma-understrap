@@ -110,7 +110,7 @@ $container = get_theme_mod('understrap_container_type');
                 // Display the detail
                 ?>
                 <div class="entry-content" id="product-detail">
-                    <section id="modified-date" class="modified-date"> aaaa date </section>
+                    <section id="modified-date" class="modified-date mb-2"> <?php echo "🗓️ อัพเดตข้อมูลล่าสุด " . date("d M Y", strtotime($product->modified)); ?> </section>
                     <section id="product-image-and-description" class="mb-4">
                         <div class="row">
                             <!-- Main Image Preview Section -->
@@ -155,7 +155,8 @@ $container = get_theme_mod('understrap_container_type');
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
-                                        <small><?php echo '#' . esc_html($product->product_code); ?></small>
+                                        <small><?php echo 'รหัสสินค้า ' . esc_html($product->product_code) .
+                                                    " | " . "บรรจุ ". esc_html($product->product_tablet_count); ?></small>
                                         <div id="product-category-brand-label" class="col-md-12 mb-2">
                                             <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
                                             <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
