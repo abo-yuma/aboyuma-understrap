@@ -124,7 +124,7 @@ function aboyuma_product_edit() {
     $product_category_id = absint(trim($product_category_id));
     $product_name = sanitize_text_field(trim($_POST['product_name']));
     $product_tablet_count = isset($_POST['product_tablet_count']) && $_POST['product_tablet_count'] !== ''
-      ? absint($_POST['product_tablet_count'])
+      ? sanitize_text_field(trim($_POST['product_tablet_count']))
       : null; // NULL if not provided
     $product_serving_size = isset($_POST['product_serving_size']) && $_POST['product_serving_size'] !== ''
       ? sanitize_text_field(trim($_POST['product_serving_size']))
@@ -294,7 +294,7 @@ function aboyuma_product_edit() {
           '%d', // product_brand_id
           '%d', // product_category_id
           '%s', // product_name
-          '%d', // product_tablet_count
+          '%s', // product_tablet_count
           '%s', // product_serving_size
           '%d', // product_total_servings
           '%s', // product_short_description
@@ -724,16 +724,16 @@ function aboyuma_product_edit() {
         </tr>
         <?php
         // Fetch current product values if editing
-        $product_tablet_count    = isset($product_tablet_count) ? $product_tablet_count : (isset($product_data->product_tablet_count) ? $product_data->product_tablet_count : '');
-        $product_serving_size    = isset($product_serving_size) ? $product_serving_size : (isset($product_data->product_serving_size) ? $product_data->product_serving_size : '');
-        $product_total_servings  = isset($product_total_servings) ? $product_total_servings : (isset($product_data->product_total_servings) ? $product_data->product_total_servings : '');
+        $product_tablet_count    = isset($product_tablet_count) ? $product_tablet_count : (isset($product->product_tablet_count) ? $product->product_tablet_count : '');
+        $product_serving_size    = isset($product_serving_size) ? $product_serving_size : (isset($product->product_serving_size) ? $product->product_serving_size : '');
+        $product_total_servings  = isset($product_total_servings) ? $product_total_servings : (isset($product->product_total_servings) ? $product->product_total_servings : '');
         ?>
 
         <!-- Product Tablet Count -->
         <tr>
           <th scope="row"><label for="product_tablet_count">Tablet Count</label></th>
           <td>
-            <input type="number" name="product_tablet_count" id="product_tablet_count" min="0"
+            <input type="text" name="product_tablet_count" id="product_tablet_count" min="0"
               value="<?php echo esc_attr($product_tablet_count); ?>"
               placeholder="Leave blank if not tablets">
           </td>

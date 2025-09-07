@@ -52,7 +52,7 @@ function create_aboyuma_table() {
     product_brand_id INT UNSIGNED NOT NULL DEFAULT 0,             -- Brand ID
     product_category_id INT UNSIGNED NOT NULL DEFAULT 0,          -- Category ID
     product_name VARCHAR(255) NOT NULL DEFAULT '',                -- Product name
-    product_tablet_count INT UNSIGNED NULL,                       -- Number of tablets/capsules, NULL if not applicable
+    product_tablet_count VARCHAR(50) NULL,                       -- Number of tablets/capsules, NULL if not applicable
     product_serving_size VARCHAR(50) NULL,                        -- e.g., '2 tablets', '1 sachet (51 g)'
     product_total_servings INT UNSIGNED NULL,                     -- Number of servings in the package
     product_short_description LONGTEXT NOT NULL DEFAULT '',       -- Short description
