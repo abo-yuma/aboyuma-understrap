@@ -224,7 +224,7 @@ function aboyuma_member_modal() {
 	$content = $aboyuma_member_modal_data['content'];
 	?>
 	<div class="modal" id="memberRegisterModal" tabindex="-1" aria-labelledby="memberRegisterModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered aboyuma-modal-size">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="memberRegisterModalLabel"><?php echo esc_html($title); ?></h5>
@@ -255,7 +255,7 @@ function aboyuma_abo_modal() {
 	$content = $aboyuma_abo_modal_data['content'];
 ?>
 	<div class="modal" id="aboRegisterModal" tabindex="-1" aria-labelledby="aboRegisterModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered aboyuma-modal-size">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="aboRegisterModalLabel"><?php echo esc_html($title); ?></h5>

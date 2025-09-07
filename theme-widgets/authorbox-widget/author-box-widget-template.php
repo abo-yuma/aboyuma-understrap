@@ -1,7 +1,7 @@
 <!-- Bootstrap 5 Author Card -->
-<div id="aboyuma-author-box" class="text-center p-2">
+<div id="aboyuma-author-box" class="text-center">
   <div class="author-box-body">
-    <div id="author-image" class="mb-2">
+    <div id="author-image" class="mb-2" style="padding-left: 15px; padding-right: 15px;">
       <img src="<?php echo esc_url($image); ?>" class="card-img-top" alt="Profile image"
         style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">
     </div>
@@ -9,7 +9,7 @@
       <span class="card-title" style="margin-bottom: 0; font-weight: bold;">🧑‍💻 <?php echo esc_html($title); ?></span>
       <img src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" id="aboyuma-qualified"
         data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo esc_html($aboyumaQualifiedTitle); ?>" width="16px">
-      <p style="margin-bottom: 0; font-size: 13px;line-height: 1.2;" class="card-text"><?php echo esc_html($bio); ?></p>
+      <p style="margin-bottom: 0; font-size: 14px; line-height: 1.2;" class="card-text mt-1"><?php echo esc_html($bio); ?></p>
     </div>
     <div id="aboyuma-member-register-link" class="mt-1">
       <ul style="padding: 0; margin: 0;">
