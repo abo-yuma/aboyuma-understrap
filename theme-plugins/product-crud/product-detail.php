@@ -82,25 +82,18 @@ function aboyuma_product_detail() {
             <?php echo esc_attr($product->product_name); ?>
           </td>
         </tr>
-        <!-- Product Tablet Count -->
+        <!-- Product Unit Count -->
         <tr>
-          <th scope="row"><label>Tablet Count</label></th>
+          <th scope="row"><label>Unit Count</label></th>
           <td>
-            <?php echo esc_html($product->product_tablet_count); ?>
+            <?php echo esc_html($product->product_unit_count); ?>
           </td>
         </tr>
-        <!-- Product Serving Size -->
+        <!-- Product Unit Type -->
         <tr>
-          <th scope="row"><label>Serving Size</label></th>
+          <th scope="row"><label>Unit Type</label></th>
           <td>
-            <?php echo esc_html($product->product_serving_size); ?>
-          </td>
-        </tr>
-        <!-- Product Total Servings -->
-        <tr>
-          <th scope="row"><label>Total Servings</label></th>
-          <td>
-            <?php echo esc_html($product->product_total_servings); ?>
+            <?php echo esc_html($product->product_unit_type); ?>
           </td>
         </tr>
         <!-- Product Short Description -->

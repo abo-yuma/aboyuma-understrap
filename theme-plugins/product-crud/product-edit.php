@@ -123,15 +123,16 @@ function aboyuma_product_edit() {
     }
     $product_category_id = absint(trim($product_category_id));
     $product_name = sanitize_text_field(trim($_POST['product_name']));
-    $product_tablet_count = isset($_POST['product_tablet_count']) && $_POST['product_tablet_count'] !== ''
-      ? sanitize_text_field(trim($_POST['product_tablet_count']))
-      : null; // NULL if not provided
-    $product_serving_size = isset($_POST['product_serving_size']) && $_POST['product_serving_size'] !== ''
-      ? sanitize_text_field(trim($_POST['product_serving_size']))
-      : null; // NULL if not provided
-    $product_total_servings = isset($_POST['product_total_servings']) && $_POST['product_total_servings'] !== ''
-      ? absint($_POST['product_total_servings'])
-      : null; // NULL if not provided
+
+    // Product Unit Count (integer, nullable)
+    $product_unit_count = isset($_POST['product_unit_count']) ? intval($_POST['product_unit_count']) : null;
+
+    // Product Unit Type (enum, sanitize and validate)
+    $allowed_types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
+    $product_unit_type = isset($_POST['product_unit_type']) && in_array($_POST['product_unit_type'], $allowed_types)
+      ? sanitize_text_field($_POST['product_unit_type'])
+      : null;
+
     $product_short_description = wp_kses_post(trim($_POST['product_short_description']));
     $product_description = wp_kses_post(trim($_POST['product_description']));
     $product_benefit = wp_kses_post(trim($_POST['product_benefit']));
@@ -194,6 +195,15 @@ function aboyuma_product_edit() {
     // Validate product name
     if (empty($product_name)) {
       $errors[] = 'Product name is required.';
+    }
+    // Validate Product Unit Count
+    if ($product_unit_count === null || $product_unit_count < 0) {
+      $errors[] = 'Unit count is required and must be 0 or greater.';
+    }
+    // Validate Product Unit Type
+    $allowed_types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
+    if (empty($product_unit_type) || !in_array($product_unit_type, $allowed_types)) {
+      $errors[] = 'Unit type is required and must be one of: tablet, capsule, sachet, g, ml.';
     }
     // Validate product short description
     if (empty($product_short_description)) {
@@ -265,9 +275,8 @@ function aboyuma_product_edit() {
           'product_brand_id' => $product_brand_id,
           'product_category_id' => $product_category_id,
           'product_name' => $product_name,
-          'product_tablet_count' => $product_tablet_count,
-          'product_serving_size' => $product_serving_size,
-          'product_total_servings' => $product_total_servings,
+          'product_unit_count' => $product_unit_count,
+          'product_unit_type' => $product_unit_type,
           'product_short_description' => $product_short_description,
           'product_description' => $product_description,
           'product_benefit' => $product_benefit,
@@ -294,9 +303,8 @@ function aboyuma_product_edit() {
           '%d', // product_brand_id
           '%d', // product_category_id
           '%s', // product_name
-          '%s', // product_tablet_count
-          '%s', // product_serving_size
-          '%d', // product_total_servings
+          '%d', // product_unit_count
+          '%s', // product_unit_type
           '%s', // product_short_description
           '%s', // product_description
           '%s', // product_benefit
@@ -723,37 +731,31 @@ function aboyuma_product_edit() {
           </td>
         </tr>
         <?php
-        // Fetch current product values if editing
-        $product_tablet_count    = isset($product_tablet_count) ? $product_tablet_count : (isset($product->product_tablet_count) ? $product->product_tablet_count : '');
-        $product_serving_size    = isset($product_serving_size) ? $product_serving_size : (isset($product->product_serving_size) ? $product->product_serving_size : '');
-        $product_total_servings  = isset($product_total_servings) ? $product_total_servings : (isset($product->product_total_servings) ? $product->product_total_servings : '');
+        // Fetch current values from the database for the product
+        $current_unit_count = isset($product->product_unit_count) ? $product->product_unit_count : '';
+        $current_unit_type  = isset($product->product_unit_type) ? $product->product_unit_type : '';
         ?>
-
-        <!-- Product Tablet Count -->
+        <!-- Product Unit Count -->
         <tr>
-          <th scope="row"><label for="product_tablet_count">Tablet Count</label></th>
+          <th scope="row"><label for="product_unit_count">Unit Count</label></th>
           <td>
-            <input type="text" name="product_tablet_count" id="product_tablet_count" min="0"
-              value="<?php echo esc_attr($product_tablet_count); ?>"
-              placeholder="Leave blank if not tablets">
+            <input type="number" name="product_unit_count" id="product_unit_count" min="0"
+              value="<?php echo esc_attr($current_unit_count); ?>"
+              placeholder="e.g., 120, 30, 450">
           </td>
         </tr>
-        <!-- Product Serving Size -->
+        <!-- Product Unit Type -->
         <tr>
-          <th scope="row"><label for="product_serving_size">Serving Size</label></th>
+          <th scope="row"><label for="product_unit_type">Unit Type</label></th>
           <td>
-            <input type="text" name="product_serving_size" id="product_serving_size" class="regular-text"
-              value="<?php echo esc_attr($product_serving_size); ?>"
-              placeholder="e.g., 2 tablets, 1 sachet (51 g)">
-          </td>
-        </tr>
-        <!-- Product Total Servings -->
-        <tr>
-          <th scope="row"><label for="product_total_servings">Total Servings</label></th>
-          <td>
-            <input type="number" name="product_total_servings" id="product_total_servings" min="0"
-              value="<?php echo esc_attr($product_total_servings); ?>"
-              placeholder="Leave blank if not applicable">
+            <select name="product_unit_type" id="product_unit_type">
+              <?php
+              $types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
+              foreach ($types as $type) {
+                echo '<option value="' . esc_attr($type) . '" ' . selected($current_unit_type, $type, false) . '>' . ucfirst($type) . '</option>';
+              }
+              ?>
+            </select>
           </td>
         </tr>
         <!-- Product Short Description -->
