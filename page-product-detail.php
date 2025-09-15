@@ -155,8 +155,29 @@ $container = get_theme_mod('understrap_container_type');
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
-                                        <small><?php echo 'รหัสสินค้า ' . esc_html($product->product_code) .
-                                                    " | " . "บรรจุ ". esc_html($product->product_tablet_count); ?></small>
+                                        <small>
+                                            <?php
+                                            // Map unit types to Thai
+                                            $unit_types_th = [
+                                                'tablet' => 'เม็ด',
+                                                'capsule' => 'แคปซูล',
+                                                'sachet' => 'ซอง',
+                                                'g' => 'กรัม',
+                                                'ml' => 'มิลลิลิตร'
+                                            ];
+
+                                            // Get the Thai label for the product unit type
+                                            $unit_type_th = isset($unit_types_th[$product->product_unit_type]) ? $unit_types_th[$product->product_unit_type] : $product->product_unit_type;
+
+                                            // Display
+                                            echo 'รหัสสินค้า ' . esc_html($product->product_code);
+
+                                            if (!empty($product->product_unit_count)) {
+                                                echo " | บรรจุ " . esc_html($product->product_unit_count) . " " . esc_html($unit_type_th);
+                                            }
+                                            ?>
+                                        </small>
+
                                         <div id="product-category-brand-label" class="col-md-12 mb-2">
                                             <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
                                             <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
