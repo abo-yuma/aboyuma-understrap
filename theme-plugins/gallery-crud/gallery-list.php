@@ -40,7 +40,7 @@ function aboyuma_gallery_list_page() {
                                     $uploads = wp_get_upload_dir();
                                     // Prepend the uploads URL to your relative path
                                     $image_url = esc_url($uploads['baseurl'] . '/' . $row->image_path);
-                                    echo '<img src="' . $image_url . '" alt="" class="gallery-cover">';
+                                    echo '<img src="' . $image_url . '" alt="" class="gallery-cover" width="150" height="150">';
                                 } else {
                                     echo '<span style="color:#999;">No image</span>';
                                 }
