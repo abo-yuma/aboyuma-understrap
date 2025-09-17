@@ -91,7 +91,8 @@ $container = get_theme_mod('understrap_container_type');
                                         $image_url = esc_url($uploads['baseurl'] . '/' . $image->image_path);
                                     ?>
                                         <div class="col-md-6 mb-3">
-                                            <div class="card">
+                                            <div class="card gallery-item">
+                                                <!-- Use data-title instead of title to prevent tooltip display on hover -->
                                                 <a href="<?= $image_url ?>" title="<?= esc_attr($image->caption) ?>">
                                                     <img src="<?= $image_url ?>" class="gallery-image" alt="<?= esc_attr($image->caption) ?>">
                                                 </a>
@@ -128,31 +129,35 @@ $container = get_theme_mod('understrap_container_type');
                 preload: [0, 1]
             },
             image: {
-                titleSrc: 'title'
+                titleSrc: 'title' // <- use data-title for the popup caption
             }
         });
     });
 </script>
 <style>
-    .gallery-title {
-        font-weight: bold;
-        margin-bottom: 0.5rem;
+    .gallery-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
     }
 
-    .gallery-description {
-        margin-bottom: 0.5rem;
-    }
-
-    .gallery-date {
-        margin-bottom: 1rem;
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
     }
 
     .gallery-image {
         width: 100%;
         aspect-ratio: 1 / 1;
-        /* force square */
         object-fit: cover;
-        /* cover without distortion */
+        display: block;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-image {
+        opacity: 0.8;
+        /* overlay effect by dimming the image */
     }
 </style>
 <?php
