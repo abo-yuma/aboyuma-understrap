@@ -30,7 +30,7 @@ class My_Custom_Author_Widget extends WP_Widget {
 		$image = isset($instance['image']) ? $instance['image'] : esc_html__('Image.', 'text_domain');
 
 		// Pass these variables to the template
-		require get_template_directory() . '/theme-widgets/authorbox-widget/author-box-widget-template.php';
+		require get_template_directory() . '/integrated-widgets/authorbox-widget/author-box-widget-template.php';
 		// ------------------------
 		// Set global variables properly
 		global $aboyuma_member_modal_data;

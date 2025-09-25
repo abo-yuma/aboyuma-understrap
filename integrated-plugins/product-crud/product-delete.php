@@ -66,7 +66,7 @@ function delete_product() {
 add_action('wp_ajax_delete_product', 'delete_product');
 
 function delete_product_script() {
-  wp_enqueue_script('delete-product', get_template_directory_uri() . '/theme-plugins/product-crud/assets/delete-product.js', array('jquery'), false, true);
+  wp_enqueue_script('delete-product', get_template_directory_uri() . '/integrated-plugins/product-crud/assets/delete-product.js', array('jquery'), false, true);
   wp_localize_script('delete-product', 'deleteProduct', array(
     'ajaxurl' => admin_url('admin-ajax.php'),
     'delete_product_nonce' => wp_create_nonce('delete_product_nonce')

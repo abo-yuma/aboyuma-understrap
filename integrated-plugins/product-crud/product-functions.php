@@ -17,7 +17,7 @@ function enqueue_page_product_script() {
     if (is_page('product')) { // or use is_page(ID)
         wp_enqueue_script(
             'page-product-js',
-            get_template_directory_uri() . '/theme-plugins/product-crud/assets/front-page-product.js',
+            get_template_directory_uri() . '/integrated-plugins/product-crud/assets/front-page-product.js',
             array('jquery'),
             null,
             true

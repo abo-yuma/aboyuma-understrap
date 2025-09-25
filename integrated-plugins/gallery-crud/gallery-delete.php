@@ -64,7 +64,7 @@ add_action('wp_ajax_delete_gallery', 'delete_gallery');
 function delete_gallery_script() {
     wp_enqueue_script(
         'delete-gallery',
-        get_template_directory_uri() . '/theme-plugins/gallery-crud/assets/gallery-delete.js',
+        get_template_directory_uri() . '/integrated-plugins/gallery-crud/assets/gallery-delete.js',
         ['jquery'],
         null,
         true

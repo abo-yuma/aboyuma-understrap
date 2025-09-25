@@ -62,7 +62,7 @@ function aboyuma_news_menu() {
 add_action('admin_menu', 'aboyuma_news_menu');
 
 // Load page templates
-require_once get_template_directory() . '/theme-plugins/news-crud/news-list.php';
-require_once get_template_directory() . '/theme-plugins/news-crud/news-add.php';
-require_once get_template_directory() . '/theme-plugins/news-crud/news-edit.php';
-require_once get_template_directory() . '/theme-plugins/news-crud/news-delete.php';
+require_once get_template_directory() . '/integrated-plugins/news-crud/news-list.php';
+require_once get_template_directory() . '/integrated-plugins/news-crud/news-add.php';
+require_once get_template_directory() . '/integrated-plugins/news-crud/news-edit.php';
+require_once get_template_directory() . '/integrated-plugins/news-crud/news-delete.php';

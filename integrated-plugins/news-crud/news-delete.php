@@ -15,7 +15,7 @@ add_action('wp_ajax_delete_news', 'delete_news');
 
 // Script enqueue & localize
 function delete_news_script() {
-    wp_enqueue_script('delete-news', get_template_directory_uri() . '/theme-plugins/news-crud/assets/news-delete.js', ['jquery'], null, true);
+    wp_enqueue_script('delete-news', get_template_directory_uri() . '/integrated-plugins/news-crud/assets/news-delete.js', ['jquery'], null, true);
     wp_localize_script('delete-news', 'deleteNews', [
         'ajaxurl' => admin_url('admin-ajax.php'),
         'delete_news_nonce' => wp_create_nonce('delete_news_action'),

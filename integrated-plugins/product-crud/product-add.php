@@ -40,7 +40,7 @@ function aboyuma_product_add() {
     // Get the posted values
 
     // // Dummy values
-    // include(get_template_directory() . '/theme-plugins/product-crud/inc/test-product-add.php');
+    // include(get_template_directory() . '/integrated-plugins/product-crud/inc/test-product-add.php');
     // exit;
     // ===== DEBUG SPACE END =====
 
