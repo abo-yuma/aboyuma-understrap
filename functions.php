@@ -653,16 +653,16 @@ add_action('after_switch_theme', 'aboyuma_register_menu');
 
 // Array of custom theme plugin files
 $theme_plugins = [
-	'/theme-plugins/news-crud/init.php',
-	'/theme-plugins/product-crud/product-init.php',
-	'/theme-plugins/gallery-crud/gallery-init.php',
+	'/integrated-plugins/news-crud/init.php',
+	'/integrated-plugins/product-crud/product-init.php',
+	'/integrated-plugins/gallery-crud/gallery-init.php',
 ];
 
 // Array of custom theme widget files
 $theme_widgets = [
-	'/theme-widgets/authorbox-widget/authorbox-widget.php',
-	'/theme-widgets/recommend-video-widget/recommend-video-widget.php',
-	'/theme-widgets/quick-links-widget/quick-links-widget.php',
+	'/integrated-widgets/authorbox-widget/authorbox-widget.php',
+	'/integrated-widgets/recommend-video-widget/recommend-video-widget.php',
+	'/integrated-widgets/quick-links-widget/quick-links-widget.php',
 ];
 
 // Require all plugins

@@ -29,7 +29,7 @@ function delete_product_category() {
 add_action('wp_ajax_delete_product_category', 'delete_product_category');
 
 function delete_product_category_script() {
-  wp_enqueue_script('delete-product-category', get_template_directory_uri() . '/theme-plugins/product-crud/assets/delete-product-category.js', array('jquery'), false, true);
+  wp_enqueue_script('delete-product-category', get_template_directory_uri() . '/integrated-plugins/product-crud/assets/delete-product-category.js', array('jquery'), false, true);
   wp_localize_script('delete-product-category', 'deleteProductCategory', array(
     'ajaxurl' => admin_url('admin-ajax.php'),
     'delete_product_category_nonce' => wp_create_nonce('delete_product_category_nonce')

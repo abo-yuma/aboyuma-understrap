@@ -27,7 +27,7 @@ class Aboyuma_Recommend_Video_Widget extends WP_Widget {
             'comment_2' => $comment_2,
         ];
 
-        $template_path = get_template_directory() . '/theme-widgets/recommend-video-widget/recommend-video-widget-template.php';
+        $template_path = get_template_directory() . '/integrated-widgets/recommend-video-widget/recommend-video-widget-template.php';
         if (file_exists($template_path)) {
             include $template_path;
         }
