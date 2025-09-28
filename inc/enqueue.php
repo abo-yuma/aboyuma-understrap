@@ -178,22 +178,6 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'
 		);
 
-		// Magnific Popup CSS
-		wp_enqueue_style(
-			'magnific-popup-css',
-			'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css',
-			array(),
-			'1.1.0'
-		);
-
-		// Magnific Popup JS (depends on jQuery)
-		wp_enqueue_script(
-			'magnific-popup-js',
-			'https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js',
-			array('jquery'),
-			'1.1.0',
-			true // load in footer
-		);
 	}
 }
 add_action('wp_enqueue_scripts', 'aboyuma_enqueue_scripts');

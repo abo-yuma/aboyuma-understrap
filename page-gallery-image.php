@@ -84,7 +84,7 @@ $container = get_theme_mod('understrap_container_type');
                         <?php endif; ?>
 
                         <?php if ($images) : ?>
-                            <div class="card bg-body bg-secondary text-body p-3 popup-gallery"> <!-- Wrap all images in one card -->
+                            <div class="card bg-body bg-secondary text-body p-3 popup-gallery">
                                 <div class="row">
                                     <?php foreach ($images as $image) :
                                         $uploads   = wp_get_upload_dir();
@@ -92,8 +92,7 @@ $container = get_theme_mod('understrap_container_type');
                                     ?>
                                         <div class="col-md-6 mb-3">
                                             <div class="card gallery-item">
-                                                <!-- Use data-title instead of title to prevent tooltip display on hover -->
-                                                <a href="<?= $image_url ?>" title="<?= esc_attr($image->caption) ?>">
+                                                <a href="<?= $image_url ?>" data-fancybox="gallery" data-caption="<?= esc_attr($image->caption) ?>">
                                                     <img src="<?= $image_url ?>" class="gallery-image" alt="<?= esc_attr($image->caption) ?>">
                                                 </a>
                                             </div>
@@ -102,6 +101,7 @@ $container = get_theme_mod('understrap_container_type');
                                 </div>
                             </div>
                         <?php endif; ?>
+
                         <!-- Back button -->
                         <div class="text-end mt-4">
                             <a href="<?= esc_url(home_url('/gallery')) ?>">ย้อนกลับ</a>
@@ -120,16 +120,18 @@ $container = get_theme_mod('understrap_container_type');
 </main><!-- #main-wrapper -->
 <script>
     jQuery(document).ready(function($) {
-        $('.popup-gallery').magnificPopup({
-            delegate: 'a',
-            type: 'image',
-            gallery: {
-                enabled: true,
-                navigateByImgClick: true,
-                preload: [0, 1]
+        Fancybox.bind("[data-fancybox='gallery']", {
+            Thumbs: {
+                autoStart: false
             },
-            image: {
-                titleSrc: 'title' // <- use data-title for the popup caption
+            Toolbar: {
+                display: [
+                    "zoom",
+                    "slideshow",
+                    "thumbs",
+                    "close"
+                    // omit "fullscreen" to disable it
+                ]
             }
         });
     });
