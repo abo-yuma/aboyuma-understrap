@@ -170,7 +170,7 @@ $container = get_theme_mod('understrap_container_type');
                                             $unit_type_th = isset($unit_types_th[$product->product_unit_type]) ? $unit_types_th[$product->product_unit_type] : $product->product_unit_type;
 
                                             // Display
-                                            echo 'รหัสสินค้า ' . esc_html($product->product_code);
+                                            echo '#' . esc_html($product->product_code);
 
                                             if (!empty($product->product_unit_count)) {
                                                 echo " | บรรจุ " . esc_html($product->product_unit_count) . " " . esc_html($unit_type_th);
