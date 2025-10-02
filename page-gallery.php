@@ -53,7 +53,7 @@ $container = get_theme_mod('understrap_container_type');
                         <thead>
                             <tr>
                                 <th>แกลอรี่</th>
-                                <th>คำอธิบาย</th>
+                                <th>ชื่อ</th>
                                 <th>วันที่</th>
                                 <th>ดูแกลอรี่</th>
                             </tr>
@@ -73,13 +73,10 @@ $container = get_theme_mod('understrap_container_type');
                                                     echo '<span style="color:#999;">No image</span>';
                                                 }
                                                 ?>
-                                                <div class="gallery-title">
-                                                    <?= esc_html($row->title) ?>
-                                                </div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td><?= esc_html($row->description) ?></td>
+                                    <td><?= esc_html($row->title) ?></td>
                                     <td>
                                         <?= esc_html(date('Y-m-d', strtotime($row->gallery_date))) ?>
                                     </td>
@@ -165,21 +162,6 @@ $container = get_theme_mod('understrap_container_type');
         height: 100%;
         object-fit: cover;
         object-position: center;
-    }
-
-    .gallery-title {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /* center text */
-        color: #fff;
-        font-weight: bold;
-        text-align: center;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-        /* for readability */
-        padding: 5px 10px;
-        font-size: 1.75rem;
     }
 </style>
 <?php
