@@ -242,7 +242,7 @@ footer {
 }
 
 [data-bs-theme="dark"] body {
-	background-color: #3f3e3e;
+	background-color: #2b2b2b;
 }
 
 [data-bs-theme="light"] aside:has(#aboyuma-author-box) {
@@ -276,7 +276,7 @@ footer {
 }
 
 [data-bs-theme="dark"] .main-wrapper {
-	border: 1px solid rgba(255, 255, 255, 0.12); /* softer light-gray border */
+	border: 1px solid rgb(54, 54, 54); /* softer light-gray border */
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
 }
 
