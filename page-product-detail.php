@@ -324,21 +324,6 @@ $container = get_theme_mod('understrap_container_type');
                                     <?php
                                     echo apply_filters('the_content', $product->product_review);
                                     ?>
-                                    <?php if (!empty($product->product_sale_article_link)) : ?>
-                                        <div id="product_sale_article_link" class="product_sale_article_link">
-                                            <span>📝</span><a href="<?php echo esc_url($product->product_sale_article_link); ?>">บทความแนะนำสินค้า</a>
-                                        </div>
-                                        <?php
-                                        $product_name = $product->product_name; // Replace this dynamically
-                                        $hashtag = strtolower(str_replace([' ', '-'], '', $product_name));
-                                        ?>
-                                        <div id="people_review_product" class="people_review_product">
-                                            <i class="bi bi-facebook" style="color: #1877F2; font-size: 1.2rem;"></i>
-                                            <a href="https://www.facebook.com/hashtag/<?php echo urlencode($hashtag); ?>" target="_blank" rel="noopener noreferrer">
-                                                ผู้คนพูดถึงสินค้านี้อย่างไรบ้าง?
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
