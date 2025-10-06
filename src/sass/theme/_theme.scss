@@ -435,3 +435,23 @@ footer {
 .aboyuma-modal-size {
 	max-width: 650px; /* or any width */
 }
+
+.share-text {
+	margin-bottom: 2px; /* spacing between text and button */
+	font-weight: normal;
+}
+
+.facebook-share-btn {
+	background-color: #3b5998; /* Facebook blue */
+	color: #fff;
+	padding: 2px 8px; /* smaller padding */
+	border-radius: 3px;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 12px;
+	transition: background-color 0.3s;
+}
+
+.facebook-share-btn:hover {
+	background-color: #334e89; /* darker hover */
+}
