@@ -651,6 +651,44 @@ function aboyuma_register_menu() {
 }
 add_action('after_switch_theme', 'aboyuma_register_menu');
 
+// Add Facebook share button at the end of all posts
+// function add_facebook_share_button($content) {
+// 	if (is_single()) { // Only for single posts
+// 		$share_url = urlencode(get_permalink());
+// 		$button = '<span class="share-text">Share this:</span> 
+//                    <a href="https://www.facebook.com/sharer/sharer.php?u=' . $share_url . '" 
+//                       target="_blank" 
+//                       class="facebook-share-btn">
+//                       Facebook
+//                    </a>';
+// 		return $content . '<div class="facebook-share-wrapper" style="margin-top:10px;">' . $button . '</div>';
+// 	}
+// 	return $content;
+// }
+// add_filter('the_content', 'add_facebook_share_button');
+
+// Add test Facebook share button at the end of all posts
+function test_facebook_share_button($content) {
+	if (is_single()) { // Only for single posts
+
+		$share_url = urlencode(get_permalink());
+
+		$button = '<div class="mb-2"><span class="share-text">Share this:</span>
+           <a href="https://www.facebook.com/sharer/sharer.php?u=' . $share_url . '"
+              onclick="window.open(this.href, \'fbshare\', \'width=600,height=400\'); return false;"
+              class="facebook-share-btn">
+              Facebook
+           </a></div>';
+
+
+		return $content . '<div class="facebook-share-wrapper" style="margin-top:10px;">' . $button . '</div>';
+	}
+	return $content;
+}
+add_filter('the_content', 'test_facebook_share_button');
+
+
+
 // Array of custom theme plugin files
 $theme_plugins = [
 	'/integrated-plugins/news-crud/init.php',
