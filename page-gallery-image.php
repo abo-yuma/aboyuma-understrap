@@ -85,17 +85,15 @@ $container = get_theme_mod('understrap_container_type');
 
                         <?php if ($images) : ?>
                             <div class="card bg-body bg-secondary text-body p-3 popup-gallery">
-                                <div class="row">
+                                <div class="gallery-grid">
                                     <?php foreach ($images as $image) :
                                         $uploads   = wp_get_upload_dir();
                                         $image_url = esc_url($uploads['baseurl'] . '/' . $image->image_path);
                                     ?>
-                                        <div class="col-md-3 mb-3">
-                                            <div class="card gallery-item">
-                                                <a href="<?= $image_url ?>" data-fancybox="gallery" data-caption="<?= esc_attr($image->caption) ?>">
-                                                    <img src="<?= $image_url ?>" class="gallery-image" alt="<?= esc_attr($image->caption) ?>">
-                                                </a>
-                                            </div>
+                                        <div class="gallery-item">
+                                            <a href="<?= $image_url ?>" data-fancybox="gallery" data-caption="<?= esc_attr($image->caption) ?>">
+                                                <img src="<?= $image_url ?>" class="gallery-image" alt="<?= esc_attr($image->caption) ?>">
+                                            </a>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -137,29 +135,92 @@ $container = get_theme_mod('understrap_container_type');
     });
 </script>
 <style>
-    .gallery-image {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        display: block;
+    /* Main gallery grid */
+    .gallery-grid {
+        display: grid;
+        /* Use CSS Grid layout */
+        gap: 10px;
+        /* Space between rows and columns */
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        /* Create responsive columns: minimum 120px, maximum 1 fraction of available space */
+        grid-auto-rows: 180px;
+        /* Set default row height for all items */
+        grid-auto-flow: dense;
+        /* Fill in gaps with remaining items for a compact layout */
     }
 
+    /* Individual gallery item */
     .gallery-item {
         position: relative;
+        /* Allow absolute positioning of child elements if needed */
         overflow: hidden;
+        /* Crop overflowing image content */
     }
 
+    /* Images inside gallery items */
     .gallery-image {
         width: 100%;
-        aspect-ratio: 1 / 1;
+        /* Fill width of the cell */
+        height: 100%;
+        /* Fill height of the cell */
         object-fit: cover;
+        /* Cover the cell without distortion */
         display: block;
-        transition: opacity 0.3s ease;
+        /* Remove inline spacing */
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        /* Smooth hover animation */
     }
 
+    /* Hover effect for gallery images */
     .gallery-item:hover .gallery-image {
-        opacity: 0.8;
-        /* overlay effect by dimming the image */
+        transform: scale(1.05);
+        /* Slight zoom in */
+        opacity: 0.85;
+        /* Dim the image slightly */
+    }
+
+    /* Dynamic Facebook-style layout for desktop / tablet */
+    @media (min-width: 480px) {
+        .gallery-item:first-child {
+            grid-row: span 2;
+            /* Make the first item span 2 rows */
+            grid-column: span 2;
+            /* Make the first item span 2 columns */
+        }
+
+        .gallery-item:nth-child(5n) {
+            grid-column: span 2;
+            /* Every 5th item spans 2 columns for variation */
+        }
+    }
+
+    /* Responsive layout for small screens / mobile */
+    @media (max-width: 480px) {
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* One item per row */
+            grid-auto-rows: auto;
+            /* Row height adjusts to image aspect ratio */
+            gap: 10px;
+            /* Space between items */
+        }
+
+        .gallery-item {
+            width: 100%;
+            /* Fill full width of the row */
+            height: 100%;
+            /* Fill full height of the row */
+        }
+
+        .gallery-image {
+            width: 100%;
+            /* Fill width of the item */
+            height: 100%;
+            /* Fill height of the item */
+            object-fit: cover;
+            /* Cover the cell without distortion */
+        }
     }
 </style>
 <?php
