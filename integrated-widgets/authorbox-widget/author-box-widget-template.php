@@ -32,7 +32,7 @@
           <a href="<?php echo esc_url($aboRegisterLinkUrl); ?>" target="_blank" rel="noopener noreferrer"
             class="btn btn-sm btn-secondary d-inline-flex align-items-center">
             <span class="abo-register-icon me-1">🧑‍💻</span>
-            สมัครนักธุรกิจแอมเวย์
+            <?php echo esc_html($aboRegisterLink); ?>
           </a>
 
           <!-- Inline info button -->
