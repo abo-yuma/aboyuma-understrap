@@ -2,7 +2,7 @@
 	<!-- Grid container -->
 	<div class="container p-4">
 		<div class="row">
-			<div class="col-md-2 mb-4 mb-md-0 text-center">
+			<div class="col-md-2 mb-4 mb-md-0 text-center d-flex align-items-center justify-content-center">
 				<?php
 				$image_url = get_theme_mod('footer_column_1_image');
 				if ($image_url) {
@@ -24,12 +24,53 @@
 				</div>
 			</div>
 			<div class="col-md-2 mb-4 mb-md-0">
-				<div id="social-contact">
-					<ul style="display: flex; list-style: none; padding: 0; margin: 0;">
-						<?php echo get_theme_mod('footer_column_3_content'); ?>
-					</ul>
+				<div class="line-qrcode-wrapper mb-2">
+					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดต่อเรา :</div>
+					<div class="line-qrcode">
+						<?php
+						$line_qrcode = get_theme_mod('footer_line_qrcode');
+						if ($line_qrcode) : ?>
+							<div class="footer-line-qrcode text-center">
+								<img src="<?php echo esc_url($line_qrcode); ?>" alt="LINE QR Code" class="img-fluid" style="max-width:70px; height:auto;">
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="social-contact-wrapper">
+					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดตามเรา :</div>
+					<div id="social-contact">
+						<ul style="display: flex; flex-direction: row; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; gap: 8px;">
+							<?php
+							$socials = [
+								'facebook' => [
+									'link' => get_theme_mod('footer_facebook_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=13912&format=png&color=000000'
+								],
+								'instagram' => [
+									'link' => get_theme_mod('footer_instagram_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=32323&format=png&color=000000'
+								],
+								'youtube' => [
+									'link' => get_theme_mod('footer_youtube_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=19318&format=png&color=000000'
+								]
+							];
+
+							foreach ($socials as $key => $data) {
+								if (!empty($data['link'])) {
+									echo '<li>';
+									echo '<a href="' . esc_url($data['link']) . '" target="_blank" rel="noopener noreferrer" style="display:inline-block;">';
+									echo '<img src="' . esc_url($data['icon']) . '" width="24" height="24" alt="' . esc_attr(ucfirst($key)) . '">';
+									echo '</a>';
+									echo '</li>';
+								}
+							}
+							?>
+						</ul>
+					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 	<!-- Grid container -->
