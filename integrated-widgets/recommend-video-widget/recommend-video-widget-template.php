@@ -29,4 +29,13 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php
+
+    if (current_user_can('manage_options')):
+    ?>
+        <a href="<?php echo esc_url(admin_url('widgets.php')); ?>">
+            <?php esc_html_e('Edit widget'); ?></a>
+    <?php
+    endif;
+    ?>
 </div><!-- Recommend Video Widget Section -->

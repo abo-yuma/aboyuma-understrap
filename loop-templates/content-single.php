@@ -22,16 +22,17 @@ defined('ABSPATH') || exit;
 			understrap_posted_on();
 			// --- Add post views ---
 			$views = getPostViews($post->ID);
-			$view_output = '<span class="post-views"> | ' .
-				sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
-				echo $view_output;
+			// $view_output = '<span class="post-views"> | ' .
+			// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
+			// 	echo $view_output;
+			echo '<span class="post-views"> | <i class="fa fa-eye" aria-hidden="true"></i> ' . $views . '</span>';
 			?>
 
 		</div><!-- .entry-meta -->
 
 	</header><!-- .entry-header -->
 
-	<div class="entry-content">
+	<div class="entry-content mt-2">
 
 		<?php
 		the_content();
@@ -43,6 +44,7 @@ defined('ABSPATH') || exit;
 	<footer class="entry-footer">
 
 		<?php understrap_entry_footer(); ?>
+		<?php aboyuma_facebook_share_button(); ?>
 
 	</footer><!-- .entry-footer -->
 
