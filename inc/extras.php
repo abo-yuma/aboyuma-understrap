@@ -244,8 +244,8 @@ if ( ! function_exists( 'understrap_all_excerpts_get_more_link' ) ) {
 
 		$permalink = esc_url( get_permalink( (int) get_the_ID() ) ); // @phpstan-ignore-line -- post exists
 
-		return $post_excerpt . ' [...]<p><a class="btn btn-secondary understrap-read-more-link" href="' . $permalink . '">' . __(
-			'Read More...',
+		return $post_excerpt . ' [...]<p><a class="understrap-read-more-link" href="' . $permalink . '">' . __(
+			'อ่านต่อ...',
 			'understrap'
 		) . '<span class="screen-reader-text"> from ' . get_the_title( get_the_ID() ) . '</span></a></p>';
 

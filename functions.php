@@ -200,7 +200,6 @@ function aboyuma_customize_register($wp_customize) {
 			'description' => __('Upload your LINE QR Code image for display in the footer.', 'aboyuma'),
 		)
 	));
-	
 }
 add_action('customize_register', 'aboyuma_customize_register');
 
@@ -744,49 +743,46 @@ add_action('after_switch_theme', 'aboyuma_register_menu');
 // }
 // add_filter('the_content', 'add_facebook_share_button');
 
-// Add test Facebook share button at the end of all posts
-function test_facebook_share_button($content) {
-	if (is_single()) { // Only for single posts
+// Facebook Share Button Snippet
+function aboyuma_facebook_share_button() {
+	if (is_single() || is_page('product-detail')) {
 
 		$share_url = urlencode(get_permalink());
 
-		$button = '<div class="mb-2"><span class="share-text">Share this:</span>
-           <a href="https://www.facebook.com/sharer/sharer.php?u=' . $share_url . '"
-              onclick="window.open(this.href, \'fbshare\', \'width=600,height=400\'); return false;"
-              class="facebook-share-btn">
-              Facebook
-           </a></div>';
-
-
-		return $content . '<div class="facebook-share-wrapper" style="margin-top:10px;">' . $button . '</div>';
+		echo '<div class="facebook-share-wrapper" style="margin-top:10px;">
+				<div class="mb-2">
+					<span class="share-text">Share this:</span>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=' . $share_url . '"
+						onclick="window.open(this.href, \'fbshare\', \'width=600,height=400\'); return false;"
+						class="facebook-share-btn">
+						Facebook
+					</a>
+				</div>
+			</div>';
 	}
-	return $content;
 }
-add_filter('the_content', 'test_facebook_share_button');
 
-
-
-// Array of custom theme plugin files
-$theme_plugins = [
+// Array of custom integrated plugin files
+$integrated_plugins = [
 	'/integrated-plugins/news-crud/init.php',
 	'/integrated-plugins/product-crud/product-init.php',
 	'/integrated-plugins/gallery-crud/gallery-init.php',
 ];
 
-// Array of custom theme widget files
-$theme_widgets = [
+// Array of custom integrated widget files
+$integrated_widgets = [
 	'/integrated-widgets/authorbox-widget/authorbox-widget.php',
 	'/integrated-widgets/recommend-video-widget/recommend-video-widget.php',
 	'/integrated-widgets/quick-links-widget/quick-links-widget.php',
 ];
 
 // Require all plugins
-foreach ($theme_plugins as $plugin) {
+foreach ($integrated_plugins as $plugin) {
 	require get_template_directory() . $plugin;
 }
 
 // Require all widgets
-foreach ($theme_widgets as $widget) {
+foreach ($integrated_widgets as $widget) {
 	require get_template_directory() . $widget;
 }
 

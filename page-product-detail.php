@@ -403,6 +403,13 @@ $container = get_theme_mod('understrap_container_type');
                     </section>
 
                 </div>
+
+                <footer class="entry-footer">
+
+                    <?php aboyuma_facebook_share_button(); ?>
+
+                </footer><!-- .entry-footer -->
+
             </div>
 
         </div><!-- .row -->
