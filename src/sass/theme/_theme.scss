@@ -1,8 +1,32 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
-html,
-body {
-	overflow-x: clip;
+/* 
+ * Fix unwanted right space (horizontal scroll) on small phones only
+ * ---------------------------------------------------------------
+ * We use overflow-x: clip instead of overflow-x: hidden
+ * because `clip` prevents scrollbars and visual overflow 
+ * without creating a new stacking or scroll context.
+ * 
+ * This is important for elements with position: sticky —
+ * using `hidden` would break sticky positioning since it 
+ * creates a new containing block for the sticky element.
+ * 
+ * `clip` keeps sticky elements working correctly while still
+ * removing unwanted horizontal space on mobile screens.
+ *
+ * Note: Apply this only on mobile viewports.
+ * On larger screens or when a modal opens, it cause 
+ * sticky elements to return to their original position 
+ * (lose their "stuck" state) due to how modals affect 
+ * document overflow handling.
+ *
+ * Reference: https://stackoverflow.com/a/75535614/8527193
+ */
+@media (max-width: 575.98px) {
+	html,
+	body {
+		overflow-x: clip;
+	}
 }
 
 body {
