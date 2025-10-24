@@ -15,17 +15,17 @@ $container = get_theme_mod('understrap_container_type');
 
 ?>
 
-<main class="bg-body text-body" data-bs-theme="">
+<main>
 
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-		<div class="row">
-			<div class="col-md-4">
+		<div class="row py-3">
+			<div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="col-md-8">
+			<div class="main-content-column-width order-1 order-md-2">
 
 				<?php if (have_posts()) : ?>
 
@@ -71,10 +71,10 @@ $container = get_theme_mod('understrap_container_type');
 					// Do the right sidebar check and close div#primary.
 					get_template_part('global-templates/right-sidebar-check');
 					?>
+			</div>
+		</div><!-- .row -->
 
-			</div><!-- .row -->
-
-		</div><!-- #content -->
+	</div><!-- #content -->
 
 </main><!-- #search-wrapper -->
 

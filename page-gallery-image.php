@@ -14,6 +14,17 @@
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
 
+// Check if product ID is provided
+$gallery_id = isset($_GET['id']) ? absint($_GET['id']) : 0;
+if (!$gallery_id) {
+    /*
+  wp_safe_redirect() must be called before any output (HTML, whitespace, get_header(), echo, etc.).
+  Once PHP sends headers, it cannot change them — so the redirect silently fails.
+  */
+    wp_safe_redirect(home_url('/gallery/'));
+    exit;
+}
+
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
