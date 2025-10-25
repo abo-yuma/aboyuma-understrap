@@ -18,7 +18,7 @@ $product_additive_properties_json = json_encode([
 $product_diet_properties_json = json_encode([
     'vegetarian' => false,
     'vegan' => true,
-    'practical vegan' => true,
+    'mostly vegan' => true,
 ]);
 $product_review = 'Good product!';
 $product_price = 99.99;
