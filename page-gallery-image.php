@@ -113,7 +113,8 @@ $container = get_theme_mod('understrap_container_type');
 
                         <!-- Back button -->
                         <div class="text-end mt-4">
-                            <a href="<?= esc_url(home_url('/gallery')) ?>">ย้อนกลับ</a>
+                            <a href="<?= esc_url(home_url('/gallery')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
+                                ย้อนกลับ</a>
                         </div>
 
                     </div>

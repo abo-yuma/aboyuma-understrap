@@ -217,18 +217,29 @@ $container = get_theme_mod('understrap_container_type');
                                                     if (!empty($product_diet_properties['vegan'])) {
                                                         echo '🌿 Vegan<br>';
                                                     }
-                                                    if (!empty($product_diet_properties['practical vegan'])) {
-                                                        echo '🌿 Practical Vegan<br>';
+                                                    if (!empty($product_diet_properties['mostly vegan'])) {
+                                                        echo '🌿 Mostly Vegan 
+                                                        <i class="fa fa-info-circle ms-1 text-muted"
+                                                        role="button"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#mostlyVeganModal"
+                                                        title="Learn more"></i><br>';
                                                     }
                                                 }
                                                 ?>
                                             </div>
+
                                             <div id="product_price_info" class="mt-2">
                                                 <?php if (!empty($product->product_sop_link)) : ?>
                                                     <div class="product_descsription_sop" style="font-size: 15px;">
                                                         <div id="product_detail_sop_link">
                                                             <small>
-                                                                <span>📋 มีโปรแกรม SOP</span>
+                                                                <span>📋 มีโปรแกรม SOP FLEX</span>
+                                                                <i class="fa fa-info-circle ms-1 text-muted"
+                                                                    role="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#SOPInfoModal"
+                                                                    title="Learn more"></i>
                                                             </small>
                                                         </div>
                                                     </div>
@@ -278,7 +289,7 @@ $container = get_theme_mod('understrap_container_type');
                                 <button class="nav-link active" id="nav-product-detail-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-detail"
                                     type="button" role="tab" aria-controls="nav-product-detail" aria-selected="true">
-                                    📒 คุณสมบัติ
+                                    📒 บันทึก
                                 </button>
                                 <button class="nav-link" id="nav-product-specification-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-specification"
@@ -407,8 +418,86 @@ $container = get_theme_mod('understrap_container_type');
                 <footer class="entry-footer">
 
                     <?php aboyuma_facebook_share_button(); ?>
-
+                    <!-- Back button -->
+                    <div class="text-end mt-4">
+                        <a href="<?= esc_url(home_url('/gallery')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
+                            ย้อนกลับ</a>
+                    </div>
                 </footer><!-- .entry-footer -->
+
+                <!-- Plant-based info Modal -->
+                <div class="modal fade" id="mostlyVeganModal" tabindex="-1" aria-labelledby="mostlyVeganLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="mostlyVeganLabel">Mostly Vegan คืออะไร?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    🥦 Mostly Vegan คือแนวทางการบริโภคที่ใกล้เคียงกับวีแกนมากที่สุด 🌱
+                                    โดยหลีกเลี่ยงการทานเนื้อสัตว์ ผลิตภัณฑ์ที่มาจากสัตว์ 🐄🐓🐟
+                                    แต่ในบางกรณีอาจมีข้อยกเว้นเล็กน้อย ⚖️ เพื่อดูแลสุขภาพและความสมดุลของร่างกายโดยรวม
+                                    เมื่อหาทางเลือกอื่นที่เหมาะสมกว่าไม่ได้ เช่น การเลือกทาน อาหารเสริมวิตามินรวม เกลือแร่รวม และไฟโตนิวเทรียนท์ 🥕🥬🥑
+                                    คุณภาพดี แต่มีส่วนผสมของ วิตามินดี3 จากขนแกะ 🐑
+                                </p>
+
+                                <hr>
+
+                                <h6 class="fw-bold mb-2">🐑 วิตามินดี3จากขนแกะ (Lanolin-derived Vitamin D3)</h6>
+                                <p>
+                                    ✅ วิตามินดี3 เป็นรูปแบบที่ร่างกายดูดซึมและใช้ได้ดีที่สุด
+                                    🔬 ส่วนใหญ่สกัดจาก <strong>Lanolin</strong> ซึ่งเป็นไขมันตามธรรมชาติที่เคลือบอยู่บนขนแกะ 🐑
+                                </p>
+
+                                <hr>
+
+                                <p><strong>เหตุผลที่ยังคงใช้ในอาหารเสริม:</strong></p>
+                                <ul style="list-style: none; padding-left: 0; margin: 0;">
+                                    <li>🐑 วิตามินดี3 จากขนแกะมีประสิทธิภาพสูงและข้อมูลความปลอดภัย ✅</li>
+                                    <li>🌿 วิตามินดี3 จากพืช เช่น สาหร่ายไลเคน (Lichen) มีราคาสูง 💰</li>
+                                </ul>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOP FLEX info Modal -->
+                <div class="modal fade" id="SOPInfoModal" tabindex="-1" aria-labelledby="SOPInfoLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="SOPInfoLabel">SOP FLEX คืออะไร?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    🌟 SOP Flex คือโปรแกรมการสั่งซื้อแบบต่อเนื่องสำหรับผู้ที่ซื้อผลิตภัณฑ์แอมเวย์เป็นประจำอยู่แล้ว 🛒
+                                    โดยผลิตภัณฑ์ 1 ชิ้น ต่อเนื่อง 6 เดือน หรือ 11 เดือน ⏳ นับเป็น SOP 1 ชุด 🎁
+                                    เมื่อซื้อจบโปรแกรมจะได้รับ สินค้าฟรี 🎉 หรือ ส่วนลดพิเศษ 💰 ตามเงื่อนไข
+                                    แต่ถ้าเป็นผลิตภัณฑ์ชนิดเติมสำหรับ 2 เดือน 🗓️ ก็จะนับรอบแบบ 60 วันครับ
+                                </p>
+                                <p>
+                                    <img src="https://support.amway.co.th/hc/article_attachments/28298478027156">
+                                </p>
+                                <p>
+                                    ⚠️ ไม่มีการบังคับสั่งซื้อและหักเงินอัติโนมัติ
+                                    การสั่งซื้อสินค้าในแต่ละเดือนเปรียบเสมือนการสะสมแสตมป์ 📮 เพื่อรักษาสิทธิประโยชน์ครับ
+                                </p>
+                                <p>
+                                    🔍 เช็คสินค้าที่ร่วมรายการ SOP FLEX ได้<a href="https://amway.co.th/category/sop-flex" target="_blank">ที่นี่!</a>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

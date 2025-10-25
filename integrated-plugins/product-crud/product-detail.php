@@ -220,8 +220,8 @@ function aboyuma_product_detail() {
               Vegan
             </label>
             <label>
-              <input type="checkbox" disabled <?php echo (!empty($saved_diet_props_obj['practical vegan'])) ? 'checked' : ''; ?>>
-              Practical Vegan
+              <input type="checkbox" disabled <?php echo (!empty($saved_diet_props_obj['mostly vegan'])) ? 'checked' : ''; ?>>
+              Mostly Vegan
             </label>
           </td>
         </tr>
