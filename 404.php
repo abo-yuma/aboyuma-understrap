@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying 404 pages (not found)
  *
@@ -6,85 +7,88 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 get_header();
 
-$container = get_theme_mod( 'understrap_container_type' );
+$container = get_theme_mod('understrap_container_type');
 ?>
 
-<div class="wrapper" id="error-404-wrapper">
+<main>
 
-	<div class="<?php echo esc_attr( $container ); ?>" id="content" tabindex="-1">
+	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-		<div class="row">
+		<div class="row py-3">
+			<div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+				<?php
+				get_template_part('sidebar-templates/sidebar', 'left');
+				?>
+			</div>
+			<div class="main-content-column-width order-1 order-md-2">
 
-			<div class="col-md-12 content-area" id="primary">
+				<section class="error-404 not-found">
 
-				<main class="site-main" id="main">
+					<header class="page-header">
 
-					<section class="error-404 not-found">
+						<h1 class="page-title"><?php /*esc_html_e('Oops! That page can&rsquo;t be found.', 'understrap'); */ ?></h1>
+						<h1 class="page-title"><?php esc_html_e('ไม่พบหน้านี้', 'understrap'); ?></h1>
 
-						<header class="page-header">
 
-							<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'understrap' ); ?></h1>
+					</header><!-- .page-header -->
 
-						</header><!-- .page-header -->
+					<div class="page-content">
 
-						<div class="page-content">
+						<p><?php esc_html_e('ดูเหมือนว่าจะไม่พบหน้าที่ต้องการ ลองค้นหา?', 'understrap'); ?></p>
 
-							<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try a search?', 'understrap' ); ?></p>
+						<?php get_search_form(); ?>
 
-							<?php get_search_form(); ?>
+						<?php the_widget('WP_Widget_Recent_Posts'); ?>
 
-							<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
+						<?php if (understrap_categorized_blog()) : // Only show the widget if site has multiple categories. 
+						?>
 
-							<?php if ( understrap_categorized_blog() ) : // Only show the widget if site has multiple categories. ?>
+							<div class="widget widget_categories">
 
-								<div class="widget widget_categories">
+								<h2 class="widget-title"><?php esc_html_e('Categories', 'understrap'); ?></h2>
 
-									<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'understrap' ); ?></h2>
+								<ul>
+									<?php
+									wp_list_categories(
+										array(
+											'orderby'  => 'count',
+											'order'    => 'DESC',
+											'show_count' => 1,
+											'title_li' => '',
+											'number'   => 10,
+										)
+									);
+									?>
+								</ul>
 
-									<ul>
-										<?php
-										wp_list_categories(
-											array(
-												'orderby'  => 'count',
-												'order'    => 'DESC',
-												'show_count' => 1,
-												'title_li' => '',
-												'number'   => 10,
-											)
-										);
-										?>
-									</ul>
+							</div><!-- .widget -->
 
-								</div><!-- .widget -->
+						<?php endif; ?>
 
-							<?php endif; ?>
+						<?php
 
-							<?php
+						/* translators: %1$s: smiley */
+						$archive_content = '<p>' . sprintf(esc_html__('Try looking in the monthly archives. %1$s', 'understrap'), convert_smilies(':)')) . '</p>';
+						the_widget('WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content");
 
-							/* translators: %1$s: smiley */
-							$archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'understrap' ), convert_smilies( ':)' ) ) . '</p>';
-							the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
+						the_widget('WP_Widget_Tag_Cloud');
+						?>
 
-							the_widget( 'WP_Widget_Tag_Cloud' );
-							?>
+					</div><!-- .page-content -->
 
-						</div><!-- .page-content -->
+				</section><!-- .error-404 -->
 
-					</section><!-- .error-404 -->
-
-				</main>
-
-			</div><!-- #primary -->
+			</div>
 
 		</div><!-- .row -->
 
 	</div><!-- #content -->
 
-</div><!-- #error-404-wrapper -->
+</main><!-- #main-wrapper -->
 
 <?php
 get_footer();
