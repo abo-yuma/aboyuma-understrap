@@ -69,7 +69,7 @@ $container = get_theme_mod('understrap_container_type');
 					understrap_pagination();
 
 					// Do the right sidebar check and close div#primary.
-					get_template_part('global-templates/right-sidebar-check');
+					//get_template_part('global-templates/right-sidebar-check');
 					?>
 			</div>
 		</div><!-- .row -->
