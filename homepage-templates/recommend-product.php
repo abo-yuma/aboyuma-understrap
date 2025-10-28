@@ -5,7 +5,9 @@
     $table_name = $wpdb->prefix . 'aboyuma_product';
     $products = $wpdb->get_results(
         $wpdb->prepare(
-            "SELECT * FROM {$table_name} 
+            "SELECT id, product_image, product_name, 
+                product_short_description, product_benefit
+                FROM {$table_name} 
                 WHERE product_is_pinned = %d 
                 ORDER BY created DESC LIMIT %d",
             1,
