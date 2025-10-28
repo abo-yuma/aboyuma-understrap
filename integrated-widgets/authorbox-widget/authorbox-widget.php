@@ -183,7 +183,7 @@ function aboyuma_member_modal() {
 	$title   = $aboyuma_member_modal_data['title'];
 	$content = $aboyuma_member_modal_data['content'];
 	?>
-	<div class="modal" id="memberRegisterModal" tabindex="-1" aria-labelledby="memberRegisterModalLabel" aria-hidden="true">
+	<div class="modal fade" id="memberRegisterModal" tabindex="-1" aria-labelledby="memberRegisterModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -214,7 +214,7 @@ function aboyuma_abo_modal() {
 	$title   = $aboyuma_abo_modal_data['title'];
 	$content = $aboyuma_abo_modal_data['content'];
 ?>
-	<div class="modal" id="aboRegisterModal" tabindex="-1" aria-labelledby="aboRegisterModalLabel" aria-hidden="true">
+	<div class="modal fade" id="aboRegisterModal" tabindex="-1" aria-labelledby="aboRegisterModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
