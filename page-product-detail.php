@@ -182,7 +182,7 @@ $container = get_theme_mod('understrap_container_type');
                                             <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
                                             <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
                                         </div>
-                                        <div class="card-text" style="font-size: 13.5px;">
+                                        <div id="product-descroption-wrapper" class="card-text" style="font-size: 14px;">
                                             <div class="product_description mb-2">
                                                 <?php echo apply_filters('the_content', $product->product_description); ?>
                                             </div>
@@ -231,31 +231,35 @@ $container = get_theme_mod('understrap_container_type');
 
                                             <div id="product_price_info" class="mt-2">
                                                 <?php if (!empty($product->product_sop_link)) : ?>
-                                                    <div class="product_descsription_sop" style="font-size: 15px;">
+                                                    <div class="product_descsription_sop">
                                                         <div id="product_detail_sop_link">
-                                                            <small>
-                                                                <span>📋 มีโปรแกรม SOP FLEX</span>
-                                                                <i class="fa fa-info-circle ms-1 text-muted"
-                                                                    role="button"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#SOPInfoModal"
-                                                                    title="Learn more"></i>
-                                                            </small>
+                                                            <span>📋 มีโปรแกรม SOP FLEX</span>
+                                                            <i class="fa fa-info-circle ms-1 text-muted"
+                                                                role="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#SOPInfoModal"
+                                                                title="Learn more"></i>
                                                         </div>
                                                     </div>
                                                 <?php endif; ?>
                                                 <div class="product_descsription_price">
-                                                    <span style="font-size: 15px;">🪪 ราคา :
+                                                    <span>🪪 ราคา :
                                                         <span>
-                                                            <?php echo "฿ " . esc_html(number_format($product->product_member_price, 0)); ?>
+                                                            <?php echo "฿" . esc_html(number_format($product->product_member_price, 0)); ?>
                                                         </span>
+                                                        <?php if ($product->product_price != $product->product_member_price) : ?>
+                                                            <span style="font-size: 13.5px; color: #282c31ff; margin-left: 10px;">
+                                                                <?php echo "<del>฿" . esc_html(number_format($product->product_price, 0)) . "</del>"; ?>
+                                                            </span>
+                                                        <?php endif; ?>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="product_shop_link_button mt-2">
-                                                <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-dark"
-                                                    style="width: 100%;">🛒 สั่งซื้อสินค้า</a>
-                                            </div>
+
+                                        </div>
+                                        <div class="product_shop_link_button mt-2">
+                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-dark"
+                                                style="width: 100%;">🛒 สั่งซื้อสินค้า</a>
                                         </div>
                                     </div>
                                 </div>
@@ -435,11 +439,11 @@ $container = get_theme_mod('understrap_container_type');
                             </div>
                             <div class="modal-body">
                                 <p>
-                                    🥦 Mostly Vegan คือแนวทางการบริโภคที่ใกล้เคียงกับวีแกนมากที่สุด 🌱
+                                    🌿 Mostly Vegan คือแนวทางการบริโภคที่ใกล้เคียงกับวีแกนมากที่สุด
                                     โดยหลีกเลี่ยงการทานเนื้อสัตว์ ผลิตภัณฑ์ที่มาจากสัตว์ 🐄🐓🐟
                                     แต่ในบางกรณีอาจมีข้อยกเว้นเล็กน้อย ⚖️ เพื่อดูแลสุขภาพและความสมดุลของร่างกายโดยรวม
-                                    เมื่อหาทางเลือกอื่นที่เหมาะสมกว่าไม่ได้ เช่น การเลือกทาน อาหารเสริมวิตามินรวม เกลือแร่รวม และไฟโตนิวเทรียนท์ 🥕🥬🥑
-                                    คุณภาพดี แต่มีส่วนผสมของ วิตามินดี3 จากขนแกะ 🐑
+                                    เมื่อหาทางเลือกอื่นที่เหมาะสมกว่าไม่ได้ เช่น การเลือกทานอาหารเสริมวิตามินรวม เกลือแร่รวม และไฟโตนิวเทรียนท์ 🥕🥦🥬🥑
+                                    คุณภาพดีที่มีส่วนผสมของวิตามินดี3จากขนแกะ 🐑
                                 </p>
 
                                 <hr>
@@ -468,7 +472,7 @@ $container = get_theme_mod('understrap_container_type');
 
                 <!-- SOP FLEX info Modal -->
                 <div class="modal fade" id="SOPInfoModal" tabindex="-1" aria-labelledby="SOPInfoLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-dialog modal-dialog-centered modal-custom-size">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="SOPInfoLabel">SOP FLEX คืออะไร?</h5>
@@ -476,17 +480,16 @@ $container = get_theme_mod('understrap_container_type');
                             </div>
                             <div class="modal-body">
                                 <p>
-                                    🌟 SOP Flex คือโปรแกรมการสั่งซื้อแบบต่อเนื่องสำหรับผู้ที่ซื้อผลิตภัณฑ์แอมเวย์เป็นประจำอยู่แล้ว 🛒
-                                    โดยผลิตภัณฑ์ 1 ชิ้น ต่อเนื่อง 6 เดือน หรือ 11 เดือน ⏳ นับเป็น SOP 1 ชุด 🎁
-                                    เมื่อซื้อจบโปรแกรมจะได้รับ สินค้าฟรี 🎉 หรือ ส่วนลดพิเศษ 💰 ตามเงื่อนไข
-                                    แต่ถ้าเป็นผลิตภัณฑ์ชนิดเติมสำหรับ 2 เดือน 🗓️ ก็จะนับรอบแบบ 60 วันครับ
+                                    🌟 SOP FLEX คือโปรแกรมการสั่งซื้อแบบต่อเนื่อง เป็นโปรโมชั่นสำหรับผู้ที่สั่งซื้อผลิตภัณฑ์แอมเวย์เป็นประจำ 🛒<br>
+                                    โดยมีโปรแกรมแบบ 6 เดือน และ 11 เดือน 🗓️
+                                    เมื่อซื้อจบโปรแกรมจะได้รับส่วนลดพิเศษ 📉💰 หรือสินค้าฟรี 🎁 ตามเงื่อนไข 🎉
                                 </p>
                                 <p>
                                     <img src="https://support.amway.co.th/hc/article_attachments/28298478027156">
                                 </p>
                                 <p>
-                                    ⚠️ ไม่มีการบังคับสั่งซื้อและหักเงินอัติโนมัติ
-                                    การสั่งซื้อสินค้าในแต่ละเดือนเปรียบเสมือนการสะสมแสตมป์ 📮 เพื่อรักษาสิทธิประโยชน์ครับ
+                                    ⭐ สามารถเลือกแบบสั่งซื้อรอบถัดไปด้วยตนเองหรือแบบอัติโนมัติ<br>
+                                    การสั่งซื้อสินค้าในแต่ละเดือนเปรียบเสมือนการสะสมแสตมป์เพื่อรักษาสิทธิประโยชน์ครับ 📮🎁
                                 </p>
                                 <p>
                                     🔍 เช็คสินค้าที่ร่วมรายการ SOP FLEX ได้<a href="https://amway.co.th/category/sop-flex" target="_blank">ที่นี่!</a>
