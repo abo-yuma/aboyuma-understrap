@@ -18,39 +18,41 @@
         echo '<div style="color:red;">MySQL Error: ' . $wpdb->last_error . '</div>';
     }
     ?>
-    <span style="font-weight: bold;">🏆 สินค้าแอมเวย์แนะนำ:</span>
-    <hr>
-    <table id="recommend-product-table" class="table table-striped table-border">
-        <thead>
-            <tr>
-                <th>สินค้า</th>
-                <th>คำอธิบาย</th>
-                <th>คุณสมบัติ</th>
-                <th>รายละเอียด</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach ($products as $product) :
-                $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
-                $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
-                // Combine image and name in one column
-                $image_and_name = '
+    <div class="card">
+        <div class="card-header">🏆 สินค้าแอมเวย์แนะนำ</div>
+        <div class="card-body">
+            <table id="recommend-product-table" class="table table-striped table-border">
+                <thead>
+                    <tr>
+                        <th>สินค้า</th>
+                        <th>คำอธิบาย</th>
+                        <th>คุณสมบัติ</th>
+                        <th>รายละเอียด</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($products as $product) :
+                        $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+                        $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+                        // Combine image and name in one column
+                        $image_and_name = '
                 <div style="text-align:center;">
                     ' . $image_url . '
                     <span>' . esc_html($product->product_name) . '</span>
                 </div>';
-            ?>
-                <tr>
-                    <td><?php echo $image_and_name; ?></td>
-                    <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
-                    <td><?php echo htmlspecialchars_decode($product->product_benefit); ?></td>
-                    <td><a href="<?php echo $detail_url; ?>">[รายละเอียด]</a></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
+                    ?>
+                        <tr>
+                            <td><?php echo $image_and_name; ?></td>
+                            <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
+                            <td><?php echo htmlspecialchars_decode($product->product_benefit); ?></td>
+                            <td><a href="<?php echo $detail_url; ?>">[รายละเอียด]</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!-- please init datatable using inline js -->
     <script>
         jQuery(document).ready(function($) {
