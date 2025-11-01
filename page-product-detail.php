@@ -111,7 +111,7 @@ $container = get_theme_mod('understrap_container_type');
                 ?>
                 <div class="entry-content" id="product-detail">
                     <section id="modified-date" class="modified-date mb-2"> <?php echo "🗓️ อัพเดตข้อมูลล่าสุด " . date("d M Y", strtotime($product->modified)); ?> </section>
-                    <section id="product-image-and-description" class="mb-4">
+                    <section id="product-image-and-description" class="mb-2">
                         <div class="row">
                             <!-- Main Image Preview Section -->
                             <div class="col-md-7">
@@ -287,7 +287,12 @@ $container = get_theme_mod('understrap_container_type');
                         </div>
                     </section><!-- End Product Description Section -->
 
-                    <section id="product-detail-info-container" class="product-detail consistent-height mt-3">
+                    <div class="text-end mb-2">
+                        <a href="<?= esc_url(home_url('/product')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
+                            ดูสินค้าอื่น</a>
+                    </div>
+
+                    <section id="product-detail-info-container" class="product-detail consistent-height mb-2">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <button class="nav-link active" id="nav-product-detail-tab" data-bs-toggle="tab"
@@ -344,20 +349,18 @@ $container = get_theme_mod('understrap_container_type');
                         </div>
                     </section>
 
-                    <!-- SECTION: Product Infographic -->
-                    <section id="product-infographic" class="mt-4">
-
-
-                        <div class="container">
-                            <div class="row g-3">
-                                <?php
-                                if (!empty($productInfographics)) {
+                    <?php if (!empty($productInfographics)) : ?>
+                        <!-- SECTION: Product Infographic -->
+                        <section id="product-infographic" class="mb-2">
+                            <div class="container">
+                                <div class="row g-3">
+                                    <?php
                                     $upload_dir = wp_upload_dir();
                                     $base_url = trailingslashit($upload_dir['baseurl']);
 
-                                    foreach ($productInfographics as $infographic) {
+                                    foreach ($productInfographics as $infographic) :
                                         $image_url = esc_url($base_url . $infographic->product_infographic_path);
-                                ?>
+                                    ?>
                                         <div class="col-md-4">
                                             <div class="border rounded p-2 text-center infographic-img-wrapper">
                                                 <a href="<?php echo $image_url; ?>" data-fancybox="product-infographics">
@@ -365,16 +368,14 @@ $container = get_theme_mod('understrap_container_type');
                                                 </a>
                                             </div>
                                         </div>
-                                <?php
-                                    }
-                                }
-                                ?>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    <?php endif; ?>
 
                     <?php if (!empty($productRelateVideos)) : ?>
-                        <section id="product-related-video" class="mt-4">
+                        <section id="product-related-video" class="mb-2">
                             <span class="related-product-label">▶️ วิดีโอที่เกี่ยวข้อง</span> <!-- same size to bootstrap tab panel font size -->
                             <hr>
 
@@ -407,7 +408,7 @@ $container = get_theme_mod('understrap_container_type');
                     <?php endif; ?>
 
                     <!-- SECTION: Related Products -->
-                    <section id="related-products" class="mt-4">
+                    <section id="related-products" class="mb-2">
                         <?php
                         if (count($related_products) > 0) {
                             set_query_var('related_products', $related_products);
@@ -424,8 +425,9 @@ $container = get_theme_mod('understrap_container_type');
                     <?php aboyuma_facebook_share_button(); ?>
                     <!-- Back button -->
                     <div class="text-end mt-4">
-                        <a href="<?= esc_url(home_url('/gallery')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
-                            ย้อนกลับ</a>
+                        <a href="javascript:void(0);" onclick="history.back()">
+                            <i class="fa fa-backward" aria-hidden="true"></i> ย้อนกลับ
+                        </a>
                     </div>
                 </footer><!-- .entry-footer -->
 
