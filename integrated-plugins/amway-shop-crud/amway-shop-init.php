@@ -5,12 +5,7 @@ ABO YUMA Amway Shop Crud
 */
 
 function create_aboyuma_amway_shop_table() {
-    $schema_version = '1.0';
-    $current_version = get_option('aboyuma_amway_shop_schema_version');
-
-    if ($current_version === $schema_version) {
-        return; // Already up-to-date
-    }
+    
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     global $wpdb;
@@ -23,20 +18,14 @@ function create_aboyuma_amway_shop_table() {
     // Main shop table
     array_push($queries, "CREATE TABLE $shopTable (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    shop_code VARCHAR(20) NOT NULL DEFAULT '',                          -- รหัสร้านค้า
+    shop_code VARCHAR(20) NOT NULL DEFAULT '',                           -- รหัสร้านค้า
     shop_name VARCHAR(255) NOT NULL DEFAULT '',                          -- ชื่อร้านค้า
     shop_address TEXT NOT NULL,                                          -- ที่อยู่ร้านค้า
-    shop_province VARCHAR(100) NULL,                                     -- จังหวัด
-    shop_district VARCHAR(100) NULL,                                     -- เขต / อำเภอ
-    shop_subdistrict VARCHAR(100) NULL,                                  -- แขวง / ตำบล
-    shop_postcode VARCHAR(10) NULL,                                      -- รหัสไปรษณีย์
     shop_phone VARCHAR(50) NULL,                                         -- โทรศัพท์
-    shop_email VARCHAR(255) NULL,                                        -- อีเมล (ถ้ามี)
-    shop_latitude DECIMAL(10,6) NULL,                                    -- พิกัดละติจูด
-    shop_longitude DECIMAL(10,6) NULL,                                   -- พิกัดลองจิจูด
     shop_opening_hours JSON NULL,                                        -- เวลาทำการ (เก็บเป็น JSON)
     shop_description TEXT NULL,                                          -- รายละเอียดเพิ่มเติม
     shop_slug VARCHAR(255) NOT NULL DEFAULT '',                          -- slug สำหรับหน้า shop-detail
+    shop_map_url VARCHAR(500) NOT NULL DEFAULT '',                       -- Google Map link
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                 -- วันที่สร้าง
     modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- วันที่แก้ไข
   ) $charset_collate;");
@@ -130,9 +119,8 @@ add_action('admin_menu', 'aboyuma_amway_shop_menu');
 
 
 // Include CRUD subfiles
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-functions.php';
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-list.php';
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-add.php';
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-edit.php';
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-detail.php';
-require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-delete.php';
+require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-list.php';
+require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-add.php';
+require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-edit.php';
+// require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-detail.php';
+// require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-delete.php';
