@@ -835,6 +835,7 @@ $integrated_plugins = [
 	'/integrated-plugins/news-crud/init.php',
 	'/integrated-plugins/product-crud/product-init.php',
 	'/integrated-plugins/gallery-crud/gallery-init.php',
+	'/integrated-plugins/amway-shop-crud/amway-shop-init.php'
 ];
 
 // Array of custom integrated widget files
