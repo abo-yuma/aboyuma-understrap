@@ -114,7 +114,6 @@ function aboyuma_amway_shop_edit() {
                 && !empty(array_filter($_FILES['amway_shop_images']['name']))
             ) {
                 $files = $_FILES['amway_shop_images'];
-                wp_die('<pre>' . print_r($files, true) . '</pre>');
 
                 $orders = $_POST['amway_shop_image_orders'];
 
@@ -144,9 +143,42 @@ function aboyuma_amway_shop_edit() {
                         // ✅ STEP 4: Generate a safe, unique filename
                         $extension = pathinfo($name, PATHINFO_EXTENSION);
                         $new_filename = uniqid('amway_shop_', true) . '.' . $extension;
-                        $image_destination = $image_subdir . $new_filename;
+                        $destinationFolder = $image_subdir . $new_filename;
 
-                        if (move_uploaded_file($tmp_name, $image_destination)) {
+                        if (move_uploaded_file($tmp_name, $destinationFolder)) {
+
+                            /**
+                             * ==== FIX IMAGE ORIENTATION (EXIF) ====
+                             * Must run BEFORE resizing.
+                             * Only applies to JPG images (EXIF works with JPEG only)
+                             */
+                            $extension_lower = strtolower($extension);
+                            if (in_array($extension_lower, ['jpg', 'jpeg']) && function_exists('exif_read_data')) {
+
+                                $exif = @exif_read_data($destinationFolder);
+
+                                if (!empty($exif['Orientation'])) {
+
+                                    $image = imagecreatefromjpeg($destinationFolder);
+
+                                    switch ($exif['Orientation']) {
+                                        case 3:
+                                            $image = imagerotate($image, 180, 0);
+                                            break;
+                                        case 6:
+                                            $image = imagerotate($image, -90, 0);
+                                            break;
+                                        case 8:
+                                            $image = imagerotate($image, 90, 0);
+                                            break;
+                                    }
+
+                                    // Save the rotated JPEG (100% quality before resizing)
+                                    imagejpeg($image, $destinationFolder, 100);
+                                    unset($image);
+                                }
+                            }
+
                             // ✅ STEP 5: Store relative path in DB
                             $image_path = 'amway-shop-images/' . $safe_folder_name . '/' . $new_filename;
 
@@ -162,18 +194,19 @@ function aboyuma_amway_shop_edit() {
                                     'modified' => $now,
                                 ],
                                 [
-                                    '%s',
-                                    '%d',
-                                    '%d',
-                                    '%s'
+                                    '%s', // image_path
+                                    '%d', // shop_id
+                                    '%d', // image_order
+                                    '%s', // created
+                                    '%s', // modified
                                 ]
                             );
                         }
                     } else {
                         echo "File uploaded failed: " . $files['name'][$index];
-                        echo " Error Code: " . $files['error'][$index]; // This should give you the error code
-                        var_dump($files['error'][$index]); // Check the actual value and type
-                        var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
+                        echo " Error Code: " . $files['error'][$index];
+                        var_dump($files['error'][$index]);
+                        var_dump(UPLOAD_ERR_OK);
                         die();
                     }
                 }
@@ -209,7 +242,8 @@ function aboyuma_amway_shop_edit() {
                 }
             }
 
-            echo '<div class="notice notice-success is-dismissible"><p>Shop updated successfully.</p></div>';
+            echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-amway-shop-edit&updated-success=true&id=' . $shop_id) . '";</script>';
+            exit;
         }
     }
 
@@ -306,12 +340,12 @@ function aboyuma_amway_shop_edit() {
                             $upload_dir = wp_upload_dir(); // ✅ Add before the loop
                             $base_url = trailingslashit($upload_dir['baseurl']);
                             foreach ($amwayShopImages as $image) :
-                                $image_url = $base_url . $image->_image_path;
+                                $image_url = $base_url . $image->image_path;
                                 echo '<pre>' . $image_url . '</pre>';
                             ?>
                                 <div class="image-preview-container" data-id="<?= $image->id; ?>">
                                     <img src="<?= esc_url($image_url); ?>" class="image-preview">
-                                    <input type="number" name="existing_image_orders[]" value="<?= $image->_image_order; ?>" class="order-input">
+                                    <input type="number" name="existing_image_orders[]" value="<?= $image->image_order; ?>" class="order-input">
                                     <input type="hidden" name="existing_image_ids[]" value="<?= $image->id; ?>">
                                     <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $image->id; ?>"> Delete</label>
                                 </div>
@@ -341,8 +375,8 @@ function aboyuma_amway_shop_edit() {
                 const newField = `
                 <div class="image-preview-container" data-index="${imageCount}">
                     <img src="" class="image-preview hidden" alt="Preview">
-                    <input type="file" name="shop_images[]" class="shop-image-input">
-                    <input type="number" name="shop_image_orders[]" class="order-input" placeholder="">
+                    <input type="file" name="amway_shop_images[]" class="shop-image-input">
+                    <input type="number" name="amway_shop_image_orders[]" class="order-input" placeholder="">
                     <span class="remove-button">Remove</span>
                 </div>`;
                 $('#image-upload-container').append(newField);
