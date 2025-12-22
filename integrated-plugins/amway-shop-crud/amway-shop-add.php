@@ -174,10 +174,10 @@ function aboyuma_amway_shop_add() {
                     $new_filename = uniqid('shop_', true) . '.' . $extension;
 
                     // Full path to save the image
-                    $destination = $shop_subdir . $new_filename;
+                    $destinationFolder = $shop_subdir . $new_filename;
 
                     // Move uploaded file to custom uploads folder
-                    if (move_uploaded_file($tmp_name, $destination)) {
+                    if (move_uploaded_file($tmp_name, $destinationFolder)) {
 
                         /**
                          * ==== FIX IMAGE ORIENTATION (EXIF) ====
@@ -187,11 +187,11 @@ function aboyuma_amway_shop_add() {
                         $extension_lower = strtolower($extension);
                         if (in_array($extension_lower, ['jpg', 'jpeg']) && function_exists('exif_read_data')) {
 
-                            $exif = @exif_read_data($destination);
+                            $exif = @exif_read_data($destinationFolder);
 
                             if (!empty($exif['Orientation'])) {
 
-                                $image = imagecreatefromjpeg($destination);
+                                $image = imagecreatefromjpeg($destinationFolder);
 
                                 switch ($exif['Orientation']) {
                                     case 3:
@@ -206,7 +206,7 @@ function aboyuma_amway_shop_add() {
                                 }
 
                                 // Save the rotated JPEG (100% quality before resizing)
-                                imagejpeg($image, $destination, 100);
+                                imagejpeg($image, $destinationFolder, 100);
                                 unset($image);
                             }
                         }
@@ -214,12 +214,12 @@ function aboyuma_amway_shop_add() {
 
                         /**
                          * ===== IMAGE RESIZE PROCESS =====
-                         * Resize the image AFTER it has been moved to $destination
+                         * Resize the image AFTER it has been moved to $destinationFolder
                          */
                         $max_width  = 1920; // adjust as you need
                         $max_height = 1080;
 
-                        $image_editor = wp_get_image_editor($destination);
+                        $image_editor = wp_get_image_editor($destinationFolder);
 
                         if (!is_wp_error($image_editor)) {
 
@@ -230,7 +230,7 @@ function aboyuma_amway_shop_add() {
                             $image_editor->resize($max_width, $max_height, false);
 
                             // Save back to same file
-                            $image_editor->save($destination);
+                            $image_editor->save($destinationFolder);
                         }
 
                         // ✅ Store relative URL path in DB

@@ -631,7 +631,7 @@ function aboyuma_product_edit() {
           }
         }
 
-        echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-product-detail&updated-success=true&id=' . $product_id) . '";</script>';
+        echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-product-edit&updated-success=true&id=' . $product_id) . '";</script>';
         exit; // Extra code from running unnecessarily.Additional HTML from being rendered.Unexpected side effects (like duplicate inserts, echoes, or further processing).
       } else {
         $errors[] = 'Failed to update product. Please try again.';
