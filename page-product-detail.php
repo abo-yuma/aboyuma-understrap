@@ -214,6 +214,9 @@ $container = get_theme_mod('understrap_container_type');
                                                     if (!empty($product_diet_properties['vegetarian'])) {
                                                         echo '🌿 Vegetarian<br>';
                                                     }
+                                                    if (!empty($product_diet_properties['flexitarian'])) {
+                                                        echo '🌿 Flexitarian<br>';
+                                                    }
                                                     if (!empty($product_diet_properties['vegan'])) {
                                                         echo '🌿 Vegan<br>';
                                                     }

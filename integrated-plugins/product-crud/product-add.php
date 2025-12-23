@@ -89,7 +89,7 @@ function aboyuma_product_add() {
     }
     $product_additive_properties_json = json_encode($product_additive_properties);
     // --- Product Diet Properties ---
-    $all_diet_options = ['vegetarian', 'vegan', 'mostly vegan'];
+    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly vegan'];
     $selected_diet_props = isset($_POST['product_diet_properties']) && is_array($_POST['product_diet_properties'])
       ? array_map('sanitize_text_field', $_POST['product_diet_properties'])
       : [];
@@ -750,6 +750,10 @@ function aboyuma_product_add() {
             <label>
               <input type="checkbox" name="product_diet_properties[]" value="vegetarian"
                 <?php echo in_array('vegetarian', $diet_props) ? 'checked' : ''; ?>> Vegetarian
+            </label>
+            <label>
+              <input type="checkbox" name="product_diet_properties[]" value="flexitarian"
+                <?php echo in_array('flexitarian', $diet_props) ? 'checked' : ''; ?>> Flexitarian
             </label>
             <label>
               <input type="checkbox" name="product_diet_properties[]" value="vegan"
