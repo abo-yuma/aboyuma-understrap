@@ -216,6 +216,10 @@ function aboyuma_product_detail() {
               Vegetarian
             </label>
             <label>
+              <input type="checkbox" disabled <?php echo (!empty($saved_diet_props_obj['flexitarian'])) ? 'checked' : ''; ?>>
+              Flexitarian
+            </label>
+            <label>
               <input type="checkbox" disabled <?php echo (!empty($saved_diet_props_obj['vegan'])) ? 'checked' : ''; ?>>
               Vegan
             </label>
