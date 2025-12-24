@@ -2,10 +2,14 @@
 /*
 Theme Integrated Plugin
 ABO YUMA Amway Shop Crud
+Reference: 
+https://github.com/eduardoarandah/wordpress-crud-example
+https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins#content-section-6-deleting-aboyuma-data
 */
+// Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
 
 function create_aboyuma_amway_shop_table() {
-    
+
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     global $wpdb;
@@ -28,6 +32,7 @@ function create_aboyuma_amway_shop_table() {
     shop_map_url VARCHAR(500) NOT NULL DEFAULT '',                       -- Google Map link
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,                 -- วันที่สร้าง
     modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- วันที่แก้ไข
+    UNIQUE KEY unique_shop_code (shop_code)                              -- ✅ PREVENT DUPLICATE
   ) $charset_collate;");
 
     // Shop image table
@@ -123,4 +128,4 @@ require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amw
 require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-add.php';
 require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-edit.php';
 // require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-detail.php';
-// require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/shop-delete.php';
+require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-delete.php';
