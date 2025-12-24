@@ -91,20 +91,19 @@ function aboyuma_amway_shop_add() {
         $format = ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'];
 
         // === PREVENT DUPLICATE SHOP CODE ===
-        $shop_code = $data['shop_code'];
 
-        $existing = $wpdb->get_var(
-            $wpdb->prepare("SELECT COUNT(*) FROM $table WHERE shop_code = %s", $shop_code)
-        );
-
-        if ($existing > 0) {
-            echo '<div class="notice notice-error"><p>Error: This Shop Code already exists.</p></div>';
-        }
 
         $insert_result = $wpdb->insert($table, $data, $format);
 
-        if (!$insert_result) {
-            echo '<div class="notice notice-error"><p>Failed to insert shop.</p></div>';
+        if ($insert_result === false) {
+
+            // Duplicate entry (UNIQUE shop_code)
+            if ($wpdb->last_error && stripos($wpdb->last_error, 'Duplicate entry') !== false) {
+                echo '<div class="notice notice-error"><p><strong>Error:</strong> This Shop Code already exists.</p></div>';
+            } else {
+                echo '<div class="notice notice-error"><p>Failed to insert shop.</p></div>';
+            }
+
             return;
         }
 

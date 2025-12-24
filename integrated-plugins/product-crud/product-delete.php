@@ -26,33 +26,6 @@ function delete_product() {
   $product_subdir_normalized = wp_normalize_path($product_subdir);
   $infographic_subdir_normalized = wp_normalize_path($infographic_subdir);
 
-  // Helper function to delete all files in a folder safely
-  function delete_files_in_folder($folder_path, $folder_path_normalized, $upload_basedir) {
-    if (
-      !file_exists($folder_path) || !is_dir($folder_path)
-      || strpos($folder_path_normalized, $upload_basedir) !== 0
-    ) {
-      error_log("Folder missing or invalid: {$folder_path}");
-      return;
-    }
-
-    $files = glob($folder_path . '*');
-    if ($files === false) {
-      error_log("Failed to read files from folder: {$folder_path}");
-      return;
-    }
-
-    foreach ($files as $file) {
-      if (is_file($file) && !unlink($file)) {
-        error_log("Failed to delete file: {$file}");
-      }
-    }
-
-    if (!rmdir($folder_path)) {
-      error_log("Failed to remove directory: {$folder_path}");
-    }
-  }
-
   // Delete files & remove infographic folder
   delete_files_in_folder($infographic_subdir, $infographic_subdir_normalized, $upload_basedir);
 
