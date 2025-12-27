@@ -1,16 +1,27 @@
 <?php
 /*
 Theme Integreated Plugin
-ABO YUMA Product Crud
+ABO YUMA AMWAY Product Crud
+
 Reference: 
-https://github.com/eduardoarandah/wordpress-crud-example
-https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins#content-section-6-deleting-aboyuma-data
+- https://github.com/eduardoarandah/wordpress-crud-example
+- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
+
+Related issues:
+- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
+
+TODO :
+Future Refactor
+- Migrate from theme-integrated implementation
+- Refactor using WordPress Plugin Boilerplate (WPPB)
+  https://wppb.me/
+- Remain theme-integrated
 */
 // Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
-function create_aboyuma_table() {
+function create_aboyuma_amway_product_table() {
 
   $schema_version = '1.0';
-  $current_version = get_option('aboyuma_schema_version');
+  $current_version = get_option('aboyuma_amway_product_schema_version');
 
   if ($current_version === $schema_version) {
     return; // Already up-to-date
@@ -155,9 +166,9 @@ function create_aboyuma_table() {
   }
 
   // Save current schema version
-  update_option('aboyuma_schema_version', $schema_version);
+  update_option('aboyuma_amway_product_schema_version', $schema_version);
 }
-add_action('after_switch_theme', 'create_aboyuma_table');
+add_action('after_switch_theme', 'create_aboyuma_amway_product_table');
 
 function aboyuma_product_menu() {
   $productPageTitle = 'Amway Products';

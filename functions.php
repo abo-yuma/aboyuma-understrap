@@ -715,12 +715,14 @@ function aboyuma_register_menu() {
 		'contact'               => 'ติดต่อ', // ✅ Added to Menu
 		'product'               => 'สินค้าแนะนำ', // ✅ Added to Menu
 		'product-detail'        => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
+		'shop'                  => 'ช็อป', // ✅ Added to Menu
+		'amway-shop'            => 'แอมเวย์ช็อป', // ❌ Not Added to Menu
 		'gallery'               => 'แกลอรี่', // ✅ Added to Menu
 		'gallery-image'         => 'รูปแกลอรี่', // ❌ Not Added to Menu
 	];
 
 	$created_page_ids = [];
-	$excluded_from_menu = ['product-detail', 'gallery-image']; // Pages to create but not add to menu
+	$excluded_from_menu = ['product-detail', 'amway-shop', 'gallery-image']; // Pages to create but not add to menu
 
 	foreach ($pages as $slug => $title) {
 		// Check if page already exists
@@ -832,7 +834,7 @@ function aboyuma_facebook_share_button() {
 
 // Array of custom integrated plugin files
 $integrated_plugins = [
-	'/integrated-plugins/news-crud/init.php',
+	'/integrated-plugins/news-crud/news-init.php',
 	'/integrated-plugins/product-crud/product-init.php',
 	'/integrated-plugins/gallery-crud/gallery-init.php',
 	'/integrated-plugins/amway-shop-crud/amway-shop-init.php'
