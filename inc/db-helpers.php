@@ -14,7 +14,6 @@ function fk_exists($table, $fk_name) {
   return (bool) $wpdb->get_var($wpdb->prepare($sql, $db, $table, $fk_name));
 }
 
-// === ABOYUMA CUSTOM HELPER === //
 // 🔍 Helper function to delete all files in a folder safely
 function delete_files_in_folder($folder_path, $folder_path_normalized, $upload_basedir) {
   if (

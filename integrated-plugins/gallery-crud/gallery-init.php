@@ -1,10 +1,21 @@
 <?php
 /*
-aboyuma Gallery Crud
-Crud without plugin, implement in theme.
+Theme Integrated Plugin
+ABO YUMA Gallery Crud
+
 Reference: 
-https://github.com/eduardoarandah/wordpress-crud-example
-https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins#content-section-6-deleting-aboyuma-data
+- https://github.com/eduardoarandah/wordpress-crud-example
+- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
+
+Related issues:
+- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
+
+TODO :
+Future Refactor
+- Migrate from theme-integrated implementation
+- Refactor using WordPress Plugin Boilerplate (WPPB)
+  https://wppb.me/
+- Remain theme-integrated
 */
 // Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
 function create_aboyuma_gallery_table() {
@@ -27,7 +38,7 @@ function create_aboyuma_gallery_table() {
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
-  ) $charset_collate;");
+  ) ENGINE=InnoDB $charset_collate;");
 
   // Create aboyuma_gallery_image table
   array_push($queries, "CREATE TABLE $galleryImageTable (
@@ -39,7 +50,7 @@ function create_aboyuma_gallery_table() {
     created DATETIME DEFAULT CURRENT_TIMESTAMP,
     modified DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
-  ) $charset_collate;");
+  ) ENGINE=InnoDB $charset_collate;");
 
   // Run table creation queries
   foreach ($queries as $sql) {
