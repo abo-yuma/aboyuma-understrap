@@ -12,8 +12,7 @@ Related issues:
 
 TODO :
 Future Refactor
-- Migrate from theme-integrated implementation
-- Refactor using WordPress Plugin Boilerplate (WPPB)
+- Refactor using custom OOP or WordPress Plugin Boilerplate (WPPB)
   https://wppb.me/
 - Remain theme-integrated
 */
