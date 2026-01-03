@@ -30,16 +30,17 @@ function aboyuma_amway_shop_edit() {
         ];
     }
 
-    $amwayShopImageTable = $wpdb->prefix . 'aboyuma_amway_shop_image';
-    $amwayShopImages = $wpdb->get_results("
-        SELECT id, image_path, image_order 
-        FROM $amwayShopImageTable 
-        WHERE shop_id = $shop_id
-        ORDER BY image_order ASC
-    ");
+    // Decode nearby transport
+    $nearby_transport = [];
+
+    if (!empty($shop->shop_nearby_transport)) {
+        $decoded_transport = json_decode($shop->shop_nearby_transport, true);
+        if (is_array($decoded_transport)) {
+            $nearby_transport = $decoded_transport;
+        }
+    }
 
     // Handle form submission
-    // Handle form submission (UPDATE SHOP TABLE ONLY)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_shop_nonce'])) {
 
         // Verify nonce
@@ -48,203 +49,183 @@ function aboyuma_amway_shop_edit() {
             return;
         }
 
-        // Sanitize form fields
-        $shop_code        = sanitize_text_field($_POST['shop_code']);
-        $shop_name        = sanitize_text_field($_POST['shop_name']);
-        $shop_address     = sanitize_textarea_field($_POST['shop_address']);
-        $shop_phone       = sanitize_text_field($_POST['shop_phone']);
-        $shop_description = wp_kses_post($_POST['shop_description']);
-        $shop_slug        = sanitize_title($_POST['shop_slug']);
-        $shop_map_url     = esc_url_raw($_POST['shop_map_url']);
+        /* ---------- ERROR CONTAINER ---------- */
+        $errors = new WP_Error();
 
-        // Opening hours
-        $opening_hours = isset($_POST['opening_hours'])
-            ? array_map('sanitize_text_field', $_POST['opening_hours'])
-            : [];
+        $required_fields = [
+            'shop_code'        => ['label' => 'Shop Code',      'type' => 'text'],
+            'shop_name'        => ['label' => 'Shop Name',      'type' => 'text'],
+            'shop_address'     => ['label' => 'Address',        'type' => 'text'],
+            'shop_phone'       => ['label' => 'Phone',          'type' => 'text'],
+            'shop_slug'        => ['label' => 'Slug',           'type' => 'text'],
+            'shop_map_url'     => ['label' => 'Google Map URL', 'type' => 'text'],
+            // ❌ shop_image is NOT required on edit
+        ];
 
-        $opening_hours_json = json_encode($opening_hours);
+        foreach ($required_fields as $field => $config) {
+            if (empty($_POST[$field])) {
+                $errors->add($field, "{$config['label']} is required.");
+            }
+        }
 
-        // UPDATE shop table
-        $updated = $wpdb->update(
+        /* ---------- SHOP IMAGE (OPTIONAL on EDIT) ---------- */
+        $shop_image = null;
+
+        if (
+            ! empty($_FILES['shop_image']) &&
+            $_FILES['shop_image']['error'] !== UPLOAD_ERR_NO_FILE
+        ) {
+
+            if ($_FILES['shop_image']['error'] !== UPLOAD_ERR_OK) {
+                $errors->add('shop_image', 'Image upload failed.');
+            } else {
+
+                $mime = mime_content_type($_FILES['shop_image']['tmp_name']);
+                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+                if (! in_array($mime, $allowedMimeTypes, true)) {
+                    $errors->add('shop_image', 'Only JPG, PNG, WEBP allowed.');
+                } else {
+
+                    $shop_image = file_get_contents($_FILES['shop_image']['tmp_name']);
+
+                    if ($shop_image === false) {
+                        $errors->add('shop_image', 'Cannot read image file.');
+                    }
+                }
+            }
+        }
+
+        /* ---------- NEARBY TRANSPORT validation ---------- */
+        $nearby_transport = [];
+
+        if (!empty($_POST['transport']) && is_array($_POST['transport']['station'])) {
+
+            foreach ($_POST['transport']['station'] as $index => $station) {
+
+                $type    = trim($_POST['transport']['type'][$index] ?? '');
+                $line    = trim($_POST['transport']['line'][$index] ?? '');
+                $station = trim($station);
+
+                // ignore fully empty rows
+                if ($type === '' && $line === '' && $station === '') {
+                    continue;
+                }
+
+                // ALL fields required
+                if ($type === '' || $line === '' || $station === '') {
+                    $errors->add(
+                        'transport_required',
+                        'Nearby transport requires Type, Line, and Station name.'
+                    );
+                    continue;
+                }
+
+                // validate type
+                if (!in_array($type, ['BTS', 'MRT'], true)) {
+                    $errors->add(
+                        'transport_type',
+                        'Transport type must be BTS or MRT.'
+                    );
+                    continue;
+                }
+
+                $nearby_transport[] = [
+                    'type'    => sanitize_text_field($type),
+                    'line'    => sanitize_text_field($line),
+                    'station' => sanitize_text_field($station),
+                ];
+            }
+        }
+
+        /* ---------- OPENING HOURS validation ---------- */
+        $days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        foreach ($days as $day) {
+            if (! isset($_POST['opening_hours'][$day])) {
+                $errors->add(
+                    'opening_hours_' . $day,
+                    'Opening Hours for ' . ucfirst($day) . ' is missing.'
+                );
+            }
+        }
+
+        /* ---------- GOOGLE MAP URL validation ---------- */
+        if (! empty($_POST['shop_map_url'])) {
+
+            $map_url = esc_url_raw($_POST['shop_map_url']);
+
+            if (! wp_http_validate_url($map_url)) {
+                $errors->add('shop_map_url', 'Invalid Google Map URL.');
+            }
+
+            $_POST['shop_map_url'] = $map_url;
+        }
+
+        // If validation failed
+        if ($errors->has_errors()) {
+            echo '<div class="notice notice-error"><ul>';
+            foreach ($errors->get_error_messages() as $message) {
+                echo '<li>' . esc_html($message) . '</li>';
+            }
+            echo '</ul></div>';
+            return;
+        }
+
+        /* ---------- UPDATE ---------- */
+        $data = [
+            'shop_code'          => sanitize_text_field($_POST['shop_code']),
+            'shop_name'          => sanitize_text_field($_POST['shop_name']),
+            'shop_address'       => sanitize_textarea_field($_POST['shop_address']),
+            'shop_nearby_transport' => !empty($nearby_transport)
+                ? wp_json_encode($nearby_transport)
+                : null,
+            'shop_phone'         => sanitize_text_field($_POST['shop_phone']),
+            'shop_opening_hours' => wp_json_encode(
+                array_map('sanitize_text_field', $_POST['opening_hours'])
+            ),
+            'shop_description'   => wp_kses_post($_POST['shop_description']),
+            'shop_slug'          => sanitize_title($_POST['shop_slug']),
+            'shop_map_url'       => esc_url_raw($_POST['shop_map_url']),
+        ];
+
+        $format = [
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s'
+        ];
+
+        // Update image only if uploaded
+        if ($shop_image !== null) {
+            $data['shop_image'] = $shop_image;
+            array_unshift($format, '%s');
+        }
+
+        $result = $wpdb->update(
             $amwayShopTable,
-            [
-                'shop_code'          => $shop_code,
-                'shop_name'          => $shop_name,
-                'shop_address'       => $shop_address,
-                'shop_phone'         => $shop_phone,
-                'shop_description'   => $shop_description,
-                'shop_slug'          => $shop_slug,
-                'shop_map_url'       => $shop_map_url,
-                'shop_opening_hours' => $opening_hours_json,
-            ],
+            $data,
             ['id' => $shop_id],
-            ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'],
+            $format,
             ['%d']
         );
-        // ===== DB_UPDATE: Update amway_shop images =====
-        if ($updated !== false) {
-            if (!empty($_POST['existing_image_ids'])) {
-                $existingImageIds = $_POST['existing_image_ids'] ?? [];
-                $imageOrders = $_POST['existing_image_orders'] ?? [];
 
-                // Update existing images
-                foreach ($existingImageIds as $index => $imageId) {
-                    $order = intval($imageOrders[$index]);
-
-                    // Update image order
-                    $wpdb->update(
-                        $amwayShopImageTable,
-                        [
-                            'image_order' => $order,
-                            'modified' => current_time('mysql'),
-                        ],
-                        ['id' => intval($imageId)], // Identify the row by its ID
-                        ['%d', '%s'],
-                        ['%d']
-                    );
-                }
-            }
-
-            // Handle new image uploads
-            // DB_UPDATE: Insert into aboyuma_amway_shop_image table
-            // Note: Large files might fail silently if PHP or server upload size limits are exceeded,
-            // so ensure 'upload_max_filesize', 'post_max_size', and server settings allow the file size.
-            if (
-                isset($_FILES['amway_shop_images']['name']) && is_array($_FILES['amway_shop_images']['name'])
-                && !empty(array_filter($_FILES['amway_shop_images']['name']))
-            ) {
-                $files = $_FILES['amway_shop_images'];
-
-                $orders = $_POST['amway_shop_image_orders'];
-
-                // ✅ STEP 1: Get WordPress upload directory path
-                $upload_dir = wp_upload_dir();
-                $base_upload_path = trailingslashit($upload_dir['basedir']) . 'amway-shop-images/';
-
-                // ✅ STEP 2: Use amway_shop code to create subfolder
-                $safe_folder_name = sanitize_title($shop_code);
-                $image_subdir = trailingslashit($base_upload_path . $safe_folder_name);
-
-                // ✅ STEP 3: Create subfolder if it doesn't exist
-                if (!file_exists($image_subdir)) {
-                    if (!wp_mkdir_p($image_subdir)) {
-                        wp_die('Unable to create amway_shop image folder: ' . esc_html($image_subdir));
-                    }
-                }
-
-                $now = current_time('mysql');
-                // NOTE: using => $name is important.
-                foreach ($files['name'] as $index => $name) {
-                    if ($files['error'][$index] == UPLOAD_ERR_OK) {
-                        $tmp_name = $files['tmp_name'][$index];
-
-                        $order = intval($orders[$index]);
-
-                        // ✅ STEP 4: Generate a safe, unique filename
-                        $extension = pathinfo($name, PATHINFO_EXTENSION);
-                        $new_filename = uniqid('amway_shop_', true) . '.' . $extension;
-                        $destinationFolder = $image_subdir . $new_filename;
-
-                        if (move_uploaded_file($tmp_name, $destinationFolder)) {
-
-                            /**
-                             * ==== FIX IMAGE ORIENTATION (EXIF) ====
-                             * Must run BEFORE resizing.
-                             * Only applies to JPG images (EXIF works with JPEG only)
-                             */
-                            $extension_lower = strtolower($extension);
-                            if (in_array($extension_lower, ['jpg', 'jpeg']) && function_exists('exif_read_data')) {
-
-                                $exif = @exif_read_data($destinationFolder);
-
-                                if (!empty($exif['Orientation'])) {
-
-                                    $image = imagecreatefromjpeg($destinationFolder);
-
-                                    switch ($exif['Orientation']) {
-                                        case 3:
-                                            $image = imagerotate($image, 180, 0);
-                                            break;
-                                        case 6:
-                                            $image = imagerotate($image, -90, 0);
-                                            break;
-                                        case 8:
-                                            $image = imagerotate($image, 90, 0);
-                                            break;
-                                    }
-
-                                    // Save the rotated JPEG (100% quality before resizing)
-                                    imagejpeg($image, $destinationFolder, 100);
-                                    unset($image);
-                                }
-                            }
-
-                            // ✅ STEP 5: Store relative path in DB
-                            $image_path = 'amway-shop-images/' . $safe_folder_name . '/' . $new_filename;
-
-                            // ✅ STEP 6: Insert into database
-                            // Insert the image into the database
-                            $wpdb->insert(
-                                $amwayShopImageTable,
-                                [
-                                    'image_path' => $image_path,
-                                    'shop_id' => $shop_id, // Use the inserted amway_shop ID
-                                    'image_order' => $order,
-                                    'created' => $now,
-                                    'modified' => $now,
-                                ],
-                                [
-                                    '%s', // image_path
-                                    '%d', // shop_id
-                                    '%d', // image_order
-                                    '%s', // created
-                                    '%s', // modified
-                                ]
-                            );
-                        }
-                    } else {
-                        echo "File uploaded failed: " . $files['name'][$index];
-                        echo " Error Code: " . $files['error'][$index];
-                        var_dump($files['error'][$index]);
-                        var_dump(UPLOAD_ERR_OK);
-                        die();
-                    }
-                }
-            }
-
-            // Optional: Delete images if necessary
-            if (!empty($_POST['deleted_image_ids'])) {
-                $deletedImageIds = $_POST['deleted_image_ids'];
-                foreach ($deletedImageIds as $imageId) {
-                    // ✅ Step 1: Get the image path
-                    $image = $wpdb->get_row(
-                        $wpdb->prepare("SELECT image_path FROM $amwayShopImageTable WHERE id = %d", $imageId)
-                    );
-                    if ($image) {
-                        $upload_dir = wp_upload_dir();
-                        $full_path = trailingslashit($upload_dir['basedir']) . $image->image_path;
-                        $upload_basedir = wp_normalize_path($upload_dir['basedir']);
-                        $full_path_normalized = wp_normalize_path($full_path);
-
-                        // ✅ Step 2: Securely delete the file if it exists and is inside uploads dir
-                        if (strpos($full_path_normalized, $upload_basedir) !== 0 || !is_file($full_path)) {
-                            error_log("Attempt to delete file outside upload directory or invalid file: {$full_path}");
-                        } elseif (!unlink($full_path)) {
-                            error_log("Failed to delete amway_shop image file: {$full_path}");
-                        }
-                    }
-                    // ✅ Step 3: Delete the DB record
-                    $wpdb->delete(
-                        $amwayShopImageTable,
-                        ['id' => intval($imageId)],
-                        ['%d']
-                    );
-                }
-            }
-
-            echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-amway-shop-edit&updated-success=true&id=' . $shop_id) . '";</script>';
-            exit;
+        if ($result === false) {
+            echo '<div class="notice notice-error"><p>' .
+                esc_html($wpdb->last_error) .
+                '</p></div>';
+            return;
         }
+
+        echo '<div class="notice notice-success is-dismissible"><p>Amway shop updated successfully!</p></div>';
+        echo '<script>window.location.href="' .
+            admin_url('admin.php?page=aboyuma-amway-shop-edit&id=' . $shop_id . '&updated=true') .
+            '";</script>';
+        exit;
     }
 
 ?>
@@ -253,7 +234,15 @@ function aboyuma_amway_shop_edit() {
 
         <form method="post" enctype="multipart/form-data" id="aboyuma-edit-shop-form">
             <table class="form-table">
-
+                <!-- Shop Image -->
+                <tr>
+                    <th scope="row"><label for="shop_image">Shop Image</label></th>
+                    <td>
+                        <input type="file" name="shop_image" id="shop_image">
+                        <small style="display:block;">Main image of shop.</small>
+                        <img id="shop_image_preview" src="data:image/jpeg;base64,<?php echo base64_encode($shop->shop_image); ?>" alt="shop Image Preview" style="max-width: 200px; margin-top: 10px;">
+                    </td>
+                </tr>
                 <!-- Shop Code -->
                 <tr>
                     <th><label for="shop_code">Shop Code</label></th>
@@ -271,6 +260,62 @@ function aboyuma_amway_shop_edit() {
                     <th><label for="shop_address">Address</label></th>
                     <td>
                         <textarea name="shop_address" id="shop_address" class="large-text" rows="3" required><?php echo esc_textarea($shop->shop_address); ?></textarea>
+                    </td>
+                </tr>
+
+                <!-- Nearby Transport -->
+                <tr>
+                    <th><label>Nearby Transport</label></th>
+                    <td>
+                        <div id="transport-wrapper">
+
+                            <?php if (!empty($nearby_transport)) : ?>
+                                <?php foreach ($nearby_transport as $t) : ?>
+                                    <div class="transport-row">
+
+                                        <select name="transport[type][]">
+                                            <option value="">-- Type --</option>
+                                            <option value="BTS" <?php selected($t['type'], 'BTS'); ?>>BTS</option>
+                                            <option value="MRT" <?php selected($t['type'], 'MRT'); ?>>MRT</option>
+                                        </select>
+
+                                        <input
+                                            type="text"
+                                            name="transport[line][]"
+                                            placeholder="สาย (เช่น สีน้ำเงิน)"
+                                            value="<?php echo esc_attr($t['line'] ?? ''); ?>">
+
+                                        <input
+                                            type="text"
+                                            name="transport[station][]"
+                                            placeholder="ชื่อสถานี"
+                                            value="<?php echo esc_attr($t['station'] ?? ''); ?>">
+
+                                        <button type="button" class="button remove-transport">ลบ</button>
+                                    </div>
+                                <?php endforeach; ?>
+
+                            <?php else : ?>
+                                <!-- ADD MODE: empty row -->
+                                <div class="transport-row">
+                                    <select name="transport[type][]">
+                                        <option value="">-- Type --</option>
+                                        <option value="BTS">BTS</option>
+                                        <option value="MRT">MRT</option>
+                                    </select>
+
+                                    <input type="text" name="transport[line][]" placeholder="สาย (เช่น สีน้ำเงิน)">
+                                    <input type="text" name="transport[station][]" placeholder="ชื่อสถานี">
+
+                                    <button type="button" class="button remove-transport">ลบ</button>
+                                </div>
+                            <?php endif; ?>
+
+                        </div>
+
+                        <button type="button" class="button button-primary" id="add-transport">
+                            + เพิ่มสถานี
+                        </button>
                     </td>
                 </tr>
 
@@ -330,33 +375,6 @@ function aboyuma_amway_shop_edit() {
                     </td>
                 </tr>
 
-                <!-- Shop Images -->
-                <tr>
-                    <th scope="row"><label for="_benefit">Shop Images</label></th>
-                    <td>
-                        <div id="image-upload-container">
-                            <!-- Existing Images -->
-                            <?php
-                            $upload_dir = wp_upload_dir(); // ✅ Add before the loop
-                            $base_url = trailingslashit($upload_dir['baseurl']);
-                            foreach ($amwayShopImages as $image) :
-                                $image_url = $base_url . $image->image_path;
-                                echo '<pre>' . $image_url . '</pre>';
-                            ?>
-                                <div class="image-preview-container" data-id="<?= $image->id; ?>">
-                                    <img src="<?= esc_url($image_url); ?>" class="image-preview">
-                                    <input type="number" name="existing_image_orders[]" value="<?= $image->image_order; ?>" class="order-input">
-                                    <input type="hidden" name="existing_image_ids[]" value="<?= $image->id; ?>">
-                                    <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $image->id; ?>"> Delete</label>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <!-- New Image Uploads -->
-                        <button type="button" id="add-image-field">Add Image</button>
-                        <small>** detail images with order number to display in detail page</small>
-                    </td>
-                </tr>
-
             </table>
 
             <?php wp_nonce_field('aboyuma_edit_shop_action', 'aboyuma_shop_nonce'); ?>
@@ -366,69 +384,50 @@ function aboyuma_amway_shop_edit() {
 
     <script>
         jQuery(document).ready(function($) {
-            // ===== Shop Images Script ===== //
-            let imageCount = 0;
-
-            // Add a new image input field for shop detail images
-            $('#add-image-field').on('click', function() {
-                imageCount++;
-                const newField = `
-                <div class="image-preview-container" data-index="${imageCount}">
-                    <img src="" class="image-preview hidden" alt="Preview">
-                    <input type="file" name="amway_shop_images[]" class="shop-image-input">
-                    <input type="number" name="amway_shop_image_orders[]" class="order-input" placeholder="">
-                    <span class="remove-button">Remove</span>
-                </div>`;
-                $('#image-upload-container').append(newField);
-            });
-
-            // Preview the selected detail images
-            $(document).on('change', '.shop-image-input', function() {
+            // Preview for the main shop image
+            $('#shop_image').on('change', function() {
                 const file = this.files[0];
-                const preview = $(this).siblings('.image-preview');
+                const preview = $('#shop_image_preview');
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         preview.attr('src', e.target.result); // Set the image preview source
-                        preview.removeClass('hidden'); // Show the image
+                        preview.show(); // Show the image
                     };
                     reader.readAsDataURL(file); // Read the file as a data URL
                 } else {
                     preview.attr('src', ''); // Clear the image preview
-                    preview.addClass('hidden'); // Hide the image
+                    preview.hide(); // Hide the image
                 }
             });
-            // Remove an image input field
-            $(document).on('click', '.remove-button', function() {
-                $(this).closest('.image-preview-container').remove();
+
+            $('#add-transport').on('click', function() {
+
+                const rowHtml = `
+                    <div class="transport-row">
+                        <select name="transport[type][]">
+                            <option value="">-- Type --</option>
+                            <option value="BTS">BTS</option>
+                            <option value="MRT">MRT</option>
+                        </select>
+
+                        <input type="text" name="transport[line][]" placeholder="สาย (เช่น สีน้ำเงิน)">
+                        <input type="text" name="transport[station][]" placeholder="ชื่อสถานี">
+
+                        <button type="button" class="button remove-transport">ลบ</button>
+                    </div>
+                `;
+                $('#transport-wrapper').append(rowHtml);
             });
-            // ===== End Shop Detail Images Script ===== //
+
+            $(document).on('click', '.remove-transport', function() {
+                if ($('.transport-row').length > 1) {
+                    $(this).closest('.transport-row').remove();
+                }
+            });
+
         });
     </script>
-    <style>
-        .image-preview-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .image-preview {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-right: 10px;
-        }
-
-        .order-input {
-            width: 50px;
-            margin-right: 10px;
-        }
-
-        .remove-button {
-            margin-left: 10px;
-            cursor: pointer;
-        }
-    </style>
 
 <?php
 }

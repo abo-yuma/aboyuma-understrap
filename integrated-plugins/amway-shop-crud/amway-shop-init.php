@@ -12,8 +12,7 @@ Related issues:
 
 TODO :
 Future Refactor
-- Migrate from theme-integrated implementation
-- Refactor using WordPress Plugin Boilerplate (WPPB)
+- Refactor using custom OOP or WordPress Plugin Boilerplate (WPPB)
   https://wppb.me/
 - Remain theme-integrated
 */
@@ -34,7 +33,6 @@ function create_aboyuma_amway_shop_table() {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     global $wpdb;
     $shopTable = $wpdb->prefix . 'aboyuma_amway_shop';
-    $shopImageTable = $wpdb->prefix . 'aboyuma_amway_shop_image';
     $charset_collate = $wpdb->get_charset_collate();
 
     $queries = array();
@@ -42,9 +40,11 @@ function create_aboyuma_amway_shop_table() {
     // Main shop table
     array_push($queries, "CREATE TABLE $shopTable (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+        shop_image LONGBLOB NOT NULL,
         shop_code VARCHAR(20) NOT NULL DEFAULT '',
         shop_name VARCHAR(255) NOT NULL DEFAULT '',
         shop_address TEXT NOT NULL,
+        shop_nearby_transport JSON NULL,
         shop_phone VARCHAR(50) NULL,
         shop_opening_hours JSON NULL,
         shop_description TEXT NULL,
@@ -56,43 +56,12 @@ function create_aboyuma_amway_shop_table() {
         UNIQUE KEY unique_shop_code (shop_code)
     )  ENGINE=InnoDB $charset_collate;");
 
-
-    // Shop image table
-    array_push($queries, "CREATE TABLE $shopImageTable (
-        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-        shop_id INT UNSIGNED NOT NULL,
-        image_path VARCHAR(255) NOT NULL,
-        image_order TINYINT(1) NOT NULL DEFAULT 0,
-        created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
-    ) ENGINE=InnoDB $charset_collate;");
-
-
     // Create database tables
     foreach ($queries as $key => $sql) {
         dbDelta($sql);
     }
-
-    // [table, fk_name, SQL]
-    $foreign_keys = [
-        [$shopImageTable, 'fk_aboyuma_shop_image_shop_id', "ALTER TABLE $shopImageTable
-            ADD CONSTRAINT fk_aboyuma_shop_image_shop_id FOREIGN KEY (shop_id)
-            REFERENCES $shopTable(id) ON DELETE CASCADE"]
-    ];
-
-    // --- Foreign keys ---
-    // dbDelta does not support registering foreign keys.
-    // Therefore, we use $wpdb->query manually to add the FK.
-    // ⚠ Note: $wpdb->query will fail if FK already exists, so we check manually with fk_exists()
-    foreach ($foreign_keys as [$table, $fk_name, $sql]) {
-        if (!fk_exists($table, $fk_name)) {
-            $wpdb->query($sql);
-        }
-    }
 }
 add_action('after_switch_theme', 'create_aboyuma_amway_shop_table');
-
 
 // Register admin menu
 function aboyuma_amway_shop_menu() {
