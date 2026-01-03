@@ -836,7 +836,7 @@ function aboyuma_facebook_share_button() {
 $integrated_plugins = [
 	'/integrated-plugins/news-crud/news-init.php',
 	'/integrated-plugins/product-crud/product-init.php',
-	'/integrated-plugins/gallery-crud/gallery-init.php',
+	// '/integrated-plugins/gallery-crud/gallery-init.php',
 	'/integrated-plugins/amway-shop-crud/amway-shop-init.php'
 ];
 

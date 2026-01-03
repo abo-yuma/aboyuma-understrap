@@ -532,7 +532,7 @@ function aboyuma_product_add() {
     <hr class="wp-header-end">
     <form method="post" enctype="multipart/form-data">
       <table class="form-table">
-        <!-- Product Image URL -->
+        <!-- Product Image -->
         <tr>
           <th scope="row"><label for="product_image">Product Image</label></th>
           <td>

@@ -37,7 +37,7 @@ $container = get_theme_mod('understrap_container_type');
                     get_template_part('loop-templates/content', 'page');
                 }
                 ?>
-                <div id="post-<?php the_ID(); ?>" <?php post_class('content'); ?>>
+                <div id="aboyuma-amway-product-wrapper" class="aboyuma-amway-product-wrapper">
 
                     <form id="filter-form">
                         <!-- Filters -->
