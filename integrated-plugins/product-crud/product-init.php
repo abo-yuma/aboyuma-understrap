@@ -23,14 +23,14 @@ function create_aboyuma_amway_product_table() {
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
   global $wpdb;
-  $productTable = $wpdb->prefix . 'aboyuma_product';
-  $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
-  $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
-  $productTagTable = $wpdb->prefix . 'aboyuma_product_tag';
-  $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
-  $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
-  $relatedProductVideoTable = $wpdb->prefix . 'aboyuma_related_product_video';
+  $productTable = $wpdb->prefix . 'aboyuma_amway_product';
+  $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
+  $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
+  $productTagTable = $wpdb->prefix . 'aboyuma_amway_product_tag';
+  $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
+  $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
+  $relatedProductVideoTable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
 
   $charset_collate = $wpdb->get_charset_collate();
   // Prepare query statements
@@ -154,29 +154,29 @@ function create_aboyuma_amway_product_table() {
 
   // List foreign keys: [table, fk_name, SQL]
   $foreign_keys = [
-    [$productTable, 'fk_aboyuma_product_brand_id', "ALTER TABLE $productTable 
-      ADD CONSTRAINT fk_aboyuma_product_brand_id FOREIGN KEY (product_brand_id) 
+    [$productTable, 'fk_aboyuma_amway_product_brand_id', "ALTER TABLE $productTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_brand_id FOREIGN KEY (product_brand_id) 
       REFERENCES $productBrandTable(id) ON DELETE CASCADE"],
-    [$productTable, 'fk_aboyuma_product_category_id', "ALTER TABLE $productTable 
-      ADD CONSTRAINT fk_aboyuma_product_category_id FOREIGN KEY (product_category_id) 
+    [$productTable, 'fk_aboyuma_amway_product_category_id', "ALTER TABLE $productTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_category_id FOREIGN KEY (product_category_id) 
       REFERENCES $productCategoryTable(id) ON DELETE CASCADE"],
-    [$productTagTable, 'fk_aboyuma_product_tag_product_id', "ALTER TABLE $productTagTable 
-      ADD CONSTRAINT fk_aboyuma_product_tag_product_id FOREIGN KEY (product_id) 
+    [$productTagTable, 'fk_aboyuma_amway_product_tag_product_id', "ALTER TABLE $productTagTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_tag_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
-    [$productImageTable, 'fk_aboyuma_product_image_product_id', "ALTER TABLE $productImageTable 
-      ADD CONSTRAINT fk_aboyuma_product_image_product_id FOREIGN KEY (product_id) 
+    [$productImageTable, 'fk_aboyuma_amway_product_image_product_id', "ALTER TABLE $productImageTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_image_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
-    [$productInfographicTable, 'fk_aboyuma_product_infographic_product_id', "ALTER TABLE $productInfographicTable 
-      ADD CONSTRAINT fk_aboyuma_product_infographic_product_id FOREIGN KEY (product_id) 
+    [$productInfographicTable, 'fk_aboyuma_amway_product_infographic_product_id', "ALTER TABLE $productInfographicTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_infographic_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
-    [$relatedProductTable, 'fk_aboyuma_related_product_product_id', "ALTER TABLE $relatedProductTable 
-      ADD CONSTRAINT fk_aboyuma_related_product_product_id FOREIGN KEY (product_id) 
+    [$relatedProductTable, 'fk_aboyuma_related_amway_product_product_id', "ALTER TABLE $relatedProductTable 
+      ADD CONSTRAINT fk_aboyuma_related_amway_product_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
-    [$relatedProductTable, 'fk_aboyuma_related_product_related_id', "ALTER TABLE $relatedProductTable 
-      ADD CONSTRAINT fk_aboyuma_related_product_related_id FOREIGN KEY (related_product_id) 
+    [$relatedProductTable, 'fk_aboyuma_related_amway_product_related_id', "ALTER TABLE $relatedProductTable 
+      ADD CONSTRAINT fk_aboyuma_related_amway_product_related_id FOREIGN KEY (related_product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
-    [$relatedProductVideoTable, 'fk_aboyuma_product_video_product_id', "ALTER TABLE $relatedProductVideoTable 
-      ADD CONSTRAINT fk_aboyuma_product_video_product_id FOREIGN KEY (product_id) 
+    [$relatedProductVideoTable, 'fk_aboyuma_amway_product_video_product_id', "ALTER TABLE $relatedProductVideoTable 
+      ADD CONSTRAINT fk_aboyuma_amway_product_video_product_id FOREIGN KEY (product_id) 
       REFERENCES $productTable(id) ON DELETE CASCADE"],
   ];
 
@@ -202,12 +202,12 @@ function aboyuma_update_amway_product_schema() {
 add_action('after_setup_theme', 'aboyuma_update_amway_product_schema');
 
 
-function aboyuma_product_menu() {
+function aboyuma_amway_product_menu() {
   $productPageTitle = 'Amway Products';
   $productPageMenuTitle = 'Amway Products';
   $productPageCapability = 'manage_options';
   $productPageMenuSlug = 'aboyuma-product-list';
-  $productPageFunction = 'aboyuma_product_list';
+  $productPageFunction = 'aboyuma_amway_product_list';
   $productPageIconUrl = 'dashicons-admin-generic';
   $productPagePosition = 25;
 
@@ -245,7 +245,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-add',
-    'aboyuma_product_add'
+    'aboyuma_amway_product_add'
   );
   // Add submenu page without adding menu 
   // Ref:https://stackoverflow.com/a/12758400/8527193
@@ -255,7 +255,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-detail',
-    'aboyuma_product_detail'
+    'aboyuma_amway_product_detail'
   );
   add_submenu_page(
     null,
@@ -263,7 +263,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-edit',
-    'aboyuma_product_edit'
+    'aboyuma_amway_product_edit'
   );
   add_submenu_page(
     $productPageMenuSlug,
@@ -271,7 +271,7 @@ function aboyuma_product_menu() {
     'Brands',
     $productPageCapability,
     'aboyuma-product-brand-list',
-    'aboyuma_product_brand_list'
+    'aboyuma_amway_product_brand_list'
   );
   add_submenu_page(
     null,
@@ -279,7 +279,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-brand-add',
-    'aboyuma_product_brand_add'
+    'aboyuma_amway_product_brand_add'
   );
   add_submenu_page(
     null,
@@ -287,7 +287,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-brand-edit',
-    'aboyuma_product_brand_edit'
+    'aboyuma_amway_product_brand_edit'
   );
   add_submenu_page(
     $productPageMenuSlug,
@@ -295,7 +295,7 @@ function aboyuma_product_menu() {
     'Categories',
     $productPageCapability,
     'aboyuma-product-category-list',
-    'aboyuma_product_category_list'
+    'aboyuma_amway_product_category_list'
   );
   add_submenu_page(
     null,
@@ -303,7 +303,7 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-category-add',
-    'aboyuma_product_category_add'
+    'aboyuma_amway_product_category_add'
   );
   add_submenu_page(
     null,
@@ -311,10 +311,10 @@ function aboyuma_product_menu() {
     null,
     $productPageCapability,
     'aboyuma-product-category-edit',
-    'aboyuma_product_category_edit'
+    'aboyuma_amway_product_category_edit'
   );
 }
-add_action('admin_menu', 'aboyuma_product_menu');
+add_action('admin_menu', 'aboyuma_amway_product_menu');
 
 require_once get_template_directory() . '/integrated-plugins/product-crud/product-functions.php';
 require_once get_template_directory() . '/integrated-plugins/product-crud/product-list.php';

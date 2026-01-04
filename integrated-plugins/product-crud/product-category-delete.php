@@ -5,8 +5,8 @@ function delete_product_category() {
   global $wpdb;
 
   $category_id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-  $product_table = $wpdb->prefix . 'aboyuma_product';
-  $category_table = $wpdb->prefix . 'aboyuma_product_category';
+  $product_table = $wpdb->prefix . 'aboyuma_amway_product';
+  $category_table = $wpdb->prefix . 'aboyuma_amway_product_category';
 
   // Check if any product is using this category
   $count = $wpdb->get_var($wpdb->prepare(

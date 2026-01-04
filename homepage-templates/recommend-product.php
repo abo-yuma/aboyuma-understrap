@@ -2,7 +2,7 @@
 <div id="home-recommend-product" class="mb-2">
     <?php
     global $wpdb;
-    $table_name = $wpdb->prefix . 'aboyuma_product';
+    $table_name = $wpdb->prefix . 'aboyuma_amway_product';
     $products = $wpdb->get_results(
         $wpdb->prepare(
             "SELECT id, product_image, product_name, 

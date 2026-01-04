@@ -92,7 +92,7 @@ $inserted = $wpdb->insert(
 if ($inserted) {
     // Get the ID of the inserted product
     $inserted_product_id = $wpdb->insert_id;
-    // DB_INSERT: Insert into aboyuma_product_ingraphic table
+    // DB_INSERT: Insert into aboyuma_amway_product_ingraphic table
     if (
         isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
         && !empty(array_filter($_FILES['product_infographics']['name']))
@@ -174,7 +174,7 @@ if ($inserted) {
 
     // DB_INSERT: Add related product
     // On submit, filter only checked items
-    $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+    $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
     if (!empty($_POST['relatedproduct']) && is_array($_POST['relatedproduct'])) {
         // Insert each related product
         foreach ($_POST['relatedproduct'] as $item) {

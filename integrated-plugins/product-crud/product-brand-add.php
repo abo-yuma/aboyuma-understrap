@@ -1,9 +1,9 @@
 <?php
-function aboyuma_product_brand_add()
+function aboyuma_amway_product_brand_add()
 {
   // Add new product data page content
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product_brand';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product_brand';
 
   // Initialize variables
   $brand_image_url = '';
@@ -11,8 +11,8 @@ function aboyuma_product_brand_add()
   $errors = [];
 
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_brand_add_nonce'])
-    && wp_verify_nonce($_POST['aboyuma_product_brand_add_nonce'], 'aboyuma_product_brand_add')
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_brand_add_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_amway_product_brand_add_nonce'], 'aboyuma_amway_product_brand_add')
   ) {
     // Sanitize and assign form data
     $brand_image_url = esc_url_raw(trim($_POST['brand_image_url']));
@@ -99,7 +99,7 @@ function aboyuma_product_brand_add()
           </td>
         </tr>
       </table>
-      <?php wp_nonce_field('aboyuma_product_brand_add', 'aboyuma_product_brand_add_nonce'); ?>
+      <?php wp_nonce_field('aboyuma_amway_product_brand_add', 'aboyuma_amway_product_brand_add_nonce'); ?>
       <button type="submit" name="submit" id="submit" class="button button-primary">Add Brand</button>
       <button type="button" onclick="window.history.back();" class="button button-secondary">Cancel</button>
     </form>

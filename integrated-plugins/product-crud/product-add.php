@@ -1,21 +1,21 @@
 <?php
-function aboyuma_product_add() {
+function aboyuma_amway_product_add() {
   // Add new product data page content
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product';
   // Fetch brands and categories
-  $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
-  $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
-  $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+  $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
+  $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
+  $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
   // Fetch brands
   $brands = $wpdb->get_results("SELECT id, brand_name FROM $productBrandTable");
   // Fetch categories
   $categories = $wpdb->get_results("SELECT id, category_name, parent_id FROM $productCategoryTable");
 
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_add_nonce'])
-    && wp_verify_nonce($_POST['aboyuma_product_add_nonce'], 'aboyuma_product_add')
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_add_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_amway_product_add_nonce'], 'aboyuma_amway_product_add')
   ) {
 
     // ===== DEBUG SPACE =====
@@ -203,7 +203,7 @@ function aboyuma_product_add() {
     }
     // If no errors, insert data into the database
     if (empty($errors)) {
-      // DB_INSERT: Insert into aboyuma_product table
+      // DB_INSERT: Insert into aboyuma_amway_product table
       $inserted = $wpdb->insert(
         $table_name,
         [
@@ -271,7 +271,7 @@ function aboyuma_product_add() {
         // Get the ID of the inserted product
         $inserted_product_id = $wpdb->insert_id;
 
-        // DB_INSERT: Insert into aboyuma_product_images table
+        // DB_INSERT: Insert into aboyuma_amway_product_images table
         if (
           isset($_FILES['product_images']['name']) && is_array($_FILES['product_images']['name'])
           && !empty(array_filter($_FILES['product_images']['name']))
@@ -351,7 +351,7 @@ function aboyuma_product_add() {
           }
         }
 
-        // DB_INSERT: Insert into aboyuma_product_ingraphic table
+        // DB_INSERT: Insert into aboyuma_amway_product_ingraphic table
         if (
           isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
           && !empty(array_filter($_FILES['product_infographics']['name']))
@@ -433,7 +433,7 @@ function aboyuma_product_add() {
 
         // DB_INSERT: Add related product
         // On submit, filter only checked items
-        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
         if (!empty($_POST['relatedproduct']) && is_array($_POST['relatedproduct'])) {
           // Insert each related product
           foreach ($_POST['relatedproduct'] as $item) {
@@ -456,7 +456,7 @@ function aboyuma_product_add() {
           }
         }
 
-        // DB_INSERT: aboyuma_product_tag
+        // DB_INSERT: aboyuma_amway_product_tag
         if (isset($_POST['product_tags']) && !empty($_POST['product_tags'])) {
 
           $tag_string = sanitize_text_field($_POST['product_tags']); // "tag1,tag2,tag3"
@@ -464,7 +464,7 @@ function aboyuma_product_add() {
           // Split tags into array, trim spaces, remove empty entries
           $tags = array_filter(array_map('trim', explode(',', $tag_string)));
 
-          $table = $wpdb->prefix . 'aboyuma_product_tag';
+          $table = $wpdb->prefix . 'aboyuma_amway_product_tag';
 
           //$wpdb->delete($table, ['product_id' => $inserted_product_id], ['%d']);
 
@@ -483,10 +483,10 @@ function aboyuma_product_add() {
           }
         }
 
-        // DB_INSERT: aboyuma_related_product_video
+        // DB_INSERT: aboyuma_related_amway_product_video
         if (isset($_POST['video_datas']) && !empty($_POST['video_datas'])) {
 
-          $table = $wpdb->prefix . 'aboyuma_related_product_video';
+          $table = $wpdb->prefix . 'aboyuma_related_amway_product_video';
           $now = current_time('mysql');
 
           foreach ($_POST['video_datas'] as $video_data) {
@@ -879,7 +879,7 @@ function aboyuma_product_add() {
         <?php
         // Fetch all products
         $products = $wpdb->get_results("SELECT id, product_name 
-        FROM {$wpdb->prefix}aboyuma_product 
+        FROM {$wpdb->prefix}aboyuma_amway_product 
         ORDER BY product_name ASC");
         // If form was submitted and failed, use submitted values instead
         $submitted_related = $_POST['relatedproduct'] ?? [];
@@ -951,7 +951,7 @@ function aboyuma_product_add() {
           </td>
         </tr>
       </table>
-      <?php wp_nonce_field('aboyuma_product_add', 'aboyuma_product_add_nonce'); ?>
+      <?php wp_nonce_field('aboyuma_amway_product_add', 'aboyuma_amway_product_add_nonce'); ?>
       <button type="submit" name="submit" id="submit" class="button button-primary">Add Product</button>
       <button type="button" onclick="window.location.href='<?php echo admin_url('admin.php?page=aboyuma-product-list'); ?>'" class="button button-secondary">Cancel</button>
     </form>

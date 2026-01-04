@@ -1,5 +1,5 @@
 <?php
-function aboyuma_product_detail() {
+function aboyuma_amway_product_detail() {
   global $wpdb;
   // Check if product ID is provided
   $product_id = isset($_GET['id']) ? absint($_GET['id']) : 0;
@@ -13,10 +13,10 @@ function aboyuma_product_detail() {
           </div>';
   }
   // Get existing data for the product
-  $product_table_name = $wpdb->prefix . 'aboyuma_product';
-  $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
-  $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
-  $productTagTable = $wpdb->prefix . 'aboyuma_product_tag';
+  $product_table_name = $wpdb->prefix . 'aboyuma_amway_product';
+  $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
+  $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
+  $productTagTable = $wpdb->prefix . 'aboyuma_amway_product_tag';
   $sql = $wpdb->prepare("
     SELECT 
       p.*, 
@@ -41,9 +41,9 @@ function aboyuma_product_detail() {
     echo '<div class="notice notice-error is-dismissible"><p>Product not found.</p></div>';
     return;
   }
-  $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
+  $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
   $productDetailImages = $wpdb->get_results("SELECT * FROM $productImageTable WHERE product_id = $product_id");
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
   $productInfographics = $wpdb->get_results("SELECT * FROM $productInfographicTable WHERE product_id = $product_id");
 
   // Display the detail
@@ -309,8 +309,8 @@ function aboyuma_product_detail() {
         $related_products = $wpdb->get_results($wpdb->prepare(
           "
         SELECT p.id, p.product_name
-        FROM {$wpdb->prefix}aboyuma_related_product rp
-        JOIN {$wpdb->prefix}aboyuma_product p ON rp.related_product_id = p.id
+        FROM {$wpdb->prefix}aboyuma_related_amway_product rp
+        JOIN {$wpdb->prefix}aboyuma_amway_product p ON rp.related_product_id = p.id
         WHERE rp.product_id = %d
         ORDER BY p.product_name ASC
         ",
@@ -350,7 +350,7 @@ function aboyuma_product_detail() {
           </td>
         </tr>
         <?php
-        $relatedProductVideotable = $wpdb->prefix . 'aboyuma_related_product_video';
+        $relatedProductVideotable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
         $videos = $wpdb->get_results(
           $wpdb->prepare("SELECT video_url, video_comment 
           FROM $relatedProductVideotable 

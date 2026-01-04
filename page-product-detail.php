@@ -48,9 +48,9 @@ $container = get_theme_mod('understrap_container_type');
                 global $wpdb;
 
                 // Get existing data for the product
-                $product_table_name = $wpdb->prefix . 'aboyuma_product';
-                $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
-                $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
+                $product_table_name = $wpdb->prefix . 'aboyuma_amway_product';
+                $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
+                $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
                 $sql = $wpdb->prepare(
                     "
                     SELECT
@@ -78,7 +78,7 @@ $container = get_theme_mod('understrap_container_type');
                     return;
                 }
 
-                $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
+                $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
                 $sql_images = $wpdb->prepare("
                     SELECT id, product_id, product_image_path 
                     FROM $productImageTable 
@@ -86,7 +86,7 @@ $container = get_theme_mod('understrap_container_type');
                 ", $product_id);
                 $productDetailImages = $wpdb->get_results($sql_images);
 
-                $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+                $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
                 $sql_infographics = $wpdb->prepare("
                     SELECT id, product_id, product_infographic_path
                     FROM $productInfographicTable 
@@ -94,7 +94,7 @@ $container = get_theme_mod('understrap_container_type');
                 ", $product_id);
                 $productInfographics = $wpdb->get_results($sql_infographics);
 
-                $productRelateVideoTable = $wpdb->prefix . 'aboyuma_related_product_video';
+                $productRelateVideoTable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
                 $sql_videos = $wpdb->prepare("
                     SELECT id, product_id, video_url, video_comment
                     FROM $productRelateVideoTable 
@@ -102,7 +102,7 @@ $container = get_theme_mod('understrap_container_type');
                 ", $product_id);
                 $productRelateVideos = $wpdb->get_results($sql_videos);
 
-                $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+                $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
                 $related_products = $wpdb->get_col($wpdb->prepare(
                     "SELECT related_product_id FROM $relatedProductTable WHERE product_id = %d",
                     $product_id

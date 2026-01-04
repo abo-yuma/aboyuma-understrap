@@ -4,7 +4,7 @@ function delete_product_brand()
 {
   check_ajax_referer('delete_product_brand_nonce', 'nonce');
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product_brand';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product_brand';
   $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
   $result = $wpdb->delete($table_name, array('id' => $id));

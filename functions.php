@@ -452,7 +452,7 @@ function display_visitor_stats() {
 	$shop_open_date = trim(file_get_contents($launch_date_file));
 	// Get max modified dates from posts, comments, visitors, and products
 	$max_post_date    = $wpdb->get_var("SELECT MAX(post_modified) FROM {$wpdb->prefix}posts WHERE post_status = 'publish'");
-	$max_product_date = $wpdb->get_var("SELECT MAX(modified) FROM {$wpdb->prefix}aboyuma_product");
+	$max_product_date = $wpdb->get_var("SELECT MAX(modified) FROM {$wpdb->prefix}aboyuma_amway_product");
 
 	// Combine dates safely
 	$dates = array_filter([$max_post_date, $max_product_date]); // remove nulls
@@ -485,9 +485,9 @@ function ajax_filter_products() {
 	}
 
 	global $wpdb;
-	$product_table = $wpdb->prefix . 'aboyuma_product';
-	$product_brand_table = $wpdb->prefix . 'aboyuma_product_brand';
-	$product_category_table = $wpdb->prefix . 'aboyuma_product_category';
+	$product_table = $wpdb->prefix . 'aboyuma_amway_product';
+	$product_brand_table = $wpdb->prefix . 'aboyuma_amway_product_brand';
+	$product_category_table = $wpdb->prefix . 'aboyuma_amway_product_category';
 
 	// Retrieve category filter value
 	$parent_category = isset($_GET['parent_category']) ? intval($_GET['parent_category']) : 0;
@@ -577,8 +577,8 @@ add_action('wp_head', function () {
 		}
 
 		// --- Define table names ---
-		$product_table = $wpdb->prefix . 'aboyuma_product';
-		$product_image_table = $wpdb->prefix . 'aboyuma_product_image';
+		$product_table = $wpdb->prefix . 'aboyuma_amway_product';
+		$product_image_table = $wpdb->prefix . 'aboyuma_amway_product_image';
 
 		// --- Fetch product info + first image path ---
 		$sql = $wpdb->prepare("
@@ -641,8 +641,8 @@ function aboyuma_get_related_products() {
 
 	global $wpdb;
 	$placeholders = implode(',', array_fill(0, count($related_products), '%d'));
-	$product_table = $wpdb->prefix . 'aboyuma_product';
-	$related_table = $wpdb->prefix . 'aboyuma_related_product';
+	$product_table = $wpdb->prefix . 'aboyuma_amway_product';
+	$related_table = $wpdb->prefix . 'aboyuma_related_amway_product';
 
 	$sql = "
         SELECT 
