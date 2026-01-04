@@ -1,13 +1,23 @@
 ## ABO YUMA - Personal Blog WordPress Theme
-A custom WordPress theme built for Yuma's personal blog. This theme is based on the Understrap Starter Theme.
+A custom WordPress theme developed for Yuma’s personal blog and Amway business. 
+
+This theme is based on the Understrap Starter Theme.
 https://understrap.com/
 
-Note:
-Theme CSS and JS build files should not be committed to the repository.
-The .gitignore file must be updated to exclude front-end build outputs.
+## Installation
 
-## Theme Integrated Plugins
-This theme includes 3 custom plugins integrated into the theme with auto front-end page registration to the menu
+## Built-in script
+- Full-width navigation menus sticky top on scroll
+- Scroll to top button
+- Bootstrap 5 dark mode switch
+- Visitor counter
+
+## Customizer
+Additional customizer
+- Footer content
+
+## Integrated Plugins
+This theme includes 3 custom plugins integrated into the theme with auto front-end page registration to the menu.
 - News Management System (CRUD)
 - Gallery Management System (CRUD)
 - Amway Product Management System (CRUD)
@@ -21,7 +31,7 @@ Reference:
 Related issues:
 - https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
 
-## Theme Integrated Widgets
+## Integrated Widgets
 This theme includes 3 custom widgets integrated into the theme:
 - Authorbox Widget
 - Quick Links Widget
@@ -29,8 +39,7 @@ This theme includes 3 custom widgets integrated into the theme:
 
 ### TODO :
 Future Refactors
-- Refactor using WordPress Plugin Boilerplate (WPPB)
-  https://wppb.me/
+- Refactor using [WordPress Plugin Boilerplate (WPPB)](https://wppb.me/) to make it close to a standard plugin development
 - Remain theme-integrated
 - Implement drag and re-order product detail images
 - Improve field validation

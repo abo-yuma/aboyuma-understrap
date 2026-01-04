@@ -136,16 +136,16 @@ $container = get_theme_mod('understrap_container_type');
                                 </div>
                                 <!-- Product image thumbnails -->
                                 <div class="thumbnail-slider-container position-relative mt-2">
-                                    <button id="prevThumbnail" class="slider-arrow left-arrow">&lt;</button>
+                                    <!-- <button id="prevThumbnail" class="slider-arrow left-arrow">&lt;</button> -->
                                     <div id="thumbnailWrapper" class="thumbnail-wrapper">
                                         <?php foreach ($productDetailImages as $key => $productDetailImage) : ?>
                                             <img src="<?= esc_url($baseurl . '/' . $productDetailImage->product_image_path); ?>"
                                                 onclick="displayPreviewImage(this, <?= $key ?>)"
-                                                class="thumbnail img-thumbnail mb-2 <?= $key === 0 ? 'active' : ''; ?>"
+                                                class="thumbnail img-thumbnail <?= $key === 0 ? 'active' : ''; ?>"
                                                 alt="">
                                         <?php endforeach; ?>
                                     </div>
-                                    <button id="nextThumbnail" class="slider-arrow right-arrow">&gt;</button>
+                                    <!-- <button id="nextThumbnail" class="slider-arrow right-arrow">&gt;</button> -->
                                 </div>
                             </div>
                             <!-- End Main Image Preview Section -->
@@ -548,26 +548,25 @@ $container = get_theme_mod('understrap_container_type');
         );
     }
 
+    // function scrollThumbnails(direction) {
+    //     const wrapper = document.getElementById("thumbnailWrapper"); // Get the thumbnail wrapper
+    //     const thumbnailWidth = wrapper.querySelector(".thumbnail").offsetWidth + 500; // Get width of one thumbnail + margin
 
-    function scrollThumbnails(direction) {
-        const wrapper = document.getElementById("thumbnailWrapper"); // Get the thumbnail wrapper
-        const thumbnailWidth = wrapper.querySelector(".thumbnail").offsetWidth + 500; // Get width of one thumbnail + margin
+    //     // Scroll by one thumbnail width in the given direction
+    //     wrapper.scrollBy({
+    //         left: direction * thumbnailWidth,
+    //         behavior: "smooth"
+    //     });
+    // }
 
-        // Scroll by one thumbnail width in the given direction
-        wrapper.scrollBy({
-            left: direction * thumbnailWidth,
-            behavior: "smooth"
-        });
-    }
+    // // Event listeners for left and right arrow buttons
+    // document.getElementById("prevThumbnail").addEventListener("click", function() {
+    //     scrollThumbnails(-1); // Scroll left
+    // });
 
-    // Event listeners for left and right arrow buttons
-    document.getElementById("prevThumbnail").addEventListener("click", function() {
-        scrollThumbnails(-1); // Scroll left
-    });
-
-    document.getElementById("nextThumbnail").addEventListener("click", function() {
-        scrollThumbnails(1); // Scroll right
-    });
+    // document.getElementById("nextThumbnail").addEventListener("click", function() {
+    //     scrollThumbnails(1); // Scroll right
+    // });
 
     function displayPreviewImage(thumbnail, index) {
         const newImagePath = thumbnail.getAttribute("src");
@@ -586,6 +585,25 @@ $container = get_theme_mod('understrap_container_type');
         background: rgba(0, 0, 0, 0.8);
         /* same as Magnific Popup */
     }
+
+    .thumbnail-wrapper {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        /* 5 thumbnails per row */
+        gap: 6px;
+        /* spacing between thumbnails */
+        width: 100%;
+    }
+
+    .thumbnail {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        /* keep square thumbnails */
+        object-fit: cover;
+        margin: 0;
+        /* remove Bootstrap margins */
+    }
+
 
     #qrcode img {
         width: 70px;

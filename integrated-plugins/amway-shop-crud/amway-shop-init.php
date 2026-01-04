@@ -20,16 +20,6 @@ Future Refactor
 
 function create_aboyuma_amway_shop_table() {
 
-    // $schema_version = '1.0';
-    // $current_version = get_option('aboyuma_amway_shop_schema_version');
-
-    // if ($current_version === $schema_version) {
-    //     return; // Already up-to-date
-    // }
-
-    // // Save current schema version
-    // update_option('aboyuma_amway_shop_schema_version', $schema_version);
-
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     global $wpdb;
     $shopTable = $wpdb->prefix . 'aboyuma_amway_shop';
