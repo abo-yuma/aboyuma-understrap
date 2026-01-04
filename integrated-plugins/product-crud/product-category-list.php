@@ -13,9 +13,9 @@ function enqueue_category_datatables_assets() {
 }
 add_action('admin_enqueue_scripts', 'enqueue_category_datatables_assets');
 
-function aboyuma_product_category_list() {
+function aboyuma_amway_product_category_list() {
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product_category';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product_category';
   $results = $wpdb->get_results("
     SELECT c.*, p.category_name AS parent_name
     FROM $table_name c

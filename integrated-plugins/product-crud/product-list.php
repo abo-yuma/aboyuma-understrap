@@ -26,11 +26,11 @@ function enqueue_datatables_assets() {
 }
 add_action('admin_enqueue_scripts', 'enqueue_datatables_assets');
 
-function aboyuma_product_list() {
+function aboyuma_amway_product_list() {
   global $wpdb;
-  $product_table_name = $wpdb->prefix . 'aboyuma_product';
-  $productBrandTable = $wpdb->prefix . 'aboyuma_product_brand';
-  $productCategoryTable = $wpdb->prefix . 'aboyuma_product_category';
+  $product_table_name = $wpdb->prefix . 'aboyuma_amway_product';
+  $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
+  $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
   $products = $wpdb->get_results("
     SELECT
       p.id,

@@ -2,7 +2,7 @@
 function delete_product() {
   check_ajax_referer('delete_product_nonce', 'nonce');
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product';
   $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
   // ✅ 1. Get product_code by ID
   $product = $wpdb->get_row($wpdb->prepare("SELECT product_code FROM {$table_name} WHERE id = %d", $id));

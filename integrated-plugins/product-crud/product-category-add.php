@@ -1,16 +1,16 @@
 <?php
-function aboyuma_product_category_add() {
+function aboyuma_amway_product_category_add() {
   // Add new product data page content
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product_category';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product_category';
 
   // Initialize variables
   $category_name = '';
   $errors = [];
 
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_category_add_nonce'])
-    && wp_verify_nonce($_POST['aboyuma_product_category_add_nonce'], 'aboyuma_product_category_add')
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_category_add_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_amway_product_category_add_nonce'], 'aboyuma_amway_product_category_add')
   ) {
     // Sanitize and assign form data
     $category_name = sanitize_text_field(trim($_POST['category_name']));
@@ -100,7 +100,7 @@ function aboyuma_product_category_add() {
           </td>
         </tr>
       </table>
-      <?php wp_nonce_field('aboyuma_product_category_add', 'aboyuma_product_category_add_nonce'); ?>
+      <?php wp_nonce_field('aboyuma_amway_product_category_add', 'aboyuma_amway_product_category_add_nonce'); ?>
       <button type="submit" name="submit" id="submit" class="button button-primary">Add Category</button>
       <button type="button" onclick="window.history.back();" class="button button-secondary">Cancel</button>
     </form>

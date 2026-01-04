@@ -1,7 +1,7 @@
 <?php
-function aboyuma_product_edit() {
+function aboyuma_amway_product_edit() {
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product';
 
   // Check if product ID is provided
   $product_id = isset($_GET['id']) ? absint($_GET['id']) : 0;
@@ -9,10 +9,10 @@ function aboyuma_product_edit() {
     echo '<div class="notice notice-error is-dismissible"><p>Invalid product ID.</p></div>';
   }
   // Define table names
-  $productTable      = $wpdb->prefix . 'aboyuma_product';
-  $brandTable        = $wpdb->prefix . 'aboyuma_product_brand';
-  $categoryTable     = $wpdb->prefix . 'aboyuma_product_category';
-  $tagTable          = $wpdb->prefix . 'aboyuma_product_tag';
+  $productTable      = $wpdb->prefix . 'aboyuma_amway_product';
+  $brandTable        = $wpdb->prefix . 'aboyuma_amway_product_brand';
+  $categoryTable     = $wpdb->prefix . 'aboyuma_amway_product_category';
+  $tagTable          = $wpdb->prefix . 'aboyuma_amway_product_tag';
   // Get existing data for the product
   // Get product data including brand, category, and tags
   $product = $wpdb->get_row(
@@ -84,7 +84,7 @@ function aboyuma_product_edit() {
     }
   }
 
-  $productImageTable = $wpdb->prefix . 'aboyuma_product_image';
+  $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
   $productDetailImages = $wpdb->get_results("
     SELECT id, product_image_path, product_image_order 
     FROM $productImageTable 
@@ -92,7 +92,7 @@ function aboyuma_product_edit() {
     ORDER BY product_image_order ASC
   ");
 
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_product_infographic';
+  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
   $productInfographics = $wpdb->get_results("
     SELECT id, product_infographic_path, product_infographic_order 
     FROM $productInfographicTable 
@@ -104,8 +104,8 @@ function aboyuma_product_edit() {
 
   // Handle form submission
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_nonce'])
-    && wp_verify_nonce($_POST['aboyuma_product_nonce'], 'aboyuma_product_edit')
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_amway_product_nonce'], 'aboyuma_amway_product_edit')
   ) {
     // Sanitize and assign form data
     $product_code = sanitize_text_field(trim($_POST['product_code']));
@@ -351,7 +351,7 @@ function aboyuma_product_edit() {
         }
 
         // Handle new image uploads
-        // DB_UPDATE: Insert into aboyuma_product_images table
+        // DB_UPDATE: Insert into aboyuma_amway_product_images table
         // Note: Large files might fail silently if PHP or server upload size limits are exceeded,
         // so ensure 'upload_max_filesize', 'post_max_size', and server settings allow the file size.
         if (
@@ -452,7 +452,7 @@ function aboyuma_product_edit() {
           }
         }
 
-        // DB_UPDATE: update aboyuma_product_infographic table
+        // DB_UPDATE: update aboyuma_amway_product_infographic table
         if (
           isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
           && !empty(array_filter($_FILES['product_infographics']['name']))
@@ -558,7 +558,7 @@ function aboyuma_product_edit() {
         // DB_UPDATE: Add related product
         // On submit, filter only checked items
         // Clear old related products for this product_id
-        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
         $wpdb->delete($relatedProductTable, ['product_id' => $product_id]);
         if (!empty($_POST['relatedproduct']) && is_array($_POST['relatedproduct'])) {
           // Insert each related product
@@ -582,7 +582,7 @@ function aboyuma_product_edit() {
           }
         }
 
-        // DB_UPDATE: aboyuma_product_tag
+        // DB_UPDATE: aboyuma_amway_product_tag
         if (isset($_POST['product_tags']) && !empty($_POST['product_tags'])) {
 
           $tag_string = sanitize_text_field($_POST['product_tags']); // "tag1,tag2,tag3"
@@ -590,7 +590,7 @@ function aboyuma_product_edit() {
           // Split tags into array, trim spaces, remove empty entries
           $tags = array_filter(array_map('trim', explode(',', $tag_string)));
 
-          $table = $wpdb->prefix . 'aboyuma_product_tag';
+          $table = $wpdb->prefix . 'aboyuma_amway_product_tag';
 
           $wpdb->delete($table, ['product_id' => $product_id], ['%d']);
 
@@ -609,8 +609,8 @@ function aboyuma_product_edit() {
           }
         }
 
-        // DB_UPDATE: aboyuma_related_product_video
-        $relatedVideoTable = $wpdb->prefix . 'aboyuma_related_product_video';
+        // DB_UPDATE: aboyuma_related_amway_product_video
+        $relatedVideoTable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
         $wpdb->delete($relatedVideoTable, ['product_id' => $product_id]);
 
         if (isset($_POST['video_datas']) && !empty($_POST['video_datas'])) {
@@ -1054,11 +1054,11 @@ function aboyuma_product_edit() {
         <?php
         // Fetch all products
         $products = $wpdb->get_results("SELECT id, product_name 
-        FROM {$wpdb->prefix}aboyuma_product 
+        FROM {$wpdb->prefix}aboyuma_amway_product 
         ORDER BY product_name ASC");
 
         // Get saved related products from DB
-        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_product';
+        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
         $related_products = $wpdb->get_results($wpdb->prepare(
           "SELECT related_product_id, related_product_comment 
           FROM $relatedProductTable WHERE product_id = %d",
@@ -1138,7 +1138,7 @@ function aboyuma_product_edit() {
           </td>
         </tr>
         <?php
-        $relatedProductVideotable = $wpdb->prefix . 'aboyuma_related_product_video';
+        $relatedProductVideotable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
         $videos = $wpdb->get_results(
           $wpdb->prepare("SELECT video_url, video_comment 
           FROM $relatedProductVideotable 
@@ -1180,7 +1180,7 @@ function aboyuma_product_edit() {
           </td>
         </tr>
       </table>
-      <?php wp_nonce_field('aboyuma_product_edit', 'aboyuma_product_nonce'); ?>
+      <?php wp_nonce_field('aboyuma_amway_product_edit', 'aboyuma_amway_product_nonce'); ?>
       <button type="submit" name="submit" id="submit" class="button button-primary">Update Product</button>
       <button type="button" onclick="window.location.href='<?php echo admin_url('admin.php?page=aboyuma-product-list'); ?>'" class="button button-secondary">Cancel</button>
     </form>

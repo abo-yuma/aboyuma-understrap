@@ -52,7 +52,7 @@ $container = get_theme_mod('understrap_container_type');
                             <?php
                             // Fetch categories
                             global $wpdb;
-                            $categoryTable = $wpdb->prefix . 'aboyuma_product_category';
+                            $categoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
                             $categories = $wpdb->get_results("SELECT id, category_name, parent_id FROM $categoryTable");
                             ?>
                             <div class="d-flex flex-column mb-3">

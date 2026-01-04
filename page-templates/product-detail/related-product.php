@@ -1,15 +1,15 @@
 <div id="related-product" class="mt-2">
     <?php
     global $wpdb;
-    $table_name = $wpdb->prefix . 'aboyuma_product';
+    $table_name = $wpdb->prefix . 'aboyuma_amway_product';
     $product_id = get_query_var('product_id');
     $related_products = get_query_var('related_products');
     if (!empty($related_products) && $product_id) {
         $related_products = array_map('intval', $related_products);
         $placeholders = implode(',', array_fill(0, count($related_products), '%d'));
 
-        $product_table = $wpdb->prefix . 'aboyuma_product';
-        $related_product_table = $wpdb->prefix . 'aboyuma_related_product';
+        $product_table = $wpdb->prefix . 'aboyuma_amway_product';
+        $related_product_table = $wpdb->prefix . 'aboyuma_related_amway_product';
         // Query product info
         $sql = "
             SELECT 

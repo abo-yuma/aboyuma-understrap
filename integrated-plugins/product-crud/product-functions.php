@@ -4,7 +4,7 @@ function aboyuma_get_subcategories() {
     global $wpdb;
     $parent_id = isset($_GET['parent_id']) ? intval($_GET['parent_id']) : 0;
     $results = $wpdb->get_results(
-        $wpdb->prepare("SELECT id, category_name FROM {$wpdb->prefix}aboyuma_product_category WHERE parent_id = %d", $parent_id)
+        $wpdb->prepare("SELECT id, category_name FROM {$wpdb->prefix}aboyuma_amway_product_category WHERE parent_id = %d", $parent_id)
     );
     wp_send_json($results);
 }

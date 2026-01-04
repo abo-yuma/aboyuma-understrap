@@ -1,7 +1,7 @@
 <?php
-function aboyuma_product_category_edit() {
+function aboyuma_amway_product_category_edit() {
   global $wpdb;
-  $table_name = $wpdb->prefix . 'aboyuma_product_category';
+  $table_name = $wpdb->prefix . 'aboyuma_amway_product_category';
 
   // Check if product ID is provided
   $category_id = isset($_GET['id']) ? absint($_GET['id']) : 0;
@@ -19,8 +19,8 @@ function aboyuma_product_category_edit() {
 
   // Handle form submission
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_product_category_edit_nonce'])
-    && wp_verify_nonce($_POST['aboyuma_product_category_edit_nonce'], 'aboyuma_product_category_edit')
+    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_category_edit_nonce'])
+    && wp_verify_nonce($_POST['aboyuma_amway_product_category_edit_nonce'], 'aboyuma_amway_product_category_edit')
   ) {
 
     // Sanitize and assign form data
@@ -108,7 +108,7 @@ function aboyuma_product_category_edit() {
           </td>
         </tr>
       </table>
-      <?php wp_nonce_field('aboyuma_product_category_edit', 'aboyuma_product_category_edit_nonce'); ?>
+      <?php wp_nonce_field('aboyuma_amway_product_category_edit', 'aboyuma_amway_product_category_edit_nonce'); ?>
       <button type="submit" name="submit" id="submit" class="button button-primary">Update Category</button>
       <button type="button" onclick="window.history.back();" class="button button-secondary">Cancel</button>
     </form>
