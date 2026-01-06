@@ -544,7 +544,7 @@ function ajax_filter_products() {
 	// Prepare data for DataTable
 	foreach ($products as $product) {
 		$image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
-		$detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+		$detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
 		// Combine image and name in one column
 		$image_and_name = '
         <div style="text-align:center;">
@@ -566,9 +566,9 @@ function ajax_filter_products() {
 add_action('wp_ajax_filter_products', 'ajax_filter_products');
 add_action('wp_ajax_nopriv_filter_products', 'ajax_filter_products');
 
-// Add page-product-detail meta data for Facebook share
+// Add page-amway-product-detail meta data for Facebook share
 add_action('wp_head', function () {
-	if (is_page('product-detail')) {
+	if (is_page('amway-product-detail')) {
 		global $wpdb;
 
 		$product_id = isset($_GET['id']) ? absint($_GET['id']) : 0;
@@ -617,7 +617,7 @@ add_action('wp_head', function () {
 		}
 
 		// --- Product page URL ---
-		$metaUrl = esc_url(home_url("/product-detail/?id={$product_id}"));
+		$metaUrl = esc_url(home_url("/amway-product-detail/?id={$product_id}"));
 ?>
 		<!-- Open Graph Meta Tags -->
 		<meta property="og:type" content="product" />
@@ -632,7 +632,7 @@ add_action('wp_head', function () {
 	}
 });
 
-// Fetch related product for page-product-detail
+// Fetch related product for page-amway-product-detail
 function aboyuma_get_related_products() {
 	check_ajax_referer('aboyuma_related_nonce', '_ajax_nonce');
 
@@ -673,7 +673,7 @@ function aboyuma_get_related_products() {
             <span>' . $name . '</span>
         </div>';
 		$comment = wp_kses_post($product->related_product_comment);
-		$link = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+		$link = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
 		$data[] = [
 			$image_and_name,
 			htmlspecialchars_decode($product->product_short_description),
@@ -713,8 +713,8 @@ function aboyuma_register_menu() {
 		'about-aboyuma'         => 'เกี่ยวกับ ABO YUMA', // 🔹 Submenu under "About"
 		'about-amway'           => 'เกี่ยวกับแอมเวย์',  // 🔹 Submenu under "About"
 		'contact'               => 'ติดต่อ', // ✅ Added to Menu
-		'product'               => 'สินค้าแนะนำ', // ✅ Added to Menu
-		'product-detail'        => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
+		'amway-product'         => 'สินค้าแนะนำ', // ✅ Added to Menu
+		'amway-product-detail'  => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
 		'shop'                  => 'ช็อป', // ✅ Added to Menu
 		'amway-shop'            => 'แอมเวย์ช็อป', // ❌ Not Added to Menu
 		'gallery'               => 'แกลอรี่', // ✅ Added to Menu
@@ -722,7 +722,7 @@ function aboyuma_register_menu() {
 	];
 
 	$created_page_ids = [];
-	$excluded_from_menu = ['product-detail', 'amway-shop', 'gallery-image']; // Pages to create but not add to menu
+	$excluded_from_menu = ['amway-product-detail', 'amway-shop', 'gallery-image']; // Pages to create but not add to menu
 
 	foreach ($pages as $slug => $title) {
 		// Check if page already exists
@@ -756,7 +756,7 @@ function aboyuma_register_menu() {
 	$menu_item_ids = []; // Store menu item IDs to use for submenus
 	foreach ($created_page_ids as $slug => $page_id) {
 		if (in_array($slug, $excluded_from_menu)) {
-			continue; // Skip 'product-detail'
+			continue; // Skip 'amway-product-detail'
 		}
 
 		// กำหนด parent id สำหรับเมนูที่เป็น sub-menu
@@ -815,7 +815,7 @@ add_action('after_switch_theme', 'aboyuma_register_menu');
 
 // Facebook Share Button Snippet
 function aboyuma_facebook_share_button() {
-	if (is_single() || is_page('product-detail')) {
+	if (is_single() || is_page('amway-product-detail')) {
 
 		$share_url = urlencode(get_permalink());
 
@@ -835,7 +835,7 @@ function aboyuma_facebook_share_button() {
 // Array of custom integrated plugin files
 $integrated_plugins = [
 	'/integrated-plugins/news-crud/news-init.php',
-	'/integrated-plugins/product-crud/product-init.php',
+	'/integrated-plugins/amway-product-crud/amway-product-init.php',
 	// '/integrated-plugins/gallery-crud/gallery-init.php',
 	'/integrated-plugins/amway-shop-crud/amway-shop-init.php'
 ];

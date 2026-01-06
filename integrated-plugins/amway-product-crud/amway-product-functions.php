@@ -14,10 +14,10 @@ add_action('wp_ajax_nopriv_get_subcategories', 'aboyuma_get_subcategories');
 
 // Front-end handle
 function enqueue_page_product_script() {
-    if (is_page('product')) { // or use is_page(ID)
+    if (is_page('amway-product')) { // or use is_page(ID)
         wp_enqueue_script(
             'page-product-js',
-            get_template_directory_uri() . '/integrated-plugins/product-crud/assets/front-page-product.js',
+            get_template_directory_uri() . '/integrated-plugins/amway-product-crud/assets/front-page-product.js',
             array('jquery'),
             null,
             true
