@@ -34,7 +34,7 @@
                     <?php
                     foreach ($products as $product) :
                         $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
-                        $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('product-detail')->ID)));
+                        $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
                         // Combine image and name in one column
                         $image_and_name = '
                 <div style="text-align:center;">

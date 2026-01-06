@@ -47,3 +47,14 @@ Future Refactors
 - Reorganize other theme functionalities
 - Query optimization
 - Clean code
+- Enhance security if should
+
+## Debug tips
+Debug ajax script not working
+Debug Order
+- console.log()
+- Check pageData
+- Verify table exists
+- Network → admin-ajax.php
+- Response JSON
+- PHP error_log()

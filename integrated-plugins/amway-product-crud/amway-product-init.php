@@ -316,18 +316,18 @@ function aboyuma_amway_product_menu() {
 }
 add_action('admin_menu', 'aboyuma_amway_product_menu');
 
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-functions.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-list.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-add.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-detail.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-edit.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-delete.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-brand-list.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-brand-add.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-brand-edit.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-brand-delete.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-category-list.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-category-add.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-category-edit.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/product-category-delete.php';
-require_once get_template_directory() . '/integrated-plugins/product-crud/config/product-menu-registration.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-functions.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-list.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-add.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-detail.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-edit.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-delete.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-brand-list.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-brand-add.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-brand-edit.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-brand-delete.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-category-list.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-category-add.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-category-edit.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/amway-product-category-delete.php';
+require_once get_template_directory() . '/integrated-plugins/amway-product-crud/config/amway-product-menu-registration.php';

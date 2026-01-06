@@ -20,7 +20,7 @@ if (!$product_id) {
   wp_safe_redirect() must be called before any output (HTML, whitespace, get_header(), echo, etc.).
   Once PHP sends headers, it cannot change them — so the redirect silently fails.
   */
-    wp_safe_redirect(home_url('/product/'));
+    wp_safe_redirect(home_url('/amway-product/'));
     exit;
 }
 get_header();
@@ -135,7 +135,7 @@ $container = get_theme_mod('understrap_container_type');
                                     <?php endforeach; ?>
                                 </div>
                                 <!-- Product image thumbnails -->
-                                <div class="thumbnail-slider-container position-relative mt-2">
+                                <div class="thumbnail-slider-container position-relative mt-2 mb-2">
                                     <!-- <button id="prevThumbnail" class="slider-arrow left-arrow">&lt;</button> -->
                                     <div id="thumbnailWrapper" class="thumbnail-wrapper">
                                         <?php foreach ($productDetailImages as $key => $productDetailImage) : ?>
@@ -291,7 +291,7 @@ $container = get_theme_mod('understrap_container_type');
                     </section><!-- End Product Description Section -->
 
                     <div class="text-end mb-2">
-                        <a href="<?= esc_url(home_url('/product')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
+                        <a href="<?= esc_url(home_url('/amway-product')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
                             ดูสินค้าอื่น</a>
                     </div>
 
