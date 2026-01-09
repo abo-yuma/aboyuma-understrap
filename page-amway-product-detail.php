@@ -316,7 +316,7 @@ $container = get_theme_mod('understrap_container_type');
                                 <button class="nav-link" id="nav-product-review-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-review"
                                     type="button" role="tab" aria-controls="nav-product-review" aria-selected="false">
-                                    ⭐ รีวิว
+                                    ⭐ แอดมิน รีวิว
                                 </button>
                             </div>
                         </nav>

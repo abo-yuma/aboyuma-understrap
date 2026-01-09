@@ -490,7 +490,7 @@ function aboyuma_get_related_products() {
         p.id,
         p.product_image,
         p.product_name,
-		p.product_short_description,
+		    p.product_short_description,
         r.related_product_comment
         FROM $product_table p
         INNER JOIN $related_table r
