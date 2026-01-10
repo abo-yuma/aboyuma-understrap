@@ -61,7 +61,8 @@ function create_aboyuma_amway_product_table() {
     product_category_id INT UNSIGNED NOT NULL DEFAULT 0,          
     product_name VARCHAR(255) NOT NULL DEFAULT '',                
     product_unit_count INT UNSIGNED NULL,                         
-    product_unit_type ENUM('tablet','capsule','sachet','g','ml') NOT NULL 
+    product_unit_type ENUM('tablet','capsule','sachet','g','ml') NOT NULL,
+    product_unit_usage ENUM('content','capacity') NOT NULL DEFAULT 'content',
     product_short_description LONGTEXT NOT NULL DEFAULT '',       
     product_description LONGTEXT NOT NULL DEFAULT '',             
     product_benefit LONGTEXT NOT NULL DEFAULT '',                 
@@ -208,7 +209,7 @@ function aboyuma_amway_product_menu() {
   $productPageCapability = 'manage_options';
   $productPageMenuSlug = 'aboyuma-product-list';
   $productPageFunction = 'aboyuma_amway_product_list';
-  $productPageIconUrl = 'dashicons-admin-generic';
+  $productPageIconUrl = 'dashicons-products';
   $productPagePosition = 25;
 
   add_menu_page(

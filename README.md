@@ -15,7 +15,7 @@ This theme includes built-in features designed to cover common website needs, he
 - Sticky sidebar on scroll
 - Scroll-to-top button
 - Dark mode switch (Bootstrap5.3+)
-- Visitor counter
+- Visitor statistics
 - Contact form with security features:
   - CSRF protection (nonce verification)
   - Honeypot anti-spam field
@@ -29,6 +29,9 @@ This theme includes built-in features designed to cover common website needs, he
 Additional customizer
 
 - Footer content
+  - About us content
+  - Line QR code
+  - Follow me social links
 
 ## Integrated Plugins
 
@@ -66,20 +69,9 @@ Future Refactors
 - Remain theme-integrated
 - Implement drag and re-order product detail images
 - Improve field validation
+- Refactor field validation to use a single validator for both CREATE and UPDATE operations
 - Improve images upload
 - Reorganize other theme functionalities
 - Query optimization
 - Clean code
 - Enhance security if should
-
-## Debug tips
-
-Debug ajax script not working
-Debug Order
-
-- console.log()
-- Check pageData
-- Verify table exists
-- Network → admin-ajax.php
-- Response JSON
-- PHP error_log()

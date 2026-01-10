@@ -94,22 +94,22 @@ $container = get_theme_mod('understrap_container_type');
                                                 /**
                                                  * Color map by TYPE + LINE
                                                  */
-                                                $line_colors = [
+                                                // $line_colors = [
 
-                                                    'MRT' => [
-                                                        'purple' => '#9c27b0',
-                                                        'pink'   => '#e91e63',
-                                                        'blue'   => '#2196f3',
-                                                        'yellow' => '#ffeb3b',
-                                                    ],
+                                                //     'MRT' => [
+                                                //         'purple' => '#9c27b0',
+                                                //         'pink'   => '#e91e63',
+                                                //         'blue'   => '#2196f3',
+                                                //         'yellow' => '#ffeb3b',
+                                                //     ],
 
-                                                    'BTS' => [
-                                                        'dark green' => '#006400',
-                                                        'green'      => '#4caf50',
-                                                        'light green' => '#8bc34a',
-                                                        'gold'       => '#cfa92d',
-                                                    ],
-                                                ];
+                                                //     'BTS' => [
+                                                //         'dark green' => '#006400',
+                                                //         'green'      => '#4caf50',
+                                                //         'light green' => '#8bc34a',
+                                                //         'gold'       => '#cfa92d',
+                                                //     ],
+                                                // ];
 
                                                 if (!empty($transports) && is_array($transports)) :
                                                 ?>
@@ -121,23 +121,23 @@ $container = get_theme_mod('understrap_container_type');
                                                             $station = esc_html($t['station']);
                                                             $line    = strtolower(trim($t['line']));
 
-                                                            $color;
+                                                            // $color;
 
-                                                            // detect color by type + line
-                                                            if (isset($line_colors[$type])) {
-                                                                foreach ($line_colors[$type] as $key => $value) {
-                                                                    if (strpos($line, $key) !== false) {
-                                                                        $color = $value;
-                                                                        break;
-                                                                    }
-                                                                }
-                                                            }
+                                                            // // detect color by type + line
+                                                            // if (isset($line_colors[$type])) {
+                                                            //     foreach ($line_colors[$type] as $key => $value) {
+                                                            //         if (strpos($line, $key) !== false) {
+                                                            //             $color = $value;
+                                                            //             break;
+                                                            //         }
+                                                            //     }
+                                                            // }
                                                         ?>
                                                             <li style="margin-bottom:4px;">
                                                                 <span>
                                                                     🚄 <?php echo esc_html($type); ?>
                                                                 </span>
-                                                                <span style="color:<?php echo esc_attr($color); ?>">
+                                                                <span>
                                                                     <?php echo $station; ?>
                                                                 </span>
                                                             </li>

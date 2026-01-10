@@ -33,7 +33,7 @@ function aboyuma_amway_product_category_list() {
   }
   // Product display page template
   echo '<div class="wrap">';
-  echo '<h1 class="wp-heading-inline">ABO YUMA Product Category</h1>';
+  echo '<h1 class="wp-heading-inline">ABO YUMA Amway Product Category</h1>';
   echo '<a href="' . admin_url('admin.php?page=aboyuma-product-category-add') . '" class="page-title-action">Add New</a>';
   echo '<hr class="wp-header-end">';
   // Add ID to the table for DataTables

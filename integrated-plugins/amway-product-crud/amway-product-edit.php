@@ -132,6 +132,11 @@ function aboyuma_amway_product_edit() {
     $product_unit_type = isset($_POST['product_unit_type']) && in_array($_POST['product_unit_type'], $allowed_types)
       ? sanitize_text_field($_POST['product_unit_type'])
       : null;
+    // Product Unit Usage (enum, sanitize and validate)
+    $allowed_usage = ['content', 'capacity'];
+    $product_unit_usage = isset($_POST['product_unit_usage']) && in_array($_POST['product_unit_usage'], $allowed_usage)
+      ? sanitize_text_field($_POST['product_unit_usage'])
+      : 'content'; // default
 
     $product_short_description = wp_kses_post(trim($_POST['product_short_description']));
     $product_description = wp_kses_post(trim($_POST['product_description']));
@@ -205,6 +210,15 @@ function aboyuma_amway_product_edit() {
     if (empty($product_unit_type) || !in_array($product_unit_type, $allowed_types)) {
       $errors[] = 'Unit type is required and must be one of: tablet, capsule, sachet, g, ml.';
     }
+    // Validate Product Unit Usage
+    $allowed_usage = ['content', 'capacity'];
+    if (empty($product_unit_usage) || !in_array($product_unit_usage, $allowed_usage)) {
+      $errors[] = 'Unit usage is required and must be content or capacity.';
+    }
+    if ($product_unit_usage === 'capacity' && $product_unit_type !== 'ml') {
+      $errors[] = 'Unit usage "capacity" can only be used when unit type is ml.';
+    }
+
     // Validate product short description
     if (empty($product_short_description)) {
       $errors[] = 'Product short description is required.';
@@ -277,6 +291,7 @@ function aboyuma_amway_product_edit() {
           'product_name' => $product_name,
           'product_unit_count' => $product_unit_count,
           'product_unit_type' => $product_unit_type,
+          'product_unit_usage' => $product_unit_usage,
           'product_short_description' => $product_short_description,
           'product_description' => $product_description,
           'product_benefit' => $product_benefit,
@@ -305,6 +320,7 @@ function aboyuma_amway_product_edit() {
           '%s', // product_name
           '%d', // product_unit_count
           '%s', // product_unit_type
+          '%s', // product_unit_usage
           '%s', // product_short_description
           '%s', // product_description
           '%s', // product_benefit
@@ -734,6 +750,7 @@ function aboyuma_amway_product_edit() {
         // Fetch current values from the database for the product
         $current_unit_count = isset($product->product_unit_count) ? $product->product_unit_count : '';
         $current_unit_type  = isset($product->product_unit_type) ? $product->product_unit_type : '';
+        $current_unit_usage = isset($product->product_unit_usage) ? $product->product_unit_usage : 'content';
         ?>
         <!-- Product Unit Count -->
         <tr>
@@ -753,6 +770,23 @@ function aboyuma_amway_product_edit() {
               $types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
               foreach ($types as $type) {
                 echo '<option value="' . esc_attr($type) . '" ' . selected($current_unit_type, $type, false) . '>' . ucfirst($type) . '</option>';
+              }
+              ?>
+            </select>
+          </td>
+        </tr>
+        <!-- Product Unit Usage -->
+        <tr id="unit-usage-row">
+          <th scope="row"><label for="product_unit_usage">Unit Usage</label></th>
+          <td>
+            <select name="product_unit_usage" id="product_unit_usage">
+              <?php
+              $usages = [
+                'content'  => 'บรรจุ / ปริมาณสินค้า',
+                'capacity' => 'ความจุ (ภาชนะ)'
+              ];
+              foreach ($usages as $value => $label) {
+                echo '<option value="' . esc_attr($value) . '" ' . selected($current_unit_usage, $value, false) . '>' . esc_html($label) . '</option>';
               }
               ?>
             </select>
