@@ -1,19 +1,19 @@
 <?php
 
 /**
- * The template for displaying all pages with Contact Form
+ * Contact page template
  *
  * @package Understrap
  */
 
 defined('ABSPATH') || exit;
 
-// --------------------
-// CONTACT FORM
-// --------------------
-$flash_key = 'aboyuma_form_flash_' . md5($_SERVER['REMOTE_ADDR'] . ($_SERVER['HTTP_USER_AGENT'] ?? ''));
 
-// Display flash message if exists
+// Create a per-user flash message key (hashed by IP + User Agent)
+// to prevent flash messages from colliding between different visitors
+// and to support Post-Redirect-Get pattern without using sessions.
+$flash_key = 'aboyuma_form_flash_' . wp_hash($_SERVER['REMOTE_ADDR'] . ($_SERVER['HTTP_USER_AGENT'] ?? ''));
+
 $flash = get_transient($flash_key);
 if ($flash) {
     delete_transient($flash_key);
@@ -28,15 +28,15 @@ if (
     && wp_verify_nonce($_POST['aboyuma_contact_nonce'], 'aboyuma_contact_form')
 ) {
 
-    // Honeypot (anti-spam)
+    // secutiry: Honeypot (anti-spam)
     if (!empty($_POST['aboyuma_hp'])) exit;
 
-    // Rate limit (1 request / minute per IP)
+    // secutiry: Rate limit (1 request / minute per IP)
     $rate_key = 'aboyuma_contact_' . md5($_SERVER['REMOTE_ADDR']);
     if (get_transient($rate_key)) {
         set_transient($flash_key, [
             'status'  => 'warning',
-            'message' => 'กรุณารอ 1 นาทีก่อนทำการส่งข้อมูลใหม่'
+            'message' => 'ส่งข้อมูลไม่สำเร็จ โปรดลองอีกครั้งหลัง 1 นาที'
         ], 10);
         wp_safe_redirect(esc_url_raw($_SERVER['REQUEST_URI']));
         exit;
@@ -107,7 +107,7 @@ if (
     } else {
         set_transient($flash_key, [
             'status'  => 'error',
-            'message' => 'ส่งข้อมูลไม่สำเร็จ โปรดลองอีกครั้ง'
+            'message' => 'ระบบไม่สามารถส่งข้อมูลได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง'
         ], 10);
     }
 
@@ -116,9 +116,6 @@ if (
     exit;
 }
 
-// --------------------
-// Render page
-// --------------------
 get_header();
 $container = get_theme_mod('understrap_container_type');
 ?>
@@ -182,7 +179,9 @@ $container = get_theme_mod('understrap_container_type');
                         <div class="mb-3">
                             <label for="fileUpload" class="form-label">🖼️ ไฟล์แนบ</label>
                             <input class="form-control form-control-sm" type="file" id="fileUpload" name="attachment">
-                            <small>**แนบไฟล์ที่เกี่ยวข้อง</small>
+                            <small class="form-text text-muted">
+                                รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
+                            </small>
                         </div>
 
                         <div class="mb-3">
