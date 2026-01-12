@@ -159,20 +159,87 @@ footer {
 	padding: 0 !important;
 }
 
-/* Customize Widget Style */
 .scroll-to-top-btn {
+	position: fixed;
+	right: calc(6rem + 1.5rem); /* center of messenger button */
+	bottom: 0.8rem;
+	transform: translateX(50%); /* move back half of its own width */
+
+	z-index: 999;
+	display: none;
+
+	padding: 0.5rem 0.9rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	border-radius: 999px;
+
+	border: 0;
+	cursor: pointer;
+	opacity: 0.8;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+// .scroll-to-top-btn:hover {
+// 	opacity: 1;
+// 	transform: translateX(50%) translateY(-2px);
+// }
+
+/* Floating Messenger Chat Button */
+.messenger-chat-btn {
 	position: fixed;
 	width: 3rem;
 	height: 3rem;
-	right: 2rem;
-	bottom: 2.5rem;
-	z-index: 1;
-	background-color: #000000;
-	color: #ffff;
-	font-size: 1.5rem;
-	border: 0;
+	right: 6rem;
+	bottom: 3rem;
+	z-index: 1000;
 	border-radius: 0.25rem;
-	display: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+/* Messenger icon */
+.messenger-chat-btn img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+/* Tooltip */
+.messenger-tooltip {
+	position: absolute;
+	bottom: 120%;
+	right: 50%;
+	transform: translateX(50%);
+	background-color: #111;
+	color: #fff;
+	padding: 0.6rem 0.8rem;
+	border-radius: 0.4rem;
+	font-size: 0.85rem;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.25s ease;
+}
+
+/* Tooltip arrow */
+.messenger-tooltip::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	right: 50%;
+	transform: translateX(50%);
+	border-width: 6px;
+	border-style: solid;
+	border-color: #111 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.messenger-chat-btn:hover .messenger-tooltip {
+	opacity: 1;
+	transform: translateX(50%) translateY(-6px);
 }
 
 // Use for display element

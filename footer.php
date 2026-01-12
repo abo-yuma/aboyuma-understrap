@@ -83,7 +83,34 @@
 </footer>
 </div><!-- /#content-wrapper -->
 </div><!-- /#wrapper -->
-<button class="scroll-to-top-btn">^</button>
+
+<!-- Floating Messenger Chat Button -->
+<?php
+$messenger_url  = get_theme_mod('messenger_chat_url', 'https://m.me/YOUR_FACEBOOK_PAGE');
+$tooltip_text  = get_theme_mod(
+	'messenger_tooltip_text',
+	"สนใจสมัครสมาชิก สั่งซื้อสินค้า <br>หรือสอบถามข้อมูลใช่ไหม ทักเลย!"
+);
+?>
+
+<?php if (! empty($messenger_url)) : ?>
+	<a href="<?php echo esc_url($messenger_url); ?>"
+		target="_blank"
+		class="messenger-chat-btn"
+		aria-label="Chat with us on Messenger">
+
+		<?php if (! empty($tooltip_text)) : ?>
+			<span class="messenger-tooltip">
+				<?php echo wp_kses_post($tooltip_text); ?>
+			</span>
+		<?php endif; ?>
+
+		<img src="<?php echo get_template_directory_uri(); ?>/src/images/messenger.png" alt="Messenger">
+	</a>
+<?php endif; ?>
+<button class="scroll-to-top-btn badge bg-dark bg-opacity-75">
+	↑ Go to top
+</button>
 <?php
 wp_footer();
 ?>
