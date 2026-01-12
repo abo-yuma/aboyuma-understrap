@@ -14,13 +14,14 @@ defined('ABSPATH') || exit;
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
+$container_classes = $container . ' px-3 px-md-4 py-0';
 ?>
 
 <main class="bg-body text-body" data-bs-theme="">
 
-	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
+	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-		<div class="row">
+		<div class="row py-3">
 			<div class="sidebar-left-column-width" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
