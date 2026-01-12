@@ -13,7 +13,8 @@ This theme includes built-in features designed to cover common website needs, he
 
 - Full-width sticky navigation on scroll
 - Sticky sidebar on scroll
-- Scroll-to-top button
+- Floating messenger link button
+- Go to top button when scroll page down
 - Dark mode switch (Bootstrap5.3+)
 - Visitor statistics
 - Contact form with security features:
@@ -27,7 +28,7 @@ This theme includes built-in features designed to cover common website needs, he
 ## Customizer
 
 Additional customizer
-
+- Header banner image
 - Footer content
   - About us content
   - Line QR code
