@@ -38,7 +38,7 @@ body {
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
 	.container {
-		max-width: 1000px !important; // use !important if needed to override Bootstrap styles
+		max-width: 980px !important; // use !important if needed to override Bootstrap styles
 	}
 }
 
