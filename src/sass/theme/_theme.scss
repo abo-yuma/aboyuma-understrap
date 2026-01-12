@@ -199,6 +199,24 @@ footer {
 	cursor: pointer;
 }
 
+/* ========== Mobile only ========== */
+@media (max-width: 576px) {
+	.scroll-to-top-btn {
+		right: 1rem; /* custom mobile position */
+		bottom: 1rem;
+		transform: none; /* usually better on mobile */
+		padding: 0.5rem 0.75rem;
+		font-size: 0.7rem;
+	}
+
+	.messenger-chat-btn {
+		right: 1rem; /* stick to edge */
+		bottom: 4.5rem; /* above scroll button */
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+}
+
 /* Messenger icon */
 .messenger-chat-btn img {
 	width: 100%;
