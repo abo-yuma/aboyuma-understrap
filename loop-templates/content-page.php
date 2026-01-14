@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
 	if (! is_page_template('page-templates/no-title.php') && ! is_front_page()) {
 		the_title(
 			'<header class="entry-header"><h1 class="entry-title">',
-			'</h1></header><!-- .entry-header --><hr>'
+			'</h1></header><!-- .entry-header -->'
 		);
 	}
 
