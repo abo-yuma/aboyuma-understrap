@@ -645,3 +645,127 @@ foreach ($integrated_widgets as $widget) {
 }
 
 require_once get_template_directory() . '/inc/db-helpers.php';
+
+// Debug wp_mail (temporary)
+add_action('wp_mail_failed', function ($wp_error) {
+	error_log('WP_MAIL_FAILED: ' . print_r($wp_error, true));
+});
+
+
+// Email sending
+add_action('wp_ajax_aboyuma_contact_form', 'aboyuma_handle_contact_ajax');
+add_action('wp_ajax_nopriv_aboyuma_contact_form', 'aboyuma_handle_contact_ajax');
+
+function aboyuma_handle_contact_ajax() {
+
+	// Nonce
+	if (
+		!isset($_POST['aboyuma_contact_nonce']) ||
+		!wp_verify_nonce($_POST['aboyuma_contact_nonce'], 'aboyuma_contact_form')
+	) {
+		wp_send_json_error(['message' => 'Security check failed']);
+	}
+
+	// Honeypot
+	if (!empty($_POST['aboyuma_hp'])) {
+		wp_send_json_error(['message' => 'Spam detected']);
+	}
+
+	// Rate limit
+	$rate_key = 'aboyuma_contact_' . md5($_SERVER['REMOTE_ADDR']);
+	if (get_transient($rate_key)) {
+		wp_send_json_error(['message' => 'โปรดรอ 1 นาทีก่อนทำการส่งข้อมูลใหม่']);
+	}
+	set_transient($rate_key, true, 60);
+
+	// Sanitize
+	$sender_email = sanitize_email($_POST['sender_email'] ?? '');
+	$title        = sanitize_text_field($_POST['title'] ?? '');
+	$message      = sanitize_textarea_field($_POST['message'] ?? '');
+
+	if (empty($sender_email) || empty($title) || !is_email($sender_email)) {
+		wp_send_json_error(['message' => 'กรุณากรอกข้อมูลให้ครบถ้วน']);
+	}
+
+	// Email
+	$to      = get_option('admin_email');
+	$subject = 'New Contact: ' . $title;
+
+	$body  = "New contact form submission\n\n";
+	$body .= "Sender Email: {$sender_email}\n";
+	$body .= "Title: {$title}\n\n";
+	$body .= "Message:\n{$message}\n";
+
+	// Detect env
+	$host = $_SERVER['HTTP_HOST'] ?? '';
+	$is_local = in_array($host, ['localhost', '127.0.0.1'])
+		|| str_contains($host, '.test') || str_contains($host, '.local');
+
+	if ($is_local) {
+		$from_email = 'no-reply@local.test';
+		$from_name  = 'Local Dev';
+	} else {
+		$domain = preg_replace('/^www\./', '', $host);
+		$from_email = 'no-reply@' . $domain;
+		$from_name  = get_bloginfo('name');
+	}
+
+	$headers = [
+		'Content-Type: text/plain; charset=UTF-8',
+		'From: ' . $from_name . ' <' . $from_email . '>',
+		'Reply-To: ' . $sender_email
+	];
+
+	// ---------- Upload ----------
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	$allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
+	$max_size      = 2 * 1024 * 1024;
+	$attachments   = [];
+	$uploaded_files = [];
+	$file_fields = ['attachment1', 'attachment2'];
+
+	foreach ($file_fields as $field) {
+
+		if (empty($_FILES[$field]['name'])) continue;
+
+		$file = $_FILES[$field];
+
+		if ($file['error'] !== UPLOAD_ERR_OK) {
+			wp_send_json_error(['message' => 'เกิดข้อผิดพลาดในการอัปโหลดไฟล์']);
+		}
+
+		if ($file['size'] > $max_size) {
+			wp_send_json_error(['message' => 'ไฟล์ต้องมีขนาดไม่เกิน 2MB']);
+		}
+
+		$real_mime = mime_content_type($file['tmp_name']);
+		if (!$real_mime || !in_array($real_mime, $allowed_types, true)) {
+			wp_send_json_error(['message' => 'อนุญาตเฉพาะไฟล์ jpg, png, pdf เท่านั้น']);
+		}
+
+		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+		$file['name'] = 'aboyuma_' . time() . '_' . wp_generate_password(6, false) . '.' . $ext;
+
+		$upload = wp_handle_upload($file, ['test_form' => false]);
+
+		if (!isset($upload['error']) && isset($upload['file'])) {
+			$attachments[]    = $upload['file'];
+			$uploaded_files[] = $upload['file'];
+		}
+	}
+
+	// Send mail
+	$sent = wp_mail($to, $subject, $body, $headers, $attachments);
+
+	// remove files
+	foreach ($uploaded_files as $file_path) {
+		if (file_exists($file_path)) unlink($file_path);
+	}
+
+	if ($sent) {
+		wp_send_json_success(['message' => 'ส่งข้อมูลสำเร็จ!']);
+	} else {
+		wp_send_json_error(['message' => 'ระบบไม่สามารถส่งข้อมูลได้ในขณะนี้']);
+	}
+}
