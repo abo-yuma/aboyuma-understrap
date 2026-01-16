@@ -641,6 +641,7 @@ $integrated_widgets = [
 	'/integrated-widgets/authorbox-widget/authorbox-widget.php',
 	'/integrated-widgets/recommend-video-widget/recommend-video-widget.php',
 	'/integrated-widgets/quick-links-widget/quick-links-widget.php',
+	'/integrated-widgets/recommend-posts-widget/recommend-posts-widget.php',
 ];
 
 // Require all plugins
