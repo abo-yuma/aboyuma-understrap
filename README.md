@@ -66,11 +66,11 @@ This theme includes 3 custom widgets integrated into the theme:
 
 Future Refactors
 
-- Refactor using [WordPress Plugin Boilerplate (WPPB)](https://wppb.me/) to make it close to a standard plugin development
+- Refactor using plugin boilerplate
 - Remain theme-integrated
 - Implement drag and re-order product detail images
 - Improve field validation
-- Refactor field validation to use a single validator for both CREATE and UPDATE operations
+- Refactor field validation to use one shared validator
 - Improve images upload
 - Reorganize other theme functionalities
 - Query optimization
