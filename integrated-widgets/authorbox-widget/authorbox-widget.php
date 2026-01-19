@@ -19,11 +19,11 @@ class My_Custom_Author_Widget extends WP_Widget {
 		$bio = isset($instance['bio']) ? $instance['bio'] : esc_html__('Lorem ipsum bio', 'text_domain');
 		$aboyumaQualifiedTitle = isset($instance['aboyumaQualifiedTitle']) ? $instance['aboyumaQualifiedTitle'] : esc_html__('Lorem ipsum aboyumaQualifiedTitle', 'text_domain');
 		$memberRegisterLinkUrl = isset($instance['memberRegisterLinkUrl']) ? $instance['memberRegisterLinkUrl'] : esc_html__('Lorem ipsum memberRegisterLinkUrl', 'text_domain');
-		$memberRegisterLink = isset($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('Lorem ipsum memberRegisterLink', 'text_domain');
+		$memberRegisterLink = isset($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$memberRegisterLinkInfoModalTitle = isset($instance['memberRegisterLinkInfoModalTitle']) ? $instance['memberRegisterLinkInfoModalTitle'] : esc_html__('Lorem ipsum memberRegisterLinkInfoModalTitle', 'text_domain');
 		$memberRegisterLinkInfoModalContent = isset($instance['memberRegisterLinkInfoModalContent']) ? $instance['memberRegisterLinkInfoModalContent'] : esc_html__('Lorem ipsum memberRegisterLinkInfoModalContent', 'text_domain');
 		$aboRegisterLinkUrl = isset($instance['aboRegisterLinkUrl']) ? $instance['aboRegisterLinkUrl'] : esc_html__('Lorem ipsum aboRegisterLinkUrl', 'text_domain');
-		$aboRegisterLink = isset($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('Lorem ipsum aboRegisterLink', 'text_domain');
+		$aboRegisterLink = isset($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('สมัครนักธุรกิจแอมเวย์', 'text_domain');
 		$aboRegisterLinkInfoModalTitle = isset($instance['aboRegisterLinkInfoModalTitle']) ? $instance['aboRegisterLinkInfoModalTitle'] : esc_html__('Lorem ipsum aboRegisterLinkInfoModalTitle', 'text_domain');
 		$aboRegisterLinkInfoModalContent = isset($instance['aboRegisterLinkInfoModalContent']) ? $instance['aboRegisterLinkInfoModalContent'] : esc_html__('Lorem ipsum aboRegisterLinkInfoModalContent', 'text_domain');
 		$image = isset($instance['image']) ? $instance['image'] : esc_html__('Lorem ipsum image', 'text_domain');
@@ -60,11 +60,11 @@ class My_Custom_Author_Widget extends WP_Widget {
 		$image = !empty($instance['image']) ? $instance['image'] : esc_html__('Lorem ipsum image', 'text_domain');
 		$aboyumaQualifiedTitle = !empty($instance['aboyumaQualifiedTitle']) ? $instance['aboyumaQualifiedTitle'] : esc_html__('Lorem ipsum aboyumaQualifiedTitle', 'text_domain');
 		$memberRegisterLinkUrl = !empty($instance['memberRegisterLinkUrl']) ? $instance['memberRegisterLinkUrl'] : esc_html__('Lorem ipsum memberRegisterLinkUrl', 'text_domain');
-		$memberRegisterLink = !empty($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('Lorem ipsum memberRegisterLink', 'text_domain');
+		$memberRegisterLink = !empty($instance['memberRegisterLink']) ? $instance['memberRegisterLink'] : esc_html__('สมัครสมาชิกแอมเวย์', 'text_domain');
 		$memberRegisterLinkInfoModalTitle = !empty($instance['memberRegisterLinkInfoModalTitle']) ? $instance['memberRegisterLinkInfoModalTitle'] : esc_html__('Lorem ipsum memberRegisterLinkInfoModalTitle', 'text_domain');
 		$memberRegisterLinkInfoModalContent = !empty($instance['memberRegisterLinkInfoModalContent']) ? $instance['memberRegisterLinkInfoModalContent'] : esc_html__('Lorem ipsum memberRegisterLinkInfoModalContent', 'text_domain');
 		$aboRegisterLinkUrl = !empty($instance['aboRegisterLinkUrl']) ? $instance['aboRegisterLinkUrl'] : esc_html__('Lorem ipsum aboRegisterLinkUrl', 'text_domain');
-		$aboRegisterLink = !empty($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('Lorem ipsum aboRegisterLink', 'text_domain');
+		$aboRegisterLink = !empty($instance['aboRegisterLink']) ? $instance['aboRegisterLink'] : esc_html__('สมัครนักธุรกิจแอมเวย์', 'text_domain');
 		$aboRegisterLinkInfoModalTitle = !empty($instance['aboRegisterLinkInfoModalTitle']) ? $instance['aboRegisterLinkInfoModalTitle'] : esc_html__('Lorem ipsum aboRegisterLinkInfoModalTitle', 'text_domain');
 		$aboRegisterLinkInfoModalContent = !empty($instance['aboRegisterLinkInfoModalContent']) ? $instance['aboRegisterLinkInfoModalContent'] : esc_html__('Lorem ipsum aboRegisterLinkInfoModalContent', 'text_domain');
 ?>

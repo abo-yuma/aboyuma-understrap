@@ -18,11 +18,17 @@
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-6 mb-2'); ?>>
                             <div class="card h-100">
                                 <div class="card-body" style="padding: 5px;">
-                                    <div class="row">
+                                    <div class="row h-100">
                                         <div class="post-thumbnail col-md-5">
-                                            <?php the_post_thumbnail(); ?>
+                                            <?php if (has_post_thumbnail()) : ?>
+                                                <?php the_post_thumbnail(); ?>
+                                            <?php else : ?>
+                                                <img src="https://placehold.co/300x200?text=No+Image"
+                                                    alt="No image available"
+                                                    class="img-fluid">
+                                            <?php endif; ?>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="post-content col-md-7 d-flex flex-column">
                                             <span><?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?></span>
                                             <div class="post-category" style="font-size: 0.75rem;">
                                                 <?php
@@ -36,8 +42,8 @@
                                                 }
                                                 ?>
                                             </div>
-                                            <div class="post-thumbnail-readmore">
-                                                <a style="float: right;" href="<?php the_permalink(); ?>">อ่านเพิ่มเติม...</a>
+                                            <div class="post-thumbnail-readmore mt-auto d-flex justify-content-end">
+                                                <a href="<?php the_permalink(); ?>">อ่านเพิ่มเติม...</a>
                                             </div>
                                         </div>
                                     </div>
