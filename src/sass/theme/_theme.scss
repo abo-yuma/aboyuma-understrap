@@ -176,7 +176,9 @@ footer {
 	border: 0;
 	cursor: pointer;
 	opacity: 0.8;
-	transition: opacity 0.2s ease, transform 0.2s ease;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
 }
 
 // .scroll-to-top-btn:hover {
@@ -291,24 +293,24 @@ footer {
 	font-size: 12.5px !important;
 }
 
-#recommend-product-table td {
-	align-content: center;
+.latest-posts-section .card {
+	height: 130px;
 }
 
-#latest-posts-section .post-thumbnail img {
-	object-fit: cover;
-	height: 80px;
+#recommend-posts-widget .post-thumbnail,
+#latest-posts-section .post-thumbnail,
+#other-recommend-product-section .post-thumbnail {
+	height: 130px;
 }
-
-#latest-posts-section .post-thumbnail-readmore a {
-	font-size: 0.8rem;
-}
-
+#recommend-posts-widget .post-thumbnail img,
+#latest-posts-section .post-thumbnail img,
 #other-recommend-product-section .post-thumbnail img {
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
-	height: 80px;
 }
-
+#recommend-posts-widget .post-thumbnail-readmore a,
+#latest-posts-section .post-thumbnail-readmore a,
 #other-recommend-product-section .post-thumbnail-readmore a {
 	font-size: 0.8rem;
 }

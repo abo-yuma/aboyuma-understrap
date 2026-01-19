@@ -21,7 +21,7 @@
     <div class="card">
         <div class="card-header">🏆 สินค้าแอมเวย์แนะนำ</div>
         <div class="card-body">
-            <table id="recommend-product-table" class="table table-striped table-border">
+            <table id="recommend-product-table" class="table table-striped">
                 <thead>
                     <tr>
                         <th>สินค้า</th>
@@ -61,11 +61,11 @@
             let columnDefs = [];
             if (isDesktop) {
                 columnDefs = [{
-                        width: "15%",
+                        width: "20%",
                         targets: [0],
                     },
                     {
-                        width: "35%",
+                        width: "30%",
                         targets: [1],
                     },
                     {

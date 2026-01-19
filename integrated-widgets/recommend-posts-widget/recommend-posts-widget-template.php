@@ -16,36 +16,38 @@ if (empty($data['posts'])) {
 
 foreach ($data['posts'] as $post) :
 ?>
-
-    <div class="card-body" style="padding: 5px;">
-        <div class="row">
-            <div class="post-thumbnail col-md-5">
-                <?php echo $post['thumbnail']; ?>
-            </div>
-
-            <div class="col-md-7">
-                <span><?php echo $post['title']; ?></span>
-
-                <div class="post-category" style="font-size: 0.75rem;">
-                    <?php if (!empty($post['categories'])) : ?>
-                        หมวดหมู่:
-                        <?php
-                        $cats = [];
-                        foreach ($post['categories'] as $cat) {
-                            $cats[] = '<a href="' . $cat['url'] . '">' . $cat['name'] . '</a>';
-                        }
-                        echo implode(', ', $cats);
-                        ?>
-                    <?php endif; ?>
+    <!-- Recommend Posts Widget Section -->
+    <div id="recommend-posts-widget" class="mb-2">
+        <div class="card-body" style="padding: 5px;">
+            <div class="row h-100">
+                <div class="post-thumbnail col-md-5">
+                    <?php echo $post['thumbnail']; ?>
                 </div>
 
-                <div class="post-thumbnail-readmore">
-                    <a style="float:right;" href="<?php echo $post['permalink']; ?>">
-                        อ่านบทความ...
-                    </a>
+                <div class="post-content col-md-7 d-flex flex-column">
+                    <span><?php echo $post['title']; ?></span>
+
+                    <div class="post-category" style="font-size: 0.75rem;">
+                        <?php if (!empty($post['categories'])) : ?>
+                            หมวดหมู่:
+                            <?php
+                            $cats = [];
+                            foreach ($post['categories'] as $cat) {
+                                $cats[] = '<a href="' . $cat['url'] . '">' . $cat['name'] . '</a>';
+                            }
+                            echo implode(', ', $cats);
+                            ?>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="post-thumbnail-readmore mt-auto d-flex justify-content-end">
+                        <a style="float:right;" href="<?php echo $post['permalink']; ?>">
+                            อ่านบทความ...
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- END Recommend Posts Widget Section -->
 
 <?php endforeach; ?>
