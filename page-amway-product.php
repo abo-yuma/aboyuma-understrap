@@ -88,7 +88,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                         </div>
                     </form>
                     <div id="filter-message-area"></div>
-                    <table id="aboyuma-product-table" class="table table-striped">
+                    <table id="aboyuma-product-table" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>สินค้า</th>
