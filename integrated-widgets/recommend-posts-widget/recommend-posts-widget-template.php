@@ -19,12 +19,14 @@ foreach ($data['posts'] as $post) :
     <!-- Recommend Posts Widget Section -->
     <div id="recommend-posts-widget" class="mb-2">
         <div class="card-body" style="padding: 5px;">
-            <div class="row h-100">
-                <div class="post-thumbnail col-md-5">
+
+            <div class="card-body p-2">
+
+                <div class="post-thumbnail">
                     <?php echo $post['thumbnail']; ?>
                 </div>
 
-                <div class="post-content col-md-7 d-flex flex-column">
+                <div class="post-content d-flex flex-column">
                     <span><?php echo $post['title']; ?></span>
 
                     <div class="post-category" style="font-size: 0.75rem;">
@@ -46,7 +48,9 @@ foreach ($data['posts'] as $post) :
                         </a>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div><!-- END Recommend Posts Widget Section -->
 
