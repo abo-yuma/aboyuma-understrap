@@ -20,8 +20,8 @@
     ?>
     <div class="card">
         <div class="card-header">🏆 สินค้าแอมเวย์แนะนำ</div>
-        <div class="card-body">
-            <table id="recommend-product-table" class="table table-striped">
+        <div class="card-body pt-0 px-3 pb-3">
+            <table id="recommend-product-table" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>สินค้า</th>
