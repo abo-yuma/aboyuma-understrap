@@ -375,6 +375,15 @@ footer {
 	background-color: #25282c;
 }
 
+/* Fix missing top border on DataTables thead (Bootstrap) */
+[data-bs-theme="light"] table.dataTable thead th {
+	border-top: 1px solid var(--bs-border-color) !important;
+}
+
+[data-bs-theme="dark"] table.dataTable thead th {
+	border-top: 1px solid var(--bs-border-color) !important;
+}
+
 [data-bs-theme="dark"] table.dataTable,
 [data-bs-theme="dark"] table.dataTable th,
 [data-bs-theme="dark"] table.dataTable td {
