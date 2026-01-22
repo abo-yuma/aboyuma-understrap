@@ -110,12 +110,20 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                 // Display the detail
                 ?>
                 <div class="entry-content" id="product-detail">
-                    <section id="modified-date" class="modified-date mb-2"> <?php echo "🗓️ อัพเดตข้อมูลล่าสุด " . date("d M Y", strtotime($product->modified)); ?> </section>
+                    <section id="modified-date" class="modified-date mb-2">
+                        <?php
+                        $created_date  = get_the_date("F d, Y");
+                        $modified_date = get_the_modified_date("F d, Y");
+
+                        echo 'Created on ' . $created_date .
+                            ' (' . $modified_date . ')';
+                        ?>
+                    </section>
                     <section id="product-image-and-description" class="mb-2">
                         <div class="row">
                             <!-- Main Image Preview Section -->
                             <div class="col-md-7">
-                                <div id="previewImageBox" class="previewImageBox border rounded">
+                                <div id="previewImageBox" class="previewImageBox">
                                     <?php $baseurl = wp_upload_dir()['baseurl']; ?>
                                     <a href="javascript:void(0);"
                                         id="previewFancyboxLink"
@@ -603,7 +611,6 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
         margin: 0;
         /* remove Bootstrap margins */
     }
-
 
     #qrcode img {
         width: 70px;
