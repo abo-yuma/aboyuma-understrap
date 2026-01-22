@@ -25,7 +25,6 @@
             <tr>
                 <th>สินค้า</th>
                 <th>คำอธิบาย</th>
-                <th>คุณสมบัติ</th>
                 <th>รายละเอียด</th>
             </tr>
         </thead>
@@ -44,8 +43,12 @@
                 <tr>
                     <td><?php echo $image_and_name; ?></td>
                     <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
-                    <td><?php echo htmlspecialchars_decode($product->product_benefit); ?></td>
-                    <td><a href="<?php echo $detail_url; ?>">[รายละเอียด]</a></td>
+                    <td>
+                        <a href="<?php echo $detail_url; ?>"
+                            class="btn btn-sm btn-outline-primary">
+                            ดูรายละเอียด →
+                        </a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -59,20 +62,16 @@
             let columnDefs = [];
             if (isDesktop) {
                 columnDefs = [{
-                        width: "20%",
+                        width: "25%",
                         targets: [0],
                     },
                     {
-                        width: "30%",
+                        width: "60%",
                         targets: [1],
                     },
                     {
-                        width: "35%",
-                        targets: [2],
-                    },
-                    {
                         width: "15%",
-                        targets: [3],
+                        targets: [2],
                     }
                 ];
             }
