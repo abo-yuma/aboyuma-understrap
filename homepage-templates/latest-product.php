@@ -1,5 +1,5 @@
 <!-- Reccommend Product Section -->
-<div id="home-recommend-product" class="mb-2">
+<div id="home-latest-product" class="mb-2">
     <?php
     global $wpdb;
     $table_name = $wpdb->prefix . 'aboyuma_amway_product';
@@ -8,9 +8,7 @@
             "SELECT id, product_image, product_name, 
                 product_short_description, product_benefit
                 FROM {$table_name} 
-                WHERE product_is_pinned = %d 
                 ORDER BY created DESC LIMIT %d",
-            1,
             4
         )
     );
@@ -18,41 +16,41 @@
         echo '<div style="color:red;">MySQL Error: ' . $wpdb->last_error . '</div>';
     }
     ?>
-    <div class="card">
-        <div class="card-header">🏆 สินค้าแอมเวย์แนะนำ</div>
-        <div class="card-body pt-0 px-3 pb-3">
-            <table id="recommend-product-table" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>สินค้า</th>
-                        <th>คำอธิบาย</th>
-                        <th>คุณสมบัติ</th>
-                        <th>รายละเอียด</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($products as $product) :
-                        $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
-                        $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
-                        // Combine image and name in one column
-                        $image_and_name = '
+
+    <div class="section-header mb-2 fw-bold">
+        🛍️ สินค้าแอมเวย์ที่เพิ่มล่าสุด
+    </div>
+    <table id="latest-product-table" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>สินค้า</th>
+                <th>คำอธิบาย</th>
+                <th>คุณสมบัติ</th>
+                <th>รายละเอียด</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($products as $product) :
+                $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+                $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
+                // Combine image and name in one column
+                $image_and_name = '
                 <div style="text-align:center;">
                     ' . $image_url . '
                     <span>' . esc_html($product->product_name) . '</span>
                 </div>';
-                    ?>
-                        <tr>
-                            <td><?php echo $image_and_name; ?></td>
-                            <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
-                            <td><?php echo htmlspecialchars_decode($product->product_benefit); ?></td>
-                            <td><a href="<?php echo $detail_url; ?>">[รายละเอียด]</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            ?>
+                <tr>
+                    <td><?php echo $image_and_name; ?></td>
+                    <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
+                    <td><?php echo htmlspecialchars_decode($product->product_benefit); ?></td>
+                    <td><a href="<?php echo $detail_url; ?>">[รายละเอียด]</a></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
     <!-- please init datatable using inline js -->
     <script>
         jQuery(document).ready(function($) {
@@ -78,7 +76,7 @@
                     }
                 ];
             }
-            var table = $("#recommend-product-table").DataTable({
+            var table = $("#latest-product-table").DataTable({
                 fixedColumns: {
                     start: 1,
                     end: 1

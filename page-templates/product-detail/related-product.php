@@ -33,7 +33,7 @@
     ?>
     <span class="related-product-label">🛒 สินค้าที่แนะนำคู่กัน</span> <!-- same size to bootstrap tab panel font size -->
     <hr>
-    <table id="recommend-product-table" class="table table-striped table-border" width="100%">
+    <table id="latest-product-table" class="table table-striped table-bordered" width="100%">
         <thead>
             <tr>
                 <th>สินค้า</th>
@@ -75,7 +75,7 @@
                 ];
             }
 
-            $("#recommend-product-table").DataTable({
+            $("#latest-product-table").DataTable({
                 ajax: {
                     url: "<?php echo admin_url('admin-ajax.php'); ?>",
                     type: "GET",

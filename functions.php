@@ -29,6 +29,7 @@ $understrap_includes = array(
 	'/block-editor.php',                    // Load Block Editor functions.
 	'/deprecated.php',                      // Load deprecated functions.
 	'/contact.php',                         // Load contact functions.
+	'/fonts.php',                           // Load fonts functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.
@@ -627,6 +628,7 @@ function aboyuma_facebook_share_button() {
 			</div>';
 	}
 }
+
 
 // Array of custom integrated plugin files
 $integrated_plugins = [

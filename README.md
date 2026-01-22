@@ -66,8 +66,7 @@ This theme includes 3 custom widgets integrated into the theme:
 
 Future Refactors
 
-- Refactor using plugin boilerplate
-- Remain theme-integrated
+- Refactor plugin implementation using a plugin boilerplate while keeping it theme-integrated
 - Implement drag and re-order product detail images
 - Improve field validation
 - Refactor field validation to use one shared validator
@@ -76,3 +75,4 @@ Future Refactors
 - Query optimization
 - Clean code
 - Enhance security if should
+- Remove unused files
