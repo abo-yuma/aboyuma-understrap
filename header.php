@@ -34,10 +34,22 @@ defined('ABSPATH') || exit;
 				</a>
 				<div id="main-image" class="container g-0">
 					<div class="row">
-						<img src="<?php echo esc_url(get_theme_mod('aboyuma_header_image', '')); ?>"
-							style="height: 250px;">
+						<?php
+						$header_image = get_theme_mod('aboyuma_header_image');
+
+						if (! empty($header_image)) {
+							$img_src = esc_url($header_image);
+						} else {
+							$img_src = 'https://placehold.co/980x250?text=Header+Image';
+						}
+						?>
+						<img
+							src="<?php echo $img_src; ?>"
+							alt="Header image"
+							style="height:250px; width:100%; object-fit:cover;">
 					</div>
 				</div>
+
 				<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
 
 			</header><!-- #wrapper-header -->

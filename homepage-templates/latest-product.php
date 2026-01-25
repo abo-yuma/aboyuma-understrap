@@ -23,25 +23,28 @@
     <table id="latest-product-table" class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>สินค้า</th>
-                <th>คำอธิบาย</th>
-                <th>รายละเอียด</th>
+                <th>🛍️ สินค้า</th>
+                <th>📝 คำอธิบาย</th>
+                <th>📋 รายละเอียด</th>
             </tr>
         </thead>
         <tbody>
             <?php
             foreach ($products as $product) :
-                $image_url = $product->product_image ? '<img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
+                $image_url = $product->product_image ? '<img class="img-fluid rounded-3 mb-2" src="data:image/jpeg;base64,'
+                    . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
                 $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
-                // Combine image and name in one column
-                $image_and_name = '
-                <div style="text-align:center;">
-                    ' . $image_url . '
-                    <span>' . esc_html($product->product_name) . '</span>
-                </div>';
             ?>
                 <tr>
-                    <td><?php echo $image_and_name; ?></td>
+                    <!-- product -->
+                    <td class="product-name">
+                        <div class="text-center">
+                            <?php echo $image_url; ?>
+                            <div class="fw-semibold mt-1">
+                                <?php echo esc_html($product->product_name); ?>
+                            </div>
+                        </div>
+                    </td>
                     <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
                     <td>
                         <a href="<?php echo $detail_url; ?>"
@@ -66,11 +69,11 @@
                         targets: [0],
                     },
                     {
-                        width: "60%",
+                        width: "55%",
                         targets: [1],
                     },
                     {
-                        width: "15%",
+                        width: "20%",
                         targets: [2],
                     }
                 ];

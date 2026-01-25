@@ -28,7 +28,7 @@
                             🗓 <?php echo esc_html($item->display_date); ?>
                         </div>
                         <div class="news-text">
-                            <?php echo esc_html($item->news_text); ?>
+                            📰 <?php echo esc_html($item->news_text); ?>
                         </div>
                     </li>
                 <?php endforeach; ?>
@@ -44,10 +44,18 @@
         margin: 0;
     }
 
+    .news-item {
+        padding: 6px 8px;
+        border-radius: 6px;
+    }
+
     .news-item:not(:last-child) {
-        padding-bottom: 8px;
         margin-bottom: 8px;
         border-bottom: 1px dashed var(--bs-border-color);
+    }
+
+    .news-item:nth-child(odd) {
+        background-color: var(--bs-secondary-bg);
     }
 
     .news-date {
@@ -61,11 +69,5 @@
         font-size: 0.95rem;
         color: var(--bs-body-color);
         line-height: 1.4;
-    }
-
-    .news-item:nth-child(even) {
-        background-color: var(--bs-secondary-bg);
-        border-radius: 6px;
-        padding: 6px 8px;
     }
 </style>

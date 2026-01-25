@@ -9,6 +9,7 @@ Reference:
 
 Related issues:
 - https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
+- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
 
 TODO :
 Future Refactor

@@ -148,6 +148,15 @@ body {
 	content: "📂 ";
 }
 
+.widget_categories a {
+	text-decoration: none;
+}
+
+.widget_categories a:hover,
+.widget_categories a:focus-visible {
+	text-decoration: underline;
+}
+
 // ===== Main content ===== //
 
 // ===== Footer ===== //
@@ -287,32 +296,28 @@ footer {
 	}
 }
 
-#latest-product-table * {
-	font-size: 12px !important;
-	align-content: center;
-}
-
 /* Fix big th font bug when using jqueryDataTable scrollX option */
 .dt-column-title {
 	font-size: 12.5px !important;
 }
 
-#recommend-posts-widget .post-thumbnail,
-#latest-posts-section .post-thumbnail,
-#other-recommend-product-section .post-thumbnail {
+.content-feed .post-thumbnail {
 	height: 130px;
 }
-#recommend-posts-widget .post-thumbnail img,
-#latest-posts-section .post-thumbnail img,
-#other-recommend-product-section .post-thumbnail img {
+
+.content-feed .post-thumbnail img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
-#recommend-posts-widget .post-thumbnail-readmore a,
-#latest-posts-section .post-thumbnail-readmore a,
-#other-recommend-product-section .post-thumbnail-readmore a {
-	font-size: 0.8rem;
+
+.content-feed a {
+	text-decoration: none;
+}
+
+.content-feed a:hover,
+.content-feed a:focus-visible {
+	text-decoration: underline;
 }
 
 // #recommend-posts-widget:hover,
@@ -321,7 +326,6 @@ footer {
 //     background-color: #f6f6f6;
 //     transition: background-color 0.2s ease-in-out;
 // }
-
 
 // Dark mode switch
 #dark-mode-switch {
@@ -390,10 +394,12 @@ footer {
 /* Fix missing top border on DataTables thead (Bootstrap) */
 [data-bs-theme="light"] table.dataTable thead th {
 	border-top: 1px solid var(--bs-border-color) !important;
+	background-color: var(--bs-secondary-bg) !important;
 }
 
 [data-bs-theme="dark"] table.dataTable thead th {
 	border-top: 1px solid var(--bs-border-color) !important;
+	background-color: var(--bs-secondary-bg) !important;
 }
 
 [data-bs-theme="dark"] table.dataTable,
@@ -449,6 +455,61 @@ footer {
 	.dropdown-menu
 	.dropdown-item:hover {
 	color: #ffffff; /* hover white for contrast */
+}
+
+#latest-product-table td {
+	font-size: 13px;
+	vertical-align: middle;
+}
+
+#latest-product-table td.product-name {
+	font-size: 14px;
+}
+
+/* ============================================================
+   Flip Bootstrap 5 striped rows for DataTables
+   Default Bootstrap behavior:
+   - ODD rows are striped (via box-shadow, not background-color)
+   - EVEN rows are normal
+
+   Our goal:
+   - ODD rows → remove stripe
+   - EVEN rows → apply default Bootstrap stripe color
+
+   This must be loaded AFTER bootstrap.css and dataTables.bootstrap5.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1) ODD rows: REMOVE the stripe
+
+   Bootstrap paints striped rows using:
+   box-shadow: inset 0 0 0 9999px var(--bs-table-bg-type);
+
+   So even if background-color is transparent,
+   the stripe is still visible.
+
+   Setting box-shadow: none removes the actual
+   "paint layer" Bootstrap uses for striping.
+   ------------------------------------------------------------ */
+#latest-product-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+	box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   2) EVEN rows: ADD the stripe
+
+   Even rows have no stripe by default.
+   We assign Bootstrap’s own stripe variable:
+   --bs-table-bg-type: var(--bs-table-striped-bg);
+
+   Bootstrap’s internal CSS will automatically
+   convert this into the same stripe effect,
+   using its built-in box-shadow system.
+
+   This keeps the exact default color and behavior.
+   ------------------------------------------------------------ */
+#latest-product-table.table-striped > tbody > tr:nth-of-type(even) > * {
+	--bs-table-bg-type: var(--bs-table-striped-bg);
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
@@ -563,6 +624,16 @@ footer {
 
 #product-detail-info-container #related-product .product-review-label {
 	font-weight: 400;
+}
+
+/* Directional / navigation helper links (back, next, view more, etc.) */
+.direction-link {
+	text-decoration: none;
+}
+
+.direction-link:hover,
+.direction-link:focus-visible {
+	text-decoration: underline;
 }
 
 #SOPInfoModal .modal-custom-size {
