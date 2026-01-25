@@ -130,20 +130,3 @@ class Aboyuma_Recommend_Posts_Widget extends WP_Widget {
         return $instance;
     }
 }
-
-function register_aboyuma_recommend_posts_widget() {
-    register_widget('Aboyuma_Recommend_Posts_Widget');
-}
-add_action('widgets_init', 'register_aboyuma_recommend_posts_widget');
-
-function register_recommend_posts_widget_area() {
-    register_sidebar([
-        'name'          => __('Recommend Posts Widget Area'),
-        'id'            => 'recommend-posts-widget-area',
-        'before_widget' => '<div class="widget recommend-posts-widget">',
-        'after_widget'  => '</div>',
-        'before_title'  => '',
-        'after_title'   => '',
-    ]);
-}
-add_action('widgets_init', 'register_recommend_posts_widget_area');

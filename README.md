@@ -28,6 +28,7 @@ This theme includes built-in features designed to cover common website needs, he
 ## Customizer
 
 Additional customizer
+
 - Header banner image
 - Footer content
   - About us content
@@ -53,6 +54,7 @@ Reference:
 Related issues:
 
 - https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
+- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
 
 ## Integrated Widgets
 
@@ -66,7 +68,8 @@ This theme includes 3 custom widgets integrated into the theme:
 
 Future Refactors
 
-- Refactor plugin implementation using a plugin boilerplate while keeping it theme-integrated
+- Refactor plugins implementation using a plugin boilerplate by putting them in plugin folder  
+  while keeping it theme-integrated by auto-load plugins
 - Implement drag and re-order product detail images
 - Improve field validation
 - Refactor field validation to use one shared validator

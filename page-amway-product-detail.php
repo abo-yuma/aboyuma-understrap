@@ -299,7 +299,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     </section><!-- End Product Description Section -->
 
                     <div class="text-end mb-2">
-                        <a href="<?= esc_url(home_url('/amway-product')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
+                        <a class="direction-link" href="<?= esc_url(home_url('/amway-product')) ?>"><i class="fa fa-backward" aria-hidden="true"></i>
                             ดูสินค้าอื่น</a>
                     </div>
 
@@ -436,7 +436,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     <?php aboyuma_facebook_share_button(); ?>
                     <!-- Back button -->
                     <div class="text-end mt-4">
-                        <a href="javascript:void(0);" onclick="history.back()">
+                        <a class="direction-link" href="javascript:void(0);" onclick="history.back()">
                             <i class="fa fa-backward" aria-hidden="true"></i> ย้อนกลับ
                         </a>
                     </div>

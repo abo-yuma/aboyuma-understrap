@@ -21,20 +21,34 @@
                     if (!$youtube_id) continue; // skip invalid video
                 ?>
                     <div class="col-md-6 mb-3">
-                        <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
-                            <a data-fancybox
-                                href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
-                                data-caption="<?php echo esc_attr($comment ?: 'Recommended Video'); ?>">
-                                <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
-                                    alt="YouTube thumbnail"
-                                    class="w-100 h-100 object-fit-cover">
-                                <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
-                            </a>
+                        <div class="card h-100">
+
+                            <!-- Card image top (video thumbnail) -->
+                            <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
+                                <a data-fancybox
+                                    href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
+                                    data-caption="<?php echo esc_attr($comment ?: 'Recommended Video'); ?>">
+
+                                    <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
+                                        alt="YouTube thumbnail"
+                                        class="card-img-top w-100 h-100 object-fit-cover">
+
+                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
+                                </a>
+                            </div>
+
+                            <!-- Card body -->
+                            <?php if (!empty($comment)): ?>
+                                <div class="card-body py-2">
+                                    <small class="card-text d-block">
+                                        <?php echo esc_html($comment); ?>
+                                    </small>
+                                </div>
+                            <?php endif; ?>
+
                         </div>
-                        <?php if (!empty($comment)): ?>
-                            <small class="d-block mt-1"><?php echo esc_html($comment); ?></small>
-                        <?php endif; ?>
                     </div>
+
                 <?php endfor; ?>
             </div>
         </div>
