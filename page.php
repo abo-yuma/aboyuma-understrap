@@ -37,20 +37,6 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 					get_template_part('loop-templates/content', 'page');
 				}
 				?>
-				<!-- Another front page templates-->
-				<?php if (is_front_page()) : ?>
-					<!-- Templates only for front page(Home)-->
-					<?php get_template_part('homepage-templates/news'); ?>
-					<?php get_template_part('homepage-templates/latest-post'); ?>
-					<?php get_template_part('homepage-templates/latest-product'); ?>
-					<?php get_template_part('homepage-templates/other-recommend-product'); ?>
-					<!-- Widgets templates only for front page(Home)-->
-					<?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
-						<div id="recommend-video-widget-area">
-							<?php dynamic_sidebar('recommend-video-widget-area'); ?>
-						</div>
-					<?php endif; ?>
-				<?php endif; ?>
 			</div>
 
 		</div><!-- .row -->
