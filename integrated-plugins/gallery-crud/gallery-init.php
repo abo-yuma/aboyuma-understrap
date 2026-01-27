@@ -1,24 +1,15 @@
 <?php
 /*
-Theme Integrated Plugin
-ABO YUMA Gallery Crud
-
-Reference: 
-- https://github.com/eduardoarandah/wordpress-crud-example
-- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
-
-Related issues:
-- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
-- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
-
-TODO :
-Future Refactor
-- Refactor using custom OOP or WordPress Plugin Boilerplate (WPPB)
-  https://wppb.me/
-- Remain theme-integrated
+Plugin Name: Gallery Management System
+Description: Theme integrated plugin for managing galleries with full CRUD functionality.
+Version:     1.0.0
 */
-// Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
+
 function create_aboyuma_gallery_table() {
+  /*
+  Create multiple tables reference: 
+  - https://wordpress.stackexchange.com/a/341755/193936
+  */
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
   global $wpdb;
 
@@ -111,10 +102,9 @@ function aboyuma_gallery_menu() {
     'aboyuma_gallery_edit_page'
   );
 }
-// ✅ Register admin menus (List, Add, Edit - hidden)
+
 add_action('admin_menu', 'aboyuma_gallery_menu');
 
-// Load page templates
 require_once get_template_directory() . '/integrated-plugins/gallery-crud/gallery-list.php';
 require_once get_template_directory() . '/integrated-plugins/gallery-crud/gallery-add.php';
 require_once get_template_directory() . '/integrated-plugins/gallery-crud/gallery-edit.php';

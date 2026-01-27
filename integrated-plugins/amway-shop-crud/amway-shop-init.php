@@ -1,23 +1,9 @@
 <?php
 /*
-Theme Integrated Plugin
-ABO YUMA Amway Shop Crud
-
-Reference: 
-- https://github.com/eduardoarandah/wordpress-crud-example
-- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
-
-Related issues:
-- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
-- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
-
-TODO :
-Future Refactor
-- Refactor using custom OOP or WordPress Plugin Boilerplate (WPPB)
-  https://wppb.me/
-- Remain theme-integrated
+Plugin Name: Amway Shop Management System
+Description: Theme integrated plugin for managing Amway shops with full CRUD functionality.
+Version:     1.0.0
 */
-// Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
 
 function create_aboyuma_amway_shop_table() {
 
@@ -121,8 +107,6 @@ function aboyuma_amway_shop_menu() {
 }
 add_action('admin_menu', 'aboyuma_amway_shop_menu');
 
-
-// Include CRUD subfiles
 require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-list.php';
 require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-add.php';
 require_once get_template_directory() . '/integrated-plugins/amway-shop-crud/amway-shop-edit.php';
