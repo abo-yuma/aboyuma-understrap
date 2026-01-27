@@ -30,6 +30,7 @@ This theme includes built-in features designed to cover common website needs, he
 Additional customizer
 
 - Header banner image
+- Home marquee content
 - Footer content
   - About us content
   - Line QR code

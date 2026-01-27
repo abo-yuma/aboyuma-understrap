@@ -112,7 +112,13 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 		);
 
 		// jQuery Marquee
-		wp_enqueue_script('jquery-marquee', 'https://cdnjs.cloudflare.com/ajax/libs/jQuery.Marquee/1.5.0/jquery.marquee.min.js', array('jquery'), null, false);
+		wp_enqueue_script(
+			'jquery-marquee',
+			'https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js',
+			array('jquery'),
+			null,
+			false
+		);
 
 		// Enqueue jQueryDataTables JS from a CDN
 		// Ref: https://cdn.datatables.net/
@@ -167,9 +173,9 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 		wp_enqueue_script(
 			'clipboard-js',
 			'https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',
-			array(), // no dependencies
+			array(),
 			$theme_version,
-			true // load in footer
+			true
 		);
 
 		// Bootstrap icon
@@ -177,7 +183,6 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			'bootstrap-icons',
 			'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css'
 		);
-
 	}
 }
 add_action('wp_enqueue_scripts', 'aboyuma_enqueue_scripts');

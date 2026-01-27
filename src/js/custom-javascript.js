@@ -107,24 +107,20 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 	// Force left sidebar widget sitcky on scroll
 	// Ref: https://stackoverflow.com/questions/52062163/how-to-make-a-sidebar-sticky-when-scrolling-between-header-and-footer-with-jquer
 
-	$(function () {
-		const $track = $(".home-marquee-track");
-		if (!$track.length) return;
+	// =======================
+	// Home marquee
+	// =======================
+	const $marquee = $(".home-marquee-content");
+	if (!$marquee.length) return;
 
-		// duplicate content for seamless loop
-		const original = $track.html();
-		$track.append(original);
+	// Duration is handled via data-attribute in the HTML markup.
 
-		function initMarquee() {
-			const speed = 80; // px per second
-
-			const totalWidth = $track[0].scrollWidth / 2; // original width
-			const duration = totalWidth / speed;
-
-			$track.css("animation-duration", duration + "s");
-		}
-
-		initMarquee();
-		$(window).on("resize", initMarquee);
+	$marquee.marquee({
+		gap: 60,
+		delayBeforeStart: 0,
+		direction: "left",
+		duplicated: true,
+		pauseOnHover: true,
+		startVisible: true,
 	});
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside
