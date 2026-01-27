@@ -368,3 +368,55 @@ if (! function_exists('aboyuma_messenger_button_customizer')) {
 }
 
 add_action('customize_register', 'aboyuma_messenger_button_customizer');
+
+if (! function_exists('aboyuma_marquee_customizer')) {
+	function aboyuma_marquee_customizer($wp_customize) {
+
+		$wp_customize->add_section('home_marquee_section', array(
+			'title'    => __('Home Marquee', 'aboyuma'),
+			'priority' => 30,
+		));
+
+		// ===== Text =====
+		$wp_customize->add_setting('home_marquee_text', array(
+			'default' => 'Home | About | Privacy Policy',
+			'sanitize_callback' => 'wp_kses_post',
+		));
+
+		$wp_customize->add_control('home_marquee_text', array(
+			'label'       => __('Marquee Text', 'aboyuma'),
+			'description' => __('You can use text, links, or spans. Example: Home | <a href="/about">About</a>', 'aboyuma'),
+			'section'     => 'home_marquee_section',
+			'type'        => 'textarea',
+		));
+
+		// ===== Speed =====
+		$wp_customize->add_setting('home_marquee_duration', array(
+			'default' => 15000,
+			'sanitize_callback' => 'absint',
+		));
+
+		$wp_customize->add_control('home_marquee_duration', array(
+			'label'       => __('Marquee Speed (ms)', 'aboyuma'),
+			'description' => __('Lower = faster. Example: 3000, 6000, 10000', 'aboyuma'),
+			'section'     => 'home_marquee_section',
+			'type'        => 'number',
+		));
+
+		// ===== Color =====
+		$wp_customize->add_setting('home_marquee_color', array(
+			'default' => '#ff0000',
+			'sanitize_callback' => 'sanitize_hex_color',
+		));
+
+		$wp_customize->add_control(new WP_Customize_Color_Control(
+			$wp_customize,
+			'home_marquee_color',
+			array(
+				'label'   => __('Marquee Text Color', 'aboyuma'),
+				'section' => 'home_marquee_section',
+			)
+		));
+	}
+}
+add_action('customize_register', 'aboyuma_marquee_customizer');

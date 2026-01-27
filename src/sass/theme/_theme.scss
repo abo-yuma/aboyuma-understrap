@@ -691,32 +691,10 @@ footer {
 
 .home-marquee-wrapper {
 	overflow: hidden;
-	width: 100%;
-	// border-top: 1px solid rgba(211, 47, 47, 0.25);
-	// border-bottom: 1px solid rgba(211, 47, 47, 0.25);
-
 }
 
-.home-marquee-track {
-	display: inline-flex;
-	align-items: center;
-	white-space: nowrap;
-	font-size: 1.3rem;
-	color: #d32f2f;
-	font-weight: 600;
-	will-change: transform;
-	animation: home-marquee-scroll linear infinite;
-}
-
-.home-marquee-track span {
-	padding-right: 4rem;
-}
-
-@keyframes home-marquee-scroll {
-	from {
-		transform: translateX(0);
-	}
-	to {
-		transform: translateX(-50%);
-	}
+.home-marquee-content {
+	font-size: 18px;
+	color: #6d51f9;
+	white-space: nowrap; 
 }

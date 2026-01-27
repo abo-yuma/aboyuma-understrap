@@ -31,13 +31,22 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                 ?>
             </div>
             <div class="main-content-column-width order-1 order-md-2">
-                <!-- Marquee only for front page(Home)-->
-                <div class="home-marquee-wrapper mb-3">
-                    <div class="home-marquee-track">
-                        <span>📢 เว็บบล็อคปิดปรับปรุงทุกวันเสาร์ ขออภัยในความไม่สะดวกครับ</span>
-         
+                <!-- Marquee Content -->
+                <?php
+                $marquee_text  = get_theme_mod('home_marquee_text');
+                $marquee_duration = get_theme_mod('home_marquee_duration', 15000);
+                $marquee_color = get_theme_mod('home_marquee_color', '#ff0000');
+
+                if (! empty($marquee_text)) :
+                ?>
+                    <div class="home-marquee-wrapper mb-2">
+                        <div class="home-marquee-content"
+                            data-duration="<?php echo esc_attr($marquee_duration); ?>"
+                            style="color: <?php echo esc_attr($marquee_color); ?>;">
+                            <?php echo wp_kses_post($marquee_text); ?>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
 
                 <?php
                 while (have_posts()) {
