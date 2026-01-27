@@ -1,26 +1,16 @@
 <?php
 /*
-Theme Integreated Plugin
-ABO YUMA AMWAY Product Crud
-
-Reference: 
-- https://github.com/eduardoarandah/wordpress-crud-example
-- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
-
-Related issues:
-- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
-- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
-
-TODO :
-Future Refactor
-- Refactor using custom OOP or WordPress Plugin Boilerplate (WPPB)
-  https://wppb.me/
-- Remain theme-integrated
+Plugin Name: Amway Product Management System
+Plugin URI:  https://yourwebsite.com
+Description: Theme integrated plugin for managing Amway products with full CRUD functionality.
+Version:     1.0.0
 */
-// Create multiple tables reference: https://wordpress.stackexchange.com/a/341755/193936
 
 function create_aboyuma_amway_product_table() {
-
+  /*
+  Create multiple tables reference: 
+  - https://wordpress.stackexchange.com/a/341755/193936
+  */
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
   global $wpdb;
