@@ -14,6 +14,15 @@
 		?>
 			<div id="widget-area" class="widget-area" role="complementary">
 				<?php
+				/* -----------------------------------------
+				 * ABO YUMA Author Box
+				 * ----------------------------------------- */
+				if (function_exists('aboyuma_author_box_render')) {
+					aboyuma_author_box_render();
+				}
+				?>
+
+				<?php
 				dynamic_sidebar('left-sidebar');
 
 				if (current_user_can('manage_options')):

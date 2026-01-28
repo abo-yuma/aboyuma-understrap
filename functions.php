@@ -630,18 +630,18 @@ function aboyuma_facebook_share_button() {
 	}
 }
 
-
 // Array of custom integrated plugin files
 $integrated_plugins = [
 	'/integrated-plugins/news-crud/news-init.php',
 	'/integrated-plugins/amway-product-crud/amway-product-init.php',
 	// '/integrated-plugins/gallery-crud/gallery-init.php',
-	'/integrated-plugins/amway-shop-crud/amway-shop-init.php'
+	'/integrated-plugins/amway-shop-crud/amway-shop-init.php',
+	'/integrated-plugins/aboyuma-author-box/aboyuma-author-box-init.php'
 ];
 
 // Array of custom integrated widget files
 $integrated_widgets = [
-	'/integrated-widgets/authorbox-widget/authorbox-widget.php',
+	//'/integrated-widgets/authorbox-widget/authorbox-widget.php',
 	'/integrated-widgets/recommend-video-widget/recommend-video-widget.php',
 	'/integrated-widgets/quick-links-widget/quick-links-widget.php',
 	'/integrated-widgets/recommend-posts-widget/recommend-posts-widget.php',
