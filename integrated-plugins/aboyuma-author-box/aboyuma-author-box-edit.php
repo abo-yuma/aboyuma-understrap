@@ -22,32 +22,66 @@ function aboyuma_author_box_edit_page() {
             wp_die('Security check failed.');
         }
 
-        $data = array(
-            'title' => sanitize_text_field($_POST['title'] ?? ''),
-            'bio' => wp_kses_post($_POST['bio'] ?? ''),
-            'image' => esc_url_raw($_POST['image'] ?? ''),
-            'aboyuma_qualified_title' => sanitize_text_field($_POST['aboyuma_qualified_title'] ?? ''),
+        $errors = [];
 
-            'member_register_link_url' => esc_url_raw($_POST['member_register_link_url'] ?? ''),
-            'member_register_link' => sanitize_text_field($_POST['member_register_link'] ?? ''),
-            'member_register_link_info_modal_title' => sanitize_text_field($_POST['member_register_link_info_modal_title'] ?? ''),
-            'member_register_link_info_modal_content' => wp_kses_post($_POST['member_register_link_info_modal_content'] ?? ''),
+        // Required fields
+        if (empty(trim($_POST['title'] ?? ''))) {
+            $errors[] = 'Author name is required.';
+        }
 
-            'abo_register_link_url' => esc_url_raw($_POST['abo_register_link_url'] ?? ''),
-            'abo_register_link' => sanitize_text_field($_POST['abo_register_link'] ?? ''),
-            'abo_register_link_info_modal_title' => sanitize_text_field($_POST['abo_register_link_info_modal_title'] ?? ''),
-            'abo_register_link_info_modal_content' => wp_kses_post($_POST['abo_register_link_info_modal_content'] ?? ''),
-        );
+        if (empty(trim($_POST['bio'] ?? ''))) {
+            $errors[] = 'Bio is required.';
+        }
 
-        $updated = $wpdb->update($table, $data, array('id' => $id));
+        validate_url($_POST['image'] ?? '', 'Profile image URL', $errors);
+        validate_url($_POST['profile_link_url'] ?? '', 'Profile link URL', $errors);
+        validate_url($_POST['member_register_link_url'] ?? '', 'Member register link URL', $errors);
+        validate_url($_POST['abo_register_link_url'] ?? '', 'ABO register link URL', $errors);
 
-        if ($updated !== false) {
-            echo '<div class="notice notice-success is-dismissible"><p>Author box updated successfully.</p></div>';
-            $author_box = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id = %d", $id));
+        // ID safety
+        if (!isset($id) || !is_numeric($id)) {
+            $errors[] = 'Invalid author box ID.';
+        }
+
+        if (empty($errors)) {
+
+            $data = array(
+                'title' => sanitize_text_field($_POST['title'] ?? ''),
+                'bio' => wp_kses_post($_POST['bio'] ?? ''),
+                'image' => esc_url_raw($_POST['image'] ?? ''),
+                'aboyuma_qualified_title' => sanitize_text_field($_POST['aboyuma_qualified_title'] ?? ''),
+
+                'profile_link_url' => esc_url_raw($_POST['profile_link_url'] ?? ''),
+
+                'member_register_link_url' => esc_url_raw($_POST['member_register_link_url'] ?? ''),
+                'member_register_link' => sanitize_text_field($_POST['member_register_link'] ?? ''),
+                'member_register_link_info_modal_title' => sanitize_text_field($_POST['member_register_link_info_modal_title'] ?? ''),
+                'member_register_link_info_modal_content' => wp_kses_post($_POST['member_register_link_info_modal_content'] ?? ''),
+
+                'abo_register_link_url' => esc_url_raw($_POST['abo_register_link_url'] ?? ''),
+                'abo_register_link' => sanitize_text_field($_POST['abo_register_link'] ?? ''),
+                'abo_register_link_info_modal_title' => sanitize_text_field($_POST['abo_register_link_info_modal_title'] ?? ''),
+                'abo_register_link_info_modal_content' => wp_kses_post($_POST['abo_register_link_info_modal_content'] ?? ''),
+            );
+
+            $updated = $wpdb->update($table, $data, ['id' => (int) $id]);
+
+            if ($updated !== false) {
+                echo '<div class="notice notice-success is-dismissible"><p>Author box updated successfully.</p></div>';
+                $author_box = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE id = %d", $id));
+            } else {
+                echo '<div class="notice notice-error"><p>Update failed.</p></div>';
+            }
         } else {
-            echo '<div class="notice notice-error"><p>Update failed.</p></div>';
+
+            echo '<div class="notice notice-error"><ul style="margin-left:20px;">';
+            foreach ($errors as $error) {
+                echo '<li>' . esc_html($error) . '</li>';
+            }
+            echo '</ul></div>';
         }
     }
+
 ?>
     <div class="wrap">
         <h1>Edit ABO YUMA Author Box</h1>
@@ -103,6 +137,11 @@ function aboyuma_author_box_edit_page() {
                 <tr>
                     <th><label>Qualified Title</label></th>
                     <td><input type="text" name="aboyuma_qualified_title" class="regular-text" value="<?php echo esc_attr($author_box->aboyuma_qualified_title); ?>"></td>
+                </tr>
+
+                <tr>
+                    <th>Profile Link URL</th>
+                    <td><input type="text" name="profile_link_url" class="large-text" value="<?php echo esc_attr($author_box->profile_link_url); ?>"></td>
                 </tr>
 
                 <tr>
