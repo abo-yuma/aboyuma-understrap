@@ -160,120 +160,120 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
                             <!-- Product Description Section -->
                             <div id="product_description" class="col-md-5">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
-                                        <small>
+
+                                <div class="card-body">
+                                    <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
+                                    <small>
+                                        <?php
+                                        // Map unit types to Thai
+                                        $unit_types_th = [
+                                            'tablet' => 'เม็ด',
+                                            'capsule' => 'แคปซูล',
+                                            'sachet' => 'ซอง',
+                                            'g' => 'กรัม',
+                                            'ml' => 'มิลลิลิตร'
+                                        ];
+
+                                        // Get the Thai label for the product unit type
+                                        $unit_type_th = isset($unit_types_th[$product->product_unit_type]) ? $unit_types_th[$product->product_unit_type] : $product->product_unit_type;
+
+                                        // Display
+                                        echo '#' . esc_html($product->product_code);
+
+                                        if (!empty($product->product_unit_count)) {
+                                            echo " | บรรจุ " . esc_html($product->product_unit_count) . " " . esc_html($unit_type_th);
+                                        }
+                                        ?>
+                                    </small>
+
+                                    <div id="product-category-brand-label" class="col-md-12 mb-2">
+                                        <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
+                                        <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
+                                    </div>
+                                    <div id="product-descroption-wrapper" class="card-text" style="font-size: 14px;">
+                                        <div class="product_description mb-2">
+                                            <?php echo apply_filters('the_content', $product->product_description); ?>
+                                        </div>
+                                        <div id="product_is_no_additives">
                                             <?php
-                                            // Map unit types to Thai
-                                            $unit_types_th = [
-                                                'tablet' => 'เม็ด',
-                                                'capsule' => 'แคปซูล',
-                                                'sachet' => 'ซอง',
-                                                'g' => 'กรัม',
-                                                'ml' => 'มิลลิลิตร'
-                                            ];
-
-                                            // Get the Thai label for the product unit type
-                                            $unit_type_th = isset($unit_types_th[$product->product_unit_type]) ? $unit_types_th[$product->product_unit_type] : $product->product_unit_type;
-
-                                            // Display
-                                            echo '#' . esc_html($product->product_code);
-
-                                            if (!empty($product->product_unit_count)) {
-                                                echo " | บรรจุ " . esc_html($product->product_unit_count) . " " . esc_html($unit_type_th);
+                                            // Decode the JSON from the DB
+                                            $product_additive_properties = json_decode($product->product_additive_properties ?? '', true);
+                                            // Safety check and output
+                                            if (!empty($product_additive_properties)) {
+                                                if (!empty($product_additive_properties['no_color'])) {
+                                                    echo '✅ ไม่เจือสี<br>';
+                                                }
+                                                if (!empty($product_additive_properties['no_flavoring'])) {
+                                                    echo '✅ ไม่ใช้วัตถุแต่งกลิ่นรส<br>';
+                                                }
+                                                if (!empty($product_additive_properties['no_preservative'])) {
+                                                    echo '✅ ไม่ใช้วัตถุกันเสีย<br>';
+                                                }
                                             }
                                             ?>
-                                        </small>
-
-                                        <div id="product-category-brand-label" class="col-md-12 mb-2">
-                                            <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
-                                            <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
                                         </div>
-                                        <div id="product-descroption-wrapper" class="card-text" style="font-size: 14px;">
-                                            <div class="product_description mb-2">
-                                                <?php echo apply_filters('the_content', $product->product_description); ?>
-                                            </div>
-                                            <div id="product_is_no_additives">
-                                                <?php
-                                                // Decode the JSON from the DB
-                                                $product_additive_properties = json_decode($product->product_additive_properties ?? '', true);
-                                                // Safety check and output
-                                                if (!empty($product_additive_properties)) {
-                                                    if (!empty($product_additive_properties['no_color'])) {
-                                                        echo '✅ ไม่เจือสี<br>';
-                                                    }
-                                                    if (!empty($product_additive_properties['no_flavoring'])) {
-                                                        echo '✅ ไม่ใช้วัตถุแต่งกลิ่นรส<br>';
-                                                    }
-                                                    if (!empty($product_additive_properties['no_preservative'])) {
-                                                        echo '✅ ไม่ใช้วัตถุกันเสีย<br>';
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <div id="product_is_plant_based" class="product_is_plant_based mt-2">
-                                                <?php
-                                                // Decode the JSON from the DB
-                                                $product_diet_properties = json_decode($product->product_diet_properties ?? '', true);
+                                        <div id="product_is_plant_based" class="product_is_plant_based mt-2">
+                                            <?php
+                                            // Decode the JSON from the DB
+                                            $product_diet_properties = json_decode($product->product_diet_properties ?? '', true);
 
-                                                // Safety check and output
-                                                if (!empty($product_diet_properties)) {
-                                                    if (!empty($product_diet_properties['vegetarian'])) {
-                                                        echo '🌿 Vegetarian<br>';
-                                                    }
-                                                    if (!empty($product_diet_properties['flexitarian'])) {
-                                                        echo '🌿 Flexitarian<br>';
-                                                    }
-                                                    if (!empty($product_diet_properties['vegan'])) {
-                                                        echo '🌿 Vegan<br>';
-                                                    }
-                                                    if (!empty($product_diet_properties['mostly vegan'])) {
-                                                        echo '🌿 Mostly Vegan 
+                                            // Safety check and output
+                                            if (!empty($product_diet_properties)) {
+                                                if (!empty($product_diet_properties['vegetarian'])) {
+                                                    echo '🌿 Vegetarian<br>';
+                                                }
+                                                if (!empty($product_diet_properties['flexitarian'])) {
+                                                    echo '🌿 Flexitarian<br>';
+                                                }
+                                                if (!empty($product_diet_properties['vegan'])) {
+                                                    echo '🌿 Vegan<br>';
+                                                }
+                                                if (!empty($product_diet_properties['mostly vegan'])) {
+                                                    echo '🌿 Mostly Vegan 
                                                         <i class="fa fa-info-circle ms-1 text-muted"
                                                         role="button"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#mostlyVeganModal"
                                                         title="Learn more"></i><br>';
-                                                    }
                                                 }
-                                                ?>
-                                            </div>
+                                            }
+                                            ?>
+                                        </div>
 
-                                            <div id="product_price_info" class="mt-2">
-                                                <?php if (!empty($product->product_sop_link)) : ?>
-                                                    <div class="product_descsription_sop">
-                                                        <div id="product_detail_sop_link">
-                                                            <span>📋 มีโปรแกรม SOP FLEX</span>
-                                                            <i class="fa fa-info-circle ms-1 text-muted"
-                                                                role="button"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#SOPInfoModal"
-                                                                title="Learn more"></i>
-                                                        </div>
+                                        <div id="product_price_info" class="mt-2">
+                                            <?php if (!empty($product->product_sop_link)) : ?>
+                                                <div class="product_descsription_sop">
+                                                    <div id="product_detail_sop_link">
+                                                        <span>📋 มีโปรแกรม SOP FLEX</span>
+                                                        <i class="fa fa-info-circle ms-1 text-muted"
+                                                            role="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#SOPInfoModal"
+                                                            title="Learn more"></i>
                                                     </div>
-                                                <?php endif; ?>
-                                                <div class="product_descsription_price">
-                                                    <span>🪪 ราคา :
-                                                        <span>
-                                                            <?php echo "฿" . esc_html(number_format($product->product_member_price, 0)); ?>
-                                                        </span>
-                                                        <?php if ($product->product_price != $product->product_member_price) : ?>
-                                                            <span style="font-size: 13.5px; color: #282c31ff; margin-left: 10px;">
-                                                                <?php echo "<del>฿" . esc_html(number_format($product->product_price, 0)) . "</del>"; ?>
-                                                            </span>
-                                                        <?php endif; ?>
-                                                    </span>
                                                 </div>
+                                            <?php endif; ?>
+                                            <div class="product_descsription_price">
+                                                <span>🪪 ราคา :
+                                                    <span>
+                                                        <?php echo "฿" . esc_html(number_format($product->product_member_price, 0)); ?>
+                                                    </span>
+                                                    <?php if ($product->product_price != $product->product_member_price) : ?>
+                                                        <span style="font-size: 13.5px; color: #282c31ff; margin-left: 10px;">
+                                                            <?php echo "<del>฿" . esc_html(number_format($product->product_price, 0)) . "</del>"; ?>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </span>
                                             </div>
+                                        </div>
 
-                                        </div>
-                                        <div class="product_shop_link_button mt-2">
-                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-dark"
-                                                style="width: 100%;">🛒 สั่งซื้อสินค้า</a>
-                                        </div>
+                                    </div>
+                                    <div class="product_shop_link_button mt-2">
+                                        <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-dark"
+                                            style="width: 100%;">🛒 สั่งซื้อสินค้า</a>
                                     </div>
                                 </div>
+
                                 <div id="purchase-description" class="mt-1">
                                     <?php
                                     $isPriceSame = $product->product_price == $product->product_member_price;
@@ -387,9 +387,9 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
                     <?php if (!empty($productRelateVideos)) : ?>
                         <section id="product-related-video" class="mb-2">
-                            <span class="related-product-label">▶️ วิดีโอที่เกี่ยวข้อง</span> <!-- same size to bootstrap tab panel font size -->
-                            <hr>
-
+                            <div class="section-header product-related-video-label mb-2 fw-bold">
+                                ▶️ วิดีโอที่เกี่ยวข้อง
+                            </div>
                             <div class="row p-3">
                                 <?php foreach ($productRelateVideos as $index => $video) :
                                     // Extract YouTube video ID from the URL
