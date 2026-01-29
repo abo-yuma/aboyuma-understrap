@@ -18,6 +18,8 @@ function aboyuma_get_author_box_template() {
 
     $aboyumaQualifiedTitle = $author->aboyuma_qualified_title;
 
+    $profileLinkUrl = $author->profile_link_url;
+
     $memberRegisterLinkUrl             = $author->member_register_link_url;
     $memberRegisterLink                = $author->member_register_link;
     $memberRegisterLinkInfoModalTitle  = $author->member_register_link_info_modal_title;

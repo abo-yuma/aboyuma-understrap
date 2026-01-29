@@ -21,6 +21,8 @@ function create_aboyuma_author_box_table() {
         image VARCHAR(500) DEFAULT NULL,
         aboyuma_qualified_title VARCHAR(255) DEFAULT NULL,
 
+        profile_link_url VARCHAR(500) DEFAULT NULL,
+
         member_register_link_url VARCHAR(500) DEFAULT NULL,
         member_register_link VARCHAR(255) DEFAULT NULL,
         member_register_link_info_modal_title VARCHAR(255) DEFAULT NULL,

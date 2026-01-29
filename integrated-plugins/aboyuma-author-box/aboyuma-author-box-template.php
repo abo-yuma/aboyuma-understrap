@@ -1,80 +1,97 @@
-<div id="aboyuma-author-box" class="aboyuma-author-box card mb-3 p-3">
-  <!-- Author box main body -->
-  <div class="author-box-body text-center">
-    <div id="author-image" class="mb-2" style="padding-left: 15px; padding-right: 15px;">
-      <img src="<?php echo esc_url($image); ?>" class="card-img-top" alt="Profile image"
-        style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">
+<div id="aboyuma-author-box" class="card mb-4">
+
+  <!-- Author image -->
+  <img
+    src="<?php echo esc_url($image); ?>"
+    class="card-img-top img-fluid"
+    alt="Profile image">
+
+  <div class="card-body text-center">
+
+    <!-- Name + badge -->
+    <h5 class="card-title mb-1 fw-bold d-flex justify-content-center align-items-center gap-2">
+      <?php echo esc_html($title); ?>
+      <img
+        src="https://img.icons8.com/?size=100&id=aGppzsxFaUXs&format=png&color=0d6efd"
+        id="aboyuma-qualified"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="<?php echo esc_html($aboyumaQualifiedTitle); ?>"
+        width="15">
+    </h5>
+
+    <!-- Bio -->
+    <div class="card-text mt-2">
+      <?php echo apply_filters('the_content', $bio); ?>
     </div>
-    <div id="author-profile">
-      <span class="card-title" style="margin-bottom: 0; font-weight: bold;"><?php echo esc_html($title); ?></span>
-      <img src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" id="aboyuma-qualified"
-        data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo esc_html($aboyumaQualifiedTitle); ?>" width="16px">
-      <p style="margin-bottom: 0; font-size: 14px; line-height: 1.2;" class="card-text mt-1"><?php echo apply_filters('the_content', $bio); ?></p>
-    </div>
 
-  </div><!-- /.aboyuma-author-body -->
-
-  <!-- Action links -->
-  <div class="aboyuma-member-register-link mt-2">
-
-    <ul class="list-unstyled m-0 text-center">
-
-      <li class="mb-2 d-flex justify-content-center align-items-center">
+    <!-- Profile button -->
+    <?php if (!empty($profileLinkUrl)) : ?>
+      <div>
         <a
-          href="<?php echo esc_url($memberRegisterLinkUrl); ?>"
+          href="<?php echo esc_url($profileLinkUrl); ?>"
           target="_blank"
           rel="noopener noreferrer"
-          class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-          <span class="member-register-icon me-1">🙍</span>
-          <?php echo esc_html($memberRegisterLink); ?>
+          class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
+          🪪
+          View profile
         </a>
+      </div>
+    <?php endif; ?>
 
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary ms-2"
-          data-bs-toggle="modal"
-          data-bs-target="#memberRegisterModal">
-          <i class="fa fa-info-circle"></i>
-        </button>
-      </li>
+    <hr class="my-3">
 
+    <!-- Action buttons -->
+    <div class="d-grid gap-2">
 
-      <li class="d-flex justify-content-center align-items-center">
-        <a
-          href="<?php echo esc_url($aboRegisterLinkUrl); ?>"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-sm btn-secondary d-inline-flex align-items-center">
-          <span class="abo-register-icon me-1">🧑‍💻</span>
-          <?php echo esc_html($aboRegisterLink); ?>
-        </a>
+      <!-- Row 1 -->
+      <div class="row g-2">
+        <div class="col-10">
+          <a
+            href="<?php echo esc_url($memberRegisterLinkUrl); ?>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
+            <span>🙍</span>
+            <?php echo esc_html($memberRegisterLink); ?>
+          </a>
+        </div>
 
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary ms-2"
-          data-bs-toggle="modal"
-          data-bs-target="#aboRegisterModal">
-          <i class="fa fa-info-circle"></i>
-        </button>
-      </li>
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#memberRegisterModal">
+            <i class="fa fa-info-circle"></i>
+          </button>
+        </div>
+      </div>
 
-    </ul>
+      <!-- Row 2 -->
+      <div class="row g-2">
+        <div class="col-10">
+          <a
+            href="<?php echo esc_url($aboRegisterLinkUrl); ?>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
+            <span>🧑‍💻</span>
+            <?php echo esc_html($aboRegisterLink); ?>
+          </a>
+        </div>
 
-  </div><!-- /.aboyuma-member-register-link -->
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-primary w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#aboRegisterModal">
+            <i class="fa fa-info-circle"></i>
+          </button>
+        </div>
+      </div>
 
-</div><!-- /#aboyuma-author-box -->
-
-<style>
-  .member-register-icon,
-  .abo-register-icon {
-    /*font-size: 1.25rem;*/
-    vertical-align: 0px !important;
-  }
-
-  #aboyuma-member-register-link ul li {
-
-    /* default is ~1.5, so this makes lines tighter */
-    margin-bottom: 0;
-    /* remove extra space between items */
-  }
-</style>
+    </div>
+  </div>
+</div>
