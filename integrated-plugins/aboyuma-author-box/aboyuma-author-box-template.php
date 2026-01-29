@@ -25,20 +25,6 @@
       <?php echo apply_filters('the_content', $bio); ?>
     </div>
 
-    <!-- Profile button -->
-    <?php if (!empty($profileLinkUrl)) : ?>
-      <div>
-        <a
-          href="<?php echo esc_url($profileLinkUrl); ?>"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1">
-          🪪
-          View profile
-        </a>
-      </div>
-    <?php endif; ?>
-
     <hr class="my-3">
 
     <!-- Action buttons -->

@@ -388,7 +388,7 @@ function ajax_filter_products() {
       $image_and_name,
       htmlspecialchars_decode($product->product_short_description),
       htmlspecialchars_decode($product->product_benefit),
-      '<a href="' . $detail_url . '">รายละเอียด</a>' // Only show the text as a link
+      '<a class="btn btn-sm btn-outline-primary" href="' . $detail_url . '">ดูรายละเอียด</a>' // Only show the text as a link
     ];
   }
   // Return plain array dataSrc should set to ''
@@ -511,7 +511,7 @@ function aboyuma_get_related_products() {
       $image_and_name,
       htmlspecialchars_decode($product->product_short_description),
       $comment,
-      "<a href='{$link}'>[รายละเอียด]</a>"
+      "<a class='btn btn-sm btn-outline-primary' href='{$link}'>ดูรายละเอียด</a>"
     ];
   }
 

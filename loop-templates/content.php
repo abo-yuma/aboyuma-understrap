@@ -10,7 +10,7 @@
 defined('ABSPATH') || exit;
 ?>
 
-<article <?php post_class('mt-2'); ?> id="post-<?php the_ID(); ?>">
+<article <?php post_class('archive-loop-item mt-2'); ?> id="post-<?php the_ID(); ?>">
 
 	<header class="entry-header">
 
@@ -40,7 +40,9 @@ defined('ABSPATH') || exit;
 	</header><!-- .entry-header -->
 
 	<div class="post-thumbnail mt-2">
-		<?php echo get_the_post_thumbnail($post->ID, 'large'); ?>
+		<?php echo get_the_post_thumbnail($post->ID, 'large', [
+			'class' => 'img-fluid archive-post-thumbnail'
+		]); ?>
 	</div>
 
 	<div class="entry-content mt-2">
@@ -59,3 +61,13 @@ defined('ABSPATH') || exit;
 	</footer><!-- .entry-footer -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
+
+<style>
+	.archive-post-thumbnail {
+		width: 100%;
+		height: 350px;
+		object-fit: cover;
+		display: block;
+		border-radius: 0.5rem;
+	}
+</style>

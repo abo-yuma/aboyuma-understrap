@@ -49,7 +49,7 @@
                     <td>
                         <a href="<?php echo $detail_url; ?>"
                             class="btn btn-sm btn-outline-primary">
-                            ดูรายละเอียด →
+                            ดูรายละเอียด
                         </a>
                     </td>
                 </tr>

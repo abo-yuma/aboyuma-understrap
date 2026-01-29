@@ -148,16 +148,49 @@ body {
 	content: "📂 ";
 }
 
-.widget_categories a {
+:is(.widget_categories, .widget_archives) a {
 	text-decoration: none;
 }
 
-.widget_categories a:hover,
-.widget_categories a:focus-visible {
+:is(.widget_categories, .widget_archives) a:hover,
+:is(.widget_categories, .widget_archives) a:focus-visible {
 	text-decoration: underline;
 }
 
 // ===== Main content ===== //
+.archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a {
+	text-decoration: none;
+}
+
+.archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
+.archive-loop-item
+	:is(.entry-header, .entry-content, .entry-footer)
+	a:focus-visible {
+	text-decoration: underline;
+}
+
+.archive-loop-item .post-thumbnail {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.archive-loop-item .post-thumbnail img.archive-post-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.content-single :is(.entry-header, .entry-footer) a {
+	text-decoration: none;
+}
+
+.content-single :is(.entry-header, .entry-footer) a:hover,
+.content-single :is(.entry-header, .entry-footer) a:focus-visible {
+	text-decoration: underline;
+}
 
 // ===== Footer ===== //
 .footer-bg-background {

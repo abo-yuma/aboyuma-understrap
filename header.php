@@ -46,7 +46,7 @@ defined('ABSPATH') || exit;
 						<img
 							src="<?php echo $img_src; ?>"
 							alt="Header image"
-							style="height:250px; width:100%; object-fit:cover;">
+							style="height:220px; width:100%; object-fit:cover;">
 					</div>
 				</div>
 
