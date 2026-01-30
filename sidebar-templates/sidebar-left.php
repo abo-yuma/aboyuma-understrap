@@ -6,22 +6,18 @@
 ?>
 
 <div id="sidebar-left-widget-wrapper">
+
+	<?php if (function_exists('aboyuma_author_box_render')) : ?>
+		<div class="author-box-wrapper">
+			<?php aboyuma_author_box_render(); ?>
+		</div>
+	<?php endif; ?>
+
 	<?php
 	if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
 	?>
-		<?php
-		if (is_active_sidebar('left-sidebar')):
-		?>
+		<div class="sticky-widget-wrapper">
 			<div id="widget-area" class="widget-area" role="complementary">
-				<?php
-				/* -----------------------------------------
-				 * ABO YUMA Author Box
-				 * ----------------------------------------- */
-				if (function_exists('aboyuma_author_box_render')) {
-					aboyuma_author_box_render();
-				}
-				?>
-
 				<?php
 				dynamic_sidebar('left-sidebar');
 
@@ -33,10 +29,9 @@
 				endif;
 				?>
 			</div><!-- /.widget-area -->
-		<?php
-		endif;
-		?>
+		</div>
 	<?php
 	endif;
 	?>
+
 </div><!-- /#widget-wrapper -->

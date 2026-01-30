@@ -33,6 +33,19 @@ function aboyuma_author_box_edit_page() {
             $errors[] = 'Bio is required.';
         }
 
+        function validate_url($url, $label, &$errors) {
+
+            // ถ้าว่าง ให้ข้าม (ถือว่า optional)
+            if (empty(trim($url))) {
+                return;
+            }
+
+            // ใช้ของ WordPress ตรวจ
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                $errors[] = $label . ' is not a valid URL.';
+            }
+        }
+
         validate_url($_POST['image'] ?? '', 'Profile image URL', $errors);
         validate_url($_POST['profile_link_url'] ?? '', 'Profile link URL', $errors);
         validate_url($_POST['member_register_link_url'] ?? '', 'Member register link URL', $errors);

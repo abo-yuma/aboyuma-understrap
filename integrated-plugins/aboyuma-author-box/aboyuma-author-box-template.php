@@ -37,7 +37,7 @@
             href="<?php echo esc_url($memberRegisterLinkUrl); ?>"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
+            class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center gap-1">
             <span>🙍</span>
             <?php echo esc_html($memberRegisterLink); ?>
           </a>
@@ -46,7 +46,7 @@
         <div class="col-2">
           <button
             type="button"
-            class="btn btn-sm btn-outline-primary w-100"
+            class="btn btn-sm btn-outline-dark w-100"
             data-bs-toggle="modal"
             data-bs-target="#memberRegisterModal">
             <i class="fa fa-info-circle"></i>
@@ -61,7 +61,7 @@
             href="<?php echo esc_url($aboRegisterLinkUrl); ?>"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-sm btn-outline-primary w-100 d-flex align-items-center justify-content-center gap-1">
+            class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center gap-1">
             <span>🧑‍💻</span>
             <?php echo esc_html($aboRegisterLink); ?>
           </a>
@@ -70,7 +70,7 @@
         <div class="col-2">
           <button
             type="button"
-            class="btn btn-sm btn-outline-primary w-100"
+            class="btn btn-sm btn-outline-dark w-100"
             data-bs-toggle="modal"
             data-bs-target="#aboRegisterModal">
             <i class="fa fa-info-circle"></i>

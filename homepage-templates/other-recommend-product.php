@@ -60,7 +60,7 @@
                                         </span>
                                     </div>
                                     <div class="small mt-auto d-flex justify-content-end link-primary text-decoration-none">
-                                        <?php echo '<a href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
+                                        <?php echo '<a href="' . get_permalink() . '"> ดูรายละเอียด →</a>'; ?>
                                     </div>
                                 </div>
                             </div>
