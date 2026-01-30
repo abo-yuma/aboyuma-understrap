@@ -38,22 +38,38 @@ body {
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
 	.container {
-		max-width: 980px !important; // use !important if needed to override Bootstrap styles
+		max-width: 960px !important; // use !important if needed to override Bootstrap styles
 	}
 }
 
 // ***** Navbar Style ***** //
-
-#navbar-main {
-	position: static; /* Start as static */
-	top: 0; /* Will be used for fixed */
-	left: 0; /* Align to the left */
-	width: 100%; /* Full width */
-	z-index: 100; /* On top of other elements */
+body.admin-bar #wrapper-header {
+	top: 32px;
+	position: sticky;
+	z-index: 1020;
 }
 
-.navbar-static-top {
-	margin-bottom: $grid-gutter-width;
+@media (max-width: 782px) {
+	body.admin-bar #wrapper-header {
+		top: 46px;
+	}
+}
+
+// #navbar-main {
+// 	position: static; /* Start as static */
+// 	top: 0; /* Will be used for fixed */
+// 	left: 0; /* Align to the left */
+// 	width: 100%; /* Full width */
+// 	z-index: 100; /* On top of other elements */
+// }
+
+// .navbar-static-top {
+// 	margin-bottom: $grid-gutter-width;
+// }
+.wrapper-header {
+	position: sticky;
+	top: 0;
+	z-index: 1030;
 }
 
 /* Only apply hover on screens wider than 768px */
@@ -121,9 +137,22 @@ body {
 	border-bottom-right-radius: 0px !important;
 }
 
+/*
+WHY this height is required:
+`position: sticky` works only inside the height of its nearest container.
+If the container's height is only as tall as its content, the sticky element
+has no vertical space to move in, so the browser disables sticky behavior.
+
+By setting height: 100%, this wrapper stretches to the full height of the
+sidebar / column, giving the sticky widget enough scrollable space to activate.
+*/
 #sidebar-left-widget-wrapper {
+	height: 100%;
+}
+
+.sticky-widget-wrapper {
 	position: sticky;
-	top: 50px; /* The distance from the top when it becomes sticky */
+	top: 80px; /* The distance from the top when it becomes sticky */
 }
 
 /* reverse widget order on mobile */
@@ -170,17 +199,17 @@ body {
 }
 
 .archive-loop-item .post-thumbnail {
-    width: 100%;
-    height: 350px;
-    overflow: hidden;
-    border-radius: 0.5rem;
+	width: 100%;
+	height: 350px;
+	overflow: hidden;
+	border-radius: 0.5rem;
 }
 
 .archive-loop-item .post-thumbnail img.archive-post-thumbnail {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
 }
 
 .content-single :is(.entry-header, .entry-footer) a {
@@ -420,13 +449,13 @@ footer {
 	border-color: #4d4a48;
 }
 
-[data-bs-theme="light"] aside {
-	background-color: #fafbfd;
-}
+// [data-bs-theme="light"] aside {
+// 	background-color: #fafbfd;
+// }
 
-[data-bs-theme="dark"] aside {
-	background-color: #25282c;
-}
+// [data-bs-theme="dark"] aside {
+// 	background-color: #25282c;
+// }
 
 /* Fix missing top border on DataTables thead (Bootstrap) */
 [data-bs-theme="light"] table.dataTable thead th {
