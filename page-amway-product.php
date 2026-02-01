@@ -25,12 +25,12 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
         <div class="row py-3">
-            <div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+            <div class="sidebar-left-column-width  order-2" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column-width order-1 order-md-2">
+            <div class="main-content-column-width order-1">
                 <?php
                 while (have_posts()) {
                     the_post();
@@ -88,7 +88,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                         </div>
                     </form>
                     <div id="filter-message-area"></div>
-                    <table id="aboyuma-product-table" class="table table-striped table-bordered">
+                    <table id="aboyuma-product-table" class="table">
                         <thead>
                             <tr>
                                 <th>สินค้า</th>

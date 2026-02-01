@@ -21,7 +21,7 @@
                     if (!$youtube_id) continue; // skip invalid video
                 ?>
                     <div class="col-md-6 mb-3">
-                        <div class="card h-100">
+                        <div class="h-100">
 
                             <!-- Card image top (video thumbnail) -->
                             <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
@@ -41,7 +41,7 @@
                             <?php if (!empty($comment)): ?>
                                 <div class="card-body py-2">
                                     <small class="card-text d-block">
-                                        <?php echo esc_html($comment); ?>
+                                        ⏯️ <?php echo esc_html($comment); ?>
                                     </small>
                                 </div>
                             <?php endif; ?>

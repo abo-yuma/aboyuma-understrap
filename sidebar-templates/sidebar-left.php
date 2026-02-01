@@ -7,7 +7,10 @@
 
 <div id="sidebar-left-widget-wrapper">
 
-	<?php if (function_exists('aboyuma_author_box_render')) : ?>
+	<?php if (
+		function_exists('aboyuma_author_box_render') &&
+		aboyuma_show_author_box()
+	) : ?>
 		<div class="author-box-wrapper">
 			<?php aboyuma_author_box_render(); ?>
 		</div>

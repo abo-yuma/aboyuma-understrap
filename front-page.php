@@ -25,12 +25,12 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
         <div class="row py-3">
-            <div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+            <div class="sidebar-left-column-width order-2" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column-width order-1 order-md-2">
+            <div class="main-content-column-width order-1">
                 <!-- Marquee Content -->
                 <?php
                 $marquee_text  = get_theme_mod('home_marquee_text');
@@ -57,8 +57,8 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                 <!-- Templates only for front page(Home)-->
                 <?php get_template_part('homepage-templates/news'); ?>
                 <?php get_template_part('homepage-templates/latest-post'); ?>
-                <?php get_template_part('homepage-templates/latest-product'); ?>
                 <?php get_template_part('homepage-templates/other-recommend-product'); ?>
+                <?php get_template_part('homepage-templates/latest-product'); ?>
                 <!-- Widgets templates only for front page(Home)-->
                 <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
                     <div id="recommend-video-widget-area">

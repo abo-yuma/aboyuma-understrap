@@ -34,12 +34,12 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
         <div class="row py-3">
-            <div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+            <div class="sidebar-left-column-width order-2" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column-width order-1 order-md-2">
+            <div class="main-content-column-width order-1">
                 <?php
                 the_post();
                 get_template_part('loop-templates/content', 'page');
@@ -122,7 +122,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     <section id="product-image-and-description" class="mb-2">
                         <div class="row">
                             <!-- Main Image Preview Section -->
-                            <div class="col-md-7">
+                            <div class="col-12">
                                 <div id="previewImageBox" class="previewImageBox">
                                     <?php $baseurl = wp_upload_dir()['baseurl']; ?>
                                     <a href="javascript:void(0);"
@@ -157,9 +157,10 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                 </div>
                             </div>
                             <!-- End Main Image Preview Section -->
-
+                        </div>
+                        <div class="row">
                             <!-- Product Description Section -->
-                            <div id="product_description" class="col-md-5">
+                            <div id="product_description" class="col-12">
 
                                 <div class="card-body">
                                     <h5 class="card-title m-0"><?php echo esc_html($product->product_name); ?></h5>
@@ -187,111 +188,105 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                     </small>
 
                                     <div id="product-category-brand-label" class="col-md-12 mb-2">
-                                        <span class="badge bg-success"><?php echo esc_html($product->brand_name); ?></span>
-                                        <span class="badge bg-primary"><?php echo esc_html($product->category_name); ?></span>
+                                        <span class="badge bg-secondary"><?php echo esc_html($product->brand_name); ?></span>
+                                        <span class="badge bg-secondary"><?php echo esc_html($product->category_name); ?></span>
                                     </div>
-                                    <div id="product-descroption-wrapper" class="card-text" style="font-size: 14px;">
+                                    <div id="product-description-wrapper" class="product-description-wrapper card-text">
                                         <div class="product_description mb-2">
                                             <?php echo apply_filters('the_content', $product->product_description); ?>
                                         </div>
-                                        <div id="product_is_no_additives">
-                                            <?php
-                                            // Decode the JSON from the DB
-                                            $product_additive_properties = json_decode($product->product_additive_properties ?? '', true);
-                                            // Safety check and output
-                                            if (!empty($product_additive_properties)) {
-                                                if (!empty($product_additive_properties['no_color'])) {
-                                                    echo '✅ ไม่เจือสี<br>';
+                                        <div id="product-meta-data" class="product-meta-data">
+                                            <div id="product_is_no_additives">
+                                                <?php
+                                                // Decode the JSON from the DB
+                                                $product_additive_properties = json_decode($product->product_additive_properties ?? '', true);
+                                                // Safety check and output
+                                                if (!empty($product_additive_properties)) {
+                                                    if (!empty($product_additive_properties['no_color'])) {
+                                                        echo '✅ ไม่เจือสี<br>';
+                                                    }
+                                                    if (!empty($product_additive_properties['no_flavoring'])) {
+                                                        echo '✅ ไม่ใช้วัตถุแต่งกลิ่นรส<br>';
+                                                    }
+                                                    if (!empty($product_additive_properties['no_preservative'])) {
+                                                        echo '✅ ไม่ใช้วัตถุกันเสีย<br>';
+                                                    }
                                                 }
-                                                if (!empty($product_additive_properties['no_flavoring'])) {
-                                                    echo '✅ ไม่ใช้วัตถุแต่งกลิ่นรส<br>';
-                                                }
-                                                if (!empty($product_additive_properties['no_preservative'])) {
-                                                    echo '✅ ไม่ใช้วัตถุกันเสีย<br>';
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                        <div id="product_is_plant_based" class="product_is_plant_based mt-2">
-                                            <?php
-                                            // Decode the JSON from the DB
-                                            $product_diet_properties = json_decode($product->product_diet_properties ?? '', true);
+                                                ?>
+                                            </div>
+                                            <div id="product_is_plant_based" class="product_is_plant_based mt-2">
+                                                <?php
+                                                // Decode the JSON from the DB
+                                                $product_diet_properties = json_decode($product->product_diet_properties ?? '', true);
 
-                                            // Safety check and output
-                                            if (!empty($product_diet_properties)) {
-                                                if (!empty($product_diet_properties['vegetarian'])) {
-                                                    echo '🌿 Vegetarian<br>';
-                                                }
-                                                if (!empty($product_diet_properties['flexitarian'])) {
-                                                    echo '🌿 Flexitarian<br>';
-                                                }
-                                                if (!empty($product_diet_properties['vegan'])) {
-                                                    echo '🌿 Vegan<br>';
-                                                }
-                                                if (!empty($product_diet_properties['mostly vegan'])) {
-                                                    echo '🌿 Mostly Vegan 
+                                                // Safety check and output
+                                                if (!empty($product_diet_properties)) {
+                                                    if (!empty($product_diet_properties['vegetarian'])) {
+                                                        echo '🌿 Vegetarian<br>';
+                                                    }
+                                                    if (!empty($product_diet_properties['flexitarian'])) {
+                                                        echo '🌿 Flexitarian<br>';
+                                                    }
+                                                    if (!empty($product_diet_properties['vegan'])) {
+                                                        echo '🌿 Vegan<br>';
+                                                    }
+                                                    if (!empty($product_diet_properties['mostly vegan'])) {
+                                                        echo '🌿 Mostly Vegan 
                                                         <i class="fa fa-info-circle ms-1 text-muted"
                                                         role="button"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#mostlyVeganModal"
                                                         title="Learn more"></i><br>';
+                                                    }
                                                 }
-                                            }
-                                            ?>
-                                        </div>
-
-                                        <div id="product_price_info" class="mt-2">
-                                            <?php if (!empty($product->product_sop_link)) : ?>
-                                                <div class="product_descsription_sop">
-                                                    <div id="product_detail_sop_link">
-                                                        <span>📋 มีโปรแกรม SOP FLEX</span>
-                                                        <i class="fa fa-info-circle ms-1 text-muted"
-                                                            role="button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#SOPInfoModal"
-                                                            title="Learn more"></i>
-                                                    </div>
-                                                </div>
-                                            <?php endif; ?>
-                                            <div class="product_descsription_price">
-                                                <span>🪪 ราคา :
-                                                    <span>
-                                                        <?php echo "฿" . esc_html(number_format($product->product_member_price, 0)); ?>
-                                                    </span>
-                                                    <?php if ($product->product_price != $product->product_member_price) : ?>
-                                                        <span style="font-size: 13.5px; color: #282c31ff; margin-left: 10px;">
-                                                            <?php echo "<del>฿" . esc_html(number_format($product->product_price, 0)) . "</del>"; ?>
-                                                        </span>
-                                                    <?php endif; ?>
-                                                </span>
+                                                ?>
                                             </div>
-                                        </div>
 
+                                            <div id="product_price_info" class="mt-2">
+                                                <?php if (!empty($product->product_sop_link)) : ?>
+                                                    <div class="product_descsription_sop">
+                                                        <div id="product_detail_sop_link">
+                                                            <span>📋 มีโปรแกรม SOP FLEX</span>
+                                                            <i class="fa fa-info-circle ms-1 text-muted"
+                                                                role="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#SOPInfoModal"
+                                                                title="Learn more"></i>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <div class="product_descsription_price">
+                                                    <span>ราคาอ้างอิง :
+                                                        <strong>
+                                                            <?php echo "฿" . esc_html(number_format($product->product_member_price, 0)); ?>
+                                                        </strong>
+                                                        <?php if ($product->product_price != $product->product_member_price) : ?>
+                                                            <span style="font-size: 13.5px; color: #282c31ff; margin-left: 10px;">
+                                                                <?php echo "<del>฿" . esc_html(number_format($product->product_price, 0)) . "</del>"; ?>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!-- END product meta data -->
                                     </div>
                                     <div class="product_shop_link_button mt-2">
-                                        <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-dark"
-                                            style="width: 100%;">🛒 สั่งซื้อสินค้า</a>
+                                        <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-secondary"
+                                            style="width: 100%;">🔍 ดูสินค้าที่ amway.co.th</a>
                                     </div>
                                 </div>
 
                                 <div id="purchase-description" class="mt-1">
                                     <?php
                                     $isPriceSame = $product->product_price == $product->product_member_price;
-                                    if ($isPriceSame) {
+                                    if (!$isPriceSame) :
                                     ?>
                                         <small style="display: inline-block; line-height: 90%;">
-                                            <span style="font-size: 30px;">🪪</span>
-                                            สมัครสมาชิกเพื่อรับคะแนน A-POINT! 🪙
+                                            <span style="font-size: 20px;">🪪</span>
+                                            หมายเหตุ: ราคานี้เฉพาะสมาชิก
                                         </small>
                                     <?php
-                                    } else {
-                                    ?>
-                                        <small style="display: inline-block; line-height: 90%;">
-                                            <span style="font-size: 30px;">🪪</span>
-                                            สมัครสมาชิกเพื่อสั่งซื้อสินค้าในราคานี้และรับคะแนน A-POINT! 🪙
-                                        </small>
-                                    <?php
-                                    }
+                                    endif;
                                     ?>
                                 </div>
                             </div>
@@ -324,7 +319,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                 <button class="nav-link" id="nav-product-review-tab" data-bs-toggle="tab"
                                     data-bs-target="#nav-product-review"
                                     type="button" role="tab" aria-controls="nav-product-review" aria-selected="false">
-                                    ⭐ แอดมิน รีวิว
+                                    ⭐ คอมเมนต์
                                 </button>
                             </div>
                         </nav>
