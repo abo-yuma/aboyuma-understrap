@@ -10,14 +10,14 @@
     ?>
 
     <div class="section-header mb-2 fw-bold">
-        🛍️ สินค้าแนะนำอื่น
+        🛍️ สินค้าแนะนำล่าสุด
     </div>
     <?php
     if ($latest_posts->have_posts()) : ?>
         <div id="other-recommend-product-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2'); ?>>
-                    <div class="card h-100 overflow-hidden">
+                    <div class="h-100 overflow-hidden">
 
                         <div class="row g-0 h-100">
                             <div class="col-md-5">

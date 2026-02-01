@@ -38,39 +38,23 @@ body {
 // Override Bootstrap5 container max-width starting from md breakpoint (768px)
 @media (min-width: 768px) {
 	.container {
-		max-width: 960px !important; // use !important if needed to override Bootstrap styles
+		max-width: 900px !important; // use !important if needed to override Bootstrap styles
 	}
 }
 
 // ***** Navbar Style ***** //
-body.admin-bar #wrapper-header {
-	top: 32px;
-	position: sticky;
-	z-index: 1020;
-}
 
-@media (max-width: 782px) {
-	body.admin-bar #wrapper-header {
-		top: 46px;
-	}
+#navbar-main {
+	position: static; /* Start as static */
+	top: 0; /* Will be used for fixed */
+	left: 0; /* Align to the left */
+	width: 100%; /* Full width */
+	z-index: 100; /* On top of other elements */
 }
-
-// #navbar-main {
-// 	position: static; /* Start as static */
-// 	top: 0; /* Will be used for fixed */
-// 	left: 0; /* Align to the left */
-// 	width: 100%; /* Full width */
-// 	z-index: 100; /* On top of other elements */
-// }
 
 // .navbar-static-top {
 // 	margin-bottom: $grid-gutter-width;
 // }
-.wrapper-header {
-	position: sticky;
-	top: 0;
-	z-index: 1030;
-}
 
 /* Only apply hover on screens wider than 768px */
 @media (min-width: 768px) {
@@ -152,7 +136,7 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 
 .sticky-widget-wrapper {
 	position: sticky;
-	top: 80px; /* The distance from the top when it becomes sticky */
+	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
 /* reverse widget order on mobile */
@@ -177,18 +161,22 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 	content: "📂 ";
 }
 
-:is(.widget_categories, .widget_archives) a {
+:is(.widget_categories, .widget_archive) a {
+	color: var(--bs-body-color);
 	text-decoration: none;
+	transition: text-decoration-color 0.15s ease;
 }
 
-:is(.widget_categories, .widget_archives) a:hover,
-:is(.widget_categories, .widget_archives) a:focus-visible {
+:is(.widget_categories, .widget_archive) a:hover,
+:is(.widget_categories, .widget_archive) a:focus-visible {
 	text-decoration: underline;
 }
 
 // ===== Main content ===== //
 .archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a {
+	color: var(--bs-body-color);
 	text-decoration: none;
+	transition: text-decoration-color 0.15s ease;
 }
 
 .archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
@@ -345,10 +333,12 @@ footer {
 // Custom column with for content
 @media (min-width: 768px) {
 	.sidebar-left-column-width {
-		width: 32%;
+		width: 30%;
 	}
 	.main-content-column-width {
-		width: 68%;
+		width: 70%;
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
 	}
 }
 
@@ -428,7 +418,7 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] body {
-	background-color: #d8d8d8;
+	background-color: #e4e4e4;
 }
 
 [data-bs-theme="dark"] body {
@@ -439,22 +429,52 @@ footer {
 	font-size: 14px;
 }
 
+/* Author card base */
+.author-card {
+	overflow: hidden;
+}
+
+/* Cover image */
+.author-cover {
+	height: 140px;
+	background-size: cover;
+	background-position: center;
+}
+
+/* Avatar wrapper */
+.author-avatar-wrapper {
+	margin-top: -90px; /* pulls avatar over cover */
+	position: relative;
+	z-index: 2;
+}
+
+/* Avatar */
+.author-avatar {
+	width: 180px;
+	height: 180px;
+	object-fit: cover;
+	border: 5px solid #fff; /* nice separation */
+	background: #fff;
+}
+
 [data-bs-theme="light"] #aboyuma-author-box {
-	background-color: #f9f6f0;
-	border-color: #ddceb8;
+	background-color: #fafafa;
+	border: 1px solid #e5e5e5;
 }
 
 [data-bs-theme="dark"] #aboyuma-author-box {
-	background-color: #333130;
-	border-color: #4d4a48;
+	background-color: #2b2b2b;
+	border: 1px solid #3a3a3a;
 }
 
 // [data-bs-theme="light"] aside {
-// 	background-color: #fafbfd;
+// 	background-color: #fafafa;
+// 	border: 1px solid #e5e5e5;
 // }
 
 // [data-bs-theme="dark"] aside {
-// 	background-color: #25282c;
+// 	background-color: #2b2b2b;
+// 	border: 1px solid #3a3a3a;
 // }
 
 /* Fix missing top border on DataTables thead (Bootstrap) */
@@ -692,6 +712,10 @@ footer {
 	font-weight: 400;
 }
 
+.product-description-wrapper {
+	font-size: 13px;
+}
+
 /* Directional / navigation helper links (back, next, view more, etc.) */
 .direction-link {
 	text-decoration: none;
@@ -763,4 +787,30 @@ footer {
 	font-size: 18px;
 	color: #6d51f9;
 	white-space: nowrap;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 999px;
+	border: 3px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.4);
 }

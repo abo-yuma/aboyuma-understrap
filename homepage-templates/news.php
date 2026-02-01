@@ -19,7 +19,7 @@
         📢 ข่าวประกาศ
     </div>
 
-    <div class="card mb-2">
+    <div class="mb-2">
         <div class="card-body py-2 px-3">
             <ul class="news-list mb-0">
                 <?php foreach ($news as $item): ?>

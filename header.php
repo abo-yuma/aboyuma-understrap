@@ -24,8 +24,25 @@ defined('ABSPATH') || exit;
 
 <body <?php body_class(); ?> <?php understrap_body_attributes(); ?>>
 	<header id="wrapper-header" class="wrapper-header">
+		<div id="main-image" class="container g-0">
+			<div class="row">
+				<?php
+				$header_image = get_theme_mod('aboyuma_header_image');
+
+				if (! empty($header_image)) {
+					$img_src = esc_url($header_image);
+				} else {
+					$img_src = 'https://placehold.co/980x250?text=Header+Image';
+				}
+				?>
+				<img
+					src="<?php echo $img_src; ?>"
+					alt="Header image"
+					style="height:180px; width:100%; object-fit:cover;">
+			</div>
+		</div>
 		<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
-	</header><!-- #wrapper-header -->
+	</header>
 	<?php do_action('wp_body_open'); ?>
 	<div class="site" id="page">
 

@@ -1,10 +1,21 @@
 <div id="aboyuma-author-box" class="card mb-4">
+  <?php
+  $coverImage = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80';
+  ?>
 
-  <!-- Author image -->
-  <img
-    src="<?php echo esc_url($image); ?>"
-    class="card-img-top img-fluid"
-    alt="Profile image">
+  <!-- Cover / background image -->
+  <div
+    class="author-cover"
+    style="background-image: url('<?php echo esc_url($coverImage); ?>');">
+  </div>
+
+  <!-- Author image (overlapping cover) -->
+  <div class="author-avatar-wrapper text-center">
+    <img
+      src="<?php echo esc_url($image); ?>"
+      class="author-avatar rounded-circle img-fluid"
+      alt="Profile image">
+  </div>
 
   <div class="card-body text-center">
 
@@ -25,6 +36,16 @@
       <?php echo apply_filters('the_content', $bio); ?>
     </div>
 
+    <!-- View profile -->
+    <div class="mt-3">
+      <a
+        href="<?php echo esc_url($profileLinkUrl); ?>"
+        target="_blank"
+        class="btn btn-sm btn-outline-primary w-100">
+        🪪 ดูโปรไฟล์
+      </a>
+    </div>
+
     <hr class="my-3">
 
     <!-- Action buttons -->
@@ -37,7 +58,7 @@
             href="<?php echo esc_url($memberRegisterLinkUrl); ?>"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center gap-1">
+            class="btn btn-sm btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-1">
             <span>🙍</span>
             <?php echo esc_html($memberRegisterLink); ?>
           </a>
@@ -46,7 +67,7 @@
         <div class="col-2">
           <button
             type="button"
-            class="btn btn-sm btn-outline-dark w-100"
+            class="btn btn-sm btn-outline-secondary w-100"
             data-bs-toggle="modal"
             data-bs-target="#memberRegisterModal">
             <i class="fa fa-info-circle"></i>
@@ -61,7 +82,7 @@
             href="<?php echo esc_url($aboRegisterLinkUrl); ?>"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-sm btn-dark w-100 d-flex align-items-center justify-content-center gap-1">
+            class="btn btn-sm btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-1">
             <span>🧑‍💻</span>
             <?php echo esc_html($aboRegisterLink); ?>
           </a>
@@ -70,7 +91,7 @@
         <div class="col-2">
           <button
             type="button"
-            class="btn btn-sm btn-outline-dark w-100"
+            class="btn btn-sm btn-outline-secondary w-100"
             data-bs-toggle="modal"
             data-bs-target="#aboRegisterModal">
             <i class="fa fa-info-circle"></i>

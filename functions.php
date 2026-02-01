@@ -611,6 +611,27 @@ add_action('after_switch_theme', 'aboyuma_register_menu');
 // }
 // add_filter('the_content', 'add_facebook_share_button');
 
+function aboyuma_show_author_box() {
+
+	// Blog posts → sidebar author box OK
+	if (is_single() && get_post_type() === 'post') {
+		return true;
+	}
+
+	// Product detail page → DO NOT show in sidebar
+	if (is_page_template('page-product-detail.php')) {
+		return true;
+	}
+
+	// Front page (optional)
+	if (is_front_page()) {
+		return true;
+	}
+
+	return true;
+}
+
+
 // Facebook Share Button Snippet
 function aboyuma_facebook_share_button() {
 	if (is_single() || is_page('amway-product-detail')) {

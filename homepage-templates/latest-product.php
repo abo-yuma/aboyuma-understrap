@@ -18,9 +18,9 @@
     ?>
 
     <div class="section-header mb-2 fw-bold">
-        🛍️ สินค้าแอมเวย์ที่เพิ่มล่าสุด
+        🛍️ สินค้าแอมเวย์ที่เพิ่มข้อมูลล่าสุด
     </div>
-    <table id="latest-product-table" class="table table-striped table-bordered">
+    <table id="latest-product-table" class="table">
         <thead>
             <tr>
                 <th>🛍️ สินค้า</th>

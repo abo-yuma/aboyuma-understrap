@@ -34,11 +34,10 @@
     <div class="section-header related-product-label mb-2 fw-bold">
         🛒 สินค้าที่แนะนำคู่กัน
     </div>
-    <table id="latest-product-table" class="table table-striped table-bordered" width="100%">
+    <table id="latest-product-table" class="table" width="100%">
         <thead>
             <tr>
                 <th>สินค้า</th>
-                <th>คำอธิบาย</th>
                 <th>เหตุผล</th>
                 <th>รายละเอียด</th>
             </tr>
@@ -58,20 +57,16 @@
 
             if (isDesktop) {
                 columnDefs = [{
-                        width: "25%",
+                        width: "30%",
                         targets: [0],
                     },
                     {
-                        width: "30%",
+                        width: "550%",
                         targets: [1],
                     },
                     {
-                        width: "30%",
-                        targets: [2],
-                    },
-                    {
                         width: "15%",
-                        targets: [3],
+                        targets: [2],
                     }
                 ];
             }
@@ -89,9 +84,6 @@
                 },
                 columns: [{
                         title: "สินค้า"
-                    },
-                    {
-                        title: "คำอธิบาย"
                     },
                     {
                         title: "เหตุผล"

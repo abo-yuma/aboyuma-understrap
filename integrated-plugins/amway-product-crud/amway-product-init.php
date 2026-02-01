@@ -482,7 +482,6 @@ function aboyuma_get_related_products() {
         p.id,
         p.product_image,
         p.product_name,
-		    p.product_short_description,
         r.related_product_comment
         FROM $product_table p
         INNER JOIN $related_table r
@@ -509,7 +508,6 @@ function aboyuma_get_related_products() {
     $link = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
     $data[] = [
       $image_and_name,
-      htmlspecialchars_decode($product->product_short_description),
       $comment,
       "<a class='btn btn-sm btn-outline-primary' href='{$link}'>ดูรายละเอียด</a>"
     ];
