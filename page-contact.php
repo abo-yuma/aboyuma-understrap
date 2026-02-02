@@ -15,92 +15,95 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
 <main>
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
-        <div class="row py-3">
+        <div class="row">
 
-            <div class="sidebar-left-column-width  order-2" id="sidebar-left">
+            <div class="sidebar-left-column border-start order-2" id="sidebar-left">
                 <?php get_template_part('sidebar-templates/sidebar', 'left'); ?>
             </div>
 
-            <div class="main-content-column-width order-1">
-                <div id="aboyuma-contact-wrapper" class="aboyuma-contact-wrapper">
+            <div class="main-content-column order-1">
+                <div class="main-content-wrapper">
+                    <div id="aboyuma-contact-wrapper" class="aboyuma-contact-wrapper">
 
-                    <?php
-                    while (have_posts()) {
-                        the_post();
-                        get_template_part('loop-templates/content', 'page');
-                    }
-                    ?>
-
-                    <!-- Flash Message -->
-                    <?php if (!empty($flash)) :
-                        $status_class = 'alert-info';
-                        switch ($flash['status'] ?? '') {
-                            case 'success':
-                                $status_class = 'alert-success';
-                                break;
-                            case 'error':
-                                $status_class = 'alert-danger';
-                                break;
-                            case 'warning':
-                                $status_class = 'alert-warning';
-                                break;
+                        <?php
+                        while (have_posts()) {
+                            the_post();
+                            get_template_part('loop-templates/content', 'page');
                         }
-                    ?>
-                        <div class="alert <?php echo esc_attr($status_class); ?> alert-dismissible fade show p-2" role="alert">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <small class="mb-0 flex-grow-1"><?php echo esc_html($flash['message']); ?></small>
-                                <span type="button" data-bs-dismiss="alert" aria-label="Close"
-                                    class="text-muted" style="cursor: pointer; font-size: 0.9rem;">
-                                    <i class="fa fa-times"></i>
-                                </span>
+                        ?>
+
+                        <!-- Flash Message -->
+                        <?php if (!empty($flash)) :
+                            $status_class = 'alert-info';
+                            switch ($flash['status'] ?? '') {
+                                case 'success':
+                                    $status_class = 'alert-success';
+                                    break;
+                                case 'error':
+                                    $status_class = 'alert-danger';
+                                    break;
+                                case 'warning':
+                                    $status_class = 'alert-warning';
+                                    break;
+                            }
+                        ?>
+                            <div class="alert <?php echo esc_attr($status_class); ?> alert-dismissible fade show p-2" role="alert">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <small class="mb-0 flex-grow-1"><?php echo esc_html($flash['message']); ?></small>
+                                    <span type="button" data-bs-dismiss="alert" aria-label="Close"
+                                        class="text-muted" style="cursor: pointer; font-size: 0.9rem;">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                        <?php endif; ?>
 
-                    <!-- Contact Form -->
-                    <h5>📩 ส่งข้อความถึงเรา</h5>
-                    <form id="contact-form" class="p-2" enctype="multipart/form-data">
-                        <div style="display:none !important">
-                            <label>Leave this field empty</label>
-                            <input type="text" name="aboyuma_hp" tabindex="-1" autocomplete="off">
-                        </div>
-                        <input type="hidden" name="action" value="aboyuma_contact_form">
-                        <div class="mb-3">
-                            <label for="senderEmail" class="form-label">📧 อีเมล</label>
-                            <input type="email" class="form-control form-control-sm" id="senderEmail" name="sender_email" placeholder="name@example.com" required>
-                        </div>
+                        <!-- Contact Form -->
+                        <h5>📩 ส่งข้อความถึงเรา</h5>
+                        <div class="card">
+                            <form id="contact-form" class="p-2" enctype="multipart/form-data">
+                                <div style="display:none !important">
+                                    <label>Leave this field empty</label>
+                                    <input type="text" name="aboyuma_hp" tabindex="-1" autocomplete="off">
+                                </div>
+                                <input type="hidden" name="action" value="aboyuma_contact_form">
+                                <div class="mb-3">
+                                    <label for="senderEmail" class="form-label">📧 อีเมล</label>
+                                    <input type="email" class="form-control form-control-sm" id="senderEmail" name="sender_email" placeholder="name@example.com" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="title" class="form-label">📝 เรื่อง</label>
-                            <input type="text" class="form-control form-control-sm" id="title" name="title"
-                                placeholder="เช่น ต้องการให้สมัครสมาชิกแอมเวย์ให้" maxlength="100" required>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">📝 เรื่อง</label>
+                                    <input type="text" class="form-control form-control-sm" id="title" name="title"
+                                        placeholder="เช่น ต้องการให้สมัครสมาชิกแอมเวย์ให้" maxlength="100" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="attachment1" class="form-label">🖼️ ไฟล์แนบ</label>
-                            <input class="form-control form-control-sm mb-2"
-                                type="file"
-                                id="attachment1"
-                                name="attachment1"
-                                accept=".jpg,.jpeg,.png,.pdf">
-                            <small class="form-text text-muted">
-                                **รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
-                            </small>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="attachment1" class="form-label">🖼️ ไฟล์แนบ</label>
+                                    <input class="form-control form-control-sm mb-2"
+                                        type="file"
+                                        id="attachment1"
+                                        name="attachment1"
+                                        accept=".jpg,.jpeg,.png,.pdf">
+                                    <small class="form-text text-muted">
+                                        **รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
+                                    </small>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="message" class="form-label">🗒️ ข้อความ</label>
-                            <textarea class="form-control form-control-sm" id="message" name="message" rows="4" maxlength="2000"></textarea>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">🗒️ ข้อความ</label>
+                                    <textarea class="form-control form-control-sm" id="message" name="message" rows="4" maxlength="2000"></textarea>
+                                </div>
 
-                        <button type="submit" class="btn btn-primary w-100">📩 ส่งข้อมูล</button>
-                        <div id="contact-loading" style="display:none;margin-top:10px;">
-                            ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
+                                <button type="submit" class="btn btn-primary w-100">📩 ส่งข้อมูล</button>
+                                <div id="contact-loading" style="display:none;margin-top:10px;">
+                                    ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
+                                </div>
+                                <div id="aboyuma-message-wrapper"></div>
+                                <?php wp_nonce_field('aboyuma_contact_form', 'aboyuma_contact_nonce'); ?>
+                            </form>
                         </div>
-                        <div id="aboyuma-message-wrapper"></div>
-                        <?php wp_nonce_field('aboyuma_contact_form', 'aboyuma_contact_nonce'); ?>
-                    </form>
-
+                    </div>
                 </div>
             </div>
 

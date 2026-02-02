@@ -25,12 +25,12 @@ $container = get_theme_mod('understrap_container_type');
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-			<div class="sidebar-left-column-width" id="sidebar-left">
+			<div class="sidebar-left-column" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="main-content-column-width">
+			<div class="main-content-column">
 
 				<?php
 				if (have_posts()) {

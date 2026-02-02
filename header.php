@@ -38,7 +38,7 @@ defined('ABSPATH') || exit;
 				<img
 					src="<?php echo $img_src; ?>"
 					alt="Header image"
-					style="height:180px; width:100%; object-fit:cover;">
+					style="height:160px; width:100%; object-fit:cover;">
 			</div>
 		</div>
 		<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
