@@ -2,9 +2,6 @@ jQuery(document).ready(function ($) {
 	const ajaxUrl = productPageData.ajax_url;
 	const nonce = productPageData.nonce;
 
-	console.log("ajaxUrl:", ajaxUrl);
-	console.log("nonce:", nonce);
-
 	// Category selection
 	$("#parent_category").on("change", function () {
 		var parentId = $(this).val();
@@ -59,16 +56,12 @@ jQuery(document).ready(function ($) {
 				targets: [0],
 			},
 			{
-				width: "30%",
+				width: "60%",
 				targets: [1],
 			},
 			{
-				width: "30%",
-				targets: [2],
-			},
-			{
 				width: "15%",
-				targets: [3],
+				targets: [2],
 			},
 		];
 	}

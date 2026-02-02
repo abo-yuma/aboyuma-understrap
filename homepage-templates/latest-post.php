@@ -16,7 +16,7 @@
 
 
     <div class="section-header mb-2 fw-bold">
-        📰 บทความล่าสุด
+        📝 บทความล่าสุด
     </div>
     <?php
     if ($latest_posts->have_posts()) : ?>

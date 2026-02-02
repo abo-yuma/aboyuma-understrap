@@ -19,72 +19,73 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
 	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-		<div class="row py-3">
-			<div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+		<div class="row">
+			<div class="sidebar-left-column order-2 order-md-1" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="main-content-column-width order-1 order-md-2">
+			<div class="main-content-column order-1 order-md-2">
+				<div class="main-content-wrapper">
 
-				<section class="error-404 not-found">
+					<section class="error-404 not-found">
 
-					<header class="page-header">
+						<header class="page-header">
 
-						<h1 class="page-title"><?php /*esc_html_e('Oops! That page can&rsquo;t be found.', 'understrap'); */ ?></h1>
-						<h1 class="page-title"><?php esc_html_e('ไม่พบหน้านี้', 'understrap'); ?></h1>
+							<h1 class="page-title"><?php /*esc_html_e('Oops! That page can&rsquo;t be found.', 'understrap'); */ ?></h1>
+							<h1 class="page-title"><?php esc_html_e('ไม่พบหน้านี้', 'understrap'); ?></h1>
 
 
-					</header><!-- .page-header -->
+						</header><!-- .page-header -->
 
-					<div class="page-content">
+						<div class="page-content">
 
-						<p><?php esc_html_e('ดูเหมือนว่าจะไม่พบหน้าที่ต้องการ ลองค้นหา?', 'understrap'); ?></p>
+							<p><?php esc_html_e('ดูเหมือนว่าจะไม่พบหน้าที่ต้องการ ลองค้นหา?', 'understrap'); ?></p>
 
-						<?php get_search_form(); ?>
+							<?php get_search_form(); ?>
 
-						<?php the_widget('WP_Widget_Recent_Posts'); ?>
+							<?php the_widget('WP_Widget_Recent_Posts'); ?>
 
-						<?php if (understrap_categorized_blog()) : // Only show the widget if site has multiple categories. 
-						?>
+							<?php if (understrap_categorized_blog()) : // Only show the widget if site has multiple categories. 
+							?>
 
-							<div class="widget widget_categories">
+								<div class="widget widget_categories">
 
-								<h2 class="widget-title"><?php esc_html_e('Categories', 'understrap'); ?></h2>
+									<h2 class="widget-title"><?php esc_html_e('Categories', 'understrap'); ?></h2>
 
-								<ul>
-									<?php
-									wp_list_categories(
-										array(
-											'orderby'  => 'count',
-											'order'    => 'DESC',
-											'show_count' => 1,
-											'title_li' => '',
-											'number'   => 10,
-										)
-									);
-									?>
-								</ul>
+									<ul>
+										<?php
+										wp_list_categories(
+											array(
+												'orderby'  => 'count',
+												'order'    => 'DESC',
+												'show_count' => 1,
+												'title_li' => '',
+												'number'   => 10,
+											)
+										);
+										?>
+									</ul>
 
-							</div><!-- .widget -->
+								</div><!-- .widget -->
 
-						<?php endif; ?>
+							<?php endif; ?>
 
-						<?php
+							<?php
 
-						/* translators: %1$s: smiley */
-						$archive_content = '<p>' . sprintf(esc_html__('Try looking in the monthly archives. %1$s', 'understrap'), convert_smilies(':)')) . '</p>';
-						the_widget('WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content");
+							/* translators: %1$s: smiley */
+							$archive_content = '<p>' . sprintf(esc_html__('Try looking in the monthly archives. %1$s', 'understrap'), convert_smilies(':)')) . '</p>';
+							the_widget('WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content");
 
-						the_widget('WP_Widget_Tag_Cloud');
-						?>
+							the_widget('WP_Widget_Tag_Cloud');
+							?>
 
-					</div><!-- .page-content -->
+						</div><!-- .page-content -->
 
-				</section><!-- .error-404 -->
+					</section><!-- .error-404 -->
 
+				</div>
 			</div>
-
 		</div><!-- .row -->
 
 	</div><!-- #content -->

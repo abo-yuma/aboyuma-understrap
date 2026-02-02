@@ -19,58 +19,60 @@ $container = get_theme_mod('understrap_container_type');
 
 	<div class="<?php echo esc_attr($container); ?>" id="content" tabindex="-1">
 
-		<div class="row py-3">
-			<div class="sidebar-left-column-width order-2 order-md-1" id="sidebar-left">
+		<div class="row">
+			<div class="sidebar-left-column order-2 order-md-1" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
-			<div class="main-content-column-width order-1 order-md-2">
+			<div class="main-content-column order-1 order-md-2">
+				<div class="main-content-wrapper">
 
-				<?php if (have_posts()) : ?>
+					<?php if (have_posts()) : ?>
 
-					<header class="page-header">
+						<header class="page-header">
 
-						<h1 class="page-title">
+							<h1 class="page-title">
+								<?php
+								printf(
+									/* translators: %s: query term */
+									esc_html__('Search Results for: %s', 'understrap'),
+									'<span>' . get_search_query() . '</span>'
+								);
+								?>
+							</h1>
+
+
+							<?php /* Start the Loop */ ?>
 							<?php
-							printf(
-								/* translators: %s: query term */
-								esc_html__('Search Results for: %s', 'understrap'),
-								'<span>' . get_search_query() . '</span>'
-							);
-							?>
-						</h1>
+							while (have_posts()) :
+								the_post();
 
-
-						<?php /* Start the Loop */ ?>
-						<?php
-						while (have_posts()) :
-							the_post();
-
-							/*
+								/*
 						 * Run the loop for the search to output the results.
 						 * If you want to overload this in a child theme then include a file
 						 * called content-search.php and that will be used instead.
 						 */
-							get_template_part('loop-templates/content', 'search');
-						endwhile;
+								get_template_part('loop-templates/content', 'search');
+							endwhile;
+							?>
+
+						<?php else : ?>
+
+							<?php get_template_part('loop-templates/content', 'none'); ?>
+
+						<?php endif; ?>
+
+
+
+						<?php
+						// Display the pagination component.
+						understrap_pagination();
+
+						// Do the right sidebar check and close div#primary.
+						//get_template_part('global-templates/right-sidebar-check');
 						?>
-
-					<?php else : ?>
-
-						<?php get_template_part('loop-templates/content', 'none'); ?>
-
-					<?php endif; ?>
-
-
-
-					<?php
-					// Display the pagination component.
-					understrap_pagination();
-
-					// Do the right sidebar check and close div#primary.
-					//get_template_part('global-templates/right-sidebar-check');
-					?>
+				</div>
 			</div>
 		</div><!-- .row -->
 

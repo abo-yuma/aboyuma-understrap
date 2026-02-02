@@ -24,27 +24,28 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-        <div class="row py-3">
-            <div class="sidebar-left-column-width  order-2" id="sidebar-left">
+        <div class="row">
+            <div class="sidebar-left-column border-start order-2" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column-width order-1">
-                <?php
-                while (have_posts()) {
-                    the_post();
-                    get_template_part('loop-templates/content', 'page');
-                }
-                ?>
-                <div id="aboyuma-amway-shop-wrapper" class="aboyuma-amway-shop-wrapper">
-
+            <div class="main-content-column order-1">
+                <div class="main-content-wrapper">
                     <?php
-                    global $wpdb;
+                    while (have_posts()) {
+                        the_post();
+                        get_template_part('loop-templates/content', 'page');
+                    }
+                    ?>
+                    <div id="aboyuma-amway-shop-wrapper" class="aboyuma-amway-shop-wrapper">
 
-                    $shop_table  = $wpdb->prefix . 'aboyuma_amway_shop';
+                        <?php
+                        global $wpdb;
 
-                    $shops = $wpdb->get_results("
+                        $shop_table  = $wpdb->prefix . 'aboyuma_amway_shop';
+
+                        $shops = $wpdb->get_results("
                         SELECT 
                             id,
                             shop_image,
@@ -56,13 +57,13 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                             shop_map_url
                         FROM $shop_table
                     ");
-                    ?>
+                        ?>
 
-                    <div class="container my-4">
+
 
                         <?php if (!empty($shops)) { ?>
                             <?php foreach ($shops as $shop) { ?>
-                                <div class="card mb-4 p-2">
+                                <div class="mb-4">
                                     <div class="row g-0">
                                         <!-- LEFT: IMAGE -->
                                         <div class="col-md-5">
@@ -187,10 +188,10 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                             <p>No Amway shops found.</p>
                         <?php } ?>
 
-                    </div>
 
-                </div><!-- /#post-<?php the_ID(); ?> -->
 
+                    </div><!-- /#post-<?php the_ID(); ?> -->
+                </div>
             </div>
 
         </div><!-- .row -->

@@ -68,9 +68,12 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 
 	// TODO: https://stackoverflow.com/questions/31162606/how-to-detect-screen-size-for-responsive-web-design
 	$(window).on("scroll", function () {
+		console.log("window).on(scroll");
 		if ($(this).scrollTop() > navbarPosition) {
+			console.log("scrollTop() > navbarPosition");
 			navbar.removeClass("container").addClass("container-fluid"); // Change to container-fluid
 			if (window.innerWidth > desktopBreakpoint) {
+				console.log("window.innerWidth > desktopBreakpoint");
 				// Apply offset only on desktop
 				navbar.css({
 					position: "fixed",

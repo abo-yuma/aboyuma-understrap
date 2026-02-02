@@ -387,7 +387,6 @@ function ajax_filter_products() {
     $data[] = [
       $image_and_name,
       htmlspecialchars_decode($product->product_short_description),
-      htmlspecialchars_decode($product->product_benefit),
       '<a class="btn btn-sm btn-outline-primary" href="' . $detail_url . '">ดูรายละเอียด</a>' // Only show the text as a link
     ];
   }

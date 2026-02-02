@@ -5,7 +5,7 @@
  */
 ?>
 
-<div id="sidebar-left-widget-wrapper">
+<div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper">
 
 	<?php if (
 		function_exists('aboyuma_author_box_render') &&
