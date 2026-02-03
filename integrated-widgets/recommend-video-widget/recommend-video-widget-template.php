@@ -1,7 +1,9 @@
 <!-- Recommend Video Widget Section -->
 <div id="reccommend-video-widget" class="mb-2">
 
-    <div class="card-header">▶️ วิดีโอแนะนำ</div>
+    <h1 class="section-header">
+        ▶️ วิดีโอแนะนำ
+    </h1>
 
     <?php if (!empty($data['video_1']) || !empty($data['video_2'])): ?>
         <div class="container aboyuma-video-wrapper">

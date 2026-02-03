@@ -17,9 +17,9 @@
     }
     ?>
 
-    <div class="section-header mb-2 fw-bold">
+    <h1 class="section-header">
         🛍️ สินค้าแอมเวย์ที่เพิ่มข้อมูลล่าสุด
-    </div>
+    </h1>
     <table id="latest-product-table" class="table">
         <thead>
             <tr>
