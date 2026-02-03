@@ -15,9 +15,9 @@
     }
     ?>
 
-    <div class="section-header mb-2 fw-bold">
+    <h1 class="section-header">
         📢 ข่าวประกาศ
-    </div>
+    </h1>
 
     <div class="card border-0 mb-2">
         <div class="card-body p-0">

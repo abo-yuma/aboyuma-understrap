@@ -58,41 +58,15 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 	/**
 	 * Navbar Fixed Top On Scroll
 	 */
-	var navbarPosition = $("header").height();
-	var navbar = $("#navbar-main");
+	var $navbar = $("#navbar-main");
+	var trigger = $("#wrapper-header").outerHeight();
 
-	// Check if admin bar exists and get its height if present
-	var hasAdminBar = $("#wpadminbar").length > 0;
-	var adminBarHeight = hasAdminBar ? $("#wpadminbar").outerHeight() : 0;
-	var desktopBreakpoint = 768; // Define desktop breakpoint
+	function toggleNavbar() {
+		$navbar.toggleClass("is-fixed", $(window).scrollTop() > trigger);
+	}
 
-	// TODO: https://stackoverflow.com/questions/31162606/how-to-detect-screen-size-for-responsive-web-design
-	$(window).on("scroll", function () {
-		console.log("window).on(scroll");
-		if ($(this).scrollTop() > navbarPosition) {
-			console.log("scrollTop() > navbarPosition");
-			navbar.removeClass("container").addClass("container-fluid"); // Change to container-fluid
-			if (window.innerWidth > desktopBreakpoint) {
-				console.log("window.innerWidth > desktopBreakpoint");
-				// Apply offset only on desktop
-				navbar.css({
-					position: "fixed",
-					top: hasAdminBar ? adminBarHeight + "px" : "0", // Apply top offset only if admin bar exists
-				});
-			} else {
-				navbar.css({
-					position: "fixed",
-					top: "0",
-				});
-			}
-		} else {
-			navbar.removeClass("container-fluid").addClass("container"); // Change back to container
-			navbar.css({
-				position: "static", // Revert to static
-				top: "", // Reset top when navbar is not fixed
-			});
-		}
-	});
+	toggleNavbar();
+	$(window).on("scroll", toggleNavbar);
 
 	// TODO: Fix lightbox to not apply to product detail thumbnail
 	// Implement jQuery lightbox sciprt

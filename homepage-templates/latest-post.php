@@ -15,9 +15,9 @@
     ?>
 
 
-    <div class="section-header mb-2 fw-bold">
+    <h1 class="section-header">
         📝 บทความล่าสุด
-    </div>
+    </h1>
     <?php
     if ($latest_posts->have_posts()) : ?>
         <div id="latest-posts-section" class="content-feed row">

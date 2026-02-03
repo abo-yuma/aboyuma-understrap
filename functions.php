@@ -651,6 +651,32 @@ function aboyuma_facebook_share_button() {
 	}
 }
 
+// Breadcrumbs
+// Reference: https://dev.to/readymadecode/how-to-create-breadcrumb-in-wordpress-without-plugin-45jn
+function get_breadcrumb() {
+	echo '<a href="' . home_url() . '" rel="nofollow">หน้าหลัก</a>';
+
+	if (is_category() || is_single()) {
+		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp; ";
+		$categories = get_the_category();
+		if ($categories) {
+			$separator = ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+			$output = '';
+			foreach ($categories as $category) {
+				$output .= '<a href="' . get_category_link($category->term_id) . '">' . $category->cat_name . '</a>' . $separator;
+			}
+			echo trim($output, $separator); // Removes trailing separator
+		}
+		// Remove post title by omitting is_single title logic
+	} elseif (is_page()) {
+		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp; ";
+		the_title();
+	} elseif (is_search()) {
+		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp;Search Results for... ";
+		echo '"<em>' . get_search_query() . '</em>"';
+	}
+}
+
 // Array of custom integrated plugin files
 $integrated_plugins = [
 	'/integrated-plugins/news-crud/news-init.php',

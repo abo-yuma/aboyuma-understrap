@@ -9,9 +9,9 @@
     $latest_posts = new WP_Query($args);
     ?>
 
-    <div class="section-header mb-2 fw-bold">
+    <h1 class="section-header">
         🛍️ สินค้าแนะนำล่าสุด
-    </div>
+    </h1>
 
     <?php if ($latest_posts->have_posts()) : ?>
         <div id="other-recommend-product-section" class="content-feed row">

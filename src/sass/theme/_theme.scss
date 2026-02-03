@@ -44,17 +44,50 @@ body {
 
 // ***** Navbar Style ***** //
 
+/* BEFORE scroll */
 #navbar-main {
-	position: static; /* Start as static */
-	top: 0; /* Will be used for fixed */
-	left: 0; /* Align to the left */
-	width: 100%; /* Full width */
-	z-index: 100; /* On top of other elements */
+	width: 880px;
+	margin: 0 auto;
 }
 
-// .navbar-static-top {
-// 	margin-bottom: $grid-gutter-width;
-// }
+/* 
+ * Style after scroll
+ * z-index: 1030
+ * ----------------
+ * Matches Bootstrap's official navbar stacking context.
+ * Ensures the fixed navbar appears above normal content
+ * (dropdowns, sections, sliders) but stays below modals
+ * and the WordPress admin bar. 
+ * 1000  - dropdown
+ * 1010  - sticky
+ * 1020  - fixed
+ * 1030  - navbar
+ * 1040  - modal backdrop
+ * 1050  - modal
+ * 1060+ - popover / tooltip
+ *
+ * Using Bootstrap's z-index scale avoids "9999" hacks
+ * and prevents conflicts with modals, tooltips, etc.
+ */
+#navbar-main.is-fixed {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	z-index: 1030;
+}
+
+/* WordPress admin bar */
+body.admin-bar #navbar-main.is-fixed {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar #navbar-main.is-fixed {
+		top: 0;
+	}
+}
 
 /* Only apply hover on screens wider than 768px */
 @media (min-width: 768px) {
@@ -103,6 +136,12 @@ body {
 	margin-top: 1rem;
 	padding-left: 1rem;
 	padding-right: 1rem;
+}
+
+.section-header {
+	font-size: 16px; /* default */
+	font-weight: 700;
+	line-height: 1.4;
 }
 
 /* Sidebar */
