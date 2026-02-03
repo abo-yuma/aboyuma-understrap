@@ -35,13 +35,6 @@ body {
 	-o-font-smoothing: antialiased;
 }
 
-// Override Bootstrap5 container max-width starting from md breakpoint (768px)
-@media (min-width: 768px) {
-	.container {
-		max-width: 880px !important; // use !important if needed to override Bootstrap styles
-	}
-}
-
 // ***** Navbar Style ***** //
 
 /* BEFORE scroll */
@@ -134,8 +127,17 @@ body.admin-bar #navbar-main.is-fixed {
 
 .main-content-wrapper {
 	margin-top: 1rem;
-	padding-left: 1rem;
-	padding-right: 1rem;
+}
+
+/**
+ * Apply horizontal padding only on iPad & PC
+ * (Bootstrap md breakpoint and up)
+ */
+@media (min-width: 768px) {
+	.main-content-wrapper {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }
 
 .section-header {
@@ -415,32 +417,6 @@ footer {
 // Dark mode switch
 #dark-mode-switch {
 	cursor: pointer !important;
-}
-
-/* customize dark mode 
-/* to override this class.*/
-/*
-    Reference: https://stackoverflow.com/questions/75399501/change-color-of-bootstrap-theme-colors-in-dark-mode
-*/
-[data-bs-theme="dark"] {
-	--bs-body-bg: #212529;
-	--bs-body-bg-rgb: 33, 37, 41;
-}
-.text-body {
-	--bs-text-opacity: 1;
-	color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
-}
-[data-bs-theme="dark"] {
-	--bs-body-color-rgb: 222, 226, 230; // body color
-	--bs-emphasis-color: #dee2e6; // table font color
-}
-
-[data-bs-theme="dark"] .card {
-	--bs-card-color: #dee2e6;
-}
-
-[data-bs-theme="dark"] .btn-dark {
-	--bs-btn-bg: #53565c;
 }
 
 // [data-bs-theme="light"] {
