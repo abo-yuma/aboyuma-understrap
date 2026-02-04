@@ -62,13 +62,47 @@ body {
  * Using Bootstrap's z-index scale avoids "9999" hacks
  * and prevents conflicts with modals, tooltips, etc.
  */
+
+/*
+ * Why left: 50% + transform: translateX(-50%) is required here
+ * ----------------------------------------------------------
+ * Before scroll:
+ * - The navbar is in normal document flow (position: static)
+ * - Centering works via container / margin: auto
+ * - The browser knows where "center" is
+ *
+ * After scroll (position: fixed):
+ * - The navbar is removed from normal flow
+ * - margin: auto and container logic no longer apply
+ * - The browser now positions the element relative to the viewport
+ *
+ * Because fixed-position elements do NOT understand "center",
+ * we must center it manually using explicit positioning math:
+ *
+ *   left: 50%                  → move the element's LEFT edge
+ *                                to the center of the viewport
+ *   transform: translateX(-50%) → pull it back by half of its
+ *                                own width
+ *
+ * This results in true horizontal centering for a fixed-width
+ * navbar without layout shifts.
+ */
 #navbar-main.is-fixed {
 	position: fixed;
 	top: 0;
-	left: 0;
-	width: 100%;
-	margin: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 880px;
 	z-index: 1030;
+}
+
+/* Mobile: fixed but full width */
+@media (max-width: 767.98px) {
+	#navbar-main.is-fixed {
+		left: 0;
+		transform: none;
+		width: 100%;
+	}
 }
 
 /* WordPress admin bar */
