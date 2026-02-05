@@ -19,12 +19,12 @@
 // --------------------------------------------------
 
 // Must be loaded BEFORE Bootstrap so Bootstrap compiles with Yeti's design tokens
-// @import "assets/bootswatch/yeti/variables";  // <--- Loads Bootswatch Yeti theme variables
+@import "assets/bootswatch/yeti/variables";  // <--- Loads Bootswatch Yeti theme variables
 
 @import "assets/bootstrap5/bootstrap";       // <--- Loads Bootstrap
 
 // Must be loaded AFTER Bootstrap
-// @import "assets/bootswatch/yeti/bootswatch"; // <--- Loads Bootswatch Yeti theme
+@import "assets/bootswatch/yeti/bootswatch"; // <--- Loads Bootswatch Yeti theme
 
 @import "theme/understrap";                  // <--- Loads the Understrap defaults. Just a few classes to incorporate BS in WP
 @import "theme/colors";                      // <--- This creates the necessary bootstrap color classes.

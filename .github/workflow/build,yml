@@ -7,12 +7,6 @@ on:
       - "**.scss"
       - "**.js"
       - "package-lock.json"
-  pull_request_target:
-    branches: [develop]
-    paths:
-      - "**.scss"
-      - "**.js"
-      - "package-lock.json"
   workflow_dispatch:
 
 concurrency:
