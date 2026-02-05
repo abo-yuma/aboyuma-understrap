@@ -31,7 +31,7 @@ defined('ABSPATH') || exit;
 				// $view_output = '<span class="post-views"> | ' .
 				// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
 				// 	echo $view_output;
-				echo '<span class="post-views"> | <i class="fa fa-eye" aria-hidden="true"></i> ' . $views . '</span>';
+				echo '<span class="post-views"> | 📊 ' . $views . '</span>';
 				?>
 			</div><!-- .entry-meta -->
 

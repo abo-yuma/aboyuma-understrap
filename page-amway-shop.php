@@ -63,7 +63,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
                         <?php if (!empty($shops)) { ?>
                             <?php foreach ($shops as $shop) { ?>
-                                <div class="mb-4">
+                                <div class="card mb-4" style="border-radius: 6px;">
                                     <div class="row g-0">
                                         <!-- LEFT: IMAGE -->
                                         <div class="col-md-5">
@@ -169,18 +169,6 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                             </div>
                                         </div>
 
-                                    </div>
-
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <?php if (!empty($shop->shop_description)) { ?>
-                                                <p class="card-text">
-                                                    <?php
-                                                    echo apply_filters('the_content', $shop->shop_description);
-                                                    ?>
-                                                </p>
-                                            <?php } ?>
-                                        </div>
                                     </div>
                                 </div>
                             <?php } ?>

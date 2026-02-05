@@ -1,7 +1,7 @@
 name: Build CSS & JS
 
 on:
-  push:
+  pull_request:
     branches: [develop]
     paths:
       - "**.scss"
@@ -10,47 +10,22 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
   build:
-    name: "Build CSS & JS"
-
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.head_ref }}
+      - uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
           cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Copy assets
-        run: npm run copy-assets
-
-      - name: Commit assets
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Update assets
-
-      - name: Build Bootstrap 5 CSS
-        run: npm run css
-
-      - name: Build Bootstrap 5 JS
-        run: npm run js
-
-      - name: Commit CSS and JS files
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Rebuild CSS and JS files
+      - run: npm ci
+      - run: npm run copy-assets
+      - run: npm run css
+      - run: npm run js
