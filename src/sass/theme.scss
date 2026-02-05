@@ -5,6 +5,12 @@
 // --------------------------------------------------
 // Theme & framework build order (IMPORTANT)
 // --------------------------------------------------
+// Build flow:
+// Bootstrap default variables
+//   → Bootswatch overrides (Yeti)
+//   → SCSS compilation
+//   → Compiled CSS + editor-color-palette.json regenerated
+//
 // SCSS variables are evaluated at build time.
 // Bootswatch overrides Bootstrap variables,
 // so variables MUST be loaded before Bootstrap.
