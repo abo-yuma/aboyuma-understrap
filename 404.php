@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying 404 pages (not found)
  *
@@ -6,44 +7,51 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 get_header();
 
-$container = get_theme_mod( 'understrap_container_type' );
+$container = get_theme_mod('understrap_container_type');
+$container_classes = $container . ' px-3 px-md-4 py-0';
 ?>
 
-<div class="wrapper" id="error-404-wrapper">
+<main>
 
-	<div class="<?php echo esc_attr( $container ); ?>" id="content" tabindex="-1">
+	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-
-			<div class="col-md-12 content-area" id="primary">
-
-				<main class="site-main" id="main">
+			<div class="sidebar-left-column order-2 order-md-1" id="sidebar-left">
+				<?php
+				get_template_part('sidebar-templates/sidebar', 'left');
+				?>
+			</div>
+			<div class="main-content-column order-1 order-md-2">
+				<div class="main-content-wrapper">
 
 					<section class="error-404 not-found">
 
 						<header class="page-header">
 
-							<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'understrap' ); ?></h1>
+							<h1 class="page-title"><?php /*esc_html_e('Oops! That page can&rsquo;t be found.', 'understrap'); */ ?></h1>
+							<h1 class="page-title"><?php esc_html_e('ไม่พบหน้านี้', 'understrap'); ?></h1>
+
 
 						</header><!-- .page-header -->
 
 						<div class="page-content">
 
-							<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try a search?', 'understrap' ); ?></p>
+							<p><?php esc_html_e('ดูเหมือนว่าจะไม่พบหน้าที่ต้องการ ลองค้นหา?', 'understrap'); ?></p>
 
 							<?php get_search_form(); ?>
 
-							<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
+							<?php the_widget('WP_Widget_Recent_Posts'); ?>
 
-							<?php if ( understrap_categorized_blog() ) : // Only show the widget if site has multiple categories. ?>
+							<?php if (understrap_categorized_blog()) : // Only show the widget if site has multiple categories. 
+							?>
 
 								<div class="widget widget_categories">
 
-									<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'understrap' ); ?></h2>
+									<h2 class="widget-title"><?php esc_html_e('Categories', 'understrap'); ?></h2>
 
 									<ul>
 										<?php
@@ -66,25 +74,23 @@ $container = get_theme_mod( 'understrap_container_type' );
 							<?php
 
 							/* translators: %1$s: smiley */
-							$archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'understrap' ), convert_smilies( ':)' ) ) . '</p>';
-							the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
+							$archive_content = '<p>' . sprintf(esc_html__('Try looking in the monthly archives. %1$s', 'understrap'), convert_smilies(':)')) . '</p>';
+							the_widget('WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content");
 
-							the_widget( 'WP_Widget_Tag_Cloud' );
+							the_widget('WP_Widget_Tag_Cloud');
 							?>
 
 						</div><!-- .page-content -->
 
 					</section><!-- .error-404 -->
 
-				</main>
-
-			</div><!-- #primary -->
-
+				</div>
+			</div>
 		</div><!-- .row -->
 
 	</div><!-- #content -->
 
-</div><!-- #error-404-wrapper -->
+</main><!-- #main-wrapper -->
 
 <?php
 get_footer();

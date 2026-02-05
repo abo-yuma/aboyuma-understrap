@@ -1,26 +1,40 @@
 <?php
+
 /**
- * The sidebar containing the main widget area
- *
- * @package Understrap
+ * Sidebar Template.
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-if ( ! is_active_sidebar( 'left-sidebar' ) ) {
-	return;
-}
-
-// when both sidebars turned on reduce col size to 3 from 4.
-$sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 ?>
 
-<?php if ( 'both' === $sidebar_pos ) : ?>
-	<div class="col-md-3 widget-area" id="left-sidebar">
-<?php else : ?>
-	<div class="col-md-4 widget-area" id="left-sidebar">
-<?php endif; ?>
-<?php dynamic_sidebar( 'left-sidebar' ); ?>
+<div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper">
 
-</div><!-- #left-sidebar -->
+	<?php if (
+		function_exists('aboyuma_author_box_render') &&
+		aboyuma_show_author_box()
+	) : ?>
+		<div class="author-box-wrapper">
+			<?php aboyuma_author_box_render(); ?>
+		</div>
+	<?php endif; ?>
+
+	<?php
+	if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
+	?>
+		<div class="sticky-widget-wrapper">
+			<div id="widget-area" class="widget-area" role="complementary">
+				<?php
+				dynamic_sidebar('left-sidebar');
+
+				if (current_user_can('manage_options')):
+				?>
+					<a href="<?php echo esc_url(admin_url('widgets.php')); ?>">
+						<?php esc_html_e('Edit widget'); ?></a>
+				<?php
+				endif;
+				?>
+			</div><!-- /.widget-area -->
+		</div>
+	<?php
+	endif;
+	?>
+
+</div><!-- /#widget-wrapper -->

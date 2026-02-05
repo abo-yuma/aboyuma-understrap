@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying all pages
  *
@@ -11,51 +12,40 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 get_header();
 
-$container = get_theme_mod( 'understrap_container_type' );
-
+$container = get_theme_mod('understrap_container_type');
+$container_classes = $container . ' px-3 px-md-4 py-0';
 ?>
 
-<div class="wrapper" id="page-wrapper">
+<main>
 
-	<div class="<?php echo esc_attr( $container ); ?>" id="content" tabindex="-1">
+	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-
-			<?php
-			// Do the left sidebar check and open div#primary.
-			get_template_part( 'global-templates/left-sidebar-check' );
-			?>
-
-			<main class="site-main" id="main">
-
+			<div class="sidebar-left-column border-start order-2" id="sidebar-left">
 				<?php
-				while ( have_posts() ) {
-					the_post();
-					get_template_part( 'loop-templates/content', 'page' );
-
-					// If comments are open or we have at least one comment, load up the comment template.
-					if ( comments_open() || get_comments_number() ) {
-						comments_template();
-					}
-				}
+				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
-
-			</main>
-
-			<?php
-			// Do the right sidebar check and close div#primary.
-			get_template_part( 'global-templates/right-sidebar-check' );
-			?>
+			</div>
+			<div class="main-content-column order-1">
+				<div class="main-content-wrapper">
+					<?php
+					while (have_posts()) {
+						the_post();
+						get_template_part('loop-templates/content', 'page');
+					}
+					?>
+				</div>
+			</div>
 
 		</div><!-- .row -->
 
 	</div><!-- #content -->
 
-</div><!-- #page-wrapper -->
+</main><!-- #main-wrapper -->
 
 <?php
 get_footer();

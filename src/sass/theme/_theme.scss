@@ -1,1 +1,859 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+
+/* 
+ * Fix unwanted right space (horizontal scroll) on small phones only
+ * ---------------------------------------------------------------
+ * We use overflow-x: clip instead of overflow-x: hidden
+ * because `clip` prevents scrollbars and visual overflow 
+ * without creating a new stacking or scroll context.
+ * 
+ * This is important for elements with position: sticky —
+ * using `hidden` would break sticky positioning since it 
+ * creates a new containing block for the sticky element.
+ * 
+ * `clip` keeps sticky elements working correctly while still
+ * removing unwanted horizontal space on mobile screens.
+ *
+ * Note: Apply this only on mobile viewports.
+ * On larger screens or when a modal opens, it cause 
+ * sticky elements to return to their original position 
+ * (lose their "stuck" state) due to how modals affect 
+ * document overflow handling.
+ *
+ * Reference: https://stackoverflow.com/a/75535614/8527193
+ */
+@media (max-width: 575.98px) {
+	html,
+	body {
+		overflow-x: clip;
+	}
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+}
+
+// ***** Navbar Style ***** //
+
+/* BEFORE scroll */
+#navbar-main {
+	width: 880px;
+	margin: 0 auto;
+}
+
+/* 
+ * Style after scroll
+ * z-index: 1030
+ * ----------------
+ * Matches Bootstrap's official navbar stacking context.
+ * Ensures the fixed navbar appears above normal content
+ * (dropdowns, sections, sliders) but stays below modals
+ * and the WordPress admin bar. 
+ * 1000  - dropdown
+ * 1010  - sticky
+ * 1020  - fixed
+ * 1030  - navbar
+ * 1040  - modal backdrop
+ * 1050  - modal
+ * 1060+ - popover / tooltip
+ *
+ * Using Bootstrap's z-index scale avoids "9999" hacks
+ * and prevents conflicts with modals, tooltips, etc.
+ */
+
+/*
+ * Why left: 50% + transform: translateX(-50%) is required here
+ * ----------------------------------------------------------
+ * Before scroll:
+ * - The navbar is in normal document flow (position: static)
+ * - Centering works via container / margin: auto
+ * - The browser knows where "center" is
+ *
+ * After scroll (position: fixed):
+ * - The navbar is removed from normal flow
+ * - margin: auto and container logic no longer apply
+ * - The browser now positions the element relative to the viewport
+ *
+ * Because fixed-position elements do NOT understand "center",
+ * we must center it manually using explicit positioning math:
+ *
+ *   left: 50%                  → move the element's LEFT edge
+ *                                to the center of the viewport
+ *   transform: translateX(-50%) → pull it back by half of its
+ *                                own width
+ *
+ * This results in true horizontal centering for a fixed-width
+ * navbar without layout shifts.
+ */
+#navbar-main.is-fixed {
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 880px;
+	z-index: 1030;
+}
+
+/* Mobile: fixed but full width */
+@media (max-width: 767.98px) {
+	#navbar-main.is-fixed {
+		left: 0;
+		transform: none;
+		width: 100%;
+	}
+}
+
+/* WordPress admin bar */
+body.admin-bar #navbar-main.is-fixed {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar #navbar-main.is-fixed {
+		top: 0;
+	}
+}
+
+/* Only apply hover on screens wider than 768px */
+@media (min-width: 768px) {
+	/* Show dropdown menu on hover */
+	.dropdown:hover > .dropdown-menu {
+		display: block;
+		margin-top: 0; /* Remove any top margin */
+	}
+
+	/* Optional: add fade-in effect */
+	.dropdown-menu {
+		transition: opacity 0.3s ease;
+		opacity: 0;
+		visibility: hidden;
+	}
+	.dropdown:hover > .dropdown-menu {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+// Fix Bootstrap Dropdown Submenu
+/*
+ * (c) 2022 Manish Pushkar bs5-navwalker 
+ * SPDX-License-Identifier: MIT
+ */
+@media all and (min-width: 992px) {
+	ul.depth_1 {
+		left: 100% !important;
+		top: 0% !important;
+	}
+	ul.depth_0 > .menu-item-has-children a:after {
+		display: inline-flex;
+		content: "";
+		border-color: transparent;
+		border-style: solid;
+		border-width: 5px 0 5px 5px;
+		border-left-color: #cccccc;
+	}
+	ul.depth_1 a:after {
+		border: 0 !important;
+	}
+}
+
+.main-content-wrapper {
+	margin-top: 1rem;
+}
+
+/**
+ * Apply horizontal padding only on iPad & PC
+ * (Bootstrap md breakpoint and up)
+ */
+@media (min-width: 768px) {
+	.main-content-wrapper {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
+
+.section-header {
+	font-size: 16px; /* default */
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+/* Sidebar */
+
+.widget-area {
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+}
+
+#sidebar-left.card {
+	border-top: none;
+	border-left: none;
+	border-bottom: none;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+}
+
+/*
+WHY this height is required:
+`position: sticky` works only inside the height of its nearest container.
+If the container's height is only as tall as its content, the sticky element
+has no vertical space to move in, so the browser disables sticky behavior.
+
+By setting height: 100%, this wrapper stretches to the full height of the
+sidebar / column, giving the sticky widget enough scrollable space to activate.
+*/
+#sidebar-left-widget-wrapper {
+	height: 100%;
+}
+
+.sidebar-left-widget-wrapper {
+	margin-top: 1rem;
+}
+
+.sticky-widget-wrapper {
+	position: sticky;
+	top: 50px; /* The distance from the top when it becomes sticky */
+}
+
+/* reverse widget order on mobile */
+@media (max-width: 767.98px) {
+	#widget-area {
+		display: flex;
+		flex-direction: column-reverse; /* reverse order on mobile */
+	}
+
+	#widget-area > .widget {
+		display: block; /* ensure widgets behave as block items */
+	}
+}
+
+/* Target only the archive widget list items */
+.widget_archive ul li::before {
+	content: "📝 "; /* replace with any emoji you like */
+	font-size: 1em; /* adjust size */
+}
+
+.widget_categories ul li::before {
+	content: "📂 ";
+}
+
+:is(.widget_categories, .widget_archive) a:hover,
+:is(.widget_categories, .widget_archive) a:focus-visible {
+	text-decoration: underline;
+}
+
+// ===== Main content ===== //
+
+.archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
+.archive-loop-item
+	:is(.entry-header, .entry-content, .entry-footer)
+	a:focus-visible {
+	text-decoration: underline;
+}
+
+.archive-loop-item .post-thumbnail {
+	width: 100%;
+	height: 350px;
+	overflow: hidden;
+	border-radius: 0.5rem;
+}
+
+.archive-loop-item .post-thumbnail img.archive-post-thumbnail {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.content-single :is(.entry-header, .entry-footer) a {
+	text-decoration: none;
+}
+
+.content-single :is(.entry-header, .entry-footer) a:hover,
+.content-single :is(.entry-header, .entry-footer) a:focus-visible {
+	text-decoration: underline;
+}
+
+// ===== Footer ===== //
+.footer-bg-background {
+	background-color: #1e1e1e;
+}
+footer {
+	font-size: 0.85rem;
+}
+
+// Fancybox
+.fancybox__slide {
+	padding: 0 !important;
+}
+
+.scroll-to-top-btn {
+	position: fixed;
+	right: calc(6rem + 1.5rem); /* center of messenger button */
+	bottom: 0.8rem;
+	transform: translateX(50%); /* move back half of its own width */
+
+	z-index: 999;
+	display: none;
+
+	padding: 0.5rem 0.9rem;
+	font-size: 0.75rem;
+	font-weight: 500;
+	border-radius: 999px;
+
+	border: 0;
+	cursor: pointer;
+	opacity: 0.8;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+// .scroll-to-top-btn:hover {
+// 	opacity: 1;
+// 	transform: translateX(50%) translateY(-2px);
+// }
+
+/* Floating Messenger Chat Button */
+.messenger-chat-btn {
+	position: fixed;
+	width: 3rem;
+	height: 3rem;
+	right: 6rem;
+	bottom: 3rem;
+	z-index: 1000;
+	border-radius: 0.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+/* ========== Mobile only ========== */
+@media (max-width: 576px) {
+	.scroll-to-top-btn {
+		right: 1rem; /* custom mobile position */
+		bottom: 1rem;
+		transform: none; /* usually better on mobile */
+		padding: 0.5rem 0.75rem;
+		font-size: 0.7rem;
+	}
+
+	.messenger-chat-btn {
+		right: 1rem; /* stick to edge */
+		bottom: 4.5rem; /* above scroll button */
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+}
+
+/* Messenger icon */
+.messenger-chat-btn img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+/* Tooltip */
+.messenger-tooltip {
+	position: absolute;
+	bottom: 120%;
+	right: 50%;
+	transform: translateX(50%);
+	background-color: #111;
+	color: #fff;
+	padding: 0.6rem 0.8rem;
+	border-radius: 0.4rem;
+	font-size: 0.85rem;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.25s ease;
+}
+
+/* Tooltip arrow */
+.messenger-tooltip::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	right: 50%;
+	transform: translateX(50%);
+	border-width: 6px;
+	border-style: solid;
+	border-color: #111 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.messenger-chat-btn:hover .messenger-tooltip {
+	opacity: 1;
+	transform: translateX(50%) translateY(-6px);
+}
+
+// Use for display element
+.show {
+	display: block;
+}
+
+// Custom column with for content
+@media (min-width: 768px) {
+	.sidebar-left-column {
+		flex: 0 0 auto;
+		width: 30%;
+	}
+	.main-content-column {
+		flex: 0 0 auto;
+		width: 70%;
+	}
+}
+
+@media (max-width: 768px) {
+	#aboyuma-product-table {
+		width: 600px;
+	}
+}
+
+/* Fix big th font bug when using jqueryDataTable scrollX option */
+.dt-column-title {
+	font-size: 12.5px !important;
+}
+
+.content-feed .post-thumbnail {
+	height: 130px;
+}
+
+.content-feed .post-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.content-feed a {
+	text-decoration: none;
+}
+
+.content-feed a:hover,
+.content-feed a:focus-visible {
+	text-decoration: underline;
+}
+
+// #recommend-posts-widget:hover,
+// #latest-posts-section:hover,
+// #other-recommend-product-section:hover {
+//     background-color: #f6f6f6;
+//     transition: background-color 0.2s ease-in-out;
+// }
+
+// Dark mode switch
+#dark-mode-switch {
+	cursor: pointer !important;
+}
+
+// [data-bs-theme="light"] {
+// 	--bs-link-color-rgb: 0, 0, 0;
+// }
+
+/* Fix DataTables border in Bootstrap dark mode */
+
+/* Light mode */
+[data-bs-theme="light"] body {
+	background-color: #e4e4e4;
+}
+
+[data-bs-theme="dark"] body {
+	background-color: #2b2b2b;
+}
+
+#aboyuma-author-box {
+	font-size: 14px;
+}
+
+/* Author card base */
+.author-card {
+	overflow: hidden;
+}
+
+/* Cover image */
+.author-cover {
+	height: 140px;
+	background-size: cover;
+	background-position: center;
+}
+
+/* Avatar wrapper */
+.author-avatar-wrapper {
+	margin-top: -90px; /* pulls avatar over cover */
+	position: relative;
+	z-index: 2;
+}
+
+/* Avatar */
+.author-avatar {
+	width: 180px;
+	height: 180px;
+	object-fit: cover;
+	border: 5px solid #fff; /* nice separation */
+	background: #fff;
+}
+
+[data-bs-theme="light"] #aboyuma-author-box {
+	background-color: #fafafa;
+	border: 1px solid #e5e5e5;
+}
+
+[data-bs-theme="dark"] #aboyuma-author-box {
+	background-color: #2b2b2b;
+	border: 1px solid #3a3a3a;
+}
+
+// [data-bs-theme="light"] aside {
+// 	background-color: #fafafa;
+// 	border: 1px solid #e5e5e5;
+// }
+
+// [data-bs-theme="dark"] aside {
+// 	background-color: #2b2b2b;
+// 	border: 1px solid #3a3a3a;
+// }
+
+/* Fix missing top border on DataTables thead (Bootstrap) */
+[data-bs-theme="light"] table.dataTable thead th {
+	border-top: 1px solid var(--bs-border-color) !important;
+	background-color: var(--bs-secondary-bg) !important;
+}
+
+[data-bs-theme="dark"] table.dataTable thead th {
+	border-top: 1px solid var(--bs-border-color) !important;
+	background-color: var(--bs-secondary-bg) !important;
+}
+
+[data-bs-theme="dark"] table.dataTable,
+[data-bs-theme="dark"] table.dataTable th,
+[data-bs-theme="dark"] table.dataTable td {
+	border-color: var(--bs-border-color) !important;
+}
+
+/* Light mode */
+[data-bs-theme="light"] .main-wrapper {
+	border: 1px solid rgba(0, 0, 0, 0.25); /* darker than card */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
+
+[data-bs-theme="dark"] .main-wrapper {
+	border: 1px solid rgb(54, 54, 54); /* softer light-gray border */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+}
+
+/* Light mode */
+[data-bs-theme="light"] .navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #171718;
+}
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
+	color: #949494;
+}
+[data-bs-theme="light"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
+	color: #000000;
+}
+
+/* Dark mode */
+[data-bs-theme="dark"] .navbar-expand-md .navbar-nav .dropdown-menu {
+	background-color: #1f1f1f; /* slightly lighter than original dark */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item {
+	color: #dcdcdc; /* lighter gray text for readability */
+}
+[data-bs-theme="dark"]
+	.navbar-expand-md
+	.navbar-nav
+	.dropdown-menu
+	.dropdown-item:hover {
+	color: #ffffff; /* hover white for contrast */
+}
+
+#latest-product-table td {
+	font-size: 13px;
+	vertical-align: middle;
+}
+
+#latest-product-table td.product-name {
+	font-size: 14px;
+}
+
+/* ============================================================
+   Flip Bootstrap 5 striped rows for DataTables
+   Default Bootstrap behavior:
+   - ODD rows are striped (via box-shadow, not background-color)
+   - EVEN rows are normal
+
+   Our goal:
+   - ODD rows → remove stripe
+   - EVEN rows → apply default Bootstrap stripe color
+
+   This must be loaded AFTER bootstrap.css and dataTables.bootstrap5.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1) ODD rows: REMOVE the stripe
+
+   Bootstrap paints striped rows using:
+   box-shadow: inset 0 0 0 9999px var(--bs-table-bg-type);
+
+   So even if background-color is transparent,
+   the stripe is still visible.
+
+   Setting box-shadow: none removes the actual
+   "paint layer" Bootstrap uses for striping.
+   ------------------------------------------------------------ */
+#latest-product-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+	box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   2) EVEN rows: ADD the stripe
+
+   Even rows have no stripe by default.
+   We assign Bootstrap’s own stripe variable:
+   --bs-table-bg-type: var(--bs-table-striped-bg);
+
+   Bootstrap’s internal CSS will automatically
+   convert this into the same stripe effect,
+   using its built-in box-shadow system.
+
+   This keeps the exact default color and behavior.
+   ------------------------------------------------------------ */
+#latest-product-table.table-striped > tbody > tr:nth-of-type(even) > * {
+	--bs-table-bg-type: var(--bs-table-striped-bg);
+}
+
+/* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
+.thumbnail {
+	cursor: pointer;
+	transition: opacity 0.3s ease;
+	width: 100%;
+	max-width: 70px;
+	height: 70px;
+	flex: 0 0 auto;
+	/* Prevent stretching issue in Firefox */
+}
+
+.thumbnail.active {
+	border: 2px solid rgb(81, 97, 198);
+	/* Active thumbnail border */
+	opacity: 1 !important;
+}
+
+.thumbnail:not(.active):hover {
+	opacity: 0.7;
+	/* Hover effect for inactive thumbnails */
+}
+
+.previewImageBox {
+	aspect-ratio: 1 / 1;
+	/* Make it square 1:1 for all screen size */
+}
+
+#previewImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Thumbnail slider container and arrows */
+.thumbnail-slider-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.thumbnail-wrapper {
+	display: flex;
+	gap: 8px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	white-space: nowrap;
+}
+
+.thumbnail-wrapper::-webkit-scrollbar {
+	display: none;
+}
+
+.slider-arrow {
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	cursor: pointer;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 18px;
+	z-index: 2;
+}
+
+.left-arrow {
+	left: 5px;
+}
+
+.right-arrow {
+	right: 5px;
+}
+
+.slider-arrow:hover {
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.consistent-height .tab-content {
+	display: flex;
+}
+
+/*https://stackoverflow.com/a/61587938/8527193
+  .consistent-height .tab-content>.tab-pane {
+    display: block;
+    undo "display: none;" 
+    visibility: hidden;
+    margin-right: -100%;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .consistent-height .tab-content>.active {
+    visibility: visible;
+  }
+  */
+
+#product-detail-info-container .tab-content {
+	height: 550px;
+	overflow-y: scroll;
+	padding-top: 10px;
+}
+
+#product-detail-info-container #related-product .related-product-label {
+	font-weight: 400;
+}
+
+#product-detail-info-container #related-product .product-review-label {
+	font-weight: 400;
+}
+
+.product-description-wrapper {
+	font-size: 13px;
+}
+
+/* Directional / navigation helper links (back, next, view more, etc.) */
+.direction-link {
+	text-decoration: none;
+}
+
+.direction-link:hover,
+.direction-link:focus-visible {
+	text-decoration: underline;
+}
+
+#SOPInfoModal .modal-custom-size {
+	max-width: 650px;
+}
+
+.aboyuma-modal-size {
+	max-width: 650px; /* or any width */
+}
+
+.share-text {
+	margin-bottom: 2px; /* spacing between text and button */
+	font-weight: normal;
+}
+
+.facebook-share-btn {
+	background-color: #3b5998; /* Facebook blue */
+	color: #fff;
+	padding: 2px 8px; /* smaller padding */
+	border-radius: 3px;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 12px;
+	transition: background-color 0.3s;
+}
+
+.facebook-share-btn:hover {
+	background-color: #334e89; /* darker hover */
+}
+
+/* Home recommend video widget */
+#home-other-recommend-product .play-btn {
+	width: 60px;
+	height: 60px;
+	background: rgba(0, 0, 0, 0.6);
+	/* semi-transparent black */
+	border-radius: 12px;
+	/* rounded corners instead of circle */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#home-other-recommend-product .play-btn::before {
+	content: "";
+	display: block;
+	margin-left: 3px;
+	/* center the triangle visually */
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 12px 0 12px 20px;
+	/* triangle size */
+	border-color: transparent transparent transparent white;
+}
+
+.home-marquee-wrapper {
+	overflow: hidden;
+}
+
+.home-marquee-content {
+	font-size: 18px;
+	color: #6d51f9;
+	white-space: nowrap;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 999px;
+	border: 3px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(0, 0, 0, 0.4);
+}

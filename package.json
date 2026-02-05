@@ -1,7 +1,7 @@
 {
-  "name": "understrap",
-  "version": "1.2.4",
-  "description": "WordPress Theme framework",
+  "name": "aboyuma-theme",
+  "version": "1.0.0",
+  "description": "ABO YUMA Wordpress Theme",
   "main": "index.js",
   "scripts": {
     "bs": "browser-sync start --config src/build/browser-sync.config.js",
@@ -63,7 +63,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "autoprefixer": "^10.4.19",
-    "bootstrap": "~5.2.3",
+    "bootstrap": "^5.3.3",
     "bootstrap4": "npm:bootstrap@^4.6.2",
     "browser-sync": "^3.0.2",
     "browserslist": "^4.22.1",

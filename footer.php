@@ -1,52 +1,119 @@
+<footer class="text-white text-center text-lg-start footer-bg-background g-0">
+	<!-- Grid container -->
+	<div class="container p-4">
+		<div class="row">
+			<div class="col-md-2 mb-4 mb-md-0 text-center d-flex align-items-center justify-content-center">
+				<?php
+				$image_url = get_theme_mod('footer_column_1_image');
+				if ($image_url) {
+					echo '<img src="' . esc_url($image_url) . '" alt="' . __('Footer Column 1 Image', 'aboyuma') . '" style="width: 80px; height: 80px;">';
+				}
+				?>
+			</div>
+			<div class="col-md-5 mb-4 mb-md-0">
+				<div class="aboyuma-about-title" style="font-weight:bold; margin-bottom:0.3em;">เกี่ยวกับเรา :</div>
+				<p><?php echo nl2br(esc_html(get_theme_mod('footer_column_2_content'))); ?></p>
+			</div>
+			<div class="col-md-3 mb-4 mb-md-0">
+				<div id="visitor-counter">
+					<?php
+					if (function_exists('display_visitor_stats')) {
+						display_visitor_stats();
+					}
+					?>
+				</div>
+			</div>
+			<div class="col-md-2 mb-4 mb-md-0">
+				<div class="line-qrcode-wrapper mb-2">
+					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดต่อเรา :</div>
+					<div class="line-qrcode">
+						<?php
+						$line_qrcode = get_theme_mod('footer_line_qrcode');
+						if ($line_qrcode) : ?>
+							<div class="footer-line-qrcode text-center">
+								<img src="<?php echo esc_url($line_qrcode); ?>" alt="LINE QR Code" class="img-fluid" style="max-width:70px; height:auto;">
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="social-contact-wrapper">
+					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดตามเรา :</div>
+					<div id="social-contact">
+						<ul style="display: flex; flex-direction: row; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; gap: 8px;">
+							<?php
+							$socials = [
+								'facebook' => [
+									'link' => get_theme_mod('footer_facebook_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=13912&format=png&color=000000'
+								],
+								'instagram' => [
+									'link' => get_theme_mod('footer_instagram_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=32323&format=png&color=000000'
+								],
+								'youtube' => [
+									'link' => get_theme_mod('footer_youtube_link'),
+									'icon' => 'https://img.icons8.com/?size=100&id=19318&format=png&color=000000'
+								]
+							];
+
+							foreach ($socials as $key => $data) {
+								if (!empty($data['link'])) {
+									echo '<li>';
+									echo '<a href="' . esc_url($data['link']) . '" target="_blank" rel="noopener noreferrer" style="display:inline-block;">';
+									echo '<img src="' . esc_url($data['icon']) . '" width="24" height="24" alt="' . esc_attr(ucfirst($key)) . '">';
+									echo '</a>';
+									echo '</li>';
+								}
+							}
+							?>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Grid container -->
+	<!-- Copyright -->
+	<div id="copyright-content" class="text-center p-3 copyright-content">
+		© <?php echo date("Y"); ?> Copyright:
+		<a class="text-white" href="https://aboyuma.com/">aboyuma.com</a>
+	</div>
+	<!-- Copyright -->
+</footer>
+</div><!-- /#content-wrapper -->
+</div><!-- /#wrapper -->
+
+<!-- Floating Messenger Chat Button -->
 <?php
-/**
- * The template for displaying the footer
- *
- * Contains the closing of the #content div and all content after
- *
- * @package Understrap
- */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-$container = get_theme_mod( 'understrap_container_type' );
+$messenger_url  = get_theme_mod('messenger_chat_url', 'https://m.me/YOUR_FACEBOOK_PAGE');
+$tooltip_text  = get_theme_mod(
+	'messenger_tooltip_text',
+	"สนใจสมัครสมาชิก สั่งซื้อสินค้า <br>หรือสอบถามข้อมูลใช่ไหม ทักเลย!"
+);
 ?>
 
-<?php get_template_part( 'sidebar-templates/sidebar', 'footerfull' ); ?>
+<?php if (! empty($messenger_url)) : ?>
+	<a href="<?php echo esc_url($messenger_url); ?>"
+		target="_blank"
+		class="messenger-chat-btn"
+		aria-label="Chat with us on Messenger">
 
-<div class="wrapper" id="wrapper-footer">
+		<?php if (! empty($tooltip_text)) : ?>
+			<span class="messenger-tooltip">
+				<?php echo wp_kses_post($tooltip_text); ?>
+			</span>
+		<?php endif; ?>
 
-	<div class="<?php echo esc_attr( $container ); ?>">
-
-		<div class="row">
-
-			<div class="col-md-12">
-
-				<footer class="site-footer" id="colophon">
-
-					<div class="site-info">
-
-						<?php understrap_site_info(); ?>
-
-					</div><!-- .site-info -->
-
-				</footer><!-- #colophon -->
-
-			</div><!-- col -->
-
-		</div><!-- .row -->
-
-	</div><!-- .container(-fluid) -->
-
-</div><!-- #wrapper-footer -->
-
-<?php // Closing div#page from header.php. ?>
-</div><!-- #page -->
-
-<?php wp_footer(); ?>
-
+		<img src="<?php echo get_template_directory_uri(); ?>/src/images/messenger.png" alt="Messenger">
+	</a>
+<?php endif; ?>
+<button class="scroll-to-top-btn badge bg-dark bg-opacity-75">
+	↑ Go to top
+</button>
+<?php
+wp_footer();
+?>
 </body>
 
 </html>
-
