@@ -47,7 +47,7 @@ module.exports = (ctx) => {
 			 * and preventing build errors such as:
 			 *   "End of file expected"
 			 */
-			annotation: true,
+			annotation: false,
 			sourcesContent: true,
 		},
 		plugins: {
