@@ -80,11 +80,11 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                 </div>
                                 <div class="d-flex flex-column">
                                     <label class="invisible mb-1">ค้นหา</label> <!-- 🔧 invisible label -->
-                                    <button id="apply-filters" class="btn btn-sm btn-secondary">ค้นหา</button>
+                                    <button id="apply-filters" class="btn btn-sm btn-light">ค้นหา</button>
                                 </div>
                                 <div class="d-flex flex-column">
                                     <label class="invisible mb-1">รีเซ็ต</label>
-                                    <button type="reset" class="btn btn-sm btn-secondary">รีเซ็ต</button>
+                                    <button type="reset" class="btn btn-sm btn-light">รีเซ็ต</button>
                                 </div>
                             </div>
                         </form>

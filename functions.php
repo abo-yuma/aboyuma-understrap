@@ -26,7 +26,6 @@ $understrap_includes = array(
 	'/custom-comments.php',                 // Custom Comments file.
 	'/bootstrap_5_wp_nav_menu_walker.php',  // Load custom WordPress nav walker.
 	'/editor.php',                          // Load Editor functions.
-	'/block-editor.php',                    // Load Block Editor functions.
 	'/deprecated.php',                      // Load deprecated functions.
 	'/contact.php',                         // Load contact functions.
 	'/fonts.php',                           // Load fonts functions.

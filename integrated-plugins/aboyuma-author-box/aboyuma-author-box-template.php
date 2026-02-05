@@ -4,10 +4,10 @@
   ?>
 
   <!-- Cover / background image -->
-  <div
+  <!-- <div
     class="author-cover"
     style="background-image: url('<?php echo esc_url($coverImage); ?>');">
-  </div>
+  </div> -->
 
   <!-- Author image (overlapping cover) -->
   <div class="author-avatar-wrapper text-center">

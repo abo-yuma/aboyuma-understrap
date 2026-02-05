@@ -60,49 +60,100 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
                         <!-- Contact Form -->
                         <h5>📩 ส่งข้อความถึงเรา</h5>
-                        <div class="card">
-                            <form id="contact-form" class="p-2" enctype="multipart/form-data">
+
+                        <div class="card mb-3">
+                            <form id="contact-form" class="p-3" enctype="multipart/form-data">
+
                                 <div style="display:none !important">
                                     <label>Leave this field empty</label>
                                     <input type="text" name="aboyuma_hp" tabindex="-1" autocomplete="off">
                                 </div>
+
                                 <input type="hidden" name="action" value="aboyuma_contact_form">
-                                <div class="mb-3">
-                                    <label for="senderEmail" class="form-label">📧 อีเมล</label>
-                                    <input type="email" class="form-control form-control-sm" id="senderEmail" name="sender_email" placeholder="name@example.com" required>
+
+                                <!-- Email -->
+                                <div class="row mb-3">
+                                    <label for="senderEmail" class="col-sm-3 col-form-label">
+                                        📧 อีเมล
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input
+                                            type="email"
+                                            class="form-control form-control-sm"
+                                            id="senderEmail"
+                                            name="sender_email"
+                                            required>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">📝 เรื่อง</label>
-                                    <input type="text" class="form-control form-control-sm" id="title" name="title"
-                                        placeholder="เช่น ต้องการให้สมัครสมาชิกแอมเวย์ให้" maxlength="100" required>
+                                <!-- Title -->
+                                <div class="row mb-3">
+                                    <label for="title" class="col-sm-3 col-form-label">
+                                        📝 เรื่อง
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-sm"
+                                            id="title"
+                                            name="title"
+                                            maxlength="100"
+                                            required>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="attachment1" class="form-label">🖼️ ไฟล์แนบ</label>
-                                    <input class="form-control form-control-sm mb-2"
-                                        type="file"
-                                        id="attachment1"
-                                        name="attachment1"
-                                        accept=".jpg,.jpeg,.png,.pdf">
-                                    <small class="form-text text-muted">
-                                        **รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
-                                    </small>
+                                <!-- Attachment -->
+                                <div class="row mb-3">
+                                    <label for="attachment1" class="col-sm-3 col-form-label">
+                                        🖼️ ไฟล์แนบ
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input
+                                            class="form-control form-control-sm mb-1"
+                                            type="file"
+                                            id="attachment1"
+                                            name="attachment1"
+                                            accept=".jpg,.jpeg,.png,.pdf">
+                                        <small class="text-muted">
+                                            รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
+                                        </small>
+                                    </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="message" class="form-label">🗒️ ข้อความ</label>
-                                    <textarea class="form-control form-control-sm" id="message" name="message" rows="4" maxlength="2000"></textarea>
+                                <!-- Message -->
+                                <div class="row mb-3">
+                                    <label for="message" class="col-sm-3 col-form-label">
+                                        🗒️ ข้อความ
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <textarea
+                                            class="form-control form-control-sm"
+                                            id="message"
+                                            name="message"
+                                            rows="4"
+                                            maxlength="2000"></textarea>
+                                    </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary w-100">📩 ส่งข้อมูล</button>
-                                <div id="contact-loading" style="display:none;margin-top:10px;">
-                                    ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
+                                <!-- Submit -->
+                                <div class="row">
+                                    <div class="col-sm-9 offset-sm-3">
+                                        <button type="submit" class="btn btn-light w-100">
+                                            📩 ส่งข้อมูล
+                                        </button>
+
+                                        <div id="contact-loading" style="display:none;margin-top:10px;">
+                                            ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
+                                        </div>
+
+                                        <div id="aboyuma-message-wrapper"></div>
+                                    </div>
                                 </div>
-                                <div id="aboyuma-message-wrapper"></div>
+
                                 <?php wp_nonce_field('aboyuma_contact_form', 'aboyuma_contact_nonce'); ?>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -115,16 +166,66 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
 
         const $form = $('#contact-form');
         const $msgWrap = $('#aboyuma-message-wrapper');
+        const $loading = $('#contact-loading');
+        const $submitBtn = $form.find('button[type="submit"]');
+
+        // ✅ Allow only these domains
+        const allowedDomains = [
+            'gmail.com',
+            'hotmail.com',
+            'outlook.com',
+            'live.com'
+        ];
+
+        function isAllowedEmail(email) {
+            if (!email.includes('@')) return false;
+
+            const [local, domain] = email.toLowerCase().split('@');
+            return allowedDomains.includes(domain);
+        }
+
+        function showMessage(type, message) {
+            const alertClass = type === 'success' ?
+                'alert-success' :
+                type === 'warning' ?
+                'alert-warning' :
+                'alert-danger';
+
+            $msgWrap.html(`
+            <div class="alert ${alertClass} alert-dismissible fade show p-2 mt-2" role="alert">
+                <div class="d-flex justify-content-between align-items-center w-100 gap-2">
+                    <small class="mb-0 flex-grow-1">${message}</small>
+                    <button type="button"
+                        class="btn p-0 border-0 bg-transparent text-muted"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `);
+        }
 
         $form.on('submit', function(e) {
             e.preventDefault();
 
-            let formData = new FormData(this);
+            $msgWrap.html('');
 
-            $msgWrap.html(''); // clear old message
+            const email = $('#senderEmail').val().trim();
 
-            $('#contact-loading').show();
-            $form.find('button').prop('disabled', true).css('opacity', '0.6');
+            // Email validation
+            if (!isAllowedEmail(email)) {
+                showMessage(
+                    'warning',
+                    'กรุณาใช้อีเมลจาก Gmail, Hotmail หรือ Outlook เท่านั้น'
+                );
+                return;
+            }
+
+            const formData = new FormData(this);
+
+            $loading.show();
+            $submitBtn.prop('disabled', true).css('opacity', '0.6');
 
             $.ajax({
                 url: '<?php echo admin_url("admin-ajax.php"); ?>',
@@ -134,28 +235,11 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                 processData: false,
 
                 success: function(res) {
-
-                    let alertClass = res.success ? 'alert-success' : 'alert-danger';
-
-                    let html = `
-                        <div class="alert ${alertClass} alert-dismissible fade show p-2 mt-2" role="alert">
-                            <div class="d-flex justify-content-between align-items-center w-100 gap-2">
-
-                                <small class="mb-0 flex-grow-1">
-                                    ${res.data.message}
-                                </small>
-
-                                <button type="button"
-                                    class="btn p-0 border-0 bg-transparent text-muted"
-                                    data-bs-dismiss="alert"
-                                    aria-label="Close">
-                                    <i class="fa fa-times"></i>
-                                </button>
-
-                            </div>
-                        </div>`;
-
-                    $msgWrap.html(html);
+                    if (res && res.data && res.data.message) {
+                        showMessage(res.success ? 'success' : 'error', res.data.message);
+                    } else {
+                        showMessage('error', 'เกิดข้อผิดพลาด');
+                    }
 
                     if (res.success) {
                         $form[0].reset();
@@ -163,23 +247,17 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                 },
 
                 error: function() {
-                    $msgWrap.html(`
-                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-                        <small>ระบบขัดข้อง กรุณาลองใหม่</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                `);
+                    showMessage('error', 'ระบบขัดข้อง กรุณาลองใหม่');
                 },
 
                 complete: function() {
-                    $('#contact-loading').hide();
-                    $form.find('button').prop('disabled', false).css('opacity', '1');
+                    $loading.hide();
+                    $submitBtn.prop('disabled', false).css('opacity', '1');
                 }
             });
         });
 
     });
 </script>
-
 
 <?php get_footer(); ?>
