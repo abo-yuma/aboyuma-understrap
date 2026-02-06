@@ -17,8 +17,7 @@
         <div id="other-recommend-product-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="h-100">
-
+                    <div class="card h-100 d-flex flex-column border-0">
                         <!-- Thumbnail -->
                         <div class="card-img-top">
                             <div class="post-thumbnail">
@@ -33,7 +32,7 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="card-body p-1">
+                        <div class="card-body p-0 pt-2">
                             <div class="post-content d-flex flex-column h-100">
 
                                 <!-- Title -->

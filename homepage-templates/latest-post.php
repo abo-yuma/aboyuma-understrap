@@ -23,7 +23,7 @@
         <div id="latest-posts-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="h-100">
+                    <div class="card h-100 d-flex flex-column border-0">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
                                 <?php if (has_post_thumbnail()) : ?>
@@ -35,8 +35,8 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="card-body p-1">
-                            <div class="post-content d-flex flex-column">
+                        <div class="card-body p-0 pt-2 d-flex flex-column h-100">
+                            <div class="post-content d-flex flex-column h-100">
                                 <span>
                                     <a class="post-title-link" href="<?php echo get_permalink(); ?>">
                                         📝 <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
