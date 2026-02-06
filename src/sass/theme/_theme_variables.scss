@@ -20,14 +20,14 @@
  *
  * Result:
  * - Mobile (<768px): default fluid behavior
- * - Tablet & up (md+): fixed 880px container
+ * - Tablet & up (md+): fixed 860px container
  */
 $container-max-widths: (
 	sm: 540px,
-	md: 880px,
-	lg: 880px,
-	xl: 880px,
-	xxl: 880px,
+	md: 860px,
+	lg: 860px,
+	xl: 860px,
+	xxl: 860px,
 );
 
 /**
@@ -64,3 +64,7 @@ $container-max-widths: (
 // [data-bs-theme="dark"] .btn-dark {
 // 	--bs-btn-bg: #53565c;
 // }
+
+$border-radius-sm: 0.125rem; // ~70% of base
+$border-radius: 0.175rem; // base
+$border-radius-lg: 0.25rem; // ~140% of base

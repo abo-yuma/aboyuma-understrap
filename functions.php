@@ -473,16 +473,44 @@ function display_visitor_stats() {
 	}
 
 	echo '<div class="aboyuma-visitor-wrapper">';
-	echo '<div class="aboyuma-visitor-title" style="font-weight:bold; margin-bottom:0.3em;">สถิติ :</div>';
-	echo '<ul class="aboyuma-visitor-info" style="list-style:none; padding-left:0; margin:0;">';
-	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมวันนี้ ' . number_format($today_visitors) . ' คน</li>';
-	// echo '<li style="margin-bottom:0.2em;">👁️‍🗨️ ผู้ชมเมื่อวาน ' . number_format($yesterday_visitors) . ' คน</li>';
-	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมเดือนนี้ ' . number_format($month_visitors) . ' คน</li>';
-	// echo '<li style="margin-bottom:0.2em;">📅 ผู้ชมปีนี้ ' . number_format($year_visitors) . ' คน</li>';
-	echo '<li style="margin-bottom:0.2em;">📊 ผู้ชมทั้งหมด ' . number_format($total_visitors) . ' คน</li>';
-	echo '<li style="margin-bottom:0.2em;">🌐 เปิดบล็อก ' . date('j M Y', strtotime($shop_open_date)) . '</li>';
-	echo '<li>🔄 บล็อกอัพเดต ' . esc_html(date('j M Y', strtotime($last_update))) . '</li>';
-	echo '</ul>';
+
+	echo '<h5 class="aboyuma-visitor-title">
+        สถิติ :
+      </h5>';
+
+	echo '<table class="aboyuma-visitor-info" style="width:100%; border-collapse:collapse;">';
+
+	echo '<tr>
+        <td style="padding:0 0 0.2em 0;">📊 ผู้ชมวันนี้</td>
+        <td style="padding:0 0 0.2em 0; text-align:right;">' . number_format($today_visitors) . ' คน</td>
+      </tr>';
+
+	// echo '<tr>
+	//         <td>👁️‍🗨️ ผู้ชมเมื่อวาน</td>
+	//         <td style="text-align:right;">' . number_format($yesterday_visitors) . ' คน</td>
+	//       </tr>';
+
+	echo '<tr>
+        <td style="padding:0 0 0.2em 0;">📊 ผู้ชมเดือนนี้</td>
+        <td style="padding:0 0 0.2em 0; text-align:right;">' . number_format($month_visitors) . ' คน</td>
+      </tr>';
+
+	echo '<tr>
+        <td style="padding:0 0 0.2em 0;">📊 ผู้ชมทั้งหมด</td>
+        <td style="padding:0 0 0.2em 0; text-align:right;">' . number_format($total_visitors) . ' คน</td>
+      </tr>';
+
+	echo '<tr>
+        <td style="padding:0 0 0.2em 0;">🌐 เปิดบล็อก</td>
+        <td style="padding:0 0 0.2em 0; text-align:right;">' . date('j M Y', strtotime($shop_open_date)) . '</td>
+      </tr>';
+
+	echo '<tr>
+        <td>🔄 บล็อกอัพเดต</td>
+        <td style="text-align:right;">' . esc_html(date('j M Y', strtotime($last_update))) . '</td>
+      </tr>';
+
+	echo '</table>';
 	echo '</div>';
 }
 

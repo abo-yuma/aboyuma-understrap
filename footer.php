@@ -1,6 +1,6 @@
 <footer class="text-white text-center text-lg-start footer-bg-background g-0">
 	<!-- Grid container -->
-	<div class="container p-4">
+	<div class="container py-3">
 		<div class="row">
 			<div class="col-md-2 mb-4 mb-md-0 text-center d-flex align-items-center justify-content-center">
 				<?php
@@ -10,32 +10,11 @@
 				}
 				?>
 			</div>
-			<div class="col-md-5 mb-4 mb-md-0">
+			<div class="col-md-8 mb-4 mb-md-0">
 				<div class="aboyuma-about-title" style="font-weight:bold; margin-bottom:0.3em;">เกี่ยวกับเรา :</div>
 				<p><?php echo nl2br(esc_html(get_theme_mod('footer_column_2_content'))); ?></p>
 			</div>
-			<div class="col-md-3 mb-4 mb-md-0">
-				<div id="visitor-counter">
-					<?php
-					if (function_exists('display_visitor_stats')) {
-						display_visitor_stats();
-					}
-					?>
-				</div>
-			</div>
 			<div class="col-md-2 mb-4 mb-md-0">
-				<div class="line-qrcode-wrapper mb-2">
-					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดต่อเรา :</div>
-					<div class="line-qrcode">
-						<?php
-						$line_qrcode = get_theme_mod('footer_line_qrcode');
-						if ($line_qrcode) : ?>
-							<div class="footer-line-qrcode text-center">
-								<img src="<?php echo esc_url($line_qrcode); ?>" alt="LINE QR Code" class="img-fluid" style="max-width:70px; height:auto;">
-							</div>
-						<?php endif; ?>
-					</div>
-				</div>
 				<div class="social-contact-wrapper">
 					<div class="aboyuma-social-contact-title" style="font-weight:bold; margin-bottom:0.3em;">ติดตามเรา :</div>
 					<div id="social-contact">
@@ -75,7 +54,7 @@
 	</div>
 	<!-- Grid container -->
 	<!-- Copyright -->
-	<div id="copyright-content" class="text-center p-3 copyright-content">
+	<div id="copyright-content" class="text-center p-1 copyright-content">
 		© <?php echo date("Y"); ?> Copyright:
 		<a class="text-white" href="https://aboyuma.com/">aboyuma.com</a>
 	</div>

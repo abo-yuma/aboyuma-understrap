@@ -1,9 +1,7 @@
 ## ABO YUMA - Personal Blog WordPress Theme
 
-A custom WordPress theme developed for Yuma’s personal blog and Amway business.
-
-This theme is based on the Understrap Starter Theme.
-https://understrap.com/
+A custom WordPress theme developed for Yuma’s personal blog and Amway business.  
+This theme is built on top of the Understrap theme.
 
 ## Installation
 
@@ -44,6 +42,7 @@ This theme includes 3 custom plugins integrated into the theme with auto front-e
 - Gallery Management System (CRUD)
 - Amway Product Management System (CRUD)
 - Amway Shop Management System (CRUD)
+- Author Box Management System (Read / Edit)
 
 ### Current Implementation Approach
 
@@ -61,7 +60,6 @@ Related issues:
 
 This theme includes 3 custom widgets integrated into the theme:
 
-- Authorbox Widget
 - Quick Links Widget
 - Recommend Video Widget
 

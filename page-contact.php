@@ -61,7 +61,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                         <!-- Contact Form -->
                         <h5>📩 ส่งข้อความถึงเรา</h5>
 
-                        <div class="card mb-3">
+                        <div class="mb-3">
                             <form id="contact-form" class="p-3" enctype="multipart/form-data">
 
                                 <div style="display:none !important">

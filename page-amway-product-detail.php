@@ -189,8 +189,8 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                         </small>
 
                                         <div id="product-category-brand-label" class="col-md-12 mb-2">
-                                            <span class="badge bg-secondary"><?php echo esc_html($product->brand_name); ?></span>
-                                            <span class="badge bg-secondary"><?php echo esc_html($product->category_name); ?></span>
+                                            <span class="badge bg-light"><?php echo esc_html($product->brand_name); ?></span>
+                                            <span class="badge bg-light"><?php echo esc_html($product->category_name); ?></span>
                                         </div>
                                         <div id="product-description-wrapper" class="product-description-wrapper card-text">
                                             <div class="product_description mb-2">
@@ -272,7 +272,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                             </div><!-- END product meta data -->
                                         </div>
                                         <div class="product_shop_link_button mt-2">
-                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-secondary"
+                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-outline-primary"
                                                 style="width: 100%;">🔍 ดูสินค้าที่ amway.co.th</a>
                                         </div>
                                     </div>

@@ -1,13 +1,13 @@
-<div id="aboyuma-author-box" class="card mb-4">
+<div id="aboyuma-author-box" class="card mb-2">
   <?php
   $coverImage = 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80';
   ?>
 
   <!-- Cover / background image -->
-  <!-- <div
+  <div
     class="author-cover"
     style="background-image: url('<?php echo esc_url($coverImage); ?>');">
-  </div> -->
+  </div>
 
   <!-- Author image (overlapping cover) -->
   <div class="author-avatar-wrapper text-center">
@@ -17,7 +17,7 @@
       alt="Profile image">
   </div>
 
-  <div class="card-body text-center">
+  <div class="card-body p-2 text-center">
 
     <!-- Name + badge -->
     <h5 class="card-title mb-1 fw-bold d-flex justify-content-center align-items-center gap-2">

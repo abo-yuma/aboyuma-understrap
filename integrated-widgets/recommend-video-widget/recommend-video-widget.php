@@ -97,8 +97,8 @@ function register_recommend_video_widget_area() {
         'id'            => 'recommend-video-widget-area',
         'before_widget' => '<div class="widget recommend-video-widget">',
         'after_widget'  => '</div>',
-        'before_title'  => '<h2 class="widget-title">',
-        'after_title'   => '</h2>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
     ]);
 }
 add_action('widgets_init', 'register_recommend_video_widget_area');
