@@ -84,7 +84,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, product_image_path 
                     FROM $productImageTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productDetailImages = $wpdb->get_results($sql_images);
 
                     $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
@@ -92,7 +92,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, product_infographic_path
                     FROM $productInfographicTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productInfographics = $wpdb->get_results($sql_infographics);
 
                     $productRelateVideoTable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
@@ -100,7 +100,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, video_url, video_comment
                     FROM $productRelateVideoTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productRelateVideos = $wpdb->get_results($sql_videos);
 
                     $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
@@ -305,7 +305,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                     <button class="nav-link active" id="nav-product-detail-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-product-detail"
                                         type="button" role="tab" aria-controls="nav-product-detail" aria-selected="true">
-                                        📒 บันทึก
+                                        🧑‍💻 บันทึก
                                     </button>
                                     <button class="nav-link" id="nav-product-specification-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-product-specification"
@@ -400,7 +400,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                                     <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
                                                         alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
                                                     <!-- Play button overlay -->
-                                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
+                                                    <span class="play-btn"></span>
                                                 </a>
                                             </div>
                                             <?php if (!empty($video->video_comment)) : ?>
@@ -620,32 +620,6 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
         /* force square */
         object-fit: cover;
         /* cover without distortion */
-    }
-
-    .play-btn {
-        width: 60px;
-        height: 60px;
-        background: rgba(0, 0, 0, 0.6);
-        /* semi-transparent black */
-        border-radius: 12px;
-        /* rounded corners instead of circle */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Triangle in the middle */
-    .play-btn::before {
-        content: '';
-        display: block;
-        margin-left: 3px;
-        /* center the triangle visually */
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 12px 0 12px 20px;
-        /* triangle size */
-        border-color: transparent transparent transparent white;
     }
 </style>
 <?php

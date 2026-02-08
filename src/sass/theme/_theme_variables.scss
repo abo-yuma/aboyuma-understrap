@@ -7,31 +7,6 @@
 
 /**
  * ------------------------------------------------------
- * Container width override (Old-school fixed layout)
- * ------------------------------------------------------
- * We override Bootstrap's container max-widths using
- * variables instead of CSS overrides.
- *
- * Why:
- * - Avoids !important
- * - Keeps navbar, content, and footer aligned
- * - Works naturally with Bootstrap + Understrap
- * - Easier to maintain and reason about
- *
- * Result:
- * - Mobile (<768px): default fluid behavior
- * - Tablet & up (md+): fixed 860px container
- */
-$container-max-widths: (
-	sm: 540px,
-	md: 860px,
-	lg: 860px,
-	xl: 860px,
-	xxl: 860px,
-);
-
-/**
- * ------------------------------------------------------
  * Bootstrap 5 Dark Mode Customization
  * ------------------------------------------------------
  * Uses Bootstrap 5.3+ CSS variables via data-bs-theme
@@ -68,3 +43,5 @@ $container-max-widths: (
 $border-radius-sm: 0.125rem; // ~70% of base
 $border-radius: 0.175rem; // base
 $border-radius-lg: 0.25rem; // ~140% of base
+
+$body-color: #555555;

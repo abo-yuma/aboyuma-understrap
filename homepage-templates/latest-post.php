@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="post-meta text-muted" style="font-size: 0.75rem;">
                                     <span class="me-2">
-                                        🗓 
+                                        🗓
                                         <?php echo get_the_date(); ?>
                                     </span>
 
@@ -77,8 +77,10 @@
             <?php endwhile; ?>
             <?php wp_reset_postdata(); ?>
         </div>
-    <?php
-    endif;
-    ?>
+    <?php else : ?>
+        <div class="alert alert-secondary text-center">
+            📝 ยังไม่มีบทความ
+        </div>
+    <?php endif; ?>
 
 </div><!-- Latest Post Section -->
