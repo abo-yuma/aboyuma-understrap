@@ -59,100 +59,99 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                         <?php endif; ?>
 
                         <!-- Contact Form -->
-                        <h5>📩 ส่งข้อความถึงเรา</h5>
+                        <h3 class="contact-form-title">📩 ส่งข้อความถึงเรา</h3>
 
-                        <div class="mb-3">
-                            <form id="contact-form" class="p-3" enctype="multipart/form-data">
+                        <form id="contact-form" class="contact-form p-3 mb-3" enctype="multipart/form-data">
 
-                                <div style="display:none !important">
-                                    <label>Leave this field empty</label>
-                                    <input type="text" name="aboyuma_hp" tabindex="-1" autocomplete="off">
+                            <div style="display:none !important">
+                                <label>Leave this field empty</label>
+                                <input type="text" name="aboyuma_hp" tabindex="-1" autocomplete="off">
+                            </div>
+
+                            <input type="hidden" name="action" value="aboyuma_contact_form">
+
+                            <!-- Email -->
+                            <div class="row mb-3">
+                                <label for="senderEmail" class="col-sm-3 col-form-label">
+                                    📧 อีเมล
+                                </label>
+                                <div class="col-sm-9">
+                                    <input
+                                        type="email"
+                                        class="form-control form-control-sm"
+                                        id="senderEmail"
+                                        name="sender_email"
+                                        required>
                                 </div>
+                            </div>
 
-                                <input type="hidden" name="action" value="aboyuma_contact_form">
+                            <!-- Title -->
+                            <div class="row mb-3">
+                                <label for="title" class="col-sm-3 col-form-label">
+                                    📝 เรื่อง
+                                </label>
+                                <div class="col-sm-9">
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        id="title"
+                                        name="title"
+                                        maxlength="100"
+                                        required>
+                                </div>
+                            </div>
 
-                                <!-- Email -->
-                                <div class="row mb-3">
-                                    <label for="senderEmail" class="col-sm-3 col-form-label">
-                                        📧 อีเมล
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input
-                                            type="email"
-                                            class="form-control form-control-sm"
-                                            id="senderEmail"
-                                            name="sender_email"
-                                            required>
+                            <!-- Attachment -->
+                            <div class="row mb-3">
+                                <label for="attachment1" class="col-sm-3 col-form-label">
+                                    🖼️ ไฟล์แนบ
+                                </label>
+                                <div class="col-sm-9">
+                                    <input
+                                        class="form-control form-control-sm mb-1"
+                                        type="file"
+                                        id="attachment1"
+                                        name="attachment1"
+                                        accept=".jpg,.jpeg,.png,.pdf">
+                                    <small class="text-muted">
+                                        รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="row mb-3">
+                                <label for="message" class="col-sm-3 col-form-label">
+                                    🗒️ ข้อความ
+                                </label>
+                                <div class="col-sm-9">
+                                    <textarea
+                                        class="form-control form-control-sm"
+                                        id="message"
+                                        name="message"
+                                        rows="4"
+                                        maxlength="2000"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="row">
+                                <div class="col-sm-9 offset-sm-3">
+                                    <button type="submit" class="btn btn-light w-100">
+                                        📩 ส่งข้อมูล
+                                    </button>
+
+                                    <div id="contact-loading" style="display:none;margin-top:10px;">
+                                        ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
                                     </div>
+
+                                    <div id="aboyuma-message-wrapper"></div>
                                 </div>
+                            </div>
 
-                                <!-- Title -->
-                                <div class="row mb-3">
-                                    <label for="title" class="col-sm-3 col-form-label">
-                                        📝 เรื่อง
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input
-                                            type="text"
-                                            class="form-control form-control-sm"
-                                            id="title"
-                                            name="title"
-                                            maxlength="100"
-                                            required>
-                                    </div>
-                                </div>
+                            <?php wp_nonce_field('aboyuma_contact_form', 'aboyuma_contact_nonce'); ?>
+                        </form>
 
-                                <!-- Attachment -->
-                                <div class="row mb-3">
-                                    <label for="attachment1" class="col-sm-3 col-form-label">
-                                        🖼️ ไฟล์แนบ
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <input
-                                            class="form-control form-control-sm mb-1"
-                                            type="file"
-                                            id="attachment1"
-                                            name="attachment1"
-                                            accept=".jpg,.jpeg,.png,.pdf">
-                                        <small class="text-muted">
-                                            รองรับไฟล์ .jpg, .png, .pdf ขนาดไม่เกิน 2MB
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <!-- Message -->
-                                <div class="row mb-3">
-                                    <label for="message" class="col-sm-3 col-form-label">
-                                        🗒️ ข้อความ
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <textarea
-                                            class="form-control form-control-sm"
-                                            id="message"
-                                            name="message"
-                                            rows="4"
-                                            maxlength="2000"></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- Submit -->
-                                <div class="row">
-                                    <div class="col-sm-9 offset-sm-3">
-                                        <button type="submit" class="btn btn-light w-100">
-                                            📩 ส่งข้อมูล
-                                        </button>
-
-                                        <div id="contact-loading" style="display:none;margin-top:10px;">
-                                            ⏳ กำลังส่งข้อมูล กรุณารอสักครู่...
-                                        </div>
-
-                                        <div id="aboyuma-message-wrapper"></div>
-                                    </div>
-                                </div>
-
-                                <?php wp_nonce_field('aboyuma_contact_form', 'aboyuma_contact_nonce'); ?>
-                            </form>
-                        </div>
 
                     </div>
                 </div>

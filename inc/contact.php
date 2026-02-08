@@ -27,13 +27,28 @@ function aboyuma_handle_contact_ajax() {
         wp_send_json_error(['message' => 'Spam detected']);
     }
 
-    // Rate limit
     $ip = get_real_ip();
-    $rate_key = 'aboyuma_contact_' . md5($ip);
-    if (get_transient($rate_key)) {
-        wp_send_json_error(['message' => 'โปรดรอ 1 นาทีก่อนทำการส่งข้อมูลใหม่']);
+
+    // Per-minute limit
+    $minute_key = 'aboyuma_contact_min_' . md5($ip);
+    if (get_transient($minute_key)) {
+        wp_send_json_error([
+            'message' => 'โปรดรอ 1 นาทีก่อนทำการส่งข้อมูลใหม่'
+        ]);
     }
-    set_transient($rate_key, true, 60);
+    set_transient($minute_key, true, 60);
+
+    // Per-day limit
+    $daily_key = 'aboyuma_contact_day_' . md5($ip);
+    $count = (int) get_transient($daily_key);
+
+    if ($count >= 5) {
+        wp_send_json_error([
+            'message' => 'คุณส่งข้อความครบจำนวนที่กำหนดในวันนี้แล้ว'
+        ]);
+    }
+
+    set_transient($daily_key, $count + 1, DAY_IN_SECONDS);
 
     // Sanitize user input
     // About wp_unslash: https://github.com/WordPress/WordPress-Coding-Standards/issues/510
