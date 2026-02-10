@@ -1,3 +1,39 @@
+# ---------------------------------------------------------
+# GitHub Actions Workflow
+# ---------------------------------------------------------
+# This workflow builds:
+# - WordPress theme assets
+# - Integrated Amway Product CRUD plugin assets
+#
+# It is triggered on:
+# - push to develop
+# - pull request targeting develop (feature → develop)
+# ---------------------------------------------------------
+
+name: Build Theme & Integrated Plugin
+
+# ---------------------------------------------------------
+# Workflow triggers
+# ---------------------------------------------------------
+# IMPORTANT:
+# Without this `on:` section, GitHub Actions will NOT run
+# even if the jobs definition is correct.
+#
+# pull_request:
+#   - Ensures CI runs when opening / updating a PR
+#   - Typical flow: feature → develop
+#
+# push:
+#   - Ensures develop branch is always buildable
+# ---------------------------------------------------------
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
 jobs:
   build:
     # Use the latest Ubuntu runner provided by GitHub Actions
@@ -16,6 +52,7 @@ jobs:
       # Step 1: Check out the repository code
       # ---------------------------------------------------------
       # This pulls the PR / branch code into the runner
+      # Required before running any build steps
       - uses: actions/checkout@v4
 
       # ---------------------------------------------------------
@@ -24,6 +61,10 @@ jobs:
       # - Installs Node.js 18.x
       # - Enables npm cache to speed up dependency installs
       #   (cache key is based on package-lock.json)
+      #
+      # NOTE:
+      # Node 18 is recommended for modern frontend tooling
+      # and is compatible with Rollup, PostCSS, and most plugins
       - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
@@ -36,6 +77,11 @@ jobs:
       # - deterministic installs
       # - faster execution
       # - guaranteed match with package-lock.json
+      #
+      # This assumes:
+      # - package.json
+      # - package-lock.json
+      # exist at the theme root
       - name: Install theme dependencies
         run: npm ci
 
@@ -48,6 +94,10 @@ jobs:
       #   Compiles SCSS → CSS, runs PostCSS, and minifies output
       # js:
       #   Bundles JavaScript with Rollup and minifies with Terser
+      #
+      # These steps intentionally run separately so:
+      # - Failures are easier to identify
+      # - Logs are more readable in CI
       - run: npm run copy-assets
       - run: npm run css
       - run: npm run js
@@ -56,10 +106,15 @@ jobs:
       # Step 5: Install integrated plugin dependencies
       # ---------------------------------------------------------
       # Changes working directory to the plugin folder
+      #
       # This ensures:
       # - plugin uses its own package.json
       # - plugin uses its own package-lock.json
       # - dependencies are isolated from the theme
+      #
+      # This avoids:
+      # - version conflicts
+      # - accidental reliance on theme dependencies
       - name: Install plugin dependencies
         run: npm ci
         working-directory: ${{ env.INTEGRATED_PLUGIN_DIR }}
@@ -76,6 +131,10 @@ jobs:
       #
       # This step is intentionally separate from the theme build
       # to keep CI deterministic and easy to debug
+      #
+      # If this step fails:
+      # - The PR will be blocked
+      # - Ensures broken plugin assets never reach develop
       - name: Build Amway Product CRUD plugin
         run: npm run dist
         working-directory: ${{ env.INTEGRATED_PLUGIN_DIR }}
