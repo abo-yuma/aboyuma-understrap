@@ -6,7 +6,7 @@
     </h1>
 
     <?php if (!empty($data['video_1']) || !empty($data['video_2'])): ?>
-        <div class="container aboyuma-video-wrapper">
+        <div class="aboyuma-video-wrapper">
             <div class="row">
                 <?php
                 // Helper function to extract YouTube ID
@@ -25,17 +25,15 @@
                     <div class="col-md-6 mb-3">
                         <div class="h-100">
 
-                            <!-- Card image top (video thumbnail) -->
-                            <div class="video-thumb-wrapper position-relative overflow-hidden" style="aspect-ratio: 16 / 9;">
+                            <div class="video-thumb-wrapper">
                                 <a data-fancybox
                                     href="https://www.youtube.com/watch?v=<?php echo esc_attr($youtube_id); ?>"
                                     data-caption="<?php echo esc_attr($comment ?: 'Recommended Video'); ?>">
 
                                     <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
-                                        alt="YouTube thumbnail"
-                                        class="card-img-top w-100 h-100 object-fit-cover">
+                                        alt="YouTube thumbnail">
 
-                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
+                                    <span class="play-btn"></span>
                                 </a>
                             </div>
 

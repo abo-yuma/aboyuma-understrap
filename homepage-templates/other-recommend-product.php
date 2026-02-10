@@ -10,7 +10,7 @@
     ?>
 
     <h1 class="section-header">
-        🛍️ สินค้าแนะนำล่าสุด
+        🛍️ สินค้าแนะนำอื่นล่าสุด
     </h1>
 
     <?php if ($latest_posts->have_posts()) : ?>
@@ -86,6 +86,8 @@
             <?php wp_reset_postdata(); ?>
         </div>
     <?php else : ?>
-        <p>ยังไม่มีสินค้าแนะนำอื่นๆ</p>
+        <div class="alert alert-secondary text-center">
+            📦 ยังไม่มีสินค้าแนะนำอื่น
+        </div>
     <?php endif; ?>
 </div>

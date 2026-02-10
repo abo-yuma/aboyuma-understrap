@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 function aboyuma_amway_product_category_add() {
   // Add new product data page content
   global $wpdb;

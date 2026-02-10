@@ -1,5 +1,39 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
+/* Desktop default */
+html {
+	font-size: 16px;
+}
+
+/* Mobile */
+@media (max-width: 575.98px) {
+	html {
+		font-size: 14px;
+	}
+}
+
+/**
+ * Desktop container lock (CSS instead of variables)
+ *
+ * We lock the container width via CSS rather than
+ * overriding `$container-max-widths`.
+ *
+ * Reason:
+ * - Bootstrap variables only control max-width
+ * - At ~991px (`md` → `lg` boundary), the container
+ *   snaps to 720px (`md`), which looks too narrow
+ *   for this layout
+ *
+ * This avoids breakpoint width jumps and keeps
+ * a stable 860px reading width on larger screens.
+ */
+@media (min-width: 768px) {
+	.container {
+		max-width: 820px;
+		min-width: 820px;
+	}
+}
+
 /* 
  * Fix unwanted right space (horizontal scroll) on small phones only
  * ---------------------------------------------------------------
@@ -39,7 +73,6 @@ body {
 
 /* BEFORE scroll */
 #navbar-main {
-	width: 860px;
 	margin: 0 auto;
 }
 
@@ -100,7 +133,6 @@ body {
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 860px;
 	z-index: 1030;
 }
 
@@ -281,13 +313,13 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 
 // ===== Main content ===== //
 .entry-title {
-	//font-size: 2rem;
+	font-size: 1.5rem;
 	border-bottom: 2px solid var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
 
 .entry-meta {
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 /* Exclude category & all archive pages */
@@ -517,12 +549,17 @@ footer {
 }
 
 #aboyuma-author-box {
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 /* Author card base */
 .author-card {
 	overflow: hidden;
+}
+
+.author-name {
+	font-weight: 600;
+	font-size: 1rem;
 }
 
 /* Cover image */
@@ -546,6 +583,10 @@ footer {
 	object-fit: cover;
 	border: 5px solid #fff; /* nice separation */
 	background: #fff;
+}
+
+#aboyuma-author-box .btn {
+	font-size: 0.8125rem;
 }
 
 [data-bs-theme="light"] #aboyuma-author-box {
@@ -607,7 +648,7 @@ footer {
 }
 
 #latest-product-table td.product-name {
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 /* ============================================================
@@ -657,14 +698,19 @@ footer {
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
+.thumbnail-wrapper {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-start;
+	align-items: center;
+}
+
 .thumbnail {
 	cursor: pointer;
 	transition: opacity 0.3s ease;
-	width: 100%;
-	max-width: 70px;
+	width: 70px;
 	height: 70px;
 	flex: 0 0 auto;
-	/* Prevent stretching issue in Firefox */
 }
 
 .thumbnail.active {
@@ -812,29 +858,63 @@ footer {
 	background-color: #334e89; /* darker hover */
 }
 
-/* Home recommend video widget */
-#home-other-recommend-product .play-btn {
+/* wrapper */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+}
+
+/* anchor as positioning context */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper a {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* image */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* YOUR play button style + centering */
+#reccommend-video-widget,
+#product-related-video .play-btn {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
 	width: 60px;
 	height: 60px;
 	background: rgba(0, 0, 0, 0.6);
-	/* semi-transparent black */
 	border-radius: 12px;
-	/* rounded corners instead of circle */
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	z-index: 10;
+	pointer-events: none; /* click goes to <a> */
 }
-#home-other-recommend-product .play-btn::before {
+
+/* YOUR triangle */
+#reccommend-video-widget,
+#product-related-video .play-btn::before {
 	content: "";
-	display: block;
 	margin-left: 3px;
-	/* center the triangle visually */
 	width: 0;
 	height: 0;
 	border-style: solid;
 	border-width: 12px 0 12px 20px;
-	/* triangle size */
-	border-color: transparent transparent transparent white;
+	border-color: transparent transparent transparent #fff;
 }
 
 .home-marquee-wrapper {
@@ -871,4 +951,82 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
 	background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Wrapper for search input + submit button */
+.search-wrap {
+	display: flex; /* Use flexbox so input and button sit on one line */
+	gap: 0.5rem; /* Space between input and button (safe, controlled) */
+	width: 100%; /* Never exceed sidebar width */
+	box-sizing: border-box; /* Include padding & border in width calculations */
+}
+
+/* Search input field */
+.search-wrap .search-field {
+	flex: 9; /* Take 9 parts of available space (≈ 90%) */
+
+	/*
+		CRITICAL FLEXBOX FIX
+		-------------------
+		Default flex items have: min-width: auto;
+		This means the input REFUSES to shrink smaller than its content
+		(placeholder text, typed text, internal padding).
+
+		In narrow containers like sidebars/widgets:
+		- Flexbox tries to shrink items to fit
+		- Input refuses
+		- Layout overflows outside parent
+
+		min-width: 0 explicitly allows the input to shrink,
+		so flexbox can correctly calculate widths and keep
+		everything inside the sidebar.
+	*/
+	min-width: 0;
+}
+
+/* Search submit button */
+.search-wrap .search-submit {
+	flex: 1; /* Take 1 part of available space (≈ 10%) */
+	font-size: 0.875rem; /* Slightly smaller text for compact sidebar */
+	white-space: nowrap; /* Prevent button text from wrapping */
+	padding-left: 0.5rem; /* Tight horizontal padding to save space */
+	padding-right: 0.5rem;
+}
+
+.contact-form-title {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+// #contact-form button {
+// 	font-size: 0.875rem;
+// }
+/*
+Source - https://stackoverflow.com/a/19301673
+Posted by Dinesh Kanivu, modified by community. See post 'Timeline' for change history
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+/*
+Source - https://stackoverflow.com/a/28816183
+Posted by KrondaliX
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+/*
+Source - https://stackoverflow.com/a/33016255
+Posted by Marius Stefanescu
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+// Prevent element shifting when Bootstrap modal open
+// Reference: https://stackoverflow.com/a/33016255/8527193
+.modal {
+	overflow-y: auto !important;
+}
+
+.modal-open {
+	overflow: auto !important;
+	overflow-x: hidden !important;
+	padding-right: 0 !important;
 }

@@ -1,6 +1,7 @@
 <?php
-function enqueue_brand_datatables_assets()
-{
+defined('ABSPATH') || exit;
+
+function enqueue_brand_datatables_assets() {
   // aboyuma script to initialize DataTables
   wp_add_inline_script('datatables-js', '
    jQuery(document).ready(function($) {
@@ -14,8 +15,7 @@ function enqueue_brand_datatables_assets()
 }
 add_action('admin_enqueue_scripts', 'enqueue_brand_datatables_assets');
 
-function aboyuma_amway_product_brand_list()
-{
+function aboyuma_amway_product_brand_list() {
   global $wpdb;
   $table_name = $wpdb->prefix . 'aboyuma_amway_product_brand';
   $results = $wpdb->get_results("SELECT * FROM $table_name ORDER BY created DESC");

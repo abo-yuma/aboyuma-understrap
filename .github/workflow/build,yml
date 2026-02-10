@@ -1,31 +1,81 @@
-name: Build CSS & JS
-
-on:
-  pull_request:
-    branches: [develop]
-    paths:
-      - "**.scss"
-      - "**.js"
-      - "package-lock.json"
-  workflow_dispatch:
-
-concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
-
 jobs:
   build:
+    # Use the latest Ubuntu runner provided by GitHub Actions
+    # Stable, fast, and well-supported for Node / frontend builds
     runs-on: ubuntu-latest
 
+    # Job-level environment variables
+    # Defined once and reused across multiple steps
+    env:
+      # Path to the integrated WordPress plugin inside the theme repository
+      # Using a variable avoids hardcoding paths multiple times
+      INTEGRATED_PLUGIN_DIR: integrated-plugin/amway-product-crud
+
     steps:
+      # ---------------------------------------------------------
+      # Step 1: Check out the repository code
+      # ---------------------------------------------------------
+      # This pulls the PR / branch code into the runner
       - uses: actions/checkout@v4
 
+      # ---------------------------------------------------------
+      # Step 2: Set up Node.js environment
+      # ---------------------------------------------------------
+      # - Installs Node.js 18.x
+      # - Enables npm cache to speed up dependency installs
+      #   (cache key is based on package-lock.json)
       - uses: actions/setup-node@v4
         with:
           node-version: "18.x"
           cache: "npm"
 
-      - run: npm ci
+      # ---------------------------------------------------------
+      # Step 3: Install theme dependencies
+      # ---------------------------------------------------------
+      # Uses `npm ci` instead of `npm install` for:
+      # - deterministic installs
+      # - faster execution
+      # - guaranteed match with package-lock.json
+      - name: Install theme dependencies
+        run: npm ci
+
+      # ---------------------------------------------------------
+      # Step 4: Build theme assets
+      # ---------------------------------------------------------
+      # copy-assets:
+      #   Copies static assets (fonts, images, vendor files, etc.)
+      # css:
+      #   Compiles SCSS → CSS, runs PostCSS, and minifies output
+      # js:
+      #   Bundles JavaScript with Rollup and minifies with Terser
       - run: npm run copy-assets
       - run: npm run css
       - run: npm run js
+
+      # ---------------------------------------------------------
+      # Step 5: Install integrated plugin dependencies
+      # ---------------------------------------------------------
+      # Changes working directory to the plugin folder
+      # This ensures:
+      # - plugin uses its own package.json
+      # - plugin uses its own package-lock.json
+      # - dependencies are isolated from the theme
+      - name: Install plugin dependencies
+        run: npm ci
+        working-directory: ${{ env.INTEGRATED_PLUGIN_DIR }}
+
+      # ---------------------------------------------------------
+      # Step 6: Build integrated plugin assets
+      # ---------------------------------------------------------
+      # Runs the plugin's own build script:
+      #   "dist": "rollup -c build/rollup.config.js"
+      #
+      # Output:
+      # - Bundled and minified JS/CSS for the plugin
+      # - Files written to the plugin's build/ directory
+      #
+      # This step is intentionally separate from the theme build
+      # to keep CI deterministic and easy to debug
+      - name: Build Amway Product CRUD plugin
+        run: npm run dist
+        working-directory: ${{ env.INTEGRATED_PLUGIN_DIR }}

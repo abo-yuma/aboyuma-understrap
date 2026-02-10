@@ -538,8 +538,6 @@ function aboyuma_register_menu() {
 		'about-aboyuma'         => 'เกี่ยวกับ ABO YUMA', // 🔹 Submenu under "About"
 		'about-amway'           => 'เกี่ยวกับแอมเวย์',  // 🔹 Submenu under "About"
 		'contact'               => 'ติดต่อ', // ✅ Added to Menu
-		'amway-product'         => 'สินค้าแนะนำ', // ✅ Added to Menu
-		'amway-product-detail'  => 'รายละเอียดสินค้า', // ❌ Not Added to Menu
 		'shop'                  => 'ช็อป', // ✅ Added to Menu
 		'amway-shop'            => 'แอมเวย์ช็อป', // ❌ Not Added to Menu
 		'gallery'               => 'แกลอรี่', // ✅ Added to Menu

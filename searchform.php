@@ -21,16 +21,18 @@ if (isset($args['aria_label']) && ! empty($args['aria_label'])) {
 <form role="search" class="search-form" method="get" action="<?php echo esc_url(home_url('/')); ?>" <?php echo $aria_label; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above. 
 																									?>>
 	<label class="screen-reader-text" for="<?php echo $uid; ?>"><?php echo esc_html_x('Search for:', 'label', 'understrap'); ?></label>
-	<div class="search-form-group d-flex">
+	<div class="search-wrap">
 		<input
 			type="search"
-			class="field search-field form-control"
+			class="search-field form-control"
 			id="<?php echo $uid; ?>"
-			name="s" value="<?php the_search_query(); ?>"
+			name="s"
+			value="<?php the_search_query(); ?>"
 			placeholder="<?php echo esc_attr_x('Search &hellip;', 'placeholder', 'understrap'); ?>"
 			required>
-		<input type="submit"
-			class="submit search-submit btn btn-light"
+		<input
+			type="submit"
+			class="search-submit btn btn-light"
 			name="submit"
 			value="<?php echo esc_attr_x('ค้นหา', 'submit button', 'understrap'); ?>">
 	</div>

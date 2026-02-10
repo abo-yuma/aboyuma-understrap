@@ -109,35 +109,5 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
     </div><!-- #content -->
 
 </main><!-- #main-wrapper -->
-<style>
-    /*
-	#aboyuma-product-table {
-		margin: 0 auto;
-		width: 100%;
-		table-layout: fixed;
-		word-wrap: break-word;
-	}
-	*/
-    @media (max-width: 768px) {
-        #aboyuma-product-table {
-            width: 600px;
-        }
-    }
-
-    #aboyuma-product-table th,
-    #aboyuma-product-table td {
-        text-align: center;
-        /* horizontal center */
-        vertical-align: middle;
-        /* vertical center */
-        font-size: 12.5px !important;
-    }
-
-
-    /* NOTE: Fix big th font bug when using jqueryDataTable scrollX option */
-    .dt-column-title {
-        font-size: 12.5px !important;
-    }
-</style>
 <?php
 get_footer();

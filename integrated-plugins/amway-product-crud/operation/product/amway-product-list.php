@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 function enqueue_datatables_assets() {
   // Enqueue DataTables CSS and JS
   wp_enqueue_style('datatables-css', 'https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css');
@@ -13,41 +15,63 @@ function enqueue_datatables_assets() {
   wp_add_inline_script('datatables-js', '
    jQuery(document).ready(function($) {
       var table = $("#aboyuma-product-table").DataTable({
-         "pageLength": 10,
-         "searching": true,
-         "responsive": true,
-         "columnDefs": [
-            { "orderable": false, "targets": [2, 3, 4] },
-            { "searchable": true, "targets": [2, 3, 4] }
-         ]
+        pageLength: 10,
+        searching: true,
+        responsive: true,
+        columnDefs: [
+          {
+            width: "20%",
+            targets: 0,
+          },
+          {
+            width: "35%",
+            targets: 1,
+          },
+          {
+            width: "15%",
+            targets: 2,
+          },
+          {
+            width: "15%",
+            targets: 3,
+          },
+          {
+            width: "15%",
+            targets: 4,
+          },
+        ],
       });
-   });
-');
+    });
+  ');
+
+  wp_add_inline_style('datatables-css', '
+        .product-list-image-wrapper {
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+        .product-list-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    ');
 }
 add_action('admin_enqueue_scripts', 'enqueue_datatables_assets');
 
 function aboyuma_amway_product_list() {
   global $wpdb;
   $product_table_name = $wpdb->prefix . 'aboyuma_amway_product';
-  $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
-  $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
   $products = $wpdb->get_results("
     SELECT
-      p.id,
-      p.product_image,
-      p.product_name,
-      p.product_short_description,
-      p.created,
-      p.modified,
-      b.brand_name, 
-      c.category_name
+      id,
+      product_image,
+      product_description,
+      created,
+      modified
     FROM 
-      $product_table_name AS p
-    LEFT JOIN 
-      $productBrandTable AS b ON p.product_brand_id = b.id
-    LEFT JOIN 
-      $productCategoryTable AS c ON p.product_category_id = c.id
-    ORDER BY p.created DESC;
+      $product_table_name
+    ORDER BY created DESC;
   ");
   if (isset($_GET['updated-success']) && $_GET['updated-success'] === 'true') {
     echo '<div class="notice notice-success is-dismissible">
@@ -64,10 +88,7 @@ function aboyuma_amway_product_list() {
   echo '<thead>
 					<tr>
 							<th>Image</th>
-              <th>Brand</th>
-              <th>Category</th>
-							<th>Name</th>
-              <th>Short Description</th>
+              <th>Description</th>
 							<th>Created</th>
 							<th>Modified</th>
 							<th>Actions</th>
@@ -76,11 +97,13 @@ function aboyuma_amway_product_list() {
   echo '<tbody>';
   foreach ($products as $product) {
     echo '<tr>';
-    echo '<td><img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" width="100%" height="auto"></td>';
-    echo '<td>' . esc_html($product->brand_name) . '</td>';
-    echo '<td>' . esc_html($product->category_name) . '</td>';
-    echo '<td>' . esc_html($product->product_name) . '</td>';
-    echo '<td>' . esc_html($product->product_short_description) . '</td>';
+    echo '
+    <td>
+      <div class="product-list-image-wrapper">
+        <img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" alt="">
+      </div>
+    </td>';
+    echo '<td>' . esc_html($product->product_description) . '</td>';
     echo '<td>' . esc_html($product->created) . '</td>';
     echo '<td>' . esc_html($product->modified) . '</td>';
     echo '<td>

@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 // Planned for removal.
 // Since the edit page already contains the updated data, a separate detail page
 function aboyuma_amway_product_detail() {
