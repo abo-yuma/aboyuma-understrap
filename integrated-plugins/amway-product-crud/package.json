@@ -1,0 +1,20 @@
+{
+  "name": "amway-product-crud",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf assets",
+    "dist": "rollup -c build/rollup.config.js",
+    "build": "npm run clean && npm run dist"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "cssnano": "^7.1.2",
+    "postcss": "^8.5.6",
+    "rollup": "^4.57.1",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.97.3",
+    "rimraf": "^6.0.1"
+  }
+}

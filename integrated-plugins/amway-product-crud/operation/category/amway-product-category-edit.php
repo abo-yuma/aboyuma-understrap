@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 function aboyuma_amway_product_category_edit() {
   global $wpdb;
   $table_name = $wpdb->prefix . 'aboyuma_amway_product_category';

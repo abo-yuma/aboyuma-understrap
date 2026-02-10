@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 function enqueue_category_datatables_assets() {
   // aboyuma script to initialize DataTables
   wp_add_inline_script('datatables-js', '

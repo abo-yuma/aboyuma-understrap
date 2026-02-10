@@ -1,4 +1,6 @@
 <?php
+defined('ABSPATH') || exit;
+
 function delete_product() {
   check_ajax_referer('delete_product_nonce', 'nonce');
   global $wpdb;
@@ -37,12 +39,3 @@ function delete_product() {
   wp_send_json_success($result);
 }
 add_action('wp_ajax_delete_product', 'delete_product');
-
-function delete_product_script() {
-  wp_enqueue_script('delete-product', get_template_directory_uri() . '/integrated-plugins/amway-product-crud/assets/delete-product.js', array('jquery'), false, true);
-  wp_localize_script('delete-product', 'deleteProduct', array(
-    'ajaxurl' => admin_url('admin-ajax.php'),
-    'delete_product_nonce' => wp_create_nonce('delete_product_nonce')
-  ));
-}
-add_action('admin_enqueue_scripts', 'delete_product_script');

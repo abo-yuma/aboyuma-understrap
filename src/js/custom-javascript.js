@@ -100,4 +100,5 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 		pauseOnHover: true,
 		startVisible: true,
 	});
+	
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside
