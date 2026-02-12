@@ -57,12 +57,12 @@ function aboyuma_amway_shop_list() {
                         <td>
                             <a href="admin.php?page=aboyuma-amway-shop-edit&id=<?= $row->id ?>" class="button">Edit</a>
 
-                            <a href="#"
+                            <button type="button"
                                 class="button amway-shop-delete-button"
-                                data-id="<?= $row->id ?>"
+                                data-id="<?= esc_attr($row->id); ?>"
                                 style="color:#a00;">
                                 Delete
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach ?>

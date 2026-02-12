@@ -1,11 +1,15 @@
 <?php
+defined('ABSPATH') || exit;
+
 function aboyuma_amway_shop_add() {
     global $wpdb;
     $table = $wpdb->prefix . 'aboyuma_amway_shop';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        // Verify nonce
+        /* =========================
+           SECURITY
+        ========================== */
         if (
             !isset($_POST['aboyuma_shop_nonce']) ||
             !wp_verify_nonce($_POST['aboyuma_shop_nonce'], 'aboyuma_add_shop_action')
@@ -13,83 +17,56 @@ function aboyuma_amway_shop_add() {
             wp_die('Security check failed.');
         }
 
-        /* ---------- ERROR CONTAINER ---------- */
         $errors = new WP_Error();
 
+        /* =========================
+           REQUIRED FIELDS
+        ========================== */
         $required_fields = [
-            'shop_code'        => ['label' => 'Shop Code',        'type' => 'text'],
-            'shop_name'        => ['label' => 'Shop Name',        'type' => 'text'],
-            'shop_address'     => ['label' => 'Address',          'type' => 'text'],
-            'shop_phone'       => ['label' => 'Phone',            'type' => 'text'],
-            'shop_slug'        => ['label' => 'Slug',             'type' => 'text'],
-            'shop_map_url'     => ['label' => 'Google Map URL',   'type' => 'text'],
-            'shop_image'       => ['label' => 'Shop Image',       'type' => 'file'],
+            'shop_code'      => 'Shop Code',
+            'shop_name'      => 'Shop Name',
+            'shop_address'   => 'Address',
+            'shop_phone'     => 'Phone',
+            'shop_slug'      => 'Slug',
+            'shop_map_url'   => 'Google Map URL',
+            'shop_image_id'  => 'Shop Image',
         ];
 
-        foreach ($required_fields as $field => $config) {
-
-            /* TEXT FIELDS */
-            if ($config['type'] === 'text') {
-                if (empty($_POST[$field])) {
-                    $errors->add($field, "{$config['label']} is required.");
-                }
-            }
-
-            /* FILE FIELDS */
-            if ($config['type'] === 'file') {
-                if (empty($_FILES[$field]) || $_FILES[$field]['error'] === UPLOAD_ERR_NO_FILE) {
-                    $errors->add($field, "{$config['label']} is required.");
-                }
+        foreach ($required_fields as $field => $label) {
+            if (empty($_POST[$field])) {
+                $errors->add($field, "$label is required.");
             }
         }
 
-        /* ---------- SHOP IMAGE validation ---------- */
-        if (
-            empty($_FILES['shop_image'])
-            || $_FILES['shop_image']['error'] === UPLOAD_ERR_NO_FILE
-        ) {
-            $errors->add('shop_image', 'Shop Image is required.');
+        /* =========================
+           VALIDATE IMAGE
+        ========================== */
+        $image_id = intval($_POST['shop_image_id'] ?? 0);
+
+        if ($image_id && get_post_type($image_id) !== 'attachment') {
+            $errors->add('shop_image_id', 'Invalid shop image.');
         }
 
-        /* ---------- IMAGE VALIDATION ---------- */
-        if (! empty($_FILES['shop_image']['tmp_name'])) {
-
-            if ($_FILES['shop_image']['error'] !== UPLOAD_ERR_OK) {
-                $errors->add('shop_image', 'Image upload failed.');
-            } else {
-
-                $mime = mime_content_type($_FILES['shop_image']['tmp_name']);
-                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
-                if (! in_array($mime, $allowedMimeTypes, true)) {
-                    $errors->add('shop_image', 'Only JPG, PNG, WEBP allowed.');
-                } else {
-
-                    $shop_image = file_get_contents($_FILES['shop_image']['tmp_name']);
-
-                    if ($shop_image === false) {
-                        $errors->add('shop_image', 'Cannot read image file.');
-                    }
-                }
-            }
-        }
-
-        /* ---------- OPENING HOURS validation ---------- */
+        /* =========================
+           OPENING HOURS
+        ========================== */
         $days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
         foreach ($days as $day) {
-            if (! isset($_POST['opening_hours'][$day])) {
+            if (empty($_POST['opening_hours'][$day])) {
                 $errors->add(
                     'opening_hours_' . $day,
-                    'Opening Hours for ' . ucfirst($day) . ' is missing.'
+                    'Opening Hours for ' . ucfirst($day) . ' is required.'
                 );
             }
         }
 
-        /* ---------- NEARBY TRANSPORT validation ---------- */
+        /* =========================
+           NEARBY TRANSPORT
+        ========================== */
         $nearby_transport = [];
 
-        if (!empty($_POST['transport']) && is_array($_POST['transport']['station'])) {
+        if (!empty($_POST['transport']['station']) && is_array($_POST['transport']['station'])) {
 
             foreach ($_POST['transport']['station'] as $index => $station) {
 
@@ -97,26 +74,20 @@ function aboyuma_amway_shop_add() {
                 $line    = trim($_POST['transport']['line'][$index] ?? '');
                 $station = trim($station);
 
-                // ignore fully empty rows
                 if ($type === '' && $line === '' && $station === '') {
                     continue;
                 }
 
-                // ALL fields required
                 if ($type === '' || $line === '' || $station === '') {
                     $errors->add(
                         'transport_required',
-                        'Nearby transport requires Type, Line, and Station name.'
+                        'If adding transport, Type, Line and Station are required.'
                     );
                     continue;
                 }
 
-                // validate type
                 if (!in_array($type, ['BTS', 'MRT'], true)) {
-                    $errors->add(
-                        'transport_type',
-                        'Transport type must be BTS or MRT.'
-                    );
+                    $errors->add('transport_type', 'Transport type must be BTS or MRT.');
                     continue;
                 }
 
@@ -128,50 +99,51 @@ function aboyuma_amway_shop_add() {
             }
         }
 
-        /* ---------- GOOGLE MAP URL validation ---------- */
-        if (! empty($_POST['shop_map_url'])) {
+        /* =========================
+           GOOGLE MAP VALIDATION
+        ========================== */
+        $map_url = esc_url_raw($_POST['shop_map_url']);
 
-            $map_url = esc_url_raw($_POST['shop_map_url']);
-
-            if (! wp_http_validate_url($map_url)) {
-                $errors->add('shop_map_url', 'Invalid Google Map URL.');
-            }
-
-            $_POST['shop_map_url'] = $map_url;
+        if (!wp_http_validate_url($map_url)) {
+            $errors->add('shop_map_url', 'Invalid Google Map URL.');
         }
 
-        // If validation failed
+        /* =========================
+           IF ERROR → STOP
+        ========================== */
         if ($errors->has_errors()) {
-            echo '<div class="notice notice-error"><ul>';
 
+            echo '<div class="notice notice-error"><ul>';
             foreach ($errors->get_error_messages() as $message) {
                 echo '<li>' . esc_html($message) . '</li>';
             }
-
             echo '</ul></div>';
+
             return;
         }
 
-        /* ---------- INSERT ---------- */
+        /* =========================
+           PREPARE DATA
+        ========================== */
         $data = [
-            'shop_image'         => $shop_image,
-            'shop_code'          => sanitize_text_field($_POST['shop_code']),
-            'shop_name'          => sanitize_text_field($_POST['shop_name']),
-            'shop_address'       => sanitize_textarea_field($_POST['shop_address']),
+            'shop_image_id' => $image_id,
+            'shop_code'     => sanitize_text_field($_POST['shop_code']),
+            'shop_name'     => sanitize_text_field($_POST['shop_name']),
+            'shop_address'  => sanitize_textarea_field($_POST['shop_address']),
             'shop_nearby_transport' => !empty($nearby_transport)
                 ? wp_json_encode($nearby_transport)
                 : null,
-            'shop_phone'         => sanitize_text_field($_POST['shop_phone']),
+            'shop_phone'    => sanitize_text_field($_POST['shop_phone']),
             'shop_opening_hours' => wp_json_encode(
                 array_map('sanitize_text_field', $_POST['opening_hours'])
             ),
-            'shop_description'   => wp_kses_post($_POST['shop_description']),
-            'shop_slug'          => sanitize_title($_POST['shop_slug']),
-            'shop_map_url'       => esc_url_raw($_POST['shop_map_url']),
+            'shop_description' => wp_kses_post($_POST['shop_description']),
+            'shop_slug'     => sanitize_title($_POST['shop_slug']),
+            'shop_map_url'  => $map_url,
         ];
 
         $format = [
-            '%s', // shop_image (BLOB)
+            '%d', // shop_image_id
             '%s', // shop_code
             '%s', // shop_name
             '%s', // shop_address
@@ -192,8 +164,9 @@ function aboyuma_amway_shop_add() {
             return;
         }
 
-        echo '<div class="notice notice-success is-dismissible"><p>Amway shop added successfully!</p></div>';
-        echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-amway-shop-list') . '";</script>';
+        echo '<script>window.location.href="' .
+            admin_url('admin.php?page=aboyuma-amway-shop-list') .
+            '";</script>';
         exit;
     }
 ?>
@@ -205,13 +178,18 @@ function aboyuma_amway_shop_add() {
             <table class="form-table">
                 <!-- Shop Image -->
                 <tr>
-                    <th scope="row"><label for="shop_image">Shop Image</label></th>
+                    <th scope="row"><label>Shop Image</label></th>
                     <td>
-                        <input type="file" name="shop_image" id="shop_image">
-                        <small style="display:block;">Main image of shop.</small>
-                        <img id="shop_image_preview" src="" alt="shop Image Preview" style="max-width: 200px; margin-top: 10px; display: none;">
+                        <input type="hidden" name="shop_image_id" id="shop_image_id" value="">
+
+                        <button type="button" class="button" id="upload_shop_image">
+                            Select Image
+                        </button>
+
+                        <div id="shop_image_preview" style="margin-top:10px;"></div>
                     </td>
                 </tr>
+
                 <!-- Shop Code -->
                 <tr>
                     <th><label for="shop_code">Shop Code</label></th>
@@ -239,6 +217,7 @@ function aboyuma_amway_shop_add() {
                         <div id="transport-wrapper">
                             <div class="transport-row">
                                 <select name="transport[type][]">
+                                    <option value="">เลือกประเภท</option>
                                     <option value="BTS">BTS</option>
                                     <option value="MRT">MRT</option>
                                 </select>
@@ -326,51 +305,5 @@ function aboyuma_amway_shop_add() {
             ?>
         </form>
     </div>
-    <script>
-        jQuery(document).ready(function($) {
-            // Preview for the main shop image
-            $('#shop_image').on('change', function() {
-                const file = this.files[0];
-                const preview = $('#shop_image_preview');
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.attr('src', e.target.result); // Set the image preview source
-                        preview.show(); // Show the image
-                    };
-                    reader.readAsDataURL(file); // Read the file as a data URL
-                } else {
-                    preview.attr('src', ''); // Clear the image preview
-                    preview.hide(); // Hide the image
-                }
-            });
-
-            $('#add-transport').on('click', function() {
-
-                const rowHtml = `
-                    <div class="transport-row">
-                        <select name="transport[type][]">
-                            <option value="">-- Type --</option>
-                            <option value="BTS">BTS</option>
-                            <option value="MRT">MRT</option>
-                        </select>
-
-                        <input type="text" name="transport[line][]" placeholder="สาย (เช่น สีน้ำเงิน)">
-                        <input type="text" name="transport[station][]" placeholder="ชื่อสถานี">
-
-                        <button type="button" class="button remove-transport">ลบ</button>
-                    </div>
-                `;
-                $('#transport-wrapper').append(rowHtml);
-            });
-
-            $(document).on('click', '.remove-transport', function() {
-                if ($('.transport-row').length > 1) {
-                    $(this).closest('.transport-row').remove();
-                }
-            });
-
-        });
-    </script>
 <?php
 }

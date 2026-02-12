@@ -705,9 +705,9 @@ function get_breadcrumb() {
 // Array of custom integrated plugin files
 $integrated_plugins = [
 	'/integrated-plugins/news-crud/news-init.php',
-	'/integrated-plugins/amway-product-crud/amway-product-init.php',
+	'/integrated-plugins/amway-product-crud/amway-product-crud-init.php',
 	// '/integrated-plugins/gallery-crud/gallery-init.php',
-	'/integrated-plugins/amway-shop-crud/amway-shop-init.php',
+	'/integrated-plugins/amway-shop-crud/amway-shop-crud-init.php',
 	'/integrated-plugins/aboyuma-author-box/aboyuma-author-box-init.php'
 ];
 
