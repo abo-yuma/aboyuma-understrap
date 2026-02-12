@@ -39,12 +39,12 @@ function amway_product_admin_enqueue($hook) {
     // Product List / Delete
     wp_enqueue_script(
         'amway-delete-product',
-        $base_uri . '/assets/admin/delete-product.min.js',
+        $base_uri . '/assets/admin/amway-product-delete.min.js',
         ['jquery'],
-        filemtime($base_path . '/assets/admin/delete-product.min.js'),
+        filemtime($base_path . '/assets/admin/amway-product-delete.min.js'),
         true
     );
-    wp_localize_script('amway-delete-product', 'deleteProduct', [
+    wp_localize_script('amway-product-delete', 'deleteProduct', [
         'ajaxurl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('delete_product_nonce'),
     ]);

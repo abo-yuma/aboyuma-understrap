@@ -112,18 +112,18 @@ module.exports = [
 		"amway-product-edit",
 	),
 
-	build("src/admin/js/delete-product.js", "assets/admin", "delete-product"),
+	build("src/admin/js/amway-product-delete.js", "assets/admin", "amway-product-delete"),
 
 	build(
-		"src/admin/js/delete-product-brand.js",
+		"src/admin/js/amway-product-brand-delete.js",
 		"assets/admin",
-		"delete-product-brand",
+		"amway-product-brand-delete",
 	),
 
 	build(
-		"src/admin/js/delete-product-category.js",
+		"src/admin/js/amway-product-category-delete.js",
 		"assets/admin",
-		"delete-product-category",
+		"amway-product-category-delete",
 	),
 
 	// ======================

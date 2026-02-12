@@ -2,7 +2,6 @@
 
 /**
  * Plugin Name: Amway Product Management System
- * Plugin URI:  https://yourwebsite.com
  * Description: Theme integrated plugin for managing Amway products with full CRUD functionality.
  * Version:     1.0.0
  *
@@ -12,9 +11,9 @@
  */
 defined('ABSPATH') || exit;
 
-$amway_product_plugin_path = get_template_directory() . '/integrated-plugins/amway-product-crud/';
+$amway_product_crud_plugin_path = get_template_directory() . '/integrated-plugins/amway-product-crud/';
 
-$amway_product_files = [
+$amway_product_crud_files = [
 
 	// DATABASE
 	'/inc/amway-product-database.php',
@@ -51,6 +50,6 @@ $amway_product_files = [
 	'/frontend/amway-product-frontend-page-registration.php',
 ];
 
-foreach ($amway_product_files as $file) {
-	require_once $amway_product_plugin_path . $file;
+foreach ($amway_product_crud_files as $file) {
+	require_once $amway_product_crud_plugin_path . $file;
 }

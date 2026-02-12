@@ -1,7 +1,9 @@
 <?php
+defined('ABSPATH') || exit;
+
 // AJAX handler
-function delete_amway_shop() {
-    check_ajax_referer('delete_amway_shop_action', 'nonce');
+function delete_shop() {
+    check_ajax_referer('delete_shop_nonce', 'nonce');
     global $wpdb;
     $id = intval($_POST['id']);
     $id = absint($id);
@@ -44,14 +46,4 @@ function delete_amway_shop() {
         wp_send_json_success();
     }
 }
-add_action('wp_ajax_delete_amway_shop', 'delete_amway_shop');
-
-// Script enqueue & localize
-function delete_amway_shop_script() {
-    wp_enqueue_script('delete-amway-shop', get_template_directory_uri() . '/integrated-plugins/amway-shop-crud/assets/amway-shop-delete.js', ['jquery'], null, true);
-    wp_localize_script('delete-amway-shop', 'deleteAmwayShop', [
-        'ajaxurl' => admin_url('admin-ajax.php'),
-        'delete_amway_shop_nonce' => wp_create_nonce('delete_amway_shop_action'),
-    ]);
-}
-add_action('admin_enqueue_scripts', 'delete_amway_shop_script');
+add_action('wp_ajax_delete_amway_shop', 'delete_shop');
