@@ -31,6 +31,12 @@ $amway_product_crud_files = [
 	'/operation/product/amway-product-edit.php',
 	'/operation/product/amway-product-delete.php',
 
+	// OPERATION: PRODUCT PROPERTY
+	'/operation/product/property/amway-product-property-list.php',
+	'/operation/product/property/amway-product-property-add.php',
+	'/operation/product/property/amway-product-property-edit.php',
+	'/operation/product/property/amway-product-property-delete.php',
+
 	// OPERATION: BRAND
 	'/operation/brand/amway-product-brand-list.php',
 	'/operation/brand/amway-product-brand-add.php',

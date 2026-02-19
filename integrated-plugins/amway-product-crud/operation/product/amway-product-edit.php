@@ -87,20 +87,14 @@ function aboyuma_amway_product_edit() {
   }
 
   $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
-  $productDetailImages = $wpdb->get_results("
-    SELECT id, product_image_path, product_image_order 
-    FROM $productImageTable 
-    WHERE product_id = $product_id
-    ORDER BY product_image_order ASC
-  ");
-
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
-  $productInfographics = $wpdb->get_results("
-    SELECT id, product_infographic_path, product_infographic_order 
-    FROM $productInfographicTable 
-    WHERE product_id = $product_id
-    ORDER BY product_infographic_order ASC
-  ");
+  $productDetailImages = $wpdb->get_results(
+    $wpdb->prepare("
+    SELECT id, attachment_id, image_order
+    FROM $productImageTable
+    WHERE product_id = %d
+    ORDER BY image_order ASC
+  ", $product_id)
+  );
 
   $errors = [];
 
@@ -146,29 +140,36 @@ function aboyuma_amway_product_edit() {
     $product_detail = wp_kses_post(trim($_POST['product_detail']));
     $product_specification = wp_kses_post(trim($_POST['product_specification']));
     $product_comment = wp_kses_post(trim($_POST['product_comment']));
-    // --- Product Additive Properties ---
+
+    // =============================
+    // Product Additive Properties
+    // =============================
     $all_additive_options = ['no_color', 'no_flavoring', 'no_preservative'];
-    $selected_additive_props = isset($_POST['product_additive_properties']) && is_array($_POST['product_additive_properties'])
+    $selected_additive_props = isset($_POST['product_additive_properties'])
+      && is_array($_POST['product_additive_properties'])
       ? array_map('sanitize_text_field', $_POST['product_additive_properties'])
       : [];
-
     $product_additive_properties = [];
     foreach ($all_additive_options as $option) {
       $product_additive_properties[$option] = in_array($option, $selected_additive_props, true);
     }
-    $product_additive_properties_json = json_encode($product_additive_properties);
-    // --- Product Diet Properties ---
-    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly vegan'];
-    $selected_diet_props = isset($_POST['product_diet_properties']) && is_array($_POST['product_diet_properties'])
+    $product_additive_properties_json = wp_json_encode($product_additive_properties);
+
+
+    // =============================
+    // Product Diet Properties
+    // =============================
+    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly_vegan'];
+    $selected_diet_props = isset($_POST['product_diet_properties'])
+      && is_array($_POST['product_diet_properties'])
       ? array_map('sanitize_text_field', $_POST['product_diet_properties'])
       : [];
-    // Build consistent boolean object
     $product_diet_properties = [];
     foreach ($all_diet_options as $diet) {
-      $product_diet_properties[$diet] = in_array($diet, $selected_diet_props);
+      $product_diet_properties[$diet] = in_array($diet, $selected_diet_props, true);
     }
-    // Encode as JSON before inserting to DB
-    $product_diet_properties_json = json_encode($product_diet_properties);
+    $product_diet_properties_json = wp_json_encode($product_diet_properties);
+
     $product_review = wp_kses_post(trim($_POST['product_review']));
     $product_price = floatval($_POST['product_price']);
     $product_member_price = floatval($_POST['product_member_price']);
@@ -180,13 +181,13 @@ function aboyuma_amway_product_edit() {
     $product_slug = sanitize_text_field(trim($_POST['product_slug']));
     $modified = current_time('mysql');
 
-    // Keep existing image if no new one is uploaded
-    if (empty($_FILES['product_image']['tmp_name'])) {
-      $product_image = $product->product_image;
-    } else {
-      $product_image = file_get_contents($_FILES['product_image']['tmp_name']);
+    $main_image_id = isset($_POST['main_image_id'])
+      ? absint($_POST['main_image_id'])
+      : null;
+    // Validate main image
+    if (empty($main_image_id)) {
+      $errors[] = 'Main product image is required.';
     }
-
     // Validate product code
     if (empty($product_code)) {
       $errors[] = 'Product code is required.';
@@ -286,7 +287,7 @@ function aboyuma_amway_product_edit() {
       $updated = $wpdb->update(
         $table_name,
         [
-          'product_image' => $product_image,
+          'main_image_id' => $main_image_id,
           'product_code' => $product_code,
           'product_brand_id' => $product_brand_id,
           'product_category_id' => $product_category_id,
@@ -315,7 +316,7 @@ function aboyuma_amway_product_edit() {
         ],
         ['id' => $product_id],
         [
-          '%s', // product_image
+          '%d', // main_image_id
           '%s', // product_code
           '%d', // product_brand_id
           '%d', // product_category_id
@@ -363,211 +364,6 @@ function aboyuma_amway_product_edit() {
               ],
               ['id' => intval($imageId)], // Identify the row by its ID
               ['%d', '%s'],
-              ['%d']
-            );
-          }
-        }
-
-        // Handle new image uploads
-        // DB_UPDATE: Insert into aboyuma_amway_product_images table
-        // Note: Large files might fail silently if PHP or server upload size limits are exceeded,
-        // so ensure 'upload_max_filesize', 'post_max_size', and server settings allow the file size.
-        if (
-          isset($_FILES['product_images']['name']) && is_array($_FILES['product_images']['name'])
-          && !empty(array_filter($_FILES['product_images']['name']))
-        ) {
-          $files = $_FILES['product_images'];
-          $orders = $_POST['product_image_orders'];
-
-          // ✅ STEP 1: Get WordPress upload directory path
-          $upload_dir = wp_upload_dir();
-          $base_upload_path = trailingslashit($upload_dir['basedir']) . 'product-details/';
-
-          // ✅ STEP 2: Use product code to create subfolder
-          $safe_folder_name = sanitize_title($product_code);
-          $image_subdir = trailingslashit($base_upload_path . $safe_folder_name);
-
-          // ✅ STEP 3: Create subfolder if it doesn't exist
-          if (!file_exists($image_subdir)) {
-            if (!wp_mkdir_p($image_subdir)) {
-              wp_die('Unable to create product image folder: ' . esc_html($image_subdir));
-            }
-          }
-
-          $now = current_time('mysql');
-          // NOTE: using => $name is important.
-          foreach ($files['name'] as $index => $name) {
-            if ($files['error'][$index] == UPLOAD_ERR_OK) {
-              $tmp_name = $files['tmp_name'][$index];
-
-              $order = intval($orders[$index]);
-
-              // ✅ STEP 4: Generate a safe, unique filename
-              $extension = pathinfo($name, PATHINFO_EXTENSION);
-              $new_filename = uniqid('product_', true) . '.' . $extension;
-              $image_destination = $image_subdir . $new_filename;
-
-              if (move_uploaded_file($tmp_name, $image_destination)) {
-                // ✅ STEP 5: Store relative path in DB
-                $image_path = 'product-details/' . $safe_folder_name . '/' . $new_filename;
-
-                // ✅ STEP 6: Insert into database
-                // Insert the image into the database
-                $wpdb->insert(
-                  $productImageTable,
-                  [
-                    'product_image_path' => $image_path,
-                    'product_id' => $product_id, // Use the inserted product ID
-                    'product_image_order' => $order,
-                    'created' => $now,
-                    'modified' => $now,
-                  ],
-                  [
-                    '%s',
-                    '%d',
-                    '%d',
-                    '%s'
-                  ]
-                );
-              }
-            } else {
-              echo "File uploaded failed: " . $files['name'][$index];
-              echo " Error Code: " . $files['error'][$index]; // This should give you the error code
-              var_dump($files['error'][$index]); // Check the actual value and type
-              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
-              die();
-            }
-          }
-        }
-
-        // Optional: Delete images if necessary
-        if (!empty($_POST['deleted_image_ids'])) {
-          $deletedImageIds = $_POST['deleted_image_ids'];
-          foreach ($deletedImageIds as $imageId) {
-            // ✅ Step 1: Get the image path
-            $image = $wpdb->get_row(
-              $wpdb->prepare("SELECT product_image_path FROM $productImageTable WHERE id = %d", $imageId)
-            );
-            if ($image) {
-              $upload_dir = wp_upload_dir();
-              $full_path = trailingslashit($upload_dir['basedir']) . $image->product_image_path;
-              $upload_basedir = wp_normalize_path($upload_dir['basedir']);
-              $full_path_normalized = wp_normalize_path($full_path);
-
-              // ✅ Step 2: Securely delete the file if it exists and is inside uploads dir
-              if (strpos($full_path_normalized, $upload_basedir) !== 0 || !is_file($full_path)) {
-                error_log("Attempt to delete file outside upload directory or invalid file: {$full_path}");
-              } elseif (!unlink($full_path)) {
-                error_log("Failed to delete product image file: {$full_path}");
-              }
-            }
-            // ✅ Step 3: Delete the DB record
-            $wpdb->delete(
-              $productImageTable,
-              ['id' => intval($imageId)],
-              ['%d']
-            );
-          }
-        }
-
-        // DB_UPDATE: update aboyuma_amway_product_infographic table
-        if (
-          isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
-          && !empty(array_filter($_FILES['product_infographics']['name']))
-        ) {
-
-          $infographic_files = $_FILES['product_infographics'];
-          $inforaphic_orders = $_POST['product_infographic_orders'];
-
-          // Get WordPress upload directory path
-          $infographic_upload_dir = wp_upload_dir();
-          $infographic_base_upload_path = trailingslashit($infographic_upload_dir['basedir']) . 'product-details/';
-
-          // ✅ Use product code to create subfolder
-          $infographic_safe_folder_name = sanitize_title($product_code);
-          $infographic_subdir = trailingslashit($infographic_base_upload_path . $infographic_safe_folder_name . '/infographic');
-
-          // ✅ STEP 3: Create subfolder if it doesn't exist
-          if (!file_exists($infographic_subdir)) {
-            if (!wp_mkdir_p($infographic_subdir)) {
-              wp_die('Unable to create product infographic folder: ' . esc_html($infographic_subdir));
-            }
-          }
-
-          $now = current_time('mysql');
-          // NOTE: using => $name is important.
-          foreach ($infographic_files['name'] as $index => $infographic_name) {
-            if ($infographic_files['error'][$index] == UPLOAD_ERR_OK) {
-
-              $infographic_tmp_name = $infographic_files['tmp_name'][$index];
-              $infographic_order = intval($inforaphic_orders[$index]);
-
-              // Generate unique filename to prevent collision
-              $extension = pathinfo($infographic_name, PATHINFO_EXTENSION);
-              $infographic_new_filename = uniqid('product_', true) . '.' . $extension;
-
-              // Full path to save the image
-              $infographic_destination = $infographic_subdir . $infographic_new_filename;
-
-              // Move uploaded file to custom uploads folder
-              if (move_uploaded_file($infographic_tmp_name, $infographic_destination)) {
-
-                // ✅ Store relative URL path in DB
-                $infographic_path = 'product-details/' . $infographic_safe_folder_name . '/infographic/' . $infographic_new_filename;
-
-                // Insert the image into the database
-                $wpdb->insert(
-                  $productInfographicTable,
-                  [
-                    'product_infographic_path' => $infographic_path,
-                    'product_id' => $product_id, // Use the inserted product ID
-                    'product_infographic_order' => $infographic_order,
-                    'created' => $now,
-                    'modified' => $now,
-                  ],
-                  [
-                    '%s',
-                    '%d',
-                    '%d',
-                    '%s',
-                    '%s'
-                  ]
-                );
-              }
-            } else {
-              echo "File uploaded failed: " . $infographic_files['name'][$index];
-              echo " Error Code: " . $infographic_files['error'][$index]; // This should give you the error code
-              var_dump($infographic_files['error'][$index]); // Check the actual value and type
-              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
-              die();
-            }
-          }
-        }
-
-        // Optional: Delete infographics if necessary
-        if (!empty($_POST['deleted_infographic_ids'])) {
-          $deletedInfographicIds = $_POST['deleted_infographic_ids'];
-          foreach ($deletedInfographicIds as $infographicId) {
-            // ✅ Step 1: Get the infographic path
-            $infographic = $wpdb->get_row(
-              $wpdb->prepare("SELECT product_infographic_path FROM $productInfographicTable WHERE id = %d", $infographicId)
-            );
-            if ($infographic) {
-              $upload_dir = wp_upload_dir();
-              $full_path = trailingslashit($upload_dir['basedir']) . $infographic->product_infographic_path;
-              $upload_basedir = wp_normalize_path($upload_dir['basedir']);
-              $full_path_normalized = wp_normalize_path($full_path);
-              // ✅ Step 2: Securely delete the file if it exists and is inside uploads directory
-              if (strpos($full_path_normalized, $upload_basedir) !== 0 || !is_file($full_path)) {
-                error_log("Attempt to delete file outside upload directory or invalid file: {$full_path}");
-              } elseif (!unlink($full_path)) {
-                error_log("Failed to delete product infographic file: {$full_path}");
-              }
-            }
-            // ✅ Step 3: Delete the DB record
-            $wpdb->delete(
-              $productInfographicTable,
-              ['id' => intval($infographicId)],
               ['%d']
             );
           }
@@ -677,13 +473,29 @@ function aboyuma_amway_product_edit() {
       <table class="form-table">
         <!-- Product Image -->
         <tr>
-          <th scope="row"><label for="product_image">Product Image</label></th>
+          <th scope="row"><label>Main Product Image</label></th>
           <td>
-            <input type="file" name="product_image" id="product_image">
-            <small style="display:block;">Main image of product.</small>
-            <img id="product_image_preview" src="data:image/jpeg;base64,<?php echo base64_encode($product->product_image); ?>" alt="Product Image Preview" style="max-width: 200px; margin-top: 10px;">
+            <div id="main-image-wrapper">
+              <?php if (!empty($product->main_image_id)) : ?>
+                <?php echo wp_get_attachment_image($product->main_image_id, 'medium'); ?>
+              <?php endif; ?>
+            </div>
+
+            <input type="hidden" name="main_image_id" id="main_image_id"
+              value="<?php echo esc_attr($product->main_image_id); ?>">
+
+            <button type="button" class="button" id="select-main-image">
+              Select Image
+            </button>
+
+            <button type="button" class="button" id="remove-main-image">
+              Remove
+            </button>
+
+            <p class="description">Use WordPress media library.</p>
           </td>
         </tr>
+
         <!-- Product Code -->
         <tr>
           <th scope="row"><label for="product_code">Product Code</label></th>
@@ -841,25 +653,42 @@ function aboyuma_amway_product_edit() {
           <th scope="row"><label for="product_benefit">Product Detail Images</label></th>
           <td>
             <div id="image-upload-container">
-              <!-- Existing Images -->
-              <?php
-              $upload_dir = wp_upload_dir(); // ✅ Add before the loop
-              $base_url = trailingslashit($upload_dir['baseurl']);
-              foreach ($productDetailImages as $image) :
-                $image_url = $base_url . $image->product_image_path;
-                echo '<pre>' . $image_url . '</pre>';
-              ?>
-                <div class="image-preview-container" data-id="<?= $image->id; ?>">
-                  <img src="<?= esc_url($image_url); ?>" class="image-preview">
-                  <input type="number" name="existing_image_orders[]" value="<?= $image->product_image_order; ?>" class="order-input">
-                  <input type="hidden" name="existing_image_ids[]" value="<?= $image->id; ?>">
-                  <label><input type="checkbox" name="deleted_image_ids[]" value="<?= $image->id; ?>"> Delete</label>
+
+              <?php foreach ($productDetailImages as $image): ?>
+
+                <div class="image-preview-container" data-id="<?= esc_attr($image->id); ?>">
+
+                  <div class="image-preview">
+                    <?= wp_get_attachment_image($image->attachment_id, 'medium'); ?>
+                  </div>
+
+                  <input type="hidden"
+                    name="existing_image_ids[]"
+                    value="<?= esc_attr($image->id); ?>">
+
+                  <input type="hidden"
+                    name="existing_attachment_ids[]"
+                    value="<?= esc_attr($image->attachment_id); ?>">
+
+                  <label>Order:</label>
+                  <input type="number"
+                    name="existing_image_orders[]"
+                    value="<?= esc_attr($image->image_order); ?>"
+                    min="0">
+
+                  <label>
+                    <input type="checkbox"
+                      name="deleted_image_ids[]"
+                      value="<?= esc_attr($image->id); ?>">
+                    Delete
+                  </label>
+
                 </div>
               <?php endforeach; ?>
             </div>
-            <!-- New Image Uploads -->
-            <button type="button" id="add-image-field">Add Image</button>
-            <small>**Product detail images with order number to display in product detail page</small>
+            <button type="button" class="button" id="add-image-field">
+              + Add Image
+            </button>
           </td>
         </tr>
         <!-- Product Detail (WYSIWYG editor) -->
@@ -979,7 +808,7 @@ function aboyuma_amway_product_edit() {
               Vegan
             </label>
             <label>
-              <input type="checkbox" name="product_diet_properties[]" value="mostly vegan" <?php echo in_array('mostly vegan', $diet_props, true) ? 'checked' : ''; ?>>
+              <input type="checkbox" name="product_diet_properties[]" value="mostly_vegan" <?php echo in_array('mostly vegan', $diet_props, true) ? 'checked' : ''; ?>>
               Mostly Vegan
             </label>
           </td>
@@ -1058,32 +887,6 @@ function aboyuma_amway_product_edit() {
           <th scope="row"><label for="product_slug">Product Slug</label></th>
           <td>
             <input type="text" name="product_slug" id="product_slug" class="regular-text" value="<?php echo esc_attr($product->product_slug); ?>" required>
-          </td>
-        </tr>
-        <!-- Product Infographics -->
-        <tr>
-          <th scope="row"><label for="product_benefit">Product Infographics</label></th>
-          <td>
-            <div id="infographic-upload-container">
-              <!-- Existing Infographics -->
-              <?php
-              $infographic_upload_dir = wp_upload_dir(); // ✅ Add before the loop
-              $infographic_base_url = trailingslashit($infographic_upload_dir['baseurl']);
-              foreach ($productInfographics as $infographic) :
-                $infographic_url = $infographic_base_url . $infographic->product_infographic_path;
-                echo '<pre>' . $infographic_url . '</pre>';
-              ?>
-                <div class="infographic-preview-container" data-id="<?= $infographic->id; ?>">
-                  <img src="<?= esc_url($infographic_url); ?>" class="infographic-preview">
-                  <input type="number" name="existing_infographic_orders[]" value="<?= $infographic->product_infographic_order; ?>" class="order-input">
-                  <input type="hidden" name="existing_infographic_ids[]" value="<?= $infographic->id; ?>">
-                  <label><input type="checkbox" name="deleted_infographic_ids[]" value="<?= $infographic->id; ?>"> Delete</label>
-                </div>
-              <?php endforeach; ?>
-            </div>
-            <!-- New Infographic Uploads -->
-            <button type="button" id="add-infographic-field">Add Infographic</button>
-            <small>**Product detail infographics with order number to display in product detail page</small>
           </td>
         </tr>
         <!-- Related dproduct -->
