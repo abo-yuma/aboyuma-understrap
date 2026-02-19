@@ -101,18 +101,16 @@ module.exports = [
 	// ADMIN
 	// ======================
 	build(
-		"src/admin/js/amway-product-add.js",
+		"src/admin/js/amway-product-admin.js",
 		"assets/admin",
-		"amway-product-add",
+		"amway-product-admin",
 	),
 
 	build(
-		"src/admin/js/amway-product-edit.js",
+		"src/admin/js/amway-product-delete.js",
 		"assets/admin",
-		"amway-product-edit",
+		"amway-product-delete",
 	),
-
-	build("src/admin/js/amway-product-delete.js", "assets/admin", "amway-product-delete"),
 
 	build(
 		"src/admin/js/amway-product-brand-delete.js",
@@ -124,6 +122,12 @@ module.exports = [
 		"src/admin/js/amway-product-category-delete.js",
 		"assets/admin",
 		"amway-product-category-delete",
+	),
+
+	build(
+		"src/admin/js/amway-product-property-delete.js",
+		"assets/admin",
+		"amway-product-property-delete",
 	),
 
 	// ======================
@@ -139,5 +143,11 @@ module.exports = [
 		"src/frontend/js/amway-product-detail-page.js",
 		"assets/frontend",
 		"amway-product-detail-page",
+	),
+
+	build(
+		"src/admin/js/amway-product-media.js",
+		"assets/admin",
+		"amway-product-media",
 	),
 ];

@@ -18,16 +18,16 @@ function aboyuma_amway_product_menu() {
         $productPagePosition
     );
     /*
-  if you do not add the add_submenu_page for "All Products," WordPress will automatically 
-  create a submenu item for the main menu. This default submenu item will have the same title 
-  as the main menu ("aboyuma Product" in your case) and will point to the same slug and callback function.
-  Behavior Without the Submenu Code:
-  WordPress automatically mirrors the main menu as the first submenu item.
-  The submenu item will have:
-  Menu title: "aboyuma Product" (same as the main menu title).
-  Slug: The same slug as the main menu (aboyuma-product).
-  Callback function: The same callback function as the main menu.
-  */
+    if you do not add the add_submenu_page for "All Products," WordPress will automatically 
+    create a submenu item for the main menu. This default submenu item will have the same title 
+    as the main menu ("aboyuma Product" in your case) and will point to the same slug and callback function.
+    Behavior Without the Submenu Code:
+    WordPress automatically mirrors the main menu as the first submenu item.
+    The submenu item will have:
+    Menu title: "aboyuma Product" (same as the main menu title).
+    Slug: The same slug as the main menu (aboyuma-product).
+    Callback function: The same callback function as the main menu.
+    */
     add_submenu_page(
         $productPageMenuSlug,
         'Products', // Page title
@@ -62,6 +62,38 @@ function aboyuma_amway_product_menu() {
         'aboyuma-product-edit',
         'aboyuma_amway_product_edit'
     );
+    // ==============================
+    // PRODUCT PROPERTIES
+    // ==============================
+    add_submenu_page(
+        $productPageMenuSlug,
+        'Product Properties',
+        'Product Properties',
+        $productPageCapability,
+        'aboyuma-product-property-list',
+        'aboyuma_amway_product_property_list'
+    );
+
+    add_submenu_page(
+        null,
+        'Add New Property',
+        null,
+        $productPageCapability,
+        'aboyuma-product-property-add',
+        'aboyuma_amway_product_property_add'
+    );
+
+    add_submenu_page(
+        null,
+        'Edit Property',
+        null,
+        $productPageCapability,
+        'aboyuma-product-property-edit',
+        'aboyuma_amway_product_property_edit'
+    );
+    // ==============================
+    // PRODUCT BRANDS
+    // ==============================
     add_submenu_page(
         $productPageMenuSlug,
         'Brands',
@@ -86,6 +118,9 @@ function aboyuma_amway_product_menu() {
         'aboyuma-product-brand-edit',
         'aboyuma_amway_product_brand_edit'
     );
+    // ==============================
+    // PRODUCT CATEGORIES
+    // ==============================
     add_submenu_page(
         $productPageMenuSlug,
         'Categories',

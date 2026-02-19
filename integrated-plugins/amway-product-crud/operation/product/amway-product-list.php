@@ -65,7 +65,7 @@ function aboyuma_amway_product_list() {
   $products = $wpdb->get_results("
     SELECT
       id,
-      product_image,
+      main_image_id,
       product_description,
       created,
       modified
@@ -99,9 +99,7 @@ function aboyuma_amway_product_list() {
     echo '<tr>';
     echo '
     <td>
-      <div class="product-list-image-wrapper">
-        <img src="data:image/jpeg;base64,' . base64_encode($product->product_image) . '" alt="">
-      </div>
+      image
     </td>';
     echo '<td>' . esc_html($product->product_description) . '</td>';
     echo '<td>' . esc_html($product->created) . '</td>';

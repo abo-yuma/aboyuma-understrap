@@ -9,7 +9,6 @@ function aboyuma_amway_product_add() {
   $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
   $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
   $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
-  $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
   // Fetch brands
   $brands = $wpdb->get_results("SELECT id, brand_name FROM $productBrandTable");
   // Fetch categories
@@ -19,32 +18,6 @@ function aboyuma_amway_product_add() {
     $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_add_nonce'])
     && wp_verify_nonce($_POST['aboyuma_amway_product_add_nonce'], 'aboyuma_amway_product_add')
   ) {
-
-    // ===== DEBUG SPACE =====
-    // 🔧 USAGE GUIDE FOR DEBUGGING $_POST AND DB INSERTS
-    //
-    // This section is for development use only.
-    // It helps you inspect any specific input submitted via $_POST,
-    // test how the value behaves (e.g. split/trim),
-    // and attempt a manual insert into the database.
-    //
-    // ✅ Step-by-step:
-    // 1. Set the `$field` to the name of the input field you want to test.
-    // 2. Check if it exists and dump the raw value.
-    // 3. (Optional) Process the value as needed (e.g., explode, trim, validate).
-    // 4. Prepare a mock insert with a known valid table and reference ID.
-    // 5. Use `$wpdb->last_error` to debug SQL issues.
-    // 6. Always `exit;` at the end to prevent further code execution.
-    // $product_slug = sanitize_text_field(trim($_POST['product_slug']));
-    // // echo '<pre>';
-    // // echo var_dump();
-    // // echo '</pre>';
-    // Get the posted values
-
-    // // Dummy values
-    // include(get_template_directory() . '/integrated-plugins/amway-product-crud/inc/test-product-add.php');
-    // exit;
-    // ===== DEBUG SPACE END =====
 
     // ===== Product Data Insert =====
     // Sanitize and assign form data
@@ -84,29 +57,46 @@ function aboyuma_amway_product_add() {
     $product_detail = wp_kses_post(trim($_POST['product_detail']));
     $product_specification = wp_kses_post(trim($_POST['product_specification']));
     $product_comment = wp_kses_post(trim($_POST['product_comment']));
-    // --- Product Additive Properties ---
+
+    // =============================
+    // Product Additive Properties
+    // =============================
+
     $all_additive_options = ['no_color', 'no_flavoring', 'no_preservative'];
-    $selected_additive_props = isset($_POST['product_additive_properties']) && is_array($_POST['product_additive_properties'])
+
+    $selected_additive_props = isset($_POST['product_additive_properties'])
+      && is_array($_POST['product_additive_properties'])
       ? array_map('sanitize_text_field', $_POST['product_additive_properties'])
       : [];
 
     $product_additive_properties = [];
+
     foreach ($all_additive_options as $option) {
       $product_additive_properties[$option] = in_array($option, $selected_additive_props, true);
     }
-    $product_additive_properties_json = json_encode($product_additive_properties);
-    // --- Product Diet Properties ---
-    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly vegan'];
-    $selected_diet_props = isset($_POST['product_diet_properties']) && is_array($_POST['product_diet_properties'])
+
+    $product_additive_properties_json = wp_json_encode($product_additive_properties);
+
+
+    // =============================
+    // Product Diet Properties
+    // =============================
+
+    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly_vegan'];
+
+    $selected_diet_props = isset($_POST['product_diet_properties'])
+      && is_array($_POST['product_diet_properties'])
       ? array_map('sanitize_text_field', $_POST['product_diet_properties'])
       : [];
-    // Build consistent boolean object
+
     $product_diet_properties = [];
+
     foreach ($all_diet_options as $diet) {
-      $product_diet_properties[$diet] = in_array($diet, $selected_diet_props);
+      $product_diet_properties[$diet] = in_array($diet, $selected_diet_props, true);
     }
-    // Encode as JSON before inserting to DB
-    $product_diet_properties_json = json_encode($product_diet_properties);
+
+    $product_diet_properties_json = wp_json_encode($product_diet_properties);
+
     $product_review = wp_kses_post(trim($_POST['product_review']));
     $product_price = floatval($_POST['product_price']);
     $product_member_price = floatval($_POST['product_member_price']);
@@ -122,11 +112,10 @@ function aboyuma_amway_product_add() {
     // Validate fields
     // Validate product image url
     // Check if a file was uploaded
+    $main_image_id = isset($_POST['main_image_id']) ? absint($_POST['main_image_id']) : 0;
 
-    if (!empty($_FILES['product_image']['tmp_name'])) {
-      $product_image = file_get_contents($_FILES['product_image']['tmp_name']);
-    } else {
-      $errors[] = 'Product image is required.';
+    if (empty($main_image_id)) {
+      $errors[] = 'Main image is required.';
     }
     // Validate product code
     if (empty($product_code)) {
@@ -144,7 +133,7 @@ function aboyuma_amway_product_add() {
     if (empty($product_name)) {
       $errors[] = 'Product name is required.';
     }
-    
+
     // Validate Product Unit Count
     if ($product_unit_count === null || $product_unit_count < 0) {
       $errors[] = 'Unit count is required and must be 0 or greater.';
@@ -224,7 +213,7 @@ function aboyuma_amway_product_add() {
       $inserted = $wpdb->insert(
         $table_name,
         [
-          'product_image' => $product_image,
+          'main_image_id' => $main_image_id,
           'product_code' => $product_code,
           'product_brand_id' => $product_brand_id,
           'product_category_id' => $product_category_id,
@@ -253,7 +242,7 @@ function aboyuma_amway_product_add() {
           'modified' => $modified
         ],
         [
-          '%s', // product_image
+          '%d', // main_image_id
           '%s', // product_code
           '%d', // product_brand_id
           '%d', // product_category_id
@@ -282,193 +271,65 @@ function aboyuma_amway_product_add() {
           '%s' // modified
         ]
       );
-      // Insert product
+      // Insert product success
       if ($inserted) {
         // Get the ID of the inserted product
         $inserted_product_id = $wpdb->insert_id;
 
-        // DB_INSERT: Insert into aboyuma_amway_product_images table
-        if (
-          isset($_FILES['product_images']['name']) && is_array($_FILES['product_images']['name'])
-          && !empty(array_filter($_FILES['product_images']['name']))
-        ) {
+        // =====================================
+        // INSERT PRODUCT PROPERTIES (Pivot)
+        // =====================================
+        $productPropertyTable = $wpdb->prefix . 'aboyuma_amway_product_property';
+        $productPropertyPivotTable = $wpdb->prefix . 'aboyuma_amway_product_property_pivot';
 
-          $files = $_FILES['product_images'];
-          $orders = $_POST['product_image_orders'];
+        // Collect selected property keys from form
+        $selected_properties = isset($_POST['product_properties']) && is_array($_POST['product_properties'])
+          ? array_map('sanitize_text_field', $_POST['product_properties'])
+          : [];
 
-          // Get WordPress upload directory path
-          $upload_dir = wp_upload_dir();
-          $base_upload_path = trailingslashit($upload_dir['basedir']) . 'product-details/';
+        if (!empty($selected_properties)) {
 
-          // ✅ Use product code to create subfolder
-          $safe_folder_name = sanitize_title($product_code);
-          $product_subdir = trailingslashit($base_upload_path . $safe_folder_name);
+          foreach ($selected_properties as $property_key) {
 
-          // ✅ If folder exists, delete all images inside
-          if (file_exists($product_subdir)) {
-            $existing_files = glob($product_subdir . '*');
-            foreach ($existing_files as $existing_file) {
-              if (is_file($existing_file)) {
-                unlink($existing_file);
-              }
-            }
-          } else {
-            // ✅ Create subfolder if it doesn’t exist
-            wp_mkdir_p($product_subdir);
-          }
+            // Get property id from definition table
+            $property = $wpdb->get_row(
+              $wpdb->prepare(
+                "SELECT id FROM $productPropertyTable WHERE property_key = %s",
+                $property_key
+              )
+            );
 
-          $now = current_time('mysql');
-          // NOTE: using as $index => $name is important.
-          foreach ($files['name'] as $index => $name) {
-            if ($files['error'][$index] == UPLOAD_ERR_OK) {
-
-              $tmp_name = $files['tmp_name'][$index];
-              $order = intval($orders[$index]);
-
-              // Generate unique filename to prevent collision
-              $extension = pathinfo($name, PATHINFO_EXTENSION);
-              $new_filename = uniqid('product_', true) . '.' . $extension;
-
-              // Full path to save the image
-              $destination = $product_subdir . $new_filename;
-
-              // Move uploaded file to custom uploads folder
-              if (move_uploaded_file($tmp_name, $destination)) {
-
-                // ✅ Store relative URL path in DB
-                $image_path = 'product-details/' . $safe_folder_name . '/' . $new_filename;
-
-                // Insert the image into the database
-                $wpdb->insert(
-                  $productImageTable,
-                  [
-                    'product_image_path' => $image_path,
-                    'product_id' => $inserted_product_id, // Use the inserted product ID
-                    'product_image_order' => $order,
-                    'created' => $now,
-                    'modified' => $now,
-                  ],
-                  [
-                    '%s',
-                    '%d',
-                    '%d',
-                    '%s',
-                    '%s'
-                  ]
-                );
-              }
-            } else {
-              echo "File uploaded failed: " . $files['name'][$index];
-              echo " Error Code: " . $files['error'][$index]; // This should give you the error code
-              var_dump($files['error'][$index]); // Check the actual value and type
-              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
-              die();
-            }
-          }
-        }
-
-        // DB_INSERT: Insert into aboyuma_amway_product_ingraphic table
-        if (
-          isset($_FILES['product_infographics']['name']) && is_array($_FILES['product_infographics']['name'])
-          && !empty(array_filter($_FILES['product_infographics']['name']))
-        ) {
-
-          $infographic_files = $_FILES['product_infographics'];
-          $inforaphic_orders = $_POST['product_infographic_orders'];
-
-          // Get WordPress upload directory path
-          $infographic_upload_dir = wp_upload_dir();
-          $infographic_base_upload_path = trailingslashit($infographic_upload_dir['basedir']) . 'product-details/';
-
-          // ✅ Use product code to create subfolder
-          $infographic_safe_folder_name = sanitize_title($product_code);
-          $infographic_subdir = trailingslashit($infographic_base_upload_path . $infographic_safe_folder_name . '/infographic');
-
-          // ✅ If folder exists, delete all images inside
-          if (file_exists($infographic_subdir)) {
-            $existing_infographic_files = glob($infographic_subdir . '*');
-            foreach ($existing_infographic_files as $existing_infographic_file) {
-              if (is_file($existing_infographic_file)) {
-                unlink($existing_infographic_file);
-              }
-            }
-          } else {
-            // ✅ Create subfolder if it doesn’t exist
-            wp_mkdir_p($infographic_subdir);
-          }
-
-          $now = current_time('mysql');
-          // NOTE: using => $name is important.
-          foreach ($infographic_files['name'] as $index => $infographic_name) {
-            if ($infographic_files['error'][$index] == UPLOAD_ERR_OK) {
-
-              $infographic_tmp_name = $infographic_files['tmp_name'][$index];
-              $infographic_order = intval($inforaphic_orders[$index]);
-
-              // Generate unique filename to prevent collision
-              $extension = pathinfo($infographic_name, PATHINFO_EXTENSION);
-              $infographic_new_filename = uniqid('product_', true) . '.' . $extension;
-
-              // Full path to save the image
-              $infographic_destination = $infographic_subdir . $infographic_new_filename;
-
-              // Move uploaded file to custom uploads folder
-              if (move_uploaded_file($infographic_tmp_name, $infographic_destination)) {
-
-                // ✅ Store relative URL path in DB
-                $infographic_path = 'product-details/' . $infographic_safe_folder_name . '/infographic/' . $infographic_new_filename;
-
-                // Insert the image into the database
-                $wpdb->insert(
-                  $productInfographicTable,
-                  [
-                    'product_infographic_path' => $infographic_path,
-                    'product_id' => $inserted_product_id, // Use the inserted product ID
-                    'product_infographic_order' => $infographic_order,
-                    'created' => $now,
-                    'modified' => $now,
-                  ],
-                  [
-                    '%s',
-                    '%d',
-                    '%d',
-                    '%s',
-                    '%s'
-                  ]
-                );
-              }
-            } else {
-              echo "File uploaded failed: " . $infographic_files['name'][$index];
-              echo " Error Code: " . $infographic_files['error'][$index]; // This should give you the error code
-              var_dump($infographic_files['error'][$index]); // Check the actual value and type
-              var_dump(UPLOAD_ERR_OK);          // Verify UPLOAD_ERR_OK is an integer 0
-              die();
-            }
-          }
-        }
-
-        // DB_INSERT: Add related product
-        // On submit, filter only checked items
-        $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
-        if (!empty($_POST['relatedproduct']) && is_array($_POST['relatedproduct'])) {
-          // Insert each related product
-          foreach ($_POST['relatedproduct'] as $item) {
-            if (isset($item['id']) && $item['id'] !== '') {
-              $related_id = intval($item['id']);
-              // Skip self insert
-              if ($related_id === intval($inserted_product_id)) {
-                continue;
-              }
+            if ($property) {
               $wpdb->insert(
-                $relatedProductTable,
+                $productPropertyPivotTable,
                 [
-                  'product_id'             => $inserted_product_id,
-                  'related_product_id'     => intval($item['id']),
-                  'related_product_comment' => sanitize_text_field($item['comment']),
+                  'product_id'  => $inserted_product_id,
+                  'property_id' => $property->id
                 ],
-                ['%d', '%d', '%s']
+                ['%d', '%d']
               );
             }
+          }
+        }
+
+
+        if (!empty($_POST['gallery_image_ids']) && is_array($_POST['gallery_image_ids'])) {
+
+          $now = current_time('mysql');
+
+          foreach ($_POST['gallery_image_ids'] as $index => $attachment_id) {
+
+            $wpdb->insert(
+              $productImageTable,
+              [
+                'product_id'    => $inserted_product_id,
+                'attachment_id' => absint($attachment_id),
+                'image_order'   => intval($index),
+                'created'       => $now,
+                'modified'      => $now,
+              ],
+              ['%d', '%d', '%d', '%s', '%s']
+            );
           }
         }
 
@@ -499,10 +360,10 @@ function aboyuma_amway_product_add() {
           }
         }
 
-        // DB_INSERT: aboyuma_related_amway_product_video
+        // DB_INSERT: aboyuma_amway_product_video
         if (isset($_POST['video_datas']) && !empty($_POST['video_datas'])) {
 
-          $table = $wpdb->prefix . 'aboyuma_related_amway_product_video';
+          $table = $wpdb->prefix . 'aboyuma_amway_product_video';
           $now = current_time('mysql');
 
           foreach ($_POST['video_datas'] as $video_data) {
@@ -550,13 +411,22 @@ function aboyuma_amway_product_add() {
       <table class="form-table">
         <!-- Product Image -->
         <tr>
-          <th scope="row"><label for="product_image">Product Image</label></th>
+          <th>Main Image</th>
           <td>
-            <input type="file" name="product_image" id="product_image">
-            <small style="display:block;">Main image of product.</small>
-            <img id="product_image_preview" src="" alt="Product Image Preview" style="max-width: 200px; margin-top: 10px; display: none;">
+
+            <input type="hidden" name="main_image_id" id="main_image_id" value="">
+
+            <button type="button" class="button" id="select-main-image">
+              Select / Replace Image
+            </button>
+
+            <div id="main-image-wrapper" class="amway-main-image" style="display:none;">
+              <img id="main-image-preview" src="">
+            </div>
+
           </td>
         </tr>
+
         <!-- Product Code -->
         <tr>
           <th scope="row"><label for="product_code">Product Code</label></th>
@@ -700,17 +570,25 @@ function aboyuma_amway_product_add() {
             ?>
           </td>
         </tr>
-        <!-- Product Detail Images -->
+        <!-- Product Gallery Images -->
         <tr>
-          <th scope="row"><label for="product_images">Product Detail Images</label></th>
+          <th>Product Gallery</th>
           <td>
-            <div id="image-upload-container">
-              <!-- Dynamic image fields will appear here -->
-            </div>
-            <button type="button" id="add-image-field">Add Image</button>
-            <small>**Product detail images with order number to display in product detail page</small>
+
+            <button type="button" class="button" id="add-gallery-images">
+              Add Gallery Images
+            </button>
+
+            <p class="description">
+              Drag images to reorder. Click × to remove.
+            </p>
+
+            <div id="gallery-container" class="amway-gallery"></div>
+
           </td>
         </tr>
+
+
         <!-- Product Detail (WYSIWYG editor) -->
         <tr>
           <th scope="row"><label for="product_detail">Product Detail</label></th>
@@ -756,49 +634,26 @@ function aboyuma_amway_product_add() {
             ?>
           </td>
         </tr>
-        <!-- Product additive properties -->
+        <!-- Product Properties -->
+        <?php
+        $productPropertyTable = $wpdb->prefix . 'aboyuma_amway_product_property';
+        $properties = $wpdb->get_results("SELECT * FROM $productPropertyTable ORDER BY property_type, property_name");
+        ?>
         <tr>
-          <th scope="row">Product Additive Properties</th>
+          <th scope="row">Product Properties</th>
           <td>
-            <label>
-              <input type="checkbox" name="no_color" value="1" <?php checked(isset($_POST['no_color']) && $_POST['no_color'] == '1'); ?>>
-              ไม่เจือสี
-            </label><br>
-            <label>
-              <input type="checkbox" name="no_flavoring" value="1" <?php checked(isset($_POST['no_flavoring']) && $_POST['no_flavoring'] == '1'); ?>>
-              ไม่ใช้วัตถุแต่งกลิ่นรส
-            </label><br>
-            <label>
-              <input type="checkbox" name="no_preservative" value="1" <?php checked(isset($_POST['no_preservative']) && $_POST['no_preservative'] == '1'); ?>>
-              ไม่ใช้วัตถุกันเสีย
-            </label>
+            <?php foreach ($properties as $prop): ?>
+              <label style="display:block;">
+                <input type="checkbox"
+                  name="product_properties[]"
+                  value="<?php echo esc_attr($prop->property_key); ?>">
+                <?php echo esc_html($prop->property_name); ?>
+                <small>(<?php echo esc_html($prop->property_type); ?>)</small>
+              </label>
+            <?php endforeach; ?>
           </td>
         </tr>
-        <!-- Product Diet Properties -->
-        <tr>
-          <th scope="row"><label for="product_diet_properties">Product Diet Properties</label></th>
-          <td>
-            <?php
-            $diet_props = isset($_POST['product_diet_properties']) ? $_POST['product_diet_properties'] : [];
-            ?>
-            <label>
-              <input type="checkbox" name="product_diet_properties[]" value="vegetarian"
-                <?php echo in_array('vegetarian', $diet_props) ? 'checked' : ''; ?>> Vegetarian
-            </label>
-            <label>
-              <input type="checkbox" name="product_diet_properties[]" value="flexitarian"
-                <?php echo in_array('flexitarian', $diet_props) ? 'checked' : ''; ?>> Flexitarian
-            </label>
-            <label>
-              <input type="checkbox" name="product_diet_properties[]" value="vegan"
-                <?php echo in_array('vegan', $diet_props) ? 'checked' : ''; ?>> Vegan
-            </label>
-            <label>
-              <input type="checkbox" name="product_diet_properties[]" value="mostly vegan"
-                <?php echo in_array('mostly vegan', $diet_props) ? 'checked' : ''; ?>> Mostly Vegan
-            </label>
-          </td>
-        </tr>
+
         <!-- Product Review (WYSIWYG editor) -->
         <tr>
           <th scope="row"><label for="product_review">Product Review</label></th>
@@ -830,23 +685,7 @@ function aboyuma_amway_product_add() {
               value="<?php echo isset($_POST['product_member_price']) ? esc_attr($_POST['product_member_price']) : ''; ?>">
           </td>
         </tr>
-        <!-- Product is SOP -->
-        <tr>
-          <th scope="row"><label for="product_is_sop">Product is SOP</label></th>
-          <td>
-            <label>
-              <input type="radio" name="product_is_sop" value="1"
-                <?php echo (isset($_POST['product_is_sop']) && $_POST['product_is_sop'] == '1') ? 'checked' : ''; ?>>
-              Yes
-            </label>
-            <label>
-              <input type="radio" name="product_is_sop" value="0"
-                <?php echo (isset($_POST['product_is_sop']) && $_POST['product_is_sop'] == '0') ? 'checked' : ''; ?>>
-              No
-            </label>
-            <small style="display:block;">The product has SOP promotion.</small>
-          </td>
-        </tr>
+
         <!-- Product Shop Link -->
         <tr>
           <th scope="row"><label for="product_shop_link">Product Shop Link</label></th>
@@ -896,71 +735,6 @@ function aboyuma_amway_product_add() {
           <th scope="row"><label for="product_slug">Product Slug</label></th>
           <td>
             <input type="text" name="product_slug" id="product_slug" class="regular-text">
-          </td>
-        </tr>
-        <!-- Product Infographics -->
-        <tr>
-          <th scope="row"><label for="product_infographics">Product Infographic</label></th>
-          <td>
-            <div id="infographic-upload-container">
-              <!-- Dynamic Infographic fields will appear here -->
-            </div>
-            <button type="button" id="add-infographic-field">Add Infographic</button>
-            <small>**Product infographic with order number to display in product detail page</small>
-          </td>
-        </tr>
-        <!-- Related Products -->
-        <?php
-        // Fetch all products
-        $products = $wpdb->get_results("SELECT id, product_name 
-        FROM {$wpdb->prefix}aboyuma_amway_product 
-        ORDER BY product_name ASC");
-        // If form was submitted and failed, use submitted values instead
-        $submitted_related = $_POST['relatedproduct'] ?? [];
-        ?>
-        <tr>
-          <th><label for="related-products">Related Products</label></th>
-          <td>
-            <!-- Search Input -->
-            <input
-              type="text"
-              id="related-product-search"
-              placeholder="Search products..."
-              style="margin-bottom: 10px; width: 100%; max-width: 400px; padding: 5px;">
-
-            <!-- Fieldset for grouping -->
-            <fieldset id="related-product-fieldset" style="border: none; padding: 0;">
-              <div
-                id="related-product-list"
-                style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-
-                <?php foreach ($products as $index => $product):
-                  // Priority: submitted data > saved data
-                  $submitted = $submitted_related[$index] ?? [];
-                  $is_checked = isset($submitted['id']);
-                  $comment_value = $submitted['comment'] ?? '';
-                ?>
-                  <div class="related-product-item"
-                    data-name="<?= esc_attr(strtolower($product->product_name)); ?>"
-                    style="margin-bottom: 15px;">
-                    <label style="display:block; font-weight: bold;">
-                      <input
-                        type="checkbox"
-                        class="related-checkbox"
-                        name="relatedproduct[<?= $index ?>][id]"
-                        value="<?= esc_attr($product->id); ?>" <?= $is_checked ? 'checked' : '' ?>>
-                      <?= esc_html($product->product_name); ?>
-                    </label>
-                    <textarea
-                      class="related-comment"
-                      name="relatedproduct[<?= $index ?>][comment]"
-                      rows="2"
-                      style="width: 100%; max-width: 400px;"
-                      <?= $is_checked ? '' : 'disabled' ?>><?= esc_textarea($comment_value); ?></textarea>
-                  </div>
-                <?php endforeach; ?>
-              </div>
-            </fieldset>
           </td>
         </tr>
         <!-- Product Tag -->

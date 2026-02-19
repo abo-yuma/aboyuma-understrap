@@ -56,5 +56,5 @@ module.exports = [
 	),
 
 	// Shop Media (WP Media Uploader)
-	build("src/admin/js/shop-media.js", "assets/admin", "shop-media"),
+	build("src/admin/js/amway-shop-media.js", "assets/admin", "amway-shop-media"),
 ];
