@@ -53,5 +53,5 @@ dist-product/
 **/img
 
 # Build folder
-css/
-js/
+/css/
+/js/

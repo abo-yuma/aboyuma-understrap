@@ -1,0 +1,36 @@
+.fancybox__backdrop {
+	background: rgba(0, 0, 0, 0.8);
+	/* same as Magnific Popup */
+}
+
+.thumbnail-wrapper {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	/* 5 thumbnails per row */
+	gap: 6px;
+	/* spacing between thumbnails */
+	width: 100%;
+}
+
+.thumbnail {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	/* keep square thumbnails */
+	object-fit: cover;
+	margin: 0;
+	/* remove Bootstrap margins */
+}
+
+#qrcode img {
+	width: 70px;
+	height: 70px;
+	object-fit: contain;
+}
+
+.infographic-image {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	/* force square */
+	object-fit: cover;
+	/* cover without distortion */
+}
