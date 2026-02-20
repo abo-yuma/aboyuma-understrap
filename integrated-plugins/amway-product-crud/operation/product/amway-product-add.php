@@ -1,6 +1,9 @@
 <?php
 defined('ABSPATH') || exit;
 
+require_once get_template_directory() . '/inc/product/product-sanitize.php';
+require_once get_template_directory() . '/inc/product/product-validate.php';
+
 function aboyuma_amway_product_add() {
   // Add new product data page content
   global $wpdb;
@@ -8,401 +11,188 @@ function aboyuma_amway_product_add() {
   // Fetch brands and categories
   $productBrandTable = $wpdb->prefix . 'aboyuma_amway_product_brand';
   $productCategoryTable = $wpdb->prefix . 'aboyuma_amway_product_category';
-  $productImageTable = $wpdb->prefix . 'aboyuma_amway_product_image';
   // Fetch brands
   $brands = $wpdb->get_results("SELECT id, brand_name FROM $productBrandTable");
   // Fetch categories
   $categories = $wpdb->get_results("SELECT id, category_name, parent_id FROM $productCategoryTable");
 
   if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aboyuma_amway_product_add_nonce'])
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && isset($_POST['aboyuma_amway_product_add_nonce'])
     && wp_verify_nonce($_POST['aboyuma_amway_product_add_nonce'], 'aboyuma_amway_product_add')
   ) {
 
-    // ===== Product Data Insert =====
-    // Sanitize and assign form data
-    $product_code = sanitize_text_field(trim($_POST['product_code']));
-    $product_brand_id = sanitize_text_field(trim($_POST['product_brand']));
-    $parent_category = isset($_POST['parent_category']) ? (int)$_POST['parent_category'] : 0;
-    $product_subcategory = isset($_POST['product_subcategory']) ? (int)$_POST['product_subcategory'] : 0;
+    $data = aboyuma_sanitize_product($_POST);
 
-    // Determine which value to use for $product_category_id
-    if (!empty($product_subcategory)) {
-      // If subcategory is selected, use subcategory
-      $product_category_id = $product_subcategory;
-    } else {
-      // If subcategory is empty, use parent category
-      $product_category_id = $parent_category;
-    }
-    $product_category_id = absint(trim($product_category_id));
-    $product_name = sanitize_text_field(trim($_POST['product_name']));
+    $errors = aboyuma_validate_product($data, $table_name);
 
-    // Product Unit Count (integer, nullable)
-    $product_unit_count = isset($_POST['product_unit_count']) ? intval($_POST['product_unit_count']) : null;
-
-    // Product Unit Type (enum, sanitize and validate)
-    $allowed_types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
-    $product_unit_type = isset($_POST['product_unit_type']) && in_array($_POST['product_unit_type'], $allowed_types)
-      ? sanitize_text_field($_POST['product_unit_type'])
-      : null;
-
-    $allowed_usage = ['content', 'capacity'];
-    $product_unit_usage = isset($_POST['product_unit_usage']) && in_array($_POST['product_unit_usage'], $allowed_usage)
-      ? sanitize_text_field($_POST['product_unit_usage'])
-      : 'content'; // default
-
-    $product_short_description = sanitize_textarea_field(trim($_POST['product_short_description']));
-    $product_description = sanitize_textarea_field(trim($_POST['product_description']));
-    $product_benefit = sanitize_textarea_field(trim($_POST['product_benefit']));
-    $product_detail = wp_kses_post(trim($_POST['product_detail']));
-    $product_specification = wp_kses_post(trim($_POST['product_specification']));
-    $product_comment = wp_kses_post(trim($_POST['product_comment']));
-
-    // =============================
-    // Product Additive Properties
-    // =============================
-
-    $all_additive_options = ['no_color', 'no_flavoring', 'no_preservative'];
-
-    $selected_additive_props = isset($_POST['product_additive_properties'])
-      && is_array($_POST['product_additive_properties'])
-      ? array_map('sanitize_text_field', $_POST['product_additive_properties'])
-      : [];
-
-    $product_additive_properties = [];
-
-    foreach ($all_additive_options as $option) {
-      $product_additive_properties[$option] = in_array($option, $selected_additive_props, true);
+    if (!empty($errors)) {
+      return;
     }
 
-    $product_additive_properties_json = wp_json_encode($product_additive_properties);
+    $wpdb->query('START TRANSACTION');
 
+    // =========================
+    // INSERT PRODUCT
+    // =========================
+    $inserted = $wpdb->insert(
+      $table_name,
+      [
+        'main_image_id'            => $data['main_image_id'],
+        'product_code'             => $data['product_code'],
+        'product_brand_id'         => $data['product_brand_id'] ?: null,
+        'product_category_id'      => $data['product_category_id'] ?: null,
+        'product_name'             => $data['product_name'],
+        'product_unit_count'       => $data['product_unit_count'],
+        'product_unit_type'        => $data['product_unit_type'],
+        'product_unit_usage'       => $data['product_unit_usage'],
+        'product_short_description' => $data['product_short_description'],
+        'product_description'      => $data['product_description'],
+        'product_benefit'          => $data['product_benefit'],
+        'product_detail'           => $data['product_detail'],
+        'product_specification'    => $data['product_specification'],
+        'product_comment'          => $data['product_comment'],
+        'product_review'           => $data['product_review'],
+        'product_price'            => number_format($data['product_price'], 2, '.', ''),
+        'product_member_price'     => number_format($data['product_member_price'], 2, '.', ''),
+        'product_shop_link'        => $data['product_shop_link'],
+        'product_sop_link'         => $data['product_sop_link'],
+        'product_sale_article_link' => $data['product_sale_article_link'],
+        'product_is_pinned'        => $data['product_is_pinned'],
+        'product_slug'             => $data['product_slug'],
+      ],
+      [
+        '%d',
+        '%s',
+        '%d',
+        '%d',
+        '%s',
+        '%d',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%s',
+        '%f',
+        '%f',
+        '%s',
+        '%s',
+        '%s',
+        '%d',
+        '%s'
+      ]
+    );
 
-    // =============================
-    // Product Diet Properties
-    // =============================
-
-    $all_diet_options = ['vegetarian', 'flexitarian', 'vegan', 'mostly_vegan'];
-
-    $selected_diet_props = isset($_POST['product_diet_properties'])
-      && is_array($_POST['product_diet_properties'])
-      ? array_map('sanitize_text_field', $_POST['product_diet_properties'])
-      : [];
-
-    $product_diet_properties = [];
-
-    foreach ($all_diet_options as $diet) {
-      $product_diet_properties[$diet] = in_array($diet, $selected_diet_props, true);
-    }
-
-    $product_diet_properties_json = wp_json_encode($product_diet_properties);
-
-    $product_review = wp_kses_post(trim($_POST['product_review']));
-    $product_price = floatval($_POST['product_price']);
-    $product_member_price = floatval($_POST['product_member_price']);
-    $product_is_sop =  intval($_POST['product_is_sop']);
-    $product_shop_link = esc_url_raw(trim($_POST['product_shop_link']));
-    $product_sop_link = esc_url_raw(trim($_POST['product_sop_link']));
-    $product_sale_article_link = esc_url_raw(trim($_POST['product_sale_article_link']));
-    $product_is_pinned = intval($_POST['product_is_pinned']);
-    $product_slug = sanitize_text_field(trim($_POST['product_slug']));
-    $created = current_time('mysql');
-    $modified = current_time('mysql');
-
-    // Validate fields
-    // Validate product image url
-    // Check if a file was uploaded
-    $main_image_id = isset($_POST['main_image_id']) ? absint($_POST['main_image_id']) : 0;
-
-    if (empty($main_image_id)) {
-      $errors[] = 'Main image is required.';
-    }
-    // Validate product code
-    if (empty($product_code)) {
-      $errors[] = 'Product code is required.';
-    }
-    // Validate product brand
-    if (empty($product_brand_id)) {
-      $errors[] = 'Product brand is required.';
-    }
-    // Validate product category
-    if (empty($product_category_id)) {
-      $errors[] = 'Product category is required.';
-    }
-    // Validate product name
-    if (empty($product_name)) {
-      $errors[] = 'Product name is required.';
-    }
-
-    // Validate Product Unit Count
-    if ($product_unit_count === null || $product_unit_count < 0) {
-      $errors[] = 'Unit count is required and must be 0 or greater.';
-    }
-    // Validate Product Unit Type
-    $allowed_types = ['tablet', 'capsule', 'sachet', 'g', 'ml'];
-    if (empty($product_unit_type) || !in_array($product_unit_type, $allowed_types)) {
-      $errors[] = 'Unit type is required and must be one of: tablet, capsule, sachet, g, ml.';
-    }
-    // Validate Product Unit Usage
-    $allowed_usage = ['content', 'capacity'];
-    if (empty($product_unit_usage) || !in_array($product_unit_usage, $allowed_usage)) {
-      $errors[] = 'Unit usage is required and must be content or capacity.';
-    }
-    if ($product_unit_usage === 'capacity' && $product_unit_type !== 'ml') {
-      $errors[] = 'Unit usage "capacity" can only be used when unit type is ml.';
+    if (!$inserted) {
+      $wpdb->query('ROLLBACK');
+      wp_die($wpdb->last_error);
     }
 
-    // Validate product description
-    if (empty($product_short_description)) {
-      $errors[] = 'Product short description is required.';
-    }
-    // Validate product description
-    if (empty($product_description)) {
-      $errors[] = 'Product description is required.';
-    }
-    // Validate product benefit
-    if (empty($product_benefit)) {
-      $errors[] = 'Product benefit is required.';
-    }
-    // Validate product detail
-    if (empty($product_detail)) {
-      $errors[] = 'Product detail is required.';
-    }
-    // Validate product price
-    if (empty($product_price)) {
-      $errors[] = 'Product price is required.';
-    }
-    // Validate product member price
-    if (empty($product_member_price)) {
-      $errors[] = 'Product member price is required.';
-    }
-    // Validate product price
-    if (is_null($product_is_sop)) {
-      $errors[] = 'Product SOP flag is required.';
-    }
-    // Validate Product Sop Link
-    if (!empty($product_sop_link)) {
-      if (!filter_var($product_sop_link, FILTER_VALIDATE_URL)) {
-        $errors[] = 'Product Shop link must be a valid URL.';
+    $product_id = $wpdb->insert_id;
+
+    // =========================
+    // INSERT PROPERTIES
+    // =========================
+    if (!empty($_POST['product_properties'])) {
+
+      $pivotTable = $wpdb->prefix . 'aboyuma_amway_product_property_pivot';
+      $defTable = $wpdb->prefix . 'aboyuma_amway_product_property';
+
+      foreach ($_POST['product_properties'] as $key) {
+
+        $property = $wpdb->get_row(
+          $wpdb->prepare("SELECT id FROM $defTable WHERE property_key=%s", $key)
+        );
+
+        if ($property) {
+          $wpdb->query(
+            $wpdb->prepare(
+              "INSERT IGNORE INTO $pivotTable (product_id, property_id) VALUES (%d,%d)",
+              $product_id,
+              $property->id
+            )
+          );
+        }
       }
     }
-    // Validate Product Shop Link
-    // Validate Product Shop Link
-    if (empty($product_shop_link)) {
-      $errors[] = 'Product Shop link is required.';
-    } elseif (!empty($product_shop_link) && !filter_var($product_shop_link, FILTER_VALIDATE_URL)) {
-      $errors[] = 'Product Shop link must be a valid URL.';
-    }
-    // Validate product sale article link
-    if (!empty($product_sale_article_link)) {
-      if (!filter_var($product_sale_article_link, FILTER_VALIDATE_URL)) {
-        $errors[] = 'Product sale article link must be a valid URL.';
+
+    // =========================
+    // INSERT GALLERY
+    // =========================
+    if (!empty($_POST['gallery_image_ids'])) {
+
+      $galleryTable = $wpdb->prefix . 'aboyuma_amway_product_image';
+
+      foreach ($_POST['gallery_image_ids'] as $index => $attachment_id) {
+
+        $wpdb->query(
+          $wpdb->prepare(
+            "INSERT IGNORE INTO $galleryTable (product_id, attachment_id, image_order)
+           VALUES (%d,%d,%d)",
+            $product_id,
+            absint($attachment_id),
+            intval($index)
+          )
+        );
       }
     }
-    // Validate product is pinned
-    if (is_null($product_is_pinned)) {
-      $errors[] = 'Product is pinned flag is required.';
-    }
-    // Validate product slug
-    if (empty($product_slug)) {
-      $errors[] = 'Product slug is required.';
-    }
-    // If no errors, insert data into the database
-    if (empty($errors)) {
-      // DB_INSERT: Insert into aboyuma_amway_product table
-      $inserted = $wpdb->insert(
-        $table_name,
-        [
-          'main_image_id' => $main_image_id,
-          'product_code' => $product_code,
-          'product_brand_id' => $product_brand_id,
-          'product_category_id' => $product_category_id,
-          'product_name' => $product_name,
-          'product_unit_count' => $product_unit_count,
-          'product_unit_type' => $product_unit_type,
-          'product_unit_usage' => $product_unit_usage,
-          'product_short_description' => $product_short_description,
-          'product_description' => $product_description,
-          'product_benefit' => $product_benefit,
-          'product_detail' => $product_detail,
-          'product_specification' => $product_specification,
-          'product_comment' => $product_comment,
-          'product_additive_properties' => $product_additive_properties_json,
-          'product_diet_properties' => $product_diet_properties_json,
-          'product_review' => $product_review,
-          'product_price' => $product_price,
-          'product_member_price' => $product_member_price,
-          'product_is_sop' => $product_is_sop,
-          'product_shop_link' => $product_shop_link,
-          'product_sop_link' => $product_sop_link,
-          'product_sale_article_link' => $product_sale_article_link,
-          'product_is_pinned' => $product_is_pinned,
-          'product_slug' => $product_slug,
-          'created' => $created,
-          'modified' => $modified
-        ],
-        [
-          '%d', // main_image_id
-          '%s', // product_code
-          '%d', // product_brand_id
-          '%d', // product_category_id
-          '%s', // product_name
-          '%d', // product_unit_count
-          '%s', // product_unit_type
-          '%s', // product_unit_usage
-          '%s', // product_short_description
-          '%s', // product_description
-          '%s', // product_benefit
-          '%s', // product_detail
-          '%s', // product_specification
-          '%s', // product_comment
-          '%s', // product_additive_properties
-          '%s', // product_diet_properties
-          '%s', // product_review
-          '%f', // product_price
-          '%f', // product_member_price
-          '%d', // product_is_sop
-          '%s', // product_shop_link
-          '%s', // product_sop_link
-          '%s', // product_sale_article_link
-          '%d', // product_is_pinned
-          '%s', // product_slug
-          '%s', // created
-          '%s' // modified
-        ]
-      );
-      // Insert product success
-      if ($inserted) {
-        // Get the ID of the inserted product
-        $inserted_product_id = $wpdb->insert_id;
 
-        // =====================================
-        // INSERT PRODUCT PROPERTIES (Pivot)
-        // =====================================
-        $productPropertyTable = $wpdb->prefix . 'aboyuma_amway_product_property';
-        $productPropertyPivotTable = $wpdb->prefix . 'aboyuma_amway_product_property_pivot';
+    // =========================
+    // INSERT TAGS
+    // =========================
+    if (!empty($_POST['product_tags'])) {
 
-        // Collect selected property keys from form
-        $selected_properties = isset($_POST['product_properties']) && is_array($_POST['product_properties'])
-          ? array_map('sanitize_text_field', $_POST['product_properties'])
-          : [];
+      $tagTable = $wpdb->prefix . 'aboyuma_amway_product_tag';
+      $tags = array_filter(array_map('trim', explode(',', $_POST['product_tags'])));
 
-        if (!empty($selected_properties)) {
-
-          foreach ($selected_properties as $property_key) {
-
-            // Get property id from definition table
-            $property = $wpdb->get_row(
-              $wpdb->prepare(
-                "SELECT id FROM $productPropertyTable WHERE property_key = %s",
-                $property_key
-              )
-            );
-
-            if ($property) {
-              $wpdb->insert(
-                $productPropertyPivotTable,
-                [
-                  'product_id'  => $inserted_product_id,
-                  'property_id' => $property->id
-                ],
-                ['%d', '%d']
-              );
-            }
-          }
-        }
-
-
-        if (!empty($_POST['gallery_image_ids']) && is_array($_POST['gallery_image_ids'])) {
-
-          $now = current_time('mysql');
-
-          foreach ($_POST['gallery_image_ids'] as $index => $attachment_id) {
-
-            $wpdb->insert(
-              $productImageTable,
-              [
-                'product_id'    => $inserted_product_id,
-                'attachment_id' => absint($attachment_id),
-                'image_order'   => intval($index),
-                'created'       => $now,
-                'modified'      => $now,
-              ],
-              ['%d', '%d', '%d', '%s', '%s']
-            );
-          }
-        }
-
-        // DB_INSERT: aboyuma_amway_product_tag
-        if (isset($_POST['product_tags']) && !empty($_POST['product_tags'])) {
-
-          $tag_string = sanitize_text_field($_POST['product_tags']); // "tag1,tag2,tag3"
-
-          // Split tags into array, trim spaces, remove empty entries
-          $tags = array_filter(array_map('trim', explode(',', $tag_string)));
-
-          $table = $wpdb->prefix . 'aboyuma_amway_product_tag';
-
-          //$wpdb->delete($table, ['product_id' => $inserted_product_id], ['%d']);
-
-          // Insert each tag individually
-          foreach ($tags as $tag_name) {
-            $wpdb->insert(
-              $table,
-              [
-                'product_id' => $inserted_product_id,
-                'tag_name' => $tag_name,
-                'created' => current_time('mysql'),
-                'modified' => current_time('mysql')
-              ],
-              ['%d', '%s', '%s', '%s']
-            );
-          }
-        }
-
-        // DB_INSERT: aboyuma_amway_product_video
-        if (isset($_POST['video_datas']) && !empty($_POST['video_datas'])) {
-
-          $table = $wpdb->prefix . 'aboyuma_amway_product_video';
-          $now = current_time('mysql');
-
-          foreach ($_POST['video_datas'] as $video_data) {
-            $video_url = esc_url_raw($video_data['video_url']);
-            $video_comment = sanitize_text_field($video_data['video_comment']);
-
-            $wpdb->insert($table, [
-              'product_id'     => $inserted_product_id, // ← use your variable here
-              'video_url'      => $video_url,
-              'video_comment'  => $video_comment,
-              'created'        => $now,
-              'modified'       => $now
-            ]);
-          }
-        }
-
-        echo '<div class="notice notice-success is-dismissible"><p>Product added successfully!</p></div>';
-        echo '<script>window.location.href="' . admin_url('admin.php?page=aboyuma-product-list') . '";</script>';
-        exit; // Extra code from running unnecessarily.Additional HTML from being rendered.Unexpected side effects (like duplicate inserts, echoes, or further processing).
-      } else {
-        // Capture and display the error
-        $error_message = $wpdb->last_error; // Get the last error message
-        if (!empty($error_message)) {
-          error_log('Database Insert Error: ' . $error_message); // Log the error for debugging
-        }
-        $errors[] = 'Failed to add product. Please try again.';
-        echo '<div class="notice notice-error is-dismissible"><p>' . esc_html($error_message) . '</p></div>';
+      foreach ($tags as $tag) {
+        $wpdb->query(
+          $wpdb->prepare(
+            "INSERT IGNORE INTO $tagTable (product_id, tag_name)
+           VALUES (%d,%s)",
+            $product_id,
+            sanitize_text_field($tag)
+          )
+        );
       }
     }
+
+    // =========================
+    // INSERT VIDEOS
+    // =========================
+    if (!empty($_POST['video_datas'])) {
+
+      $videoTable = $wpdb->prefix . 'aboyuma_amway_product_video';
+
+      foreach ($_POST['video_datas'] as $video) {
+
+        $video_url = esc_url_raw($video['video_url']);
+        $video_comment = sanitize_text_field($video['video_comment']);
+
+        if ($video_url) {
+          $wpdb->insert(
+            $videoTable,
+            [
+              'product_id' => $product_id,
+              'video_url' => $video_url,
+              'video_comment' => $video_comment
+            ],
+            ['%d', '%s', '%s']
+          );
+        }
+      }
+    }
+
+    $wpdb->query('COMMIT');
+
+    wp_redirect(admin_url('admin.php?page=aboyuma-product-list'));
+    exit;
   }
-  // Display errors if any
-  if (!empty($errors)) {
-    echo '<div class="notice notice-error is-dismissible"><ul>';
-    foreach ($errors as $error) {
-      echo '<li>' . esc_html($error) . '</li>';
-    }
-    echo '</ul></div>';
-  }
-  // Display the form
+
 ?>
   <div class="wrap">
     <h1 class="wp-heading-inline">Add New Product</h1>
