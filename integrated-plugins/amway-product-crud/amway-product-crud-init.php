@@ -15,14 +15,16 @@ $amway_product_crud_plugin_path = get_template_directory() . '/integrated-plugin
 
 $amway_product_crud_files = [
 
-	// DATABASE
-	'/inc/amway-product-database.php',
+	// CORE
+	'/inc/core/amway-product-database.php',
 
-	// ADMIN MENU
-	'/inc/amway-product-admin-menu.php',
+	// ADMIN 
+	'/inc/admin/amway-product-admin-menu.php',
+	'/inc/admin/amway-product-admin-enqueue.php',
 
-	// ADMIN SCRIPTS
-	'/inc/amway-product-admin-enqueue.php',
+	// PRODUCT INPUT HANDLING (Sanitize & Validate)
+	'/inc/product/product-sanitize.php',
+	'/inc/product/product-validation.php',
 
 	// OPERATION: PRODUCT
 	'/operation/product/amway-product-list.php',

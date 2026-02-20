@@ -61,6 +61,29 @@ function amway_product_admin_enqueue($hook) {
         ]
     );
 
+    if ($hook === 'amway-products_page_aboyuma-product-category-list') {
+
+        $script_path = $base_path . '/assets/admin/amway-product-category-delete.min.js';
+        $script_uri  = $base_uri  . '/assets/admin/amway-product-category-delete.min.js';
+
+        wp_enqueue_script(
+            'amway-category-delete',
+            $script_uri,
+            ['jquery'],
+            file_exists($script_path) ? filemtime($script_path) : '1.0.0',
+            true
+        );
+
+        wp_localize_script(
+            'amway-category-delete',
+            'deleteProductCategory',
+            [
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'delete_product_category_nonce' => wp_create_nonce('delete_product_category_nonce')
+            ]
+        );
+    }
+
     /**
      * =====================================================
      * ADD & EDIT PAGE (Shared Assets)
