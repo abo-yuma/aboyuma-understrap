@@ -420,3 +420,172 @@ if (! function_exists('aboyuma_marquee_customizer')) {
 	}
 }
 add_action('customize_register', 'aboyuma_marquee_customizer');
+
+// === Header Image Customizer ===
+function header_customizer_register($wp_customize) {
+	// Add a section for Header Image
+	$wp_customize->add_section('aboyuma_header_image_section', array(
+		'title'       => __('Header Image', 'aboyuma'),
+		'priority'    => 30,
+	));
+
+	// Add a setting for the image
+	$wp_customize->add_setting('aboyuma_header_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+
+	// Add control for the image uploader
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize,
+		'aboyuma_header_image',
+		array(
+			'label'    => __('Upload Header Image', 'aboyuma'),
+			'description' => __('Height: >80px', 'aboyuma'),
+			'section'  => 'aboyuma_header_image_section',
+			'settings' => 'aboyuma_header_image',
+		)
+	));
+}
+add_action('customize_register', 'header_customizer_register');
+
+// Footer customizer
+function aboyuma_customize_register($wp_customize) {
+	// Add a section for Footer Columns
+	$wp_customize->add_section('footer_columns', array(
+		'title' => __('Footer Columns', 'aboyuma'),
+		'priority' => 30,
+	));
+
+	// Column 1: About Us
+	$wp_customize->add_setting('footer_column_1_image', array(
+		'default' => '', // Default image URL if any.
+		'sanitize_callback' => 'esc_url_raw', // Sanitize the URL of the image.
+	));
+
+	$wp_customize->add_control(
+		new WP_Customize_Image_Control(
+			$wp_customize,
+			'footer_column_1_image',
+			array(
+				'label'    => __('Column 1 Image', 'aboyuma'),
+				'section'  => 'footer_columns',
+				'settings' => 'footer_column_1_image',
+			)
+		)
+	);
+
+	// Column 2: Our Services
+	$wp_customize->add_setting('footer_column_2_content', array(
+		'default' => __('เป็นตัวแทนจำหน่ายสินค้าแอมเวย์...', 'aboyuma'),
+		'sanitize_callback' => 'sanitize_textarea_field',
+	));
+	$wp_customize->add_control('footer_column_2_content', array(
+		'label' => __('Column 2 Content', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'textarea',
+	));
+
+	// Column 3: Contact Us
+	// ===============================
+	// Column 3: Contact Us (Social Links)
+	// ===============================
+	$wp_customize->add_section('footer_columns', array(
+		'title' => __('Footer Columns', 'aboyuma'),
+		'priority' => 30,
+	));
+
+	// --- Facebook ---
+	$wp_customize->add_setting('footer_facebook_name', array(
+		'default' => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+	$wp_customize->add_control('footer_facebook_name', array(
+		'label' => __('Facebook Name', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'text',
+	));
+
+	$wp_customize->add_setting('footer_facebook_link', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control('footer_facebook_link', array(
+		'label' => __('Facebook Link', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'url',
+	));
+
+	// --- Instagram ---
+	$wp_customize->add_setting('footer_instagram_name', array(
+		'default' => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+	$wp_customize->add_control('footer_instagram_name', array(
+		'label' => __('Instagram Name', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'text',
+	));
+
+	$wp_customize->add_setting('footer_instagram_link', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control('footer_instagram_link', array(
+		'label' => __('Instagram Link', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'url',
+	));
+
+	// --- YouTube ---
+	$wp_customize->add_setting('footer_youtube_name', array(
+		'default' => '',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+	$wp_customize->add_control('footer_youtube_name', array(
+		'label' => __('YouTube Name', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'text',
+	));
+
+	$wp_customize->add_setting('footer_youtube_link', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+	));
+	$wp_customize->add_control('footer_youtube_link', array(
+		'label' => __('YouTube Link', 'aboyuma'),
+		'section' => 'footer_columns',
+		'type' => 'url',
+	));
+
+	// --- LINE QR Code ---
+	$wp_customize->add_setting('footer_line_qrcode', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw', // sanitize image URL
+	));
+
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize,
+		'footer_line_qrcode',
+		array(
+			'label'    => __('Line QR Code', 'aboyuma'),
+			'section'  => 'footer_columns',
+			'settings' => 'footer_line_qrcode',
+			'description' => __('Upload your LINE QR Code image for display in the footer.', 'aboyuma'),
+		)
+	));
+}
+add_action('customize_register', 'aboyuma_customize_register');
+
+
+function aboyuma_customize_tinymce_toolbar($init) {
+	// Add toolbar options clearly separated
+	$init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
+	$init['toolbar2'] = 'blockquote code removeformat';
+
+	// Add available font sizes (pt is optional, WordPress TinyMCE understands both)
+	$init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+
+	return $init;
+}
+add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');

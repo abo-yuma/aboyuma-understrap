@@ -20,12 +20,8 @@ defined('ABSPATH') || exit;
 
 			<?php
 			understrap_posted_on();
-			// --- Add post views ---
-			$views = getPostViews($post->ID);
 			// $view_output = '<span class="post-views"> | ' .
 			// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
-			// 	echo $view_output;
-			echo '<span class="post-views"> | 📊 ' . $views . '</span>';
 			?>
 
 		</div><!-- .entry-meta -->

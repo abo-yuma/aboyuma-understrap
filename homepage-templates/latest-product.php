@@ -1,31 +1,40 @@
 <!-- Reccommend Product Section -->
 <div id="home-latest-product" class="mb-2">
+
     <?php
     global $wpdb;
-    $table_name = $wpdb->prefix . 'aboyuma_amway_product';
-    $products = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT id, product_image, product_name, 
-                product_short_description, product_benefit
-                FROM {$table_name} 
-                ORDER BY created DESC LIMIT %d",
-            4
-        )
+
+    $table_name = $wpdb->prefix . 'aboyuma_product';
+    $products = [];
+
+    $has_product_table = (
+        $wpdb->get_var(
+            $wpdb->prepare("SHOW TABLES LIKE %s", $table_name)
+        ) === $table_name
     );
 
-    if ($wpdb->last_error) {
-        echo '<div style="color:red;">MySQL Error: ' . $wpdb->last_error . '</div>';
+    if ($has_product_table) {
+        $products = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT id, main_image_id, product_name,
+                    product_description, product_slug
+             FROM {$table_name}
+             ORDER BY created DESC
+             LIMIT %d",
+                4
+            )
+        );
     }
+
+    $has_products = !empty($products);
     ?>
 
-    <h1 class="section-header">
-        🛍️ สินค้าแอมเวย์ที่เพิ่มล่าสุด
-    </h1>
-    <?php if (empty($products)) : ?>
-        <div class="alert alert-secondary text-center">
-            📦 ยังไม่มีข้อมูลสินค้า
-        </div>
-    <?php else : ?>
+    <h2 class="section-header">
+        🛍️ ข้อมูลสินค้าแอมเวย์ที่เพิ่มล่าสุด
+    </h2>
+
+    <?php if ($has_products) : ?>
+
         <table id="latest-product-table" class="table">
             <thead>
                 <tr>
@@ -35,25 +44,43 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($products as $product) :
-                    $image_url = $product->product_image ? '<img class="img-fluid rounded-3 mb-2" src="data:image/jpeg;base64,'
-                        . base64_encode($product->product_image) . '" width="100%" height="auto">' : '';
-                    $detail_url = esc_url(add_query_arg('id', $product->id, get_permalink(get_page_by_path('amway-product-detail')->ID)));
-                ?>
+                <?php foreach ($products as $product) : ?>
                     <tr>
-                        <!-- product -->
-                        <td class="product-name">
-                            <div class="text-center">
-                                <?php echo $image_url; ?>
-                                <div class="fw-semibold mt-1">
-                                    <?php echo esc_html($product->product_name); ?>
+                        <td class="text-center align-middle">
+
+                            <?php
+                            $image_url = '';
+
+                            if (!empty($product->main_image_id)) {
+                                $image_url = wp_get_attachment_image_url(
+                                    $product->main_image_id,
+                                    'medium'
+                                );
+                            }
+                            ?>
+
+                            <?php if ($image_url): ?>
+                                <img
+                                    src="<?php echo esc_url($image_url); ?>"
+                                    alt="<?php echo esc_attr($product->product_name); ?>"
+                                    class="img-fluid mb-2"
+                                    style="max-height: 120px; width: auto; height: auto;">
+                            <?php else: ?>
+                                <div class="mb-2 text-muted small">
+                                    No image
                                 </div>
+                            <?php endif; ?>
+
+                            <div class="fw-semibold">
+                                <?php echo esc_html($product->product_name); ?>
                             </div>
+
                         </td>
-                        <td><?php echo htmlspecialchars_decode($product->product_short_description); ?></td>
                         <td>
-                            <a href="<?php echo $detail_url; ?>"
+                            <?php echo wp_kses_post($product->product_description); ?>
+                        </td>
+                        <td>
+                            <a href="<?php echo home_url('/amway-products/' . $product->product_slug); ?>"
                                 class="btn btn-sm btn-outline-primary">
                                 ดูรายละเอียด
                             </a>
@@ -63,43 +90,51 @@
             </tbody>
         </table>
 
-        <!-- please init datatable using inline js -->
-        <script>
-            jQuery(document).ready(function($) {
-                const isDesktop = window.matchMedia("(min-width: 769px)").matches;
-                // Apply only for iPad and PC screen
-                let columnDefs = [];
-                if (isDesktop) {
-                    columnDefs = [{
-                            width: "25%",
-                            targets: [0],
-                        },
-                        {
-                            width: "55%",
-                            targets: [1],
-                        },
-                        {
-                            width: "20%",
-                            targets: [2],
-                        }
-                    ];
-                }
-                var table = $("#latest-product-table").DataTable({
-                    fixedColumns: {
-                        start: 1,
-                        end: 1
-                    },
-                    paging: false,
-                    scrollCollapse: true,
-                    scrollX: true,
-                    searching: false,
-                    autoWidth: false,
-                    responsive: true,
-                    columnDefs: columnDefs,
-                    info: false,
-                    ordering: false
-                });
-            });
-        </script>
+    <?php else : ?>
+
+        <div class="alert alert-secondary text-center">
+            📦 ยังไม่มีข้อมูลสินค้า
+        </div>
+
     <?php endif; ?>
+
 </div>
+
+<!-- please init datatable using inline js -->
+<script>
+    jQuery(document).ready(function($) {
+        const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+        // Apply only for iPad and PC screen
+        let columnDefs = [];
+        if (isDesktop) {
+            columnDefs = [{
+                    width: "25%",
+                    targets: [0],
+                },
+                {
+                    width: "55%",
+                    targets: [1],
+                },
+                {
+                    width: "20%",
+                    targets: [2],
+                }
+            ];
+        }
+        var table = $("#latest-product-table").DataTable({
+            fixedColumns: {
+                start: 1,
+                end: 1
+            },
+            paging: false,
+            scrollCollapse: true,
+            scrollX: true,
+            searching: false,
+            autoWidth: false,
+            responsive: true,
+            columnDefs: columnDefs,
+            info: false,
+            ordering: false
+        });
+    });
+</script>
