@@ -120,56 +120,6 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			false
 		);
 
-		// Enqueue jQueryDataTables JS from a CDN
-		// Ref: https://cdn.datatables.net/
-		// Enqueue DataTables Bootstrap 5 CSS
-		wp_enqueue_style(
-			'datatables-bootstrap-style',
-			'https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css',
-			array(),
-			$theme_version
-		);
-
-		// Enqueue FixedColumns Bootstrap 5 CSS
-		wp_enqueue_style(
-			'datatables-fixedcolumns-style',
-			'https://cdn.datatables.net/fixedcolumns/5.0.4/css/fixedColumns.bootstrap5.css',
-			array('datatables-bootstrap-style'),
-			$theme_version
-		);
-		// Enqueue DataTables core JS
-		wp_enqueue_script(
-			'datatables-js',
-			'https://cdn.datatables.net/2.2.2/js/dataTables.js',
-			array('jquery'),
-			$theme_version,
-			true
-		);
-		// Enqueue DataTables Bootstrap 5 integration JS
-		wp_enqueue_script(
-			'datatables-bootstrap-js',
-			'https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js',
-			array('datatables-js'),
-			$theme_version,
-			true
-		);
-		// Enqueue FixedColumns extension JS
-		wp_enqueue_script(
-			'datatables-fixedcolumns-js',
-			'https://cdn.datatables.net/fixedcolumns/5.0.4/js/dataTables.fixedColumns.js',
-			array('datatables-js'),
-			$theme_version,
-			true
-		);
-		// Enqueue Bootstrap 5 integration for FixedColumns J
-		wp_enqueue_script(
-			'datatables-fixedcolumns-bootstrap-js',
-			'https://cdn.datatables.net/fixedcolumns/5.0.4/js/fixedColumns.bootstrap5.js',
-			array('datatables-fixedcolumns-js', 'datatables-bootstrap-js'),
-			$theme_version,
-			true
-		);
-
 		wp_enqueue_script(
 			'clipboard-js',
 			'https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js',

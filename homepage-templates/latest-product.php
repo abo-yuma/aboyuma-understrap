@@ -35,7 +35,7 @@
 
     <?php if ($has_products) : ?>
 
-        <table id="latest-product-table" class="table">
+        <table id="latest-product-table" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>🛍️ สินค้า</th>

@@ -59,7 +59,7 @@ if ( ! function_exists( 'understrap_posted_on' ) ) {
 			);
 		}
 
-		echo $posted_on . $byline; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $posted_on; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 
