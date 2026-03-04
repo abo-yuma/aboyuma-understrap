@@ -29,8 +29,8 @@ html {
  */
 @media (min-width: 768px) {
 	.container {
-		max-width: 800px;
-		min-width: 800px;
+		max-width: 840px;
+		min-width: 840px;
 	}
 }
 
@@ -218,6 +218,11 @@ body.admin-bar #navbar-main.is-fixed {
 	}
 }
 
+.single-post .entry-content {
+	font-size: 18px;
+	line-height: 1.6;
+}
+
 .section-header {
 	font-size: 16px; /* default */
 	font-weight: 700;
@@ -313,9 +318,13 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 
 // ===== Main content ===== //
 .entry-title {
-	font-size: 1.5rem;
+	font-size: 1.75rem;
 	border-bottom: 2px solid var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+.single-post .entry-title {
+	font-size: 2.5rem;
 }
 
 .entry-meta {
@@ -1029,4 +1038,16 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	overflow: auto !important;
 	overflow-x: hidden !important;
 	padding-right: 0 !important;
+}
+
+[data-bs-theme="light"] .hero-box {
+	background: linear-gradient(135deg, #f8fbff, #ffffff);
+	border-radius: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="dark"] .hero-box {
+	background: linear-gradient(135deg, #2f2f2f, #3a3a3a);
+	border-radius: 16px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
 }

@@ -28,7 +28,7 @@ defined('ABSPATH') || exit;
 
 	</header><!-- .entry-header -->
 
-	<div class="entry-content mt-2">
+	<div class="entry-content mt-3">
 
 		<?php
 		the_content();
