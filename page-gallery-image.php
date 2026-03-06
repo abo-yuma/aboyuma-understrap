@@ -28,7 +28,7 @@ if (!$gallery_id) {
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-3 px-md-4 py-0';
+$container_classes = $container . ' px-4 py-0';
 ?>
 
 <main>

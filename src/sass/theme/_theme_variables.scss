@@ -5,43 +5,23 @@
 // $purple: #5533ff; // Thats a sample how you could change a BootStrap variable.
 // $primary: $purple; // Once we've changed the value, we'll also make it the primary brand color.
 
-/**
- * ------------------------------------------------------
- * Bootstrap 5 Dark Mode Customization
- * ------------------------------------------------------
- * Uses Bootstrap 5.3+ CSS variables via data-bs-theme
- * Safe, scoped, and override-friendly
- */
+/* 
+===== SCSS Build Order =====
 
-/* Global dark theme variables */
-// [data-bs-theme="dark"] {
-// 	/* Page background */
-// 	--bs-body-bg: #212529;
-// 	--bs-body-bg-rgb: 33, 37, 41;
+1. _theme_variables.scss
+   - Override Bootstrap Sass variables ($variables)
 
-// 	/* Base text color */
-// 	--bs-body-color-rgb: 222, 226, 230;
+2. Bootstrap SCSS
+   - Bootstrap compiles components using the variables above
 
-// 	/* Emphasis text (tables, headings, strong text) */
-// 	--bs-emphasis-color: #dee2e6;
-// }
+3. _theme.scss
+   - Custom CSS overrides
+   - CSS variable overrides (:root, [data-bs-theme], etc.)
 
-// /**
-//  * Component-specific tuning
-//  */
-
-// /* Cards: improve text contrast */
-// [data-bs-theme="dark"] .card {
-// 	--bs-card-color: #dee2e6;
-// }
-
-// /* Dark buttons: soften background for better contrast */
-// [data-bs-theme="dark"] .btn-dark {
-// 	--bs-btn-bg: #53565c;
-// }
+*/
 
 $border-radius-sm: 0.125rem; // ~70% of base
 $border-radius: 0.175rem; // base
 $border-radius-lg: 0.25rem; // ~140% of base
 
-$body-color: #555555;
+$body-color: #5d5d5d;

@@ -4,7 +4,7 @@
                 border border-secondary border-2 
                 bg-body-secondary rounded mx-auto"
 		style="max-width:970px;height:90px;">
-		<small class="text-muted">Advertisement space</small>
+		<small class="text-muted">Advertisement placement</small>
 	</div>
 </div>
 

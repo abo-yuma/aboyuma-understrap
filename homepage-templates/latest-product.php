@@ -1,5 +1,5 @@
 <!-- Reccommend Product Section -->
-<div id="home-latest-product" class="mb-2">
+<section id="home-latest-product" class="mb-2">
 
     <?php
     global $wpdb;
@@ -80,7 +80,13 @@
                             <?php echo wp_kses_post($product->product_description); ?>
                         </td>
                         <td>
-                            <a href="<?php echo home_url('/amway-products/' . $product->product_slug); ?>"
+                            <a href="<?php echo esc_url(
+                                            add_query_arg(
+                                                'product_slug',
+                                                $product->product_slug,
+                                                get_permalink(get_option('aboyuma_product_page_id'))
+                                            )
+                                        ); ?>"
                                 class="btn btn-sm btn-outline-primary">
                                 ดูรายละเอียด
                             </a>
@@ -98,7 +104,7 @@
 
     <?php endif; ?>
 
-</div>
+</section>
 
 <!-- please init datatable using inline js -->
 <script>

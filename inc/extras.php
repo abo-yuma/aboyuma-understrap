@@ -297,5 +297,11 @@ function aboyuma_facebook_share_button() {
 	}
 }
 
+/**
+ * Change excerpt length (number of words)
+ */
+add_filter('excerpt_length', 'understrap_custom_excerpt_length', 999);
 
-
+function understrap_custom_excerpt_length($length) {
+	return 20; // Change this number to desired word count
+}
