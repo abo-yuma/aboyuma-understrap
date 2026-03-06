@@ -1,5 +1,5 @@
 <!-- Latest Post Section -->
-<div id="home-latest-post" class="mb-2">
+<section id="home-latest-post" class="mb-2">
     <?php
     // Get the category ID of 'other-recommend-product' to exclude it
     $excluded_category = get_category_by_slug('other-recommend-product');
@@ -23,7 +23,7 @@
         <div id="latest-posts-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="card h-100 d-flex flex-column border-0">
+                    <div class="card h-100 d-flex flex-column">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
                                 <?php if (has_post_thumbnail()) : ?>
@@ -35,7 +35,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div class="card-body p-0 pt-2 d-flex flex-column h-100">
+                        <div class="card-body p-2 d-flex flex-column h-100">
                             <div class="post-content d-flex flex-column h-100">
                                 <span>
                                     <a class="post-title-link" href="<?php echo get_permalink(); ?>">
@@ -83,4 +83,4 @@
         </div>
     <?php endif; ?>
 
-</div><!-- Latest Post Section -->
+</section><!-- Latest Post Section -->

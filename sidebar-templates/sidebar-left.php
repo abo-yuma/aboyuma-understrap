@@ -7,14 +7,7 @@
 
 <div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper">
 
-	<?php if (
-		function_exists('aboyuma_author_box_render') &&
-		aboyuma_show_author_box()
-	) : ?>
-		<div class="author-box-wrapper">
-			<?php aboyuma_author_box_render(); ?>
-		</div>
-	<?php endif; ?>
+	
 
 	<?php
 	if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
