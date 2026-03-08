@@ -59,7 +59,9 @@
                                     <a class="post-title-link d-block"
                                         href="<?php the_permalink(); ?>">
 
-                                        ⭐ <?php echo mb_strimwidth(get_the_title(), 0, 80, '...'); ?>
+                                        <div class="post-title-text">
+                                            ⭐ <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                        </div>
 
                                     </a>
 

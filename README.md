@@ -12,6 +12,7 @@ This theme is developed for Yuma’s personal blog and Amway business.
 ---
 
 ## ⚙️ Required Plugin
+
 🛍 ABO YUMA Product Manager (Required for Product Sections)
 
 The homepage product sections:  
@@ -65,7 +66,8 @@ This theme includes 3 custom widgets integrated into the theme:
 
 ### 🔄 Future Refactors
 
-- Reorganize other theme functionalities
-- Query optimization
-- Clean code improvements
+- Reorganize theme functionalities
+- Optimize database queries
+- Improve code cleanliness and structure
 - Remove unused files
+- Refactor CSS stylesheets for better maintainability

@@ -29,8 +29,8 @@ html {
  */
 @media (min-width: 768px) {
 	.container {
-		max-width: 800px;
-		min-width: 800px;
+		max-width: 840px;
+		min-width: 840px;
 	}
 }
 
@@ -174,6 +174,27 @@ body.admin-bar #navbar-main.is-fixed {
 		opacity: 1;
 		visibility: visible;
 	}
+}
+
+/*
+ * Adjust dropdown item vertical spacing
+ * -------------------------------------
+ * Bootswatch Spacelab uses Bootstrap's default dropdown spacing:
+ *
+ *   --bs-dropdown-item-padding-y: 0.25rem
+ *
+ * With the navbar font reduced to 0.875rem (14px), the default
+ * vertical padding makes menu items appear visually cramped.
+ *
+ * Increasing the padding to 0.4rem improves readability and
+ * click comfort while keeping the dropdown compact and aligned
+ * with the Bootstrap spacing scale (rem-based system).
+ *
+ * This override only affects the navbar dropdown menu to avoid
+ * altering dropdown spacing globally across the site.
+ */
+#navbar-main .dropdown-menu {
+	--bs-dropdown-item-padding-y: 0.4rem;
 }
 
 // Fix Bootstrap Dropdown Submenu
@@ -643,24 +664,39 @@ footer {
 	border-color: var(--bs-border-color) !important;
 }
 
-/* Light mode */
-// [data-bs-theme="light"] .main-wrapper {
-// 	border: 1px solid rgba(0, 0, 0, 0.25); /* darker than card */
-// 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
-// }
+.main-wrapper {
+	background: #fff;
+}
 
-// [data-bs-theme="dark"] .main-wrapper {
-// 	border: 1px solid rgb(54, 54, 54); /* softer light-gray border */
-// 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
-// }
+/* Light mode */
+[data-bs-theme="light"] .main-wrapper {
+	border: 1px solid #d0d7de;
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================
+   Latest Product Table (Theme Side)
+   ============================================================ */
+
+#latest-product-table {
+	font-size: 0.875rem; /* 14px */
+}
+
+#latest-product-table th {
+	font-weight: 600;
+}
 
 #latest-product-table td {
-	font-size: 13px;
 	vertical-align: middle;
 }
 
 #latest-product-table td.product-name {
-	font-size: 0.875rem;
+	font-size: 0.85rem;
+}
+
+#latest-product-table img {
+	min-width: 72px;
+	height: auto;
 }
 
 /* ============================================================
@@ -687,7 +723,8 @@ footer {
 
    Setting box-shadow: none removes the actual
    "paint layer" Bootstrap uses for striping.
-   ------------------------------------------------------------ */
+    ------------------------------------------------------------ */
+
 #latest-product-table.table-striped > tbody > tr:nth-of-type(odd) > * {
 	box-shadow: none !important;
 }
@@ -705,6 +742,7 @@ footer {
 
    This keeps the exact default color and behavior.
    ------------------------------------------------------------ */
+
 #latest-product-table.table-striped > tbody > tr:nth-of-type(even) > * {
 	--bs-table-bg-type: var(--bs-table-striped-bg);
 }
@@ -868,7 +906,7 @@ footer {
 
 .facebook-share-btn:hover {
 	background-color: #334e89; /* darker hover */
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 /* wrapper */
@@ -1080,6 +1118,7 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	text-decoration: none;
 }
 
+/* Override Bootstrap style */
 .card {
 	--bs-card-border-color: var(--bs-border-color);
 }

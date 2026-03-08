@@ -63,8 +63,7 @@
                                 <img
                                     src="<?php echo esc_url($image_url); ?>"
                                     alt="<?php echo esc_attr($product->product_name); ?>"
-                                    class="img-fluid mb-2"
-                                    style="max-height: 120px; width: auto; height: auto;">
+                                    class="img-fluid mb-2">
                             <?php else: ?>
                                 <div class="mb-2 text-muted small">
                                     No image
@@ -87,7 +86,7 @@
                                                 get_permalink(get_option('aboyuma_product_page_id'))
                                             )
                                         ); ?>"
-                                class="btn btn-sm btn-outline-primary">
+                                class="btn btn-sm btn-primary">
                                 ดูรายละเอียด
                             </a>
                         </td>
@@ -114,7 +113,7 @@
         let columnDefs = [];
         if (isDesktop) {
             columnDefs = [{
-                    width: "25%",
+                    width: "30%",
                     targets: [0],
                 },
                 {
@@ -122,8 +121,9 @@
                     targets: [1],
                 },
                 {
-                    width: "20%",
+                    width: "25%",
                     targets: [2],
+                    orderable: false
                 }
             ];
         }
@@ -140,7 +140,7 @@
             responsive: true,
             columnDefs: columnDefs,
             info: false,
-            ordering: false
+            ordering: true
         });
     });
 </script>
