@@ -1,7 +1,7 @@
 <!-- Ad  -->
 <div class="container py-4 border-top">
 	<div class="d-flex justify-content-center align-items-center 
-                border border-secondary border-2 
+                border border-2 
                 bg-body-secondary rounded mx-auto"
 		style="max-width:970px;height:90px;">
 		<small class="text-muted">Advertisement placement</small>
