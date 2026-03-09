@@ -1,5 +1,9 @@
 <section id="home-cta" class="mb-4">
 
+    <h1 class="section-header">
+        ✨ แนะนำสำหรับคุณ
+    </h1>
+
     <div class="row g-3">
 
         <?php for ($i = 1; $i <= 4; $i++) :
