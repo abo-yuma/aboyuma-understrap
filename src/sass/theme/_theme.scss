@@ -29,8 +29,8 @@ html {
  */
 @media (min-width: 768px) {
 	.container {
-		max-width: 840px;
-		min-width: 840px;
+		max-width: 820px;
+		min-width: 820px;
 	}
 }
 
@@ -80,8 +80,14 @@ body {
 	font-size: 0.875rem; /* 14px */
 	// line-height: 1.2;
 }
+
 #navbar-main .dropdown-menu .dropdown-item {
 	font-size: 0.875rem; /* 14px */
+	/*
+	 * HACK: Add extra spacing to account for WordPress emoji rendered as <img>.
+	 * Without this, the emoji icon can sit too close to the menu text in the dropdown.
+	 */
+	margin-right: 16px;
 }
 
 /* 
