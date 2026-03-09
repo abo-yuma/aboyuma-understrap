@@ -21,13 +21,17 @@
                         <!-- Thumbnail -->
                         <div class="card-img-top">
                             <div class="post-thumbnail">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail(); ?>
-                                <?php else : ?>
-                                    <img src="https://placehold.co/100x130?text=No+Image"
-                                        alt="No image available"
-                                        class="img-fluid w-100">
-                                <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php if (has_post_thumbnail()) : ?>
+
+                                        <?php the_post_thumbnail(); ?>
+
+                                    <?php else : ?>
+                                        <img src="https://placehold.co/100x130?text=No+Image"
+                                            alt="No image available"
+                                            class="img-fluid w-100">
+                                    <?php endif; ?>
+                                </a>
                             </div>
                         </div>
 
@@ -71,7 +75,7 @@
                                 </div>
 
                                 <!-- CTA -->
-                                <div class="small mt-auto d-flex justify-content-end link-primary text-decoration-none">
+                                <div class="small mt-auto d-flex justify-content-end link-primary">
                                     <a href="<?php echo get_permalink(); ?>">
                                         ดูรายละเอียด →
                                     </a>

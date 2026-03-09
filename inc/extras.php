@@ -254,27 +254,53 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 // Breadcrumbs
 // Reference: https://dev.to/readymadecode/how-to-create-breadcrumb-in-wordpress-without-plugin-45jn
+// Breadcrumbs
 function get_breadcrumb() {
-	echo '<a href="' . home_url() . '" rel="nofollow">หน้าหลัก</a>';
+
+	echo '<a href="' . esc_url(home_url()) . '">หน้าหลัก</a>';
 
 	if (is_category() || is_single()) {
-		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp; ";
+
+		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+
 		$categories = get_the_category();
+
 		if ($categories) {
-			$separator = ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-			$output = '';
+
+			$primary = null;
+
 			foreach ($categories as $category) {
-				$output .= '<a href="' . get_category_link($category->term_id) . '">' . $category->cat_name . '</a>' . $separator;
+
+				// ignore system categories
+				if ($category->slug !== 'featured' && $category->slug !== 'uncategorized') {
+					$primary = $category;
+					break;
+				}
 			}
-			echo trim($output, $separator); // Removes trailing separator
+
+			// fallback if all categories ignored
+			if (!$primary) {
+				$primary = $categories[0];
+			}
+
+			echo '<a href="' . esc_url(get_category_link($primary->term_id)) . '">'
+				. esc_html($primary->cat_name) .
+				'</a>';
 		}
-		// Remove post title by omitting is_single title logic
+
+		// show post title
+		if (is_single()) {
+			echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+			the_title();
+		}
 	} elseif (is_page()) {
-		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp; ";
+
+		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
 		the_title();
 	} elseif (is_search()) {
-		echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp;Search Results for... ";
-		echo '"<em>' . get_search_query() . '</em>"';
+
+		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp;Search Results for ';
+		echo '"<em>' . esc_html(get_search_query()) . '</em>"';
 	}
 }
 

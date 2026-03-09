@@ -26,13 +26,15 @@
                     <div class="card h-100 d-flex flex-column">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail(); ?>
-                                <?php else : ?>
-                                    <img src="https://placehold.co/100x130?text=No+Image"
-                                        alt="No image available"
-                                        class="img-fluid w-100">
-                                <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php if (has_post_thumbnail()) : ?>
+                                        <?php the_post_thumbnail(); ?>
+                                    <?php else : ?>
+                                        <img src="https://placehold.co/100x130?text=No+Image"
+                                            alt="No image available"
+                                            class="img-fluid w-100">
+                                    <?php endif; ?>
+                                </a>
                             </div>
                         </div>
                         <div class="card-body p-2 d-flex flex-column h-100">
@@ -66,8 +68,8 @@
                                         <?php echo number_format((int) get_post_meta(get_the_ID(), 'post_views_count', true)); ?>
                                     </span>
                                 </div>
-                                <div class="small mt-auto d-flex justify-content-end link-primary text-decoration-none">
-                                    <?php echo '<a href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
+                                <div class="small mt-auto d-flex justify-content-end">
+                                    <?php echo '<a class="link-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
                                 </div>
                             </div>
 

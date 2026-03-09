@@ -13,14 +13,24 @@ defined('ABSPATH') || exit;
 <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 	<?php
-	if (! is_page_template('page-templates/no-title.php') && ! is_front_page()) {
-		the_title(
-			'<header class="entry-header"><h1 class="entry-title">',
-			'</h1></header><!-- .entry-header -->'
-		);
-	}
+	if (!is_page_template('page-templates/no-title.php') && !is_front_page()) :
+	?>
 
-	echo get_the_post_thumbnail($post->ID, 'large');
+		<header class="entry-header">
+			<nav class="breadcrumb mb-2" aria-label="breadcrumb">
+				<?php
+				get_breadcrumb();
+				?>
+			</nav>
+			<h1 class="entry-title">
+				<?php the_title(); ?>
+			</h1>
+		</header>
+
+	<?php endif; ?>
+
+	<?php
+	echo get_the_post_thumbnail(get_the_ID(), 'large');
 	?>
 
 	<div class="entry-content">
