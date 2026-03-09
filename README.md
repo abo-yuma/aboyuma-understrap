@@ -28,6 +28,7 @@ This theme includes built-in features designed to cover common website needs, he
 - Floating messenger link button
 - Go to top button when scrolling down
 - Dark mode switch (Bootstrap 5.3+)
+- Breadcrumb navigation for posts and pages
 - Contact form with security features:
   - CSRF protection (nonce verification)
   - Honeypot anti-spam field

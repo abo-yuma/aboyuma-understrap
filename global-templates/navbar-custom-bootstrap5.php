@@ -24,7 +24,7 @@
         <!-- Dark Mode Switch -->
         <div class="d-flex align-items-center ms-auto">
             <div class="form-check form-switch">
-                <label class="form-check-label" for="flexSwitchCheckDefault" style="color: #949494;">Dark mode</label>
+                <label class="form-check-label pe-2" for="flexSwitchCheckDefault" style="color: #949494;">Dark mode</label>
                 <input class="form-check-input" type="checkbox" id="dark-mode-switch">
             </div>
         </div>

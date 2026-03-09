@@ -589,3 +589,62 @@ function aboyuma_customize_tinymce_toolbar($init) {
 	return $init;
 }
 add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
+
+function aboyuma_home_cta_customizer($wp_customize) {
+
+	$wp_customize->add_section('home_cta_section', array(
+		'title'    => 'Homepage CTA Cards',
+		'priority' => 25,
+	));
+
+	for ($i = 1; $i <= 4; $i++) {
+
+		// Image
+		$wp_customize->add_setting("home_cta_image_$i");
+
+		$wp_customize->add_control(
+			new WP_Customize_Image_Control(
+				$wp_customize,
+				"home_cta_image_$i",
+				array(
+					'label'   => "CTA $i Image",
+					'section' => 'home_cta_section',
+				)
+			)
+		);
+
+		// Title
+		$wp_customize->add_setting("home_cta_title_$i");
+
+		$wp_customize->add_control(
+			"home_cta_title_$i",
+			array(
+				'label'   => "CTA $i Title",
+				'section' => 'home_cta_section',
+				'type'    => 'text',
+			)
+		);
+
+		// Link
+		$wp_customize->add_setting("home_cta_link_$i");
+
+		$wp_customize->add_control(
+			"home_cta_link_$i",
+			array(
+				'label'   => "CTA $i Link URL",
+				'section' => 'home_cta_section',
+				'type'    => 'url',
+			)
+		);
+	}
+}
+
+add_action('customize_register', 'aboyuma_home_cta_customizer');
+
+function disable_customizer_refresh($wp_customize) {
+
+	foreach ($wp_customize->settings() as $setting) {
+		$setting->transport = 'postMessage';
+	}
+}
+add_action('customize_register', 'disable_customizer_refresh', 100);

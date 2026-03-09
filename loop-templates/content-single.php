@@ -14,6 +14,12 @@ defined('ABSPATH') || exit;
 
 	<header class="entry-header">
 
+		<nav class="breadcrumb mb-2" aria-label="breadcrumb">
+			<?php
+			get_breadcrumb();
+			?>
+		</nav>
+
 		<?php the_title('<h1 class="entry-title">', '</h1>'); ?>
 
 		<div class="entry-meta">
