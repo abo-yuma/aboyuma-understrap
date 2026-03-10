@@ -86,7 +86,7 @@
                                                 get_permalink(get_option('aboyuma_product_page_id'))
                                             )
                                         ); ?>"
-                                class="btn btn-sm btn-primary">
+                                class="btn btn-sm btn-light">
                                 ดูรายละเอียด
                             </a>
                         </td>
