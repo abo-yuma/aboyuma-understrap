@@ -182,22 +182,23 @@ body.admin-bar #navbar-main.is-fixed {
 	}
 }
 
-#navbar-main .dropdown-menu {
-	background: linear-gradient(
-		rgb(112, 145, 179),
-		#446e9b 50%,
-		rgb(62, 101, 142)
-	);
-	border: 1px solid rgb(54, 88, 124);
-}
+/* Override Spacelab dropdown background to match navbar bg-primary */
+// #navbar-main .dropdown-menu {
+// 	background: linear-gradient(
+// 		rgb(112, 145, 179),
+// 		#446e9b 50%,
+// 		rgb(62, 101, 142)
+// 	);
+// 	border: 1px solid rgb(54, 88, 124);
+// }
 
-#navbar-main .dropdown-item {
-	color: #fff;
-}
+// #navbar-main .dropdown-item {
+// 	color: #fff;
+// }
 
-#navbar-main .dropdown-item:hover {
-	background: rgba(255, 255, 255, 0.1);
-}
+// #navbar-main .dropdown-item:hover {
+// 	background: rgba(255, 255, 255, 0.1);
+// }
 
 /*
  * Adjust dropdown item vertical spacing
@@ -597,8 +598,8 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] body {
-	//background-color: #ebf3fd;
-	background-color: #dbe6f5;
+	background-color: #ebf3fd;
+	// background-color: #dbe6f5;
 }
 
 [data-bs-theme="dark"] body {
