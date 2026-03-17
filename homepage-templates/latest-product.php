@@ -1,5 +1,5 @@
 <!-- Reccommend Product Section -->
-<section id="home-latest-product" class="mb-2">
+<section id="home-latest-product" class="mb-3">
 
     <?php
     global $wpdb;
@@ -30,12 +30,12 @@
     ?>
 
     <h2 class="section-header">
-        🛍️ ข้อมูลสินค้าแอมเวย์ที่เพิ่มล่าสุด
+        🛍️ สินค้าแอมเวย์ที่เพิ่มล่าสุด
     </h2>
 
     <?php if ($has_products) : ?>
 
-        <table id="latest-product-table" class="table table-bordered table-striped">
+        <table id="latest-product-table" class="table table-striped">
             <thead>
                 <tr>
                     <th>🛍️ สินค้า</th>
@@ -86,7 +86,7 @@
                                                 get_permalink(get_option('aboyuma_product_page_id'))
                                             )
                                         ); ?>"
-                                class="btn btn-sm btn-light">
+                                class="btn btn-sm btn-outline-primary">
                                 ดูรายละเอียด
                             </a>
                         </td>
@@ -98,7 +98,7 @@
     <?php else : ?>
 
         <div class="alert alert-secondary text-center">
-            📦 ยังไม่มีข้อมูลสินค้า
+            ยังไม่มีสินค้าแอมเวย์
         </div>
 
     <?php endif; ?>

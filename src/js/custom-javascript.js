@@ -58,15 +58,15 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 	/**
 	 * Navbar Fixed Top On Scroll
 	 */
-	var $navbar = $("#navbar-main");
-	var trigger = $("#wrapper-header").outerHeight();
+	// var $navbar = $("#navbar-main");
+	// var trigger = $("#wrapper-header").outerHeight();
 
-	function toggleNavbar() {
-		$navbar.toggleClass("is-fixed", $(window).scrollTop() > trigger);
-	}
+	// function toggleNavbar() {
+	// 	$navbar.toggleClass("is-fixed", $(window).scrollTop() > trigger);
+	// }
 
-	toggleNavbar();
-	$(window).on("scroll", toggleNavbar);
+	// toggleNavbar();
+	// $(window).on("scroll", toggleNavbar);
 
 	// TODO: Fix lightbox to not apply to product detail thumbnail
 	// Implement jQuery lightbox sciprt

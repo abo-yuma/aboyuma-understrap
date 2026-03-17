@@ -1,4 +1,4 @@
-<nav id="navbar-main" class="navbar container navbar-expand-md bg-dark px-4 py-0" data-bs-theme="dark">
+<nav id="navbar-main" class="navbar navbar-expand-md bg-dark px-4 py-0" data-bs-theme="dark">
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
         aria-controls="navbar" aria-expanded="false"

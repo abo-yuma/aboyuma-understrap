@@ -1,8 +1,8 @@
 <!-- Latest Post Section -->
-<section id="home-latest-post" class="mb-2">
+<section id="home-latest-post" class="mb-3">
     <?php
-    // Get the category ID of 'other-recommend-product' to exclude it
-    $excluded_category = get_category_by_slug('other-recommend-product');
+    // Get the category ID of 'recommend-products' to exclude it
+    $excluded_category = get_category_by_slug('recommend-products');
     $exclude_id = $excluded_category ? $excluded_category->term_id : 0;
 
     $args = array(
@@ -15,7 +15,7 @@
     ?>
 
 
-    <h1 class="section-header">
+    <h1 class="section-header mb-3">
         📝 บทความล่าสุด
     </h1>
     <?php
@@ -23,7 +23,7 @@
         <div id="latest-posts-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 border-0 d-flex flex-column">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
                                 <a href="<?php the_permalink(); ?>">
@@ -37,11 +37,11 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body p-2 d-flex flex-column h-100">
+                        <div class="card-body p-0 pt-2 d-flex flex-column h-100">
                             <div class="post-content d-flex flex-column h-100">
                                 <span>
                                     <a class="post-title-link" href="<?php echo get_permalink(); ?>">
-                                        📝 <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                        <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
                                     </a>
                                 </span>
                                 <div class="post-category" style="font-size: 0.75rem;">
@@ -81,7 +81,7 @@
         </div>
     <?php else : ?>
         <div class="alert alert-secondary text-center">
-            📝 ยังไม่มีบทความ
+            ยังไม่มีบทความ
         </div>
     <?php endif; ?>
 

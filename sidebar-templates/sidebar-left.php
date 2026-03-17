@@ -23,20 +23,20 @@
 		$facebook = 'https://www.facebook.com/profile.php?id=100093053005799';
 		?>
 
-		<div class="card mb-4 border-0">
+		<div class="card mb-3 border-0">
 
-			<?php echo get_avatar($author_id, 400, '', '', [
-				'class' => 'card-img-top rounded-0'
-			]); ?>
+			<div class="card-body p-2">
 
-			<div class="card-body p-3">
+				<?php echo get_avatar($author_id, 400, '', '', [
+					'class' => 'rounded-0 img-fluid w-100 mb-2'
+				]); ?>
 
 				<p class="card-title fw-semibold mb-2">
 					<?php echo esc_html($name); ?>
 				</p>
 
 				<?php if (!empty($bio)) : ?>
-					<p class="card-text small mb-3">
+					<p class="card-text small mb-2">
 						<?php echo esc_html($bio); ?>
 					</p>
 				<?php endif; ?>
@@ -51,7 +51,7 @@
 					<a href="<?php echo esc_url($facebook); ?>"
 						target="_blank"
 						rel="noopener"
-						class="btn btn-light btn-sm">
+						class="btn btn-primary btn-sm">
 
 						<i class="bi bi-facebook me-1"></i>
 						ดูโปรไฟล์

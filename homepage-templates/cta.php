@@ -1,25 +1,40 @@
-<section id="home-cta" class="mb-4">
+<section id="home-cta" class="mb-3">
 
-    <h1 class="section-header">
-        ✨ แนะนำสำหรับคุณ
+    <h1 class="section-header mb-3">
+        ⭐ รายการแนะนำ
     </h1>
 
-    <div class="row g-3">
+    <?php
+    $has_items = false;
 
-        <?php for ($i = 1; $i <= 4; $i++) :
+    for ($i = 1; $i <= 4; $i++) {
+        $image = get_theme_mod("home_cta_image_$i");
+        $title = get_theme_mod("home_cta_title_$i");
+        $link  = get_theme_mod("home_cta_link_$i");
 
-            $image = get_theme_mod("home_cta_image_$i");
-            $title = get_theme_mod("home_cta_title_$i");
-            $link  = get_theme_mod("home_cta_link_$i");
+        if ($image && $title && $link) {
+            $has_items = true;
+            break;
+        }
+    }
+    ?>
 
-            if (!$title && !$image) continue;
-        ?>
+    <?php if ($has_items) : ?>
 
-            <div class="col-6">
+        <div class="row g-3">
 
-                <div class="card h-100 text-center">
+            <?php for ($i = 1; $i <= 4; $i++) :
 
-                    <?php if ($image) : ?>
+                $image = get_theme_mod("home_cta_image_$i");
+                $title = get_theme_mod("home_cta_title_$i");
+                $link  = get_theme_mod("home_cta_link_$i");
+
+                if (!$image || !$title || !$link) continue;
+            ?>
+
+                <div class="col-6">
+
+                    <div class="card h-100 text-center">
 
                         <img
                             src="<?php echo esc_url($image); ?>"
@@ -27,24 +42,30 @@
                             style="height:140px;"
                             alt="<?php echo esc_attr($title); ?>">
 
-                    <?php endif; ?>
+                        <div class="card-body p-2">
 
-                    <div class="card-body p-2">
+                            <div class="small fw-semibold">
+                                <?php echo esc_html($title); ?>
+                            </div>
 
-                        <div class="small fw-semibold">
-                            <?php echo esc_html($title); ?>
+                            <a href="<?php echo esc_url($link); ?>" class="stretched-link"></a>
+
                         </div>
-
-                        <a href="<?php echo esc_url($link); ?>" class="stretched-link"></a>
 
                     </div>
 
                 </div>
 
-            </div>
+            <?php endfor; ?>
 
-        <?php endfor; ?>
+        </div>
 
-    </div>
+    <?php else : ?>
+
+        <div class="alert alert-secondary text-center">
+            ยังไม่มีรายการแนะนำ
+        </div>
+
+    <?php endif; ?>
 
 </section>
