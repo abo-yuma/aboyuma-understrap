@@ -1,5 +1,5 @@
 <!-- Ad  -->
-<div class="container py-4 border-top">
+<div class="px-3 py-4 border-top">
 	<div class="d-flex justify-content-center align-items-center 
                 border border-2 
                 bg-body-secondary rounded mx-auto"
@@ -9,8 +9,7 @@
 </div>
 
 <footer class="text-white text-center text-lg-start footer-bg-background g-0">
-	<!-- Grid container -->
-	<div class="container py-3">
+	<div class="px-3 py-3">
 		<div class="row">
 			<div class="col-md-2 mb-4 mb-md-0 text-center d-flex align-items-center justify-content-center">
 				<?php

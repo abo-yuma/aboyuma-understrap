@@ -1,5 +1,5 @@
 <!-- Featured Post Section -->
-<section id="home-featured-post" class="mb-2">
+<section id="home-featured-post" class="mb-3">
 
     <?php
     $featured_category = get_category_by_slug('featured');
@@ -14,8 +14,8 @@
     $featured_posts = new WP_Query($args);
     ?>
 
-    <h1 class="section-header">
-        ⭐ บทความแนะนำ
+    <h1 class="section-header mb-3">
+        📌 บทความแนะนำ
     </h1>
 
     <?php if ($featured_posts->have_posts()) : ?>
@@ -36,7 +36,7 @@
 
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                            <div class="card h-100">
+                            <div class="card h-100 border-0">
 
                                 <div class="card-img-top featured-image">
                                     <div class="post-thumbnail">
@@ -54,13 +54,13 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body p-2">
+                                <div class="card-body p-0 pt-2">
 
                                     <a class="post-title-link d-block"
                                         href="<?php the_permalink(); ?>">
 
                                         <div class="post-title-text">
-                                            ⭐ <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                            <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
                                         </div>
 
                                     </a>
@@ -88,6 +88,9 @@
 
                                         🗓 <?php echo get_the_date(); ?>
 
+                                    </div>
+                                    <div class="small mt-auto d-flex justify-content-end">
+                                        <?php echo '<a class="link-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
                                     </div>
 
                                 </div>
@@ -129,7 +132,7 @@
     <?php else : ?>
 
         <div class="alert alert-secondary text-center">
-            ⭐ ยังไม่มีบทความแนะนำ
+            ยังไม่มีบทความแนะนำ
         </div>
 
     <?php endif; ?>

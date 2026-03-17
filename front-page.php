@@ -54,14 +54,18 @@ $container_classes = $container . ' px-4 py-0';
                     <?php
                     while (have_posts()) {
                         the_post();
-                        get_template_part('loop-templates/content', 'page');
+                    ?>
+                        <div class="hero-box p-5 mb-4">
+                            <?php the_content(); ?>
+                        </div>
+                    <?php
                     }
                     ?>
-                    <?php get_template_part('homepage-templates/cta'); ?>
                     <?php get_template_part('homepage-templates/featured-post'); ?>
                     <?php get_template_part('homepage-templates/latest-post'); ?>
                     <?php get_template_part('homepage-templates/latest-product'); ?>
-                    <?php get_template_part('homepage-templates/other-recommend-product'); ?>
+                    <?php get_template_part('homepage-templates/recommend-product'); ?>
+                    <?php get_template_part('homepage-templates/cta'); ?>
                     <!-- Widgets templates only for front page(Home)-->
                     <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
                         <div id="recommend-video-widget-area">

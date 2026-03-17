@@ -1,23 +1,23 @@
 <!-- Other Recommend Product Section -->
-<section id="home-other-recommend-product" class="mb-2">
+<section id="home-other-recommend-product" class="mb-3">
     <?php
     $args = array(
         'posts_per_page' => 4,
         'post_status'    => 'publish',
-        'category_name'  => 'other-recommend-product',
+        'category_name'  => 'recommend-products',
     );
     $latest_posts = new WP_Query($args);
     ?>
 
-    <h1 class="section-header">
-        🛍️ สินค้าแนะนำอื่นล่าสุด
+    <h1 class="section-header mb-3">
+        🛍️ สินค้าแนะนำจาก Shopee ล่าสุด
     </h1>
 
     <?php if ($latest_posts->have_posts()) : ?>
         <div id="other-recommend-product-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 border-0 d-flex flex-column">
                         <!-- Thumbnail -->
                         <div class="card-img-top">
                             <div class="post-thumbnail">
@@ -36,13 +36,13 @@
                         </div>
 
                         <!-- Content -->
-                        <div class="card-body p-2">
+                        <div class="card-body p-0 pt-2">
                             <div class="post-content d-flex flex-column h-100">
 
                                 <!-- Title -->
                                 <span>
                                     <a class="post-title-link" href="<?php echo get_permalink(); ?>">
-                                        🛍️ <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                        <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
                                     </a>
                                 </span>
 
@@ -76,7 +76,7 @@
 
                                 <!-- CTA -->
                                 <div class="small mt-auto d-flex justify-content-end link-primary">
-                                    <a href="<?php echo get_permalink(); ?>">
+                                    <a class="link-primary" href="<?php echo get_permalink(); ?>">
                                         ดูรายละเอียด →
                                     </a>
                                 </div>
@@ -91,7 +91,7 @@
         </div>
     <?php else : ?>
         <div class="alert alert-secondary text-center">
-            📦 ยังไม่มีสินค้าแนะนำอื่น
+            ยังไม่มีสินค้าแนะนำจาก Shopee
         </div>
     <?php endif; ?>
 </section>
