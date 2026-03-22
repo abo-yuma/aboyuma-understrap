@@ -24,13 +24,14 @@ defined('ABSPATH') || exit;
 
 <body <?php body_class(); ?> <?php understrap_body_attributes(); ?>>
 	<!-- ******************* The Main Wrapper Holding Header, Main and Footer ******************* -->
-	<div id="main-wrapper" class="main-wrapper container p-0 bg-body text-body">
+	<div id="main-wrapper" class="main-wrapper bg-body text-body">
 		<a class="skip-link <?php echo understrap_get_screen_reader_class(true); ?>" href="#content">
 			<?php esc_html_e('Skip to content', 'understrap'); ?>
 		</a>
 		<header id="wrapper-header" class="wrapper-header">
-			<div id="main-image" class="container g-0">
-				<div class="row">
+			<div class="container px-0">
+				<div id="main-image">
+
 					<?php
 					$header_image = get_theme_mod('aboyuma_header_image');
 
@@ -42,11 +43,13 @@ defined('ABSPATH') || exit;
 					?>
 					<img
 						src="<?php echo $img_src; ?>"
-						alt="Header image"
-						style="height:160px; width:100%; object-fit:cover;">
+						alt="Header image">
+
 				</div>
 			</div>
-			<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
 		</header>
+
+		<?php get_template_part('global-templates/navbar-custom-bootstrap5'); ?>
+
 		<?php do_action('wp_body_open'); ?>
 		<div class="site" id="page">
