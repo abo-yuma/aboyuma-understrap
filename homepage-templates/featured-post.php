@@ -51,6 +51,24 @@
                                                 class="img-fluid w-100">
                                         <?php endif; ?>
 
+                                        <button class="carousel-control-prev"
+                                            type="button"
+                                            data-bs-target="#featured-post-carousel"
+                                            data-bs-slide="prev">
+
+                                            <span class="carousel-control-prev-icon"></span>
+
+                                        </button>
+
+                                        <button class="carousel-control-next"
+                                            type="button"
+                                            data-bs-target="#featured-post-carousel"
+                                            data-bs-slide="next">
+
+                                            <span class="carousel-control-next-icon"></span>
+
+                                        </button>
+
                                     </div>
                                 </div>
 
@@ -84,9 +102,15 @@
                                         }
                                         ?>
 
-                                        <span class="mx-2">|</span>
-
-                                        🗓 <?php echo get_the_date(); ?>
+                                        <span class="me-2">
+                                            🗓
+                                            <?php
+                                            echo get_the_date();
+                                            if (function_exists('aboyuma_get_post_views')) {
+                                                echo ' ' . aboyuma_get_post_views(get_the_ID());
+                                            }
+                                            ?>
+                                        </span>
 
                                     </div>
                                     <div class="small mt-auto d-flex justify-content-end">
@@ -108,24 +132,6 @@
                 ?>
 
             </div>
-
-            <button class="carousel-control-prev"
-                type="button"
-                data-bs-target="#featured-post-carousel"
-                data-bs-slide="prev">
-
-                <span class="carousel-control-prev-icon"></span>
-
-            </button>
-
-            <button class="carousel-control-next"
-                type="button"
-                data-bs-target="#featured-post-carousel"
-                data-bs-slide="next">
-
-                <span class="carousel-control-next-icon"></span>
-
-            </button>
 
         </div>
 

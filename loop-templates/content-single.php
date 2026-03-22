@@ -28,6 +28,9 @@ defined('ABSPATH') || exit;
 			understrap_posted_on();
 			// $view_output = '<span class="post-views"> | ' .
 			// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
+			if (function_exists('aboyuma_get_post_views')) {
+				echo aboyuma_get_post_views(get_the_ID());
+			}
 			?>
 
 		</div><!-- .entry-meta -->

@@ -60,12 +60,12 @@
                                 <div class="post-meta text-muted" style="font-size: 0.75rem;">
                                     <span class="me-2">
                                         🗓
-                                        <?php echo get_the_date(); ?>
-                                    </span>
-
-                                    <span>
-                                        📊
-                                        <?php echo number_format((int) get_post_meta(get_the_ID(), 'post_views_count', true)); ?>
+                                        <?php
+                                        echo get_the_date();
+                                        if (function_exists('aboyuma_get_post_views')) {
+                                            echo ' ' . aboyuma_get_post_views(get_the_ID());
+                                        }
+                                        ?>
                                     </span>
                                 </div>
                                 <div class="small mt-auto d-flex justify-content-end">

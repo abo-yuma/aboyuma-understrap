@@ -29,8 +29,8 @@ html {
  */
 @media (min-width: 768px) {
 	.container {
-		max-width: 800px;
-		min-width: 800px;
+		max-width: 820px;
+		min-width: 820px;
 	}
 }
 
@@ -286,6 +286,33 @@ body.admin-bar #navbar-main.is-fixed {
 	font-size: 16px; /* default */
 	font-weight: 700;
 	line-height: 1.4;
+}
+
+/*
+    Fix: Prevent the image from slightly overflowing the container (≈1px on the right side)
+
+    Problem:
+    - The <img> uses width: 100% with object-fit: cover
+    - The container width can be fractional (e.g. 752.4px)
+    - Browser pixel rounding (subpixel rendering) may cause the image to render slightly wider
+    - This results in a small overflow that visually overlaps the border or box-shadow
+
+    Why this works:
+    - overflow: hidden clips any content that exceeds the element’s boundaries
+    - wrapper-header is the outermost visible container, so it effectively clips all overflow
+
+    Note:
+    - This is normal browser rendering behavior (not a CSS bug)
+    - Common fix for image + responsive layout + subpixel rounding issues
+*/
+#wrapper-header {
+	overflow: hidden;
+}
+
+#wrapper-header img {
+	width: 100%;
+	object-fit: cover;
+	height: 160px;
 }
 
 /* Sidebar */
@@ -705,6 +732,9 @@ footer {
 }
 
 .main-wrapper {
+	max-width: 820px;
+	margin-left: auto;
+	margin-right: auto;
 	background: #fff;
 }
 
@@ -1023,18 +1053,6 @@ table.dataTable#latest-product-table tbody td {
 	white-space: nowrap;
 }
 
-#home-featured-post .carousel-control-prev,
-#home-featured-post .carousel-control-next {
-	width: auto;
-	padding: 0 10px;
-	pointer-events: none;
-}
-
-#home-featured-post .carousel-control-prev-icon,
-#home-featured-post .carousel-control-next-icon {
-	pointer-events: auto;
-}
-
 /* Firefox */
 * {
 	scrollbar-width: thin;
@@ -1225,26 +1243,9 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	text-decoration: underline;
 }
 
-/* Limit carousel navigation to icon-only clickable area */
-#home-featured-post .carousel-control-prev,
-#home-featured-post .carousel-control-next {
-	position: absolute; /* ✅ สำคัญ */
-	top: 50%; /* center vertically */
-	transform: translateY(-50%);
-	bottom: auto;
-
-	width: auto; /* remove 15% overlay */
-	padding: 0 10px; /* small clickable area */
-
-	pointer-events: none; /* disable full overlay click */
-	display: flex;
-	align-items: center;
-}
-
-/* Enable click only on the arrow icons */
-#home-featured-post .carousel-control-prev-icon,
-#home-featured-post .carousel-control-next-icon {
-	pointer-events: auto;
+/* Ensure carousel has relative positioning */
+#featured-post-carousel {
+	position: relative;
 }
 
 /* Override Bootstrap style */
