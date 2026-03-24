@@ -2,7 +2,7 @@
 
 // Top-level import: brings in only the Tooltip and Popover modules from your bootstrap.js file
 // This allows you to use them in this script without relying on any global variables.
-import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top of the file
+import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of the file
 
 // Wrap everything in an IIFE (Immediately Invoked Function Expression) and pass in jQuery ($)
 // This keeps your code scoped and avoids polluting the global namespace
