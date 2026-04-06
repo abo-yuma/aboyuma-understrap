@@ -70,15 +70,27 @@ body {
 	position: relative;
 }
 
-.navbar-nav > .nav-item:not(:last-child)::after {
-	content: "";
-	position: absolute;
-	right: 0;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 1px;
-	height: 18px;
-	background: var(--bs-border-color-translucent);
+/* Show divider from iPad size and larger (≥768px) */
+@media (min-width: 768px) {
+	.navbar-nav > .nav-item:not(:last-child)::after {
+		content: ""; /* create divider line */
+		position: absolute;
+		right: 0; /* align to the right edge of menu item */
+		top: 50%; /* vertically center */
+		transform: translateY(-50%);
+		width: 1px; /* line thickness */
+		height: 18px; /* line height */
+		background: var(
+			--bs-border-color-translucent
+		); /* Bootstrap variable color */
+	}
+}
+
+/* Hide divider on small mobile screens (<768px) */
+@media (max-width: 767.98px) {
+	.navbar-nav > .nav-item::after {
+		display: none;
+	}
 }
 
 #navbar-main .navbar-nav .nav-link {
@@ -276,6 +288,8 @@ body.admin-bar #navbar-main.is-fixed {
 	font-size: 16px; /* default */
 	font-weight: 700;
 	line-height: 1.4;
+	padding-bottom: 0.25rem; /* space inside, before border */
+	border-bottom: 2px solid var(--bs-border-color);
 }
 
 /*

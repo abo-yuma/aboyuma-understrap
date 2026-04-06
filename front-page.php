@@ -63,7 +63,9 @@ $container_classes = $container . ' px-4 py-0';
                     ?>
                     <?php get_template_part('homepage-templates/featured-post'); ?>
                     <?php get_template_part('homepage-templates/latest-post'); ?>
-                    <?php get_template_part('homepage-templates/latest-product'); ?>
+                    <?php if (!PORTFOLIO_MODE) : ?>
+                        <?php get_template_part('homepage-templates/latest-product'); ?>
+                    <?php endif; ?>
                     <?php get_template_part('homepage-templates/recommend-product'); ?>
                     <?php get_template_part('homepage-templates/cta'); ?>
                     <!-- Widgets templates only for front page(Home)-->
