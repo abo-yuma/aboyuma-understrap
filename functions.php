@@ -14,6 +14,7 @@ $understrap_inc_dir = 'inc';
 
 // Array of files to include.
 $understrap_includes = array(
+	'/config.php',                          // Load first: defines global flags.
 	'/theme-settings.php',                  // Initialize theme default settings.
 	'/setup.php',                           // Theme setup and custom theme supports.
 	'/widgets.php',                         // Register widget area.
@@ -27,9 +28,9 @@ $understrap_includes = array(
 	'/bootstrap_5_wp_nav_menu_walker.php',  // Load custom WordPress nav walker.
 	'/editor.php',                          // Load Editor functions.
 	'/deprecated.php',                      // Load deprecated functions.
-	'/contact.php',                         // Load contact functions.
 	'/fonts.php',                           // Load fonts functions.
-	'/images.php'                            // Load images functions.
+	'/images.php',                          // Load images functions.
+	'/toc.php'                              // Load table of content functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.
@@ -46,10 +47,3 @@ if (class_exists('Jetpack')) {
 foreach ($understrap_includes as $file) {
 	require_once get_theme_file_path($understrap_inc_dir . $file);
 }
-
-
-
-
-
-
-
