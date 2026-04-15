@@ -29,13 +29,6 @@ This theme includes built-in features designed to cover common website needs, he
 - Go to top button when scrolling down
 - Dark mode switch (Bootstrap 5.3+)
 - Breadcrumb navigation for posts and pages
-- Contact form with security features:
-  - CSRF protection (nonce verification)
-  - Honeypot anti-spam field
-  - IP-based rate limiting
-  - Input sanitization and validation
-  - Email header injection protection
-  - Secure file upload handling (type & size restrictions)
 
 ⚠️ **Note:** The contact form is disabled by default.
 
@@ -51,15 +44,6 @@ Additional Customizer options:
   - About us content
   - Line QR code
   - Follow me social links
-
----
-
-## 🧩 Integrated Widgets
-
-This theme includes 3 custom widgets integrated into the theme:
-
-- Quick Links Widget
-- Recommend Video Widget
 
 ---
 

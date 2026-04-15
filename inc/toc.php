@@ -9,8 +9,8 @@
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
 
-if (! function_exists('auto_toc_nested')) {
-    function auto_toc_nested($content) {
+if (! function_exists('aboyuma_toc')) {
+    function aboyuma_toc($content) {
 
         if (!is_singular('post')) return $content;
 
@@ -58,42 +58,42 @@ if (! function_exists('auto_toc_nested')) {
         return $toc . $content;
     }
 }
-add_filter('the_content', 'auto_toc_nested');
+add_filter('the_content', 'aboyuma_toc');
 
-if (! function_exists('toc_inline_css')) {
+if (! function_exists('aboyuma_toc_inline_css')) {
 
-    function toc_inline_css() {
+    function aboyuma_toc_inline_css() {
 
         $css = "
 
         .toc {
-            font-size:15px;
-            line-height:1.6;
-            border:1px solid var(--bs-border-color);
-            padding:16px;
-            border-radius:8px;
-            background:var(--bs-body-bg);
-            margin-bottom:1.5rem;
+            font-size: 15px;
+            line-height: 1.6;
+            border: 1px solid var(--bs-border-color);
+            padding: 16px;
+            border-radius: 8px;
+            background: var(--bs-body-bg);
+            margin-bottom: 1.5rem;
         }
 
         .toc strong {
-            display:block;
-            margin-bottom:6px;
-            font-weight:600;
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .toc ul {
-            margin:0;
-            padding-left:18px;
+            margin: 0;
+            padding-left: 18px;
             list-style-type: square;
         }
 
         .toc ul ul {
-            margin-top:4px;
+            margin-top: 4px;
         }
 
         .toc li {
-            margin:4px 0;
+            margin: 4px 0;
         }
 
         .toc a {
@@ -112,4 +112,4 @@ if (! function_exists('toc_inline_css')) {
         );
     }
 }
-add_action('wp_enqueue_scripts', 'toc_inline_css');
+add_action('wp_enqueue_scripts', 'aboyuma_toc_inline_css');
