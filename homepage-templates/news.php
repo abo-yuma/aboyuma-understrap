@@ -1,5 +1,5 @@
 <!-- News Section -->
-<div id="home-news" class="mb-2">
+<section id="home-news" class="mb-2">
     <?php
     global $wpdb;
     $table_name = $wpdb->prefix . 'aboyuma_news';
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-</div><!-- News Section -->
+</section><!-- News Section -->
 <style>
     .news-list {
         list-style: none;

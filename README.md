@@ -1,33 +1,42 @@
 ## ABO YUMA - Personal Blog WordPress Theme
 
-A custom WordPress theme developed for Yuma’s personal blog and Amway business.
+A custom WordPress theme built on top of the [Understrap theme](https://understrap.com/).  
+This theme is developed for Yuma’s personal blog and Amway business.
 
-This theme is based on the Understrap Starter Theme.
-https://understrap.com/
+---
 
-## Installation
+## 📦 Installation
 
-## Built-in Features
+(Installation steps go here)
+
+---
+
+## ⚙️ Required Plugin
+
+🛍 ABO YUMA Product Manager (Required for Product Sections)
+
+The homepage product sections:  
+Latest Product  
+depend on the ABO YUMA Product Manager plugin.
+
+## 🚀 Built-in Features
 
 This theme includes built-in features designed to cover common website needs, helping you reduce reliance on third-party plugins and keep your setup lightweight.
 
 - Full-width sticky navigation on scroll
 - Sticky sidebar on scroll
 - Floating messenger link button
-- Go to top button when scroll page down
-- Dark mode switch (Bootstrap5.3+)
-- Visitor statistics
-- Contact form with security features:
-  - CSRF protection (nonce verification)
-  - Honeypot anti-spam field
-  - IP-based rate limiting
-  - Input sanitization and validation
-  - Email header injection protection
-  - Secure file upload handling (type & size restrictions)
+- Go to top button when scrolling down
+- Dark mode switch (Bootstrap 5.3+)
+- Breadcrumb navigation for posts and pages
 
-## Customizer
+⚠️ **Note:** The contact form is disabled by default.
 
-Additional customizer
+---
+
+## 🎨 Customizer
+
+Additional Customizer options:
 
 - Header banner image
 - Home marquee content
@@ -36,47 +45,14 @@ Additional customizer
   - Line QR code
   - Follow me social links
 
-## Integrated Plugins
+---
 
-This theme includes 3 custom plugins integrated into the theme with auto front-end page registration to the menu.
+## 🛠 TODO
 
-- News Management System (CRUD)
-- Gallery Management System (CRUD)
-- Amway Product Management System (CRUD)
-- Amway Shop Management System (CRUD)
+### 🔄 Future Refactors
 
-### Current Implementation Approach
-
-Reference:
-
-- https://github.com/eduardoarandah/wordpress-crud-example
-- https://accreditly.io/articles/how-to-create-a-crud-in-wordpress-without-using-plugins
-
-Related issues:
-
-- https://stackoverflow.com/questions/18287291/create-a-file-for-crud-functions-with-no-plugin
-- https://wordpress.stackexchange.com/questions/27525/how-to-add-plugins-to-wordpress-theme
-
-## Integrated Widgets
-
-This theme includes 3 custom widgets integrated into the theme:
-
-- Authorbox Widget
-- Quick Links Widget
-- Recommend Video Widget
-
-### TODO :
-
-Future Refactors
-
-- Refactor plugins implementation using a plugin boilerplate by putting them in plugin folder  
-  while keeping it theme-integrated by auto-load plugins
-- Implement drag and re-order product detail images
-- Improve field validation
-- Refactor field validation to use one shared validator
-- Improve images upload
-- Reorganize other theme functionalities
-- Query optimization
-- Clean code
-- Enhance security if should
+- Reorganize theme functionalities
+- Optimize database queries
+- Improve code cleanliness and structure
 - Remove unused files
+- Refactor CSS stylesheets for better maintainability

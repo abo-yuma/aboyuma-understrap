@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-3 px-md-4 py-0';
+$container_classes = $container . ' px-4 py-0';
 ?>
 
 <main>
@@ -39,12 +39,14 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     $marquee_color = get_theme_mod('home_marquee_color', '#ff0000');
 
                     if (! empty($marquee_text)) :
+                        // Get today's date
+                        $today_date = date_i18n('D, j F Y');
                     ?>
                         <div class="home-marquee-wrapper mb-2">
                             <div class="home-marquee-content"
                                 data-duration="<?php echo esc_attr($marquee_duration); ?>"
                                 style="color: <?php echo esc_attr($marquee_color); ?>;">
-                                <?php echo wp_kses_post($marquee_text); ?>
+                                <?php echo esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -52,14 +54,20 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     <?php
                     while (have_posts()) {
                         the_post();
-                        get_template_part('loop-templates/content', 'page');
+                    ?>
+                        <div class="hero-box p-5 mb-4">
+                            <?php the_content(); ?>
+                        </div>
+                    <?php
                     }
                     ?>
-                    <!-- Templates only for front page(Home)-->
-                    <?php get_template_part('homepage-templates/news'); ?>
+                    <?php get_template_part('homepage-templates/featured-post'); ?>
                     <?php get_template_part('homepage-templates/latest-post'); ?>
-                    <?php get_template_part('homepage-templates/latest-product'); ?>
-                    <?php get_template_part('homepage-templates/other-recommend-product'); ?>
+                    <?php if (!PORTFOLIO_MODE) : ?>
+                        <?php get_template_part('homepage-templates/latest-product'); ?>
+                    <?php endif; ?>
+                    <?php get_template_part('homepage-templates/recommend-product'); ?>
+                    <?php get_template_part('homepage-templates/cta'); ?>
                     <!-- Widgets templates only for front page(Home)-->
                     <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
                         <div id="recommend-video-widget-area">

@@ -1,5 +1,6 @@
-<nav id="navbar-main" class="navbar navbar-expand-md bg-primary px-3 py-0">
-    <div class="container px-0">
+<nav id="navbar-main" class="navbar navbar-expand-md bg-dark py-0" data-bs-theme="dark">
+    <div class="container">
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
             aria-controls="navbar" aria-expanded="false"
             aria-label="<?php esc_attr_e('Toggle navigation', 'aboyuma'); ?>">
@@ -24,7 +25,7 @@
             <!-- Dark Mode Switch -->
             <div class="d-flex align-items-center ms-auto">
                 <div class="form-check form-switch">
-                    <label class="form-check-label" for="flexSwitchCheckDefault" style="color: #949494;">Dark mode</label>
+                    <label class="form-check-label me-2" for="flexSwitchCheckDefault" style="color: #949494;"> <i class="fa-solid fa-moon"></i></label>
                     <input class="form-check-input" type="checkbox" id="dark-mode-switch">
                 </div>
             </div>

@@ -26,12 +26,8 @@ defined('ABSPATH') || exit;
 			<div class="entry-meta">
 				<?php
 				understrap_posted_on();
-				// --- Add post views ---
-				$views = getPostViews($post->ID);
 				// $view_output = '<span class="post-views"> | ' .
 				// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
-				// 	echo $view_output;
-				echo '<span class="post-views"> | <i class="fa fa-eye" aria-hidden="true"></i> ' . $views . '</span>';
 				?>
 			</div><!-- .entry-meta -->
 
@@ -40,9 +36,11 @@ defined('ABSPATH') || exit;
 	</header><!-- .entry-header -->
 
 	<div class="post-thumbnail mt-2">
-		<?php echo get_the_post_thumbnail($post->ID, 'large', [
-			'class' => 'img-fluid archive-post-thumbnail'
-		]); ?>
+		<a href="<?php the_permalink(); ?>">
+			<?php echo get_the_post_thumbnail($post->ID, 'large', [
+				'class' => 'img-fluid archive-post-thumbnail'
+			]); ?>
+		</a>
 	</div>
 
 	<div class="entry-content mt-2">

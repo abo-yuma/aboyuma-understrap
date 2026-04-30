@@ -26,7 +26,7 @@ if (!$product_id) {
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-3 px-md-4 py-0';
+$container_classes = $container . ' px-4 py-0';
 ?>
 
 <main>
@@ -84,7 +84,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, product_image_path 
                     FROM $productImageTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productDetailImages = $wpdb->get_results($sql_images);
 
                     $productInfographicTable = $wpdb->prefix . 'aboyuma_amway_product_infographic';
@@ -92,7 +92,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, product_infographic_path
                     FROM $productInfographicTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productInfographics = $wpdb->get_results($sql_infographics);
 
                     $productRelateVideoTable = $wpdb->prefix . 'aboyuma_related_amway_product_video';
@@ -100,7 +100,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                     SELECT id, product_id, video_url, video_comment
                     FROM $productRelateVideoTable 
                     WHERE product_id = %d
-                ", $product_id);
+                    ", $product_id);
                     $productRelateVideos = $wpdb->get_results($sql_videos);
 
                     $relatedProductTable = $wpdb->prefix . 'aboyuma_related_amway_product';
@@ -126,9 +126,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                 <div class="col-12">
                                     <div id="previewImageBox" class="previewImageBox">
                                         <?php $baseurl = wp_upload_dir()['baseurl']; ?>
-                                        <a href="javascript:void(0);"
-                                            id="previewFancyboxLink"
-                                            onclick="openFancyboxFromCurrentIndex();">
+                                        <a href="javascript:void(0);" id="previewFancyboxLink">
                                             <img id="previewImage" src="<?= esc_url($baseurl . '/' . $productDetailImages[0]->product_image_path); ?>" alt="Product Preview">
                                         </a>
                                     </div>
@@ -149,9 +147,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                         <div id="thumbnailWrapper" class="thumbnail-wrapper">
                                             <?php foreach ($productDetailImages as $key => $productDetailImage) : ?>
                                                 <img src="<?= esc_url($baseurl . '/' . $productDetailImage->product_image_path); ?>"
-                                                    onclick="displayPreviewImage(this, <?= $key ?>)"
-                                                    class="thumbnail img-thumbnail <?= $key === 0 ? 'active' : ''; ?>"
-                                                    alt="">
+                                                    class="thumbnail img-thumbnail <?= $key === 0 ? 'active' : ''; ?>" alt="">
                                             <?php endforeach; ?>
                                         </div>
                                         <!-- <button id="nextThumbnail" class="slider-arrow right-arrow">&gt;</button> -->
@@ -189,8 +185,8 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                         </small>
 
                                         <div id="product-category-brand-label" class="col-md-12 mb-2">
-                                            <span class="badge bg-secondary"><?php echo esc_html($product->brand_name); ?></span>
-                                            <span class="badge bg-secondary"><?php echo esc_html($product->category_name); ?></span>
+                                            <span class="badge bg-light"><?php echo esc_html($product->brand_name); ?></span>
+                                            <span class="badge bg-light"><?php echo esc_html($product->category_name); ?></span>
                                         </div>
                                         <div id="product-description-wrapper" class="product-description-wrapper card-text">
                                             <div class="product_description mb-2">
@@ -272,7 +268,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                             </div><!-- END product meta data -->
                                         </div>
                                         <div class="product_shop_link_button mt-2">
-                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-secondary"
+                                            <a href="<?php echo esc_url($product->product_shop_link); ?>" target="_blank" class="btn btn-outline-primary"
                                                 style="width: 100%;">🔍 ดูสินค้าที่ amway.co.th</a>
                                         </div>
                                     </div>
@@ -305,7 +301,7 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                     <button class="nav-link active" id="nav-product-detail-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-product-detail"
                                         type="button" role="tab" aria-controls="nav-product-detail" aria-selected="true">
-                                        📒 บันทึก
+                                        🧑‍💻 บันทึก
                                     </button>
                                     <button class="nav-link" id="nav-product-specification-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-product-specification"
@@ -382,11 +378,11 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                         <?php endif; ?>
 
                         <?php if (!empty($productRelateVideos)) : ?>
-                            <section id="product-related-video" class="mb-2">
+                            <section id="product-related-video" class="mb-3">
                                 <div class="section-header product-related-video-label mb-2 fw-bold">
                                     ▶️ วิดีโอที่เกี่ยวข้อง
                                 </div>
-                                <div class="row p-3">
+                                <div class="row">
                                     <?php foreach ($productRelateVideos as $index => $video) :
                                         // Extract YouTube video ID from the URL
                                         preg_match('/(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/v\/|\/.+\?v=))([^&\n?#]+)/', $video->video_url, $matches);
@@ -400,11 +396,11 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
                                                     <img src="https://img.youtube.com/vi/<?php echo esc_attr($youtube_id); ?>/hqdefault.jpg"
                                                         alt="YouTube thumbnail" class="w-100 h-100 object-fit-cover">
                                                     <!-- Play button overlay -->
-                                                    <span class="play-btn position-absolute top-50 start-50 translate-middle"></span>
+                                                    <span class="play-btn"></span>
                                                 </a>
                                             </div>
                                             <?php if (!empty($video->video_comment)) : ?>
-                                                <small class="d-block mt-1"><?php echo esc_html($video->video_comment); ?></small>
+                                                <small class="d-block mt-1">⏯️ <?php echo esc_html($video->video_comment); ?></small>
                                             <?php endif; ?>
                                         </div>
 
@@ -518,135 +514,5 @@ $container_classes = $container . ' px-3 px-md-4 py-0';
     </div><!-- #content -->
 
 </main><!-- #main-wrapper -->
-<script>
-    function openFancyboxFromCurrentIndex() {
-        const thumbnails = document.querySelectorAll(".thumbnail");
-        let currentIndex = 0;
-
-        thumbnails.forEach((thumb, index) => {
-            if (thumb.classList.contains("active")) {
-                currentIndex = index;
-            }
-        });
-
-        Fancybox.show(
-            Array.from(thumbnails).map(thumb => ({
-                src: thumb.getAttribute("src"),
-                type: "image",
-                caption: thumb.getAttribute("alt") || ""
-            })), {
-                startIndex: currentIndex,
-                Thumbs: {
-                    autoStart: true, // ✅ Automatically show thumbnails
-                },
-                Toolbar: {
-                    display: [
-                        "zoom",
-                        "slideshow",
-                        "thumbs",
-                        "close"
-                        // omit "fullscreen" to disable it
-                    ]
-                }
-            }
-        );
-    }
-
-    // function scrollThumbnails(direction) {
-    //     const wrapper = document.getElementById("thumbnailWrapper"); // Get the thumbnail wrapper
-    //     const thumbnailWidth = wrapper.querySelector(".thumbnail").offsetWidth + 500; // Get width of one thumbnail + margin
-
-    //     // Scroll by one thumbnail width in the given direction
-    //     wrapper.scrollBy({
-    //         left: direction * thumbnailWidth,
-    //         behavior: "smooth"
-    //     });
-    // }
-
-    // // Event listeners for left and right arrow buttons
-    // document.getElementById("prevThumbnail").addEventListener("click", function() {
-    //     scrollThumbnails(-1); // Scroll left
-    // });
-
-    // document.getElementById("nextThumbnail").addEventListener("click", function() {
-    //     scrollThumbnails(1); // Scroll right
-    // });
-
-    function displayPreviewImage(thumbnail, index) {
-        const newImagePath = thumbnail.getAttribute("src");
-
-        // Update preview image
-        const previewImg = document.getElementById("previewImage");
-        previewImg.src = newImagePath;
-
-        // Update active class
-        document.querySelectorAll('.thumbnail').forEach(thumb => thumb.classList.remove('active'));
-        thumbnail.classList.add('active');
-    }
-</script>
-<style>
-    .fancybox__backdrop {
-        background: rgba(0, 0, 0, 0.8);
-        /* same as Magnific Popup */
-    }
-
-    .thumbnail-wrapper {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        /* 5 thumbnails per row */
-        gap: 6px;
-        /* spacing between thumbnails */
-        width: 100%;
-    }
-
-    .thumbnail {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        /* keep square thumbnails */
-        object-fit: cover;
-        margin: 0;
-        /* remove Bootstrap margins */
-    }
-
-    #qrcode img {
-        width: 70px;
-        height: 70px;
-        object-fit: contain;
-    }
-
-    .infographic-image {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        /* force square */
-        object-fit: cover;
-        /* cover without distortion */
-    }
-
-    .play-btn {
-        width: 60px;
-        height: 60px;
-        background: rgba(0, 0, 0, 0.6);
-        /* semi-transparent black */
-        border-radius: 12px;
-        /* rounded corners instead of circle */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Triangle in the middle */
-    .play-btn::before {
-        content: '';
-        display: block;
-        margin-left: 3px;
-        /* center the triangle visually */
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 12px 0 12px 20px;
-        /* triangle size */
-        border-color: transparent transparent transparent white;
-    }
-</style>
 <?php
 get_footer();

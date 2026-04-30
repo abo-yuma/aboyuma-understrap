@@ -1,8 +1,8 @@
 <!-- Latest Post Section -->
-<div id="home-latest-post" class="mb-2">
+<section id="home-latest-post" class="mb-3">
     <?php
-    // Get the category ID of 'other-recommend-product' to exclude it
-    $excluded_category = get_category_by_slug('other-recommend-product');
+    // Get the category ID of 'recommend-products' to exclude it
+    $excluded_category = get_category_by_slug('recommend-products');
     $exclude_id = $excluded_category ? $excluded_category->term_id : 0;
 
     $args = array(
@@ -15,7 +15,7 @@
     ?>
 
 
-    <h1 class="section-header">
+    <h1 class="section-header mb-3">
         📝 บทความล่าสุด
     </h1>
     <?php
@@ -23,23 +23,25 @@
         <div id="latest-posts-section" class="content-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
                 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="h-100">
+                    <div class="card h-100 border-0 d-flex flex-column">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <?php the_post_thumbnail(); ?>
-                                <?php else : ?>
-                                    <img src="https://placehold.co/100x130?text=No+Image"
-                                        alt="No image available"
-                                        class="img-fluid w-100">
-                                <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php if (has_post_thumbnail()) : ?>
+                                        <?php the_post_thumbnail(); ?>
+                                    <?php else : ?>
+                                        <img src="https://placehold.co/100x130?text=No+Image"
+                                            alt="No image available"
+                                            class="img-fluid w-100">
+                                    <?php endif; ?>
+                                </a>
                             </div>
                         </div>
-                        <div class="card-body p-1">
-                            <div class="post-content d-flex flex-column">
+                        <div class="card-body p-0 pt-2 d-flex flex-column h-100">
+                            <div class="post-content d-flex flex-column h-100">
                                 <span>
                                     <a class="post-title-link" href="<?php echo get_permalink(); ?>">
-                                        📝 <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                        <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
                                     </a>
                                 </span>
                                 <div class="post-category" style="font-size: 0.75rem;">
@@ -57,17 +59,17 @@
                                 </div>
                                 <div class="post-meta text-muted" style="font-size: 0.75rem;">
                                     <span class="me-2">
-                                        🗓 
-                                        <?php echo get_the_date(); ?>
-                                    </span>
-
-                                    <span>
-                                        📊
-                                        <?php echo number_format((int) get_post_meta(get_the_ID(), 'post_views_count', true)); ?>
+                                        🗓
+                                        <?php
+                                        echo get_the_date();
+                                        if (function_exists('aboyuma_get_post_views')) {
+                                            echo ' ' . aboyuma_get_post_views(get_the_ID());
+                                        }
+                                        ?>
                                     </span>
                                 </div>
-                                <div class="small mt-auto d-flex justify-content-end link-primary text-decoration-none">
-                                    <?php echo '<a href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
+                                <div class="small mt-auto d-flex justify-content-end">
+                                    <?php echo '<a class="link-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
                                 </div>
                             </div>
 
@@ -77,8 +79,10 @@
             <?php endwhile; ?>
             <?php wp_reset_postdata(); ?>
         </div>
-    <?php
-    endif;
-    ?>
+    <?php else : ?>
+        <div class="alert alert-secondary text-center">
+            ยังไม่มีบทความ
+        </div>
+    <?php endif; ?>
 
-</div><!-- Latest Post Section -->
+</section><!-- Latest Post Section -->

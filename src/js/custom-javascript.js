@@ -2,7 +2,7 @@
 
 // Top-level import: brings in only the Tooltip and Popover modules from your bootstrap.js file
 // This allows you to use them in this script without relying on any global variables.
-import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top of the file
+import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of the file
 
 // Wrap everything in an IIFE (Immediately Invoked Function Expression) and pass in jQuery ($)
 // This keeps your code scoped and avoids polluting the global namespace
@@ -58,15 +58,15 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 	/**
 	 * Navbar Fixed Top On Scroll
 	 */
-	var $navbar = $("#navbar-main");
-	var trigger = $("#wrapper-header").outerHeight();
+	// var $navbar = $("#navbar-main");
+	// var trigger = $("#wrapper-header").outerHeight();
 
-	function toggleNavbar() {
-		$navbar.toggleClass("is-fixed", $(window).scrollTop() > trigger);
-	}
+	// function toggleNavbar() {
+	// 	$navbar.toggleClass("is-fixed", $(window).scrollTop() > trigger);
+	// }
 
-	toggleNavbar();
-	$(window).on("scroll", toggleNavbar);
+	// toggleNavbar();
+	// $(window).on("scroll", toggleNavbar);
 
 	// TODO: Fix lightbox to not apply to product detail thumbnail
 	// Implement jQuery lightbox sciprt
@@ -100,4 +100,5 @@ import { Tooltip, Popover } from "./bootstrap"; // ✅ must be at the very top o
 		pauseOnHover: true,
 		startVisible: true,
 	});
+	
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside

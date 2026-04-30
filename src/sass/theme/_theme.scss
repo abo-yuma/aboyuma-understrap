@@ -1,5 +1,22 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
+/* Desktop default */
+html {
+	font-size: 16px;
+}
+
+/* Main wrapper */
+.main-wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	background: #fff;
+}
+
+.main-wrapper,
+.container {
+	max-width: 820px;
+}
+
 /* 
  * Fix unwanted right space (horizontal scroll) on small phones only
  * ---------------------------------------------------------------
@@ -39,8 +56,48 @@ body {
 
 /* BEFORE scroll */
 #navbar-main {
-	width: 880px;
 	margin: 0 auto;
+}
+
+.navbar-nav > .nav-item {
+	position: relative;
+}
+
+/* Show divider from iPad size and larger (≥768px) */
+@media (min-width: 768px) {
+	.navbar-nav > .nav-item:not(:last-child)::after {
+		content: ""; /* create divider line */
+		position: absolute;
+		right: 0; /* align to the right edge of menu item */
+		top: 50%; /* vertically center */
+		transform: translateY(-50%);
+		width: 1px; /* line thickness */
+		height: 18px; /* line height */
+		background: var(
+			--bs-border-color-translucent
+		); /* Bootstrap variable color */
+	}
+}
+
+/* Hide divider on small mobile screens (<768px) */
+@media (max-width: 767.98px) {
+	.navbar-nav > .nav-item::after {
+		display: none;
+	}
+}
+
+#navbar-main .navbar-nav .nav-link {
+	font-size: 0.875rem; /* 14px */
+	// line-height: 1.2;
+}
+
+#navbar-main .dropdown-menu .dropdown-item {
+	font-size: 0.875rem; /* 14px */
+	/*
+	 * HACK: Add extra spacing to account for WordPress emoji rendered as <img>.
+	 * Without this, the emoji icon can sit too close to the menu text in the dropdown.
+	 */
+	margin-right: 16px;
 }
 
 /* 
@@ -92,7 +149,6 @@ body {
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 880px;
 	z-index: 1030;
 }
 
@@ -136,6 +192,45 @@ body.admin-bar #navbar-main.is-fixed {
 	}
 }
 
+/* Override Spacelab dropdown background to match navbar bg-primary */
+// #navbar-main .dropdown-menu {
+// 	background: linear-gradient(
+// 		rgb(112, 145, 179),
+// 		#446e9b 50%,
+// 		rgb(62, 101, 142)
+// 	);
+// 	border: 1px solid rgb(54, 88, 124);
+// }
+
+// #navbar-main .dropdown-item {
+// 	color: #fff;
+// }
+
+// #navbar-main .dropdown-item:hover {
+// 	background: rgba(255, 255, 255, 0.1);
+// }
+
+/*
+ * Adjust dropdown item vertical spacing
+ * -------------------------------------
+ * Bootswatch Spacelab uses Bootstrap's default dropdown spacing:
+ *
+ *   --bs-dropdown-item-padding-y: 0.25rem
+ *
+ * With the navbar font reduced to 0.875rem (14px), the default
+ * vertical padding makes menu items appear visually cramped.
+ *
+ * Increasing the padding to 0.4rem improves readability and
+ * click comfort while keeping the dropdown compact and aligned
+ * with the Bootstrap spacing scale (rem-based system).
+ *
+ * This override only affects the navbar dropdown menu to avoid
+ * altering dropdown spacing globally across the site.
+ */
+#navbar-main .dropdown-menu {
+	--bs-dropdown-item-padding-y: 0.4rem;
+}
+
 // Fix Bootstrap Dropdown Submenu
 /*
  * (c) 2022 Manish Pushkar bs5-navwalker 
@@ -158,6 +253,10 @@ body.admin-bar #navbar-main.is-fixed {
 		border: 0 !important;
 	}
 }
+// Remove extra margin at top of dropdown menu
+.dropdown-menu[data-bs-popper] {
+	margin-top: 0;
+}
 
 .main-content-wrapper {
 	margin-top: 1rem;
@@ -167,17 +266,50 @@ body.admin-bar #navbar-main.is-fixed {
  * Apply horizontal padding only on iPad & PC
  * (Bootstrap md breakpoint and up)
  */
-@media (min-width: 768px) {
-	.main-content-wrapper {
-		padding-left: 1rem;
-		padding-right: 1rem;
-	}
+// @media (min-width: 768px) {
+// 	.main-content-wrapper {
+// 		padding-inline: 1rem;
+// 	}
+// }
+
+.single-post .entry-content {
+	font-size: 18px;
+	line-height: 1.6;
 }
 
 .section-header {
 	font-size: 16px; /* default */
 	font-weight: 700;
 	line-height: 1.4;
+	padding-bottom: 0.25rem; /* space inside, before border */
+	border-bottom: 2px solid var(--bs-border-color);
+}
+
+/*
+    Fix: Prevent the image from slightly overflowing the container (≈1px on the right side)
+
+    Problem:
+    - The <img> uses width: 100% with object-fit: cover
+    - The container width can be fractional (e.g. 752.4px)
+    - Browser pixel rounding (subpixel rendering) may cause the image to render slightly wider
+    - This results in a small overflow that visually overlaps the border or box-shadow
+
+    Why this works:
+    - overflow: hidden clips any content that exceeds the element’s boundaries
+    - wrapper-header is the outermost visible container, so it effectively clips all overflow
+
+    Note:
+    - This is normal browser rendering behavior (not a CSS bug)
+    - Common fix for image + responsive layout + subpixel rounding issues
+*/
+#wrapper-header {
+	overflow: hidden;
+}
+
+#wrapper-header img {
+	width: 100%;
+	object-fit: cover;
+	height: 160px;
 }
 
 /* Sidebar */
@@ -187,6 +319,24 @@ body.admin-bar #navbar-main.is-fixed {
 		list-style: none;
 		padding: 0;
 	}
+	font-size: 0.875rem; /* 14px */
+}
+
+.widget-area .widget-title {
+	font-size: 1rem; /* 16px */
+	font-weight: 600;
+}
+
+.widget-area li {
+	line-height: 1.5;
+}
+
+.widget-area {
+	--bs-body-font-size: 0.875rem;
+}
+
+.widget-area .form-control {
+	font-size: var(--bs-body-font-size);
 }
 
 #sidebar-left.card {
@@ -231,14 +381,21 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 	}
 }
 
+.widget_categories {
+	font-size: 0.875rem; // 14px
+}
 /* Target only the archive widget list items */
 .widget_archive ul li::before {
-	content: "📝 "; /* replace with any emoji you like */
+	content: "📅 "; /* replace with any emoji you like */
 	font-size: 1em; /* adjust size */
 }
 
 .widget_categories ul li::before {
 	content: "📂 ";
+}
+
+.widget_recent_entries ul li::before {
+	content: "📄 ";
 }
 
 :is(.widget_categories, .widget_archive) a:hover,
@@ -247,6 +404,25 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 
 // ===== Main content ===== //
+.entry-title {
+	font-size: 1.75rem;
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+.single-post .entry-title {
+	font-size: 2.5rem;
+}
+
+.entry-meta {
+	font-size: 0.875rem;
+}
+
+/* Exclude category & all archive pages */
+.archive .entry-title,
+.category .entry-title {
+	border-bottom: none;
+}
 
 .archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
 .archive-loop-item
@@ -403,11 +579,17 @@ footer {
 @media (min-width: 768px) {
 	.sidebar-left-column {
 		flex: 0 0 auto;
-		width: 30%;
+		width: 32%;
 	}
 	.main-content-column {
 		flex: 0 0 auto;
-		width: 70%;
+		width: 68%;
+	}
+}
+
+@media (max-width: 767px) {
+	.sidebar-left-column.border-start {
+		border-left: none !important;
 	}
 }
 
@@ -461,15 +643,16 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] body {
-	background-color: #e4e4e4;
+	background-color: #ebf3fd;
+	// background-color: #dbe6f5;
 }
 
 [data-bs-theme="dark"] body {
-	background-color: #2b2b2b;
+	background-color: #3b3b3b;
 }
 
 #aboyuma-author-box {
-	font-size: 14px;
+	font-size: 0.875rem;
 }
 
 /* Author card base */
@@ -477,19 +660,24 @@ footer {
 	overflow: hidden;
 }
 
-/* Cover image */
-.author-cover {
-	height: 140px;
-	background-size: cover;
-	background-position: center;
+.author-name {
+	font-weight: 600;
+	font-size: 1rem;
 }
 
+/* Cover image */
+// .author-cover {
+// 	height: 140px;
+// 	background-size: cover;
+// 	background-position: center;
+// }
+
 /* Avatar wrapper */
-.author-avatar-wrapper {
-	margin-top: -90px; /* pulls avatar over cover */
-	position: relative;
-	z-index: 2;
-}
+// .author-avatar-wrapper {
+// 	margin-top: -90px; /* pulls avatar over cover */
+// 	position: relative;
+// 	z-index: 2;
+// }
 
 /* Avatar */
 .author-avatar {
@@ -500,14 +688,23 @@ footer {
 	background: #fff;
 }
 
+#aboyuma-author-box .btn {
+	font-size: 0.8125rem;
+}
+
 [data-bs-theme="light"] #aboyuma-author-box {
-	background-color: #fafafa;
-	border: 1px solid #e5e5e5;
+	--bs-card-bg: #fafafa;
+	--bs-card-border-color: #e5e5e5;
 }
 
 [data-bs-theme="dark"] #aboyuma-author-box {
-	background-color: #2b2b2b;
-	border: 1px solid #3a3a3a;
+	--bs-card-bg: #2b2b2b;
+	--bs-card-border-color: #3a3a3a;
+}
+
+.aboyuma-visitor-title {
+	font-size: 1rem; /* 16px */
+	font-weight: 600;
 }
 
 // [data-bs-theme="light"] aside {
@@ -539,60 +736,34 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
-	border: 1px solid rgba(0, 0, 0, 0.25); /* darker than card */
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+	border: 1px solid #d0d7de;
+	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
 }
 
-[data-bs-theme="dark"] .main-wrapper {
-	border: 1px solid rgb(54, 54, 54); /* softer light-gray border */
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* soft shadow */
+/* ============================================================
+   Latest Product Table (Theme Side)
+   ============================================================ */
+
+#latest-product-table {
+	font-size: 0.875rem; /* 14px */
 }
 
-/* Light mode */
-[data-bs-theme="light"] .navbar-expand-md .navbar-nav .dropdown-menu {
-	background-color: #171718;
-}
-[data-bs-theme="light"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item {
-	color: #949494;
-}
-[data-bs-theme="light"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item:hover {
-	color: #000000;
-}
-
-/* Dark mode */
-[data-bs-theme="dark"] .navbar-expand-md .navbar-nav .dropdown-menu {
-	background-color: #1f1f1f; /* slightly lighter than original dark */
-}
-[data-bs-theme="dark"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item {
-	color: #dcdcdc; /* lighter gray text for readability */
-}
-[data-bs-theme="dark"]
-	.navbar-expand-md
-	.navbar-nav
-	.dropdown-menu
-	.dropdown-item:hover {
-	color: #ffffff; /* hover white for contrast */
+#latest-product-table th {
+	font-weight: 600;
 }
 
 #latest-product-table td {
-	font-size: 13px;
 	vertical-align: middle;
 }
 
 #latest-product-table td.product-name {
-	font-size: 14px;
+	font-size: 0.85rem;
+}
+
+#latest-product-table img {
+	min-width: 72px;
+	max-width: 140px;
+	height: auto;
 }
 
 /* ============================================================
@@ -619,9 +790,14 @@ footer {
 
    Setting box-shadow: none removes the actual
    "paint layer" Bootstrap uses for striping.
-   ------------------------------------------------------------ */
+    ------------------------------------------------------------ */
+
 #latest-product-table.table-striped > tbody > tr:nth-of-type(odd) > * {
 	box-shadow: none !important;
+}
+
+table.dataTable#latest-product-table tbody td {
+	border-bottom: 1px solid var(--bs-border-color);
 }
 
 /* ------------------------------------------------------------
@@ -637,19 +813,25 @@ footer {
 
    This keeps the exact default color and behavior.
    ------------------------------------------------------------ */
+
 #latest-product-table.table-striped > tbody > tr:nth-of-type(even) > * {
 	--bs-table-bg-type: var(--bs-table-striped-bg);
 }
 
 /* Ref : https://www.youtube.com/watch?app=desktop&v=EoOK-YG-C1o */
+.thumbnail-wrapper {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-start;
+	align-items: center;
+}
+
 .thumbnail {
 	cursor: pointer;
 	transition: opacity 0.3s ease;
-	width: 100%;
-	max-width: 70px;
+	width: 70px;
 	height: 70px;
 	flex: 0 0 auto;
-	/* Prevent stretching issue in Firefox */
 }
 
 .thumbnail.active {
@@ -795,31 +977,66 @@ footer {
 
 .facebook-share-btn:hover {
 	background-color: #334e89; /* darker hover */
+	text-decoration: none !important;
 }
 
-/* Home recommend video widget */
-#home-other-recommend-product .play-btn {
+/* wrapper */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper {
+	position: relative;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+}
+
+/* anchor as positioning context */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper a {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* image */
+#reccommend-video-widget,
+#product-related-video .video-thumb-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* YOUR play button style + centering */
+#reccommend-video-widget,
+#product-related-video .play-btn {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
 	width: 60px;
 	height: 60px;
 	background: rgba(0, 0, 0, 0.6);
-	/* semi-transparent black */
 	border-radius: 12px;
-	/* rounded corners instead of circle */
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	z-index: 10;
+	pointer-events: none; /* click goes to <a> */
 }
-#home-other-recommend-product .play-btn::before {
+
+/* YOUR triangle */
+#reccommend-video-widget,
+#product-related-video .play-btn::before {
 	content: "";
-	display: block;
 	margin-left: 3px;
-	/* center the triangle visually */
 	width: 0;
 	height: 0;
 	border-style: solid;
 	border-width: 12px 0 12px 20px;
-	/* triangle size */
-	border-color: transparent transparent transparent white;
+	border-color: transparent transparent transparent #fff;
 }
 
 .home-marquee-wrapper {
@@ -856,4 +1073,197 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
 	background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Wrapper for search input + submit button */
+.search-wrap {
+	display: flex; /* Use flexbox so input and button sit on one line */
+	gap: 0.5rem; /* Space between input and button (safe, controlled) */
+	width: 100%; /* Never exceed sidebar width */
+	box-sizing: border-box; /* Include padding & border in width calculations */
+}
+
+/* Search input field */
+.search-wrap .search-field {
+	flex: 9; /* Take 9 parts of available space (≈ 90%) */
+
+	/*
+		CRITICAL FLEXBOX FIX
+		-------------------
+		Default flex items have: min-width: auto;
+		This means the input REFUSES to shrink smaller than its content
+		(placeholder text, typed text, internal padding).
+
+		In narrow containers like sidebars/widgets:
+		- Flexbox tries to shrink items to fit
+		- Input refuses
+		- Layout overflows outside parent
+
+		min-width: 0 explicitly allows the input to shrink,
+		so flexbox can correctly calculate widths and keep
+		everything inside the sidebar.
+	*/
+	min-width: 0;
+}
+
+/* Search submit button */
+.search-wrap .search-submit {
+	flex: 1; /* Take 1 part of available space (≈ 10%) */
+	font-size: 0.875rem; /* Slightly smaller text for compact sidebar */
+	white-space: nowrap; /* Prevent button text from wrapping */
+	padding-left: 0.5rem; /* Tight horizontal padding to save space */
+	padding-right: 0.5rem;
+}
+
+.contact-form-title {
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+// #contact-form button {
+// 	font-size: 0.875rem;
+// }
+/*
+Source - https://stackoverflow.com/a/19301673
+Posted by Dinesh Kanivu, modified by community. See post 'Timeline' for change history
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+/*
+Source - https://stackoverflow.com/a/28816183
+Posted by KrondaliX
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+/*
+Source - https://stackoverflow.com/a/33016255
+Posted by Marius Stefanescu
+Retrieved 2026-02-08, License - CC BY-SA 3.0
+*/
+
+// Prevent element shifting when Bootstrap modal open
+// Reference: https://stackoverflow.com/a/33016255/8527193
+.modal {
+	overflow-y: auto !important;
+}
+
+.modal-open {
+	overflow: auto !important;
+	overflow-x: hidden !important;
+	padding-right: 0 !important;
+}
+
+/* Main hero container */
+.hero-box {
+	position: relative;
+	/* Required so the ::before overlay can be positioned relative to this element */
+
+	border-radius: 8px;
+	/* Rounded corners for a softer card-like appearance */
+
+	overflow: hidden;
+	/* Ensures the background image and overlay respect the rounded corners */
+
+	padding: 40px 30px;
+	/* Internal spacing so the content does not touch the edges */
+
+	background-image: url("https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=1600&auto=format&fit=crop");
+	/* Background photo for the hero section (workspace theme) */
+
+	background-size: cover;
+	/* Scales the image so it always covers the entire hero area */
+
+	background-position: center;
+	/* Keeps the image centered when the container resizes */
+}
+
+/* Light mode overlay */
+[data-bs-theme="light"] .hero-box::before {
+	content: "";
+	/* Required for pseudo-elements to render */
+
+	position: absolute;
+	/* Positions the overlay on top of the background */
+
+	inset: 0;
+	/* Shorthand for top:0 right:0 bottom:0 left:0 (covers entire container) */
+
+	background: rgba(255, 255, 255, 0.85);
+	/* Semi-transparent white layer
+	   Improves text readability over the image in light mode */
+}
+
+/* Dark mode overlay */
+[data-bs-theme="dark"] .hero-box::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+
+	background: rgba(30, 30, 30, 0.75);
+	/* Dark translucent layer
+	   Prevents the image from being too bright in dark mode */
+}
+
+/* Ensure text appears above the overlay */
+.hero-box > * {
+	position: relative;
+	/* Creates a stacking context for the content */
+
+	z-index: 2;
+	/* Places content above the ::before overlay */
+}
+
+.featured-image {
+	aspect-ratio: 16 / 9;
+	background: #111;
+	overflow: hidden;
+}
+
+.featured-image .post-thumbnail {
+	width: 100%;
+	height: 100%;
+}
+
+.featured-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#featured-post-carousel a {
+	text-decoration: none;
+}
+
+#featured-post-carousel a:hover,
+#featured-post-carousel a:focus-visible {
+	text-decoration: underline;
+}
+
+/* Ensure carousel has relative positioning */
+#featured-post-carousel {
+	position: relative;
+}
+
+/* 
+ * Fix: By default, Bootstrap carousel controls span 100% height,
+ * which can overlap and block underlying content (e.g., "Read more" links).
+ *
+ * Solution: Limit the control size and vertically center it,
+ * so it only covers the middle area of the carousel instead of the full height.
+ */
+.carousel-control-prev,
+.carousel-control-next {
+	top: 50%;
+	transform: translateY(-50%);
+	height: 60px;
+	width: 60px;
+}
+
+/* Override Bootstrap style */
+.card {
+	--bs-card-border-color: var(--bs-border-color);
+}
+
+ul {
+	margin-bottom: 0;
 }
