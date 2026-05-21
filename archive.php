@@ -39,7 +39,7 @@ $container_classes = $container . ' px-4 py-0';
 							the_archive_description('<div class="taxonomy-description">', '</div>');
 							?>
 						</header><!-- .page-header -->
-					<?php
+						<?php
 						// Start the loop.
 						while (have_posts()) {
 							the_post();
@@ -51,6 +51,11 @@ $container_classes = $container . ' px-4 py-0';
 						 */
 							get_template_part('loop-templates/content', get_post_format());
 						}
+						?>
+						<div class="my-2">
+							<?php understrap_pagination(); ?>
+						</div>
+					<?php
 					} else {
 						get_template_part('loop-templates/content', 'none');
 					}
