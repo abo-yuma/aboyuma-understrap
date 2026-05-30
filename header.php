@@ -33,17 +33,27 @@ defined('ABSPATH') || exit;
 				<div id="main-image">
 
 					<?php
-					$header_image = get_theme_mod('aboyuma_header_image');
+					$header_image_id = get_theme_mod('aboyuma_header_image');
 
-					if (! empty($header_image)) {
-						$img_src = esc_url($header_image);
+					if (!empty($header_image_id)) {
+
+						echo wp_get_attachment_image(
+							$header_image_id,
+							'full',
+							false,
+							array(
+								'class' => 'header-image',
+								'alt'   => 'Header image'
+							)
+						);
 					} else {
-						$img_src = 'https://placehold.co/980x250?text=Header+Image';
-					}
 					?>
-					<img
-						src="<?php echo $img_src; ?>"
-						alt="Header image">
+
+						<img
+							src="https://placehold.co/820x160?text=Header+Image"
+							alt="Header image">
+
+					<?php } ?>
 
 				</div>
 			</div>

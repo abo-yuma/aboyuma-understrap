@@ -423,29 +423,37 @@ add_action('customize_register', 'aboyuma_marquee_customizer');
 
 // === Header Image Customizer ===
 function header_customizer_register($wp_customize) {
+
 	// Add a section for Header Image
 	$wp_customize->add_section('aboyuma_header_image_section', array(
-		'title'       => __('Header Image', 'aboyuma'),
-		'priority'    => 30,
+		'title'    => __('Header Image', 'aboyuma'),
+		'priority' => 30,
 	));
 
 	// Add a setting for the image
 	$wp_customize->add_setting('aboyuma_header_image', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'absint', // cropped image returns attachment ID
 	));
 
-	// Add control for the image uploader
-	$wp_customize->add_control(new WP_Customize_Image_Control(
-		$wp_customize,
-		'aboyuma_header_image',
-		array(
-			'label'    => __('Upload Header Image', 'aboyuma'),
-			'description' => __('Height: >80px', 'aboyuma'),
-			'section'  => 'aboyuma_header_image_section',
-			'settings' => 'aboyuma_header_image',
+	// Add cropped image control
+	$wp_customize->add_control(
+		new WP_Customize_Cropped_Image_Control(
+			$wp_customize,
+			'aboyuma_header_image',
+			array(
+				'label'       => __('Upload Header Image', 'aboyuma'),
+				'description' => __('Recommended size: 820x160px', 'aboyuma'),
+				'section'     => 'aboyuma_header_image_section',
+				'settings'    => 'aboyuma_header_image',
+
+				'width'       => 820,
+				'height'      => 160,
+				'flex_width'  => false,
+				'flex_height' => false,
+			)
 		)
-	));
+	);
 }
 add_action('customize_register', 'header_customizer_register');
 
