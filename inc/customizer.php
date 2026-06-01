@@ -454,6 +454,31 @@ function header_customizer_register($wp_customize) {
 			)
 		)
 	);
+
+	// Header Title
+	$wp_customize->add_setting('aboyuma_header_title', array(
+		'default'           => 'Yuma\'s Personal Blog',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+
+	$wp_customize->add_control('aboyuma_header_title', array(
+		'label'    => __('Header Title', 'aboyuma'),
+		'section'  => 'aboyuma_header_image_section',
+		'type'     => 'text',
+	));
+
+
+	// Header Subtitle
+	$wp_customize->add_setting('aboyuma_header_subtitle', array(
+		'default'           => 'Sharing life experiences',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+
+	$wp_customize->add_control('aboyuma_header_subtitle', array(
+		'label'    => __('Header Subtitle', 'aboyuma'),
+		'section'  => 'aboyuma_header_image_section',
+		'type'     => 'text',
+	));
 }
 add_action('customize_register', 'header_customizer_register');
 
