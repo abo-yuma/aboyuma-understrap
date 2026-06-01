@@ -276,7 +276,7 @@ if (! function_exists('understrap_customize_preview_js')) {
 		);
 	}
 }
-add_action('customize_preview_init', 'understrap_customize_preview_js');
+// add_action('customize_preview_init', 'understrap_customize_preview_js');
 
 /**
  * Loads javascript for conditionally showing customizer controls.
@@ -303,7 +303,7 @@ if (! function_exists('understrap_customize_controls_js')) {
 		);
 	}
 }
-add_action('customize_controls_enqueue_scripts', 'understrap_customize_controls_js');
+// add_action('customize_controls_enqueue_scripts', 'understrap_customize_controls_js');
 
 if (! function_exists('understrap_default_navbar_type')) {
 	/**
@@ -323,7 +323,7 @@ if (! function_exists('understrap_default_navbar_type')) {
 		return $current_mod;
 	}
 }
-add_filter('theme_mod_understrap_navbar_type', 'understrap_default_navbar_type', 20);
+// add_filter('theme_mod_understrap_navbar_type', 'understrap_default_navbar_type', 20);
 
 // ===== ABO YUMA Custom Customizer ===== //
 
