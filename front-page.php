@@ -61,13 +61,12 @@ $container_classes = $container . ' px-4 py-0';
                     <?php
                     }
                     ?>
-                    <?php get_template_part('homepage-templates/featured-post'); ?>
-                    <?php get_template_part('homepage-templates/latest-post'); ?>
+                    <?php get_template_part('frontpage-templates/featured-post'); ?>
+                    <?php get_template_part('frontpage-templates/latest-post'); ?>
                     <?php if (!PORTFOLIO_MODE) : ?>
-                        <?php get_template_part('homepage-templates/latest-product'); ?>
+                        <?php get_template_part('frontpage-templates/latest-product'); ?>
                     <?php endif; ?>
-                    <?php get_template_part('homepage-templates/recommend-product'); ?>
-                    <?php get_template_part('homepage-templates/cta'); ?>
+                    <?php get_template_part('frontpage-templates/cta'); ?>
                     <!-- Widgets templates only for front page(Home)-->
                     <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
                         <div id="recommend-video-widget-area">
