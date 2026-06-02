@@ -63,9 +63,12 @@
 	</div>
 	<!-- Grid container -->
 	<!-- Copyright -->
-	<div id="copyright-content" class="text-center p-1 copyright-content">
-		© <?php echo date("Y"); ?> Copyright:
-		<a class="text-white" href="https://aboyuma.com/">aboyuma.com</a>
+	<div id="copyright-content" class="text-center p-2 copyright-content">
+		<div>
+			Copyright &copy; <?php echo date('Y'); ?>
+			<a class="text-white" href="https://aboyuma.com/">aboyuma.com</a>
+			| <i class="fa-brands fa-wordpress"></i> Powered by WordPress
+		</div>
 	</div>
 	<!-- Copyright -->
 </footer>

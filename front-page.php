@@ -54,18 +54,20 @@ $container_classes = $container . ' px-4 py-0';
                     <?php
                     while (have_posts()) {
                         the_post();
+
+                        $content = get_the_content();
+
+                        if (! empty(trim(wp_strip_all_tags($content)))) :
                     ?>
-                        <div class="hero-box p-5 mb-4">
-                            <?php the_content(); ?>
-                        </div>
+                            <div class="hero-box p-5 mb-4">
+                                <?php the_content(); ?>
+                            </div>
                     <?php
+                        endif;
                     }
                     ?>
                     <?php get_template_part('frontpage-templates/featured-post'); ?>
                     <?php get_template_part('frontpage-templates/latest-post'); ?>
-                    <?php if (!PORTFOLIO_MODE) : ?>
-                        <?php get_template_part('frontpage-templates/latest-product'); ?>
-                    <?php endif; ?>
                     <?php get_template_part('frontpage-templates/cta'); ?>
                     <!-- Widgets templates only for front page(Home)-->
                     <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>

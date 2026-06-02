@@ -324,8 +324,8 @@ body.admin-bar #navbar-main.is-fixed {
 }
 
 .section-header {
-	font-size: 16px; /* default */
-	font-weight: 700;
+	font-size: 25px; /* default */
+	font-weight: 500;
 	line-height: 1.4;
 	padding-bottom: 0.25rem; /* space inside, before border */
 	border-bottom: 2px solid var(--bs-border-color);
@@ -432,12 +432,12 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 /* Target only the archive widget list items */
 .widget_archive ul li::before {
-	content: "📅 "; /* replace with any emoji you like */
+	content: "🗄️ "; /* replace with any emoji you like */
 	font-size: 1em; /* adjust size */
 }
 
 .widget_categories ul li::before {
-	content: "📂 ";
+	content: "🗂️ ";
 }
 
 .widget_recent_entries ul li::before {
@@ -785,32 +785,6 @@ footer {
 	border: 1px solid #d0d7de;
 	border-top: none;
 	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* ============================================================
-   Latest Product Table (Theme Side)
-   ============================================================ */
-
-#latest-product-table {
-	font-size: 0.875rem; /* 14px */
-}
-
-#latest-product-table th {
-	font-weight: 600;
-}
-
-#latest-product-table td {
-	vertical-align: middle;
-}
-
-#latest-product-table td.product-name {
-	font-size: 0.85rem;
-}
-
-#latest-product-table img {
-	min-width: 72px;
-	max-width: 140px;
-	height: auto;
 }
 
 /* ============================================================
