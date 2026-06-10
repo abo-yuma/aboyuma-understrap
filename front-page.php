@@ -46,7 +46,7 @@ $container_classes = $container . ' px-4 py-0';
                             <div class="home-marquee-content"
                                 data-duration="<?php echo esc_attr($marquee_duration); ?>"
                                 style="color: <?php echo esc_attr($marquee_color); ?>;">
-                                <?php echo esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
+                                <?php echo "🗓️ ". esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -68,14 +68,6 @@ $container_classes = $container . ' px-4 py-0';
                     ?>
                     <?php get_template_part('frontpage-templates/featured-post'); ?>
                     <?php get_template_part('frontpage-templates/latest-post'); ?>
-                    <?php get_template_part('frontpage-templates/cta'); ?>
-                    <!-- Widgets templates only for front page(Home)-->
-                    <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
-                        <div id="recommend-video-widget-area">
-                            <?php dynamic_sidebar('recommend-video-widget-area'); ?>
-                        </div>
-                    <?php endif; ?>
-
                 </div>
             </div>
         </div><!-- .row -->

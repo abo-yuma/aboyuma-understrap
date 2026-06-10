@@ -72,7 +72,7 @@ if ( ! function_exists( 'understrap_entry_footer' ) ) {
 		if ( 'post' === get_post_type() ) {
 			understrap_categories_tags_list();
 		}
-		understrap_comments_popup_link();
+		// understrap_comments_popup_link();
 		understrap_edit_post_link();
 	}
 }

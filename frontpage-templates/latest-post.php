@@ -6,7 +6,7 @@
     $exclude_id = $excluded_category ? $excluded_category->term_id : 0;
 
     $args = array(
-        'posts_per_page' => 4,
+        'posts_per_page' => 8,
         'post_status'    => 'publish',
         'category__not_in'  => array($exclude_id),
     );
@@ -14,16 +14,15 @@
     $latest_posts = new WP_Query($args);
     ?>
 
-
     <h1 class="section-header mb-3">
         📝 บทความล่าสุด
     </h1>
     <?php
     if ($latest_posts->have_posts()) : ?>
-        <div id="latest-posts-section" class="content-feed row">
+        <div id="latest-posts-section" class="latest-post-feed row">
             <?php while ($latest_posts->have_posts()) : $latest_posts->the_post(); ?>
-                <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-2 align-self-stretch'); ?>>
-                    <div class="card h-100 border-0 d-flex flex-column">
+                <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-3 align-self-stretch'); ?>>
+                    <div class="card border-0 h-100 d-flex flex-column">
                         <div class="card-img-top">
                             <div class="post-thumbnail">
                                 <a href="<?php the_permalink(); ?>">
@@ -38,14 +37,16 @@
                             </div>
                         </div>
                         <div class="card-body p-0 pt-2 d-flex flex-column h-100">
-                            <div class="post-content d-flex flex-column h-100">
-                                <span>
-                                    <a class="post-title-link" href="<?php echo get_permalink(); ?>">
-                                        <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
-                                    </a>
-                                </span>
-                                <div class="post-category" style="font-size: 0.75rem;">
-                                    <span class="text-muted">📂 </span>
+                            <div class="d-flex flex-column h-100">
+                                <div class="entry-title mb-1">
+                                    <span>
+                                        <a href="<?php echo get_permalink(); ?>">
+                                            <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="entry-meta text-muted">
+                                    <span>📂
                                     <?php
                                     $categories = get_the_category();
                                     if (! empty($categories)) {
@@ -56,8 +57,6 @@
                                         echo implode(', ', $category_links);
                                     }
                                     ?>
-                                </div>
-                                <div class="post-meta text-muted" style="font-size: 0.75rem;">
                                     <span class="me-2">
                                         🗓
                                         <?php
@@ -68,8 +67,8 @@
                                         ?>
                                     </span>
                                 </div>
-                                <div class="small mt-auto d-flex justify-content-end">
-                                    <?php echo '<a class="link-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
+                                <div class="small mt-auto pt-3 d-flex justify-content-end">
+                                    <?php echo '<a class="btn btn-sm btn-outline-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
                                 </div>
                             </div>
 
