@@ -32,7 +32,7 @@
 				]); ?>
 
 				<p class="card-title fw-semibold mb-2">
-					<?php echo esc_html($name); ?>
+					🪪 <?php echo esc_html($name); ?>
 				</p>
 
 				<?php if (!empty($bio)) : ?>
@@ -45,6 +45,7 @@
 
 					<a href="<?php echo esc_url(home_url('/about-me/')); ?>"
 						class="btn btn-outline-secondary btn-sm">
+						<i class="bi bi-person-fill"></i>
 						เกี่ยวกับเรา
 					</a>
 

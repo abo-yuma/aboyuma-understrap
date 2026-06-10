@@ -65,9 +65,16 @@
 	<!-- Copyright -->
 	<div id="copyright-content" class="text-center p-2 copyright-content">
 		<div>
-			Copyright &copy; <?php echo date('Y'); ?>
-			<a class="text-white" href="https://aboyuma.com/">aboyuma.com</a>
-			| <i class="fa-brands fa-wordpress"></i> Powered by WordPress
+			<?php
+			$start_year = 2026;
+			$current_year = date('Y');
+
+			if ($start_year == $current_year) {
+				echo "&copy; {$current_year} aboyuma.com";
+			} else {
+				echo "&copy; {$start_year}&ndash;{$current_year} aboyuma.com";
+			}
+			?>
 		</div>
 	</div>
 	<!-- Copyright -->

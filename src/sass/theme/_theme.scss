@@ -9,7 +9,6 @@ html {
 .main-wrapper {
 	margin-left: auto;
 	margin-right: auto;
-	background: #fff;
 }
 
 .main-wrapper,
@@ -59,14 +58,6 @@ body {
 #main-image .header-image {
 	display: block;
 	width: 100%;
-	height: auto;
-}
-
-#main-image .header-overlay {
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.25);
-	z-index: 1;
 }
 
 #main-image .header-tagline {
@@ -74,7 +65,6 @@ body {
 	top: 50%;
 	left: 50px;
 	transform: translateY(-50%);
-
 	z-index: 2;
 }
 
@@ -83,18 +73,15 @@ body {
 	font-size: 32px;
 	font-weight: 700;
 	line-height: 1.2;
-
 	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 #main-image .header-subtitle {
 	margin-top: 10px;
-
 	color: rgba(255, 255, 255, 0.9);
 	font-size: 17px;
 	font-weight: 400;
 	line-height: 1.5;
-
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
@@ -432,7 +419,7 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 /* Target only the archive widget list items */
 .widget_archive ul li::before {
-	content: "🗄️ "; /* replace with any emoji you like */
+	content: "🗂️ "; /* replace with any emoji you like */
 	font-size: 1em; /* adjust size */
 }
 
@@ -450,32 +437,15 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 
 // ===== Main content ===== //
-.entry-title {
-	font-size: 1.75rem;
-	border-bottom: 2px solid var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
-}
+// .entry-title {
+// 	font-size: 1.75rem;
+// 	border-bottom: 2px solid var(--bs-border-color);
+// 	padding-bottom: 0.75rem; /* space inside, before border */
+// }
 
-.single-post .entry-title {
-	font-size: 2.5rem;
-}
-
-.entry-meta {
-	font-size: 0.875rem;
-}
-
-/* Exclude category & all archive pages */
-.archive .entry-title,
-.category .entry-title {
-	border-bottom: none;
-}
-
-.archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
-.archive-loop-item
-	:is(.entry-header, .entry-content, .entry-footer)
-	a:focus-visible {
-	text-decoration: underline;
-}
+// .single-post .entry-title {
+// 	font-size: 2.5rem;
+// }
 
 .archive-loop-item .post-thumbnail {
 	width: 100%;
@@ -489,15 +459,6 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 	height: 100%;
 	object-fit: cover;
 	display: block;
-}
-
-.content-single :is(.entry-header, .entry-footer) a {
-	text-decoration: none;
-}
-
-.content-single :is(.entry-header, .entry-footer) a:hover,
-.content-single :is(.entry-header, .entry-footer) a:focus-visible {
-	text-decoration: underline;
 }
 
 // ===== Footer ===== //
@@ -650,25 +611,6 @@ footer {
 	font-size: 12.5px !important;
 }
 
-.content-feed .post-thumbnail {
-	height: 130px;
-}
-
-.content-feed .post-thumbnail img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.content-feed a {
-	text-decoration: none;
-}
-
-.content-feed a:hover,
-.content-feed a:focus-visible {
-	text-decoration: underline;
-}
-
 // #recommend-posts-widget:hover,
 // #latest-posts-section:hover,
 // #other-recommend-product-section:hover {
@@ -689,8 +631,8 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] body {
-	background-color: #ebf3fd;
-	// background-color: #dbe6f5;
+	// use shade of #bad2e2 Color Hex
+	background-color: #cedfea;
 }
 
 [data-bs-theme="dark"] body {
@@ -782,6 +724,7 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
+	background-color: #c4d9e8;
 	border: 1px solid #d0d7de;
 	border-top: none;
 	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
@@ -1251,15 +1194,6 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	object-fit: cover;
 }
 
-#featured-post-carousel a {
-	text-decoration: none;
-}
-
-#featured-post-carousel a:hover,
-#featured-post-carousel a:focus-visible {
-	text-decoration: underline;
-}
-
 /* Ensure carousel has relative positioning */
 #featured-post-carousel {
 	position: relative;
@@ -1287,4 +1221,82 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 
 ul {
 	margin-bottom: 0;
+}
+
+/* link style */
+:is(.entry-title, .entry-meta, .widget) a {
+	color: var(--bs-body-color);
+	text-decoration: none;
+}
+
+:is(.entry-title, .entry-meta, .widget) a:hover,
+:is(.entry-title, .entry-meta, .widget) a:focus-visible {
+	text-decoration: underline;
+}
+
+/* ===== entry-title, entry-meta, entry-footer style ===== */
+
+// Front page featured post feed
+.home .featured-post-feed .entry-title {
+	font-size: 23px;
+}
+
+@media (max-width: 575.98px) {
+	.home .featured-post-feed .entry-title {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+}
+
+.home .featured-post-feed .entry-meta {
+	font-size: 14px;
+}
+
+// Front page latest post feed
+.home .latest-post-feed .entry-title {
+	font-size: 18px;
+}
+
+.home .latest-post-feed .entry-meta {
+	font-size: 12px;
+}
+
+.home .latest-post-feed .post-thumbnail {
+	height: 130px;
+}
+
+.home .latest-post-feed .post-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+// Page
+.page:not(.home) .entry-title {
+	font-size: 28px;
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+// Archive
+.archive .archive-loop-item .entry-meta {
+	font-size: 14px;
+}
+
+// Single post
+.single .entry-title {
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+.single .entry-meta {
+	font-size: 14px;
+}
+
+.form-control,
+.form-select,
+.form-check-input {
+	border-color: color-mix(in srgb, var(--bs-border-color) 80%, black);
 }
