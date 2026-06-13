@@ -6,7 +6,7 @@
     $exclude_id = $excluded_category ? $excluded_category->term_id : 0;
 
     $args = array(
-        'posts_per_page' => 8,
+        'posts_per_page' => 4,
         'post_status'    => 'publish',
         'category__not_in'  => array($exclude_id),
     );
@@ -46,7 +46,7 @@
                                     </span>
                                 </div>
                                 <div class="entry-meta text-muted">
-                                    <span>📂
+                                    <span>🗂️
                                     <?php
                                     $categories = get_the_category();
                                     if (! empty($categories)) {
