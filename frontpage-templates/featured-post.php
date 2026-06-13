@@ -102,7 +102,7 @@
                                             }
 
                                             if (!empty($category_links)) {
-                                                echo '📂 ' . implode(', ', $category_links);
+                                                echo '🗂️ ' . implode(', ', $category_links);
                                             }
                                         }
                                         ?>
