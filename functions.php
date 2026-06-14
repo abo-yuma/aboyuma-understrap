@@ -30,6 +30,7 @@ $understrap_includes = array(
 	'/deprecated.php',                      // Load deprecated functions.
 	'/fonts.php',                           // Load fonts functions.
 	'/images.php',                          // Load images functions.
+	'/post-views.php'                       // Load post views functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.
