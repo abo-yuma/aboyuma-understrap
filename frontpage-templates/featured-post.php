@@ -80,43 +80,43 @@
                                         </a>
                                     </h3>
 
-                                    <div class="entry-meta text-muted">
+                                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
+                                        <span>
+                                            <?php
+                                            $categories = get_the_category();
 
-                                        <?php
-                                        $categories = get_the_category();
+                                            if (!empty($categories)) {
 
-                                        if (!empty($categories)) {
+                                                $category_links = array();
 
-                                            $category_links = array();
+                                                foreach ($categories as $category) {
 
-                                            foreach ($categories as $category) {
+                                                    if ($category->slug === 'featured') {
+                                                        continue;
+                                                    }
 
-                                                if ($category->slug === 'featured') {
-                                                    continue;
+                                                    $category_links[] =
+                                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
+                                                        esc_html($category->name) .
+                                                        '</a>';
                                                 }
 
-                                                $category_links[] =
-                                                    '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
-                                                    esc_html($category->name) .
-                                                    '</a>';
-                                            }
-
-                                            if (!empty($category_links)) {
-                                                echo '🗂️ ' . implode(', ', $category_links);
-                                            }
-                                        }
-                                        ?>
-
-                                        <span class="me-2">
-                                            🗓
-                                            <?php
-                                            echo get_the_date();
-                                            if (function_exists('aboyuma_get_post_views')) {
-                                                echo ' ' . aboyuma_get_post_views(get_the_ID());
+                                                if (!empty($category_links)) {
+                                                    echo '🗂️ ' . implode(', ', $category_links);
+                                                }
                                             }
                                             ?>
                                         </span>
-
+                                        <span>
+                                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
+                                        </span>
+                                        <span>
+                                            <?php
+                                            if (function_exists('aboyuma_get_post_views')) {
+                                                echo aboyuma_get_post_views(get_the_ID());
+                                            }
+                                            ?>
+                                        </span>
                                     </div>
                                     <div class="small mt-auto pt-3 d-flex justify-content-end">
                                         <?php echo '<a class="btn btn-sm btn-outline-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>

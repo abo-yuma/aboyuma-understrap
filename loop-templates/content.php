@@ -23,12 +23,19 @@ defined('ABSPATH') || exit;
 
 		<?php if ('post' === get_post_type()) : ?>
 
-			<div class="entry-meta">
-				<?php
-				understrap_posted_on();
-				// $view_output = '<span class="post-views"> | ' .
-				// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
-				?>
+			<div class="entry-meta d-flex flex-wrap gap-2">
+				<span>
+					<?php
+					understrap_posted_on();
+					?>
+				</span>
+				<span>
+					<?php
+					if (function_exists('aboyuma_get_post_views')) {
+						echo ' ' . aboyuma_get_post_views(get_the_ID());
+					}
+					?>
+				</span>
 			</div><!-- .entry-meta -->
 
 		<?php endif; ?>
