@@ -254,13 +254,20 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 // Breadcrumbs
 // Reference: https://dev.to/readymadecode/how-to-create-breadcrumb-in-wordpress-without-plugin-45jn
-// Breadcrumbs
 function get_breadcrumb() {
 
 	echo '<a href="' . esc_url(home_url()) . '">หน้าหลัก</a>';
 
-	// Virtual Product Page
-	if (get_query_var('product_slug')) {
+	/**
+	 * Virtual Product Page
+	 *
+	 * TODO: Reduce theme-plugin coupling.
+	 *
+	 * This code currently accesses product data directly. When the plugin
+	 * exposes a public API (e.g. aboyuma_get_current_product()), update this
+	 * section to use the API instead of querying the data source directly.
+	 */
+	if (get_query_var('product')) {
 
 		global $wpdb;
 
@@ -279,15 +286,24 @@ function get_breadcrumb() {
 
 		$product = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM {$table_name}
-             WHERE product_slug = %s
-             LIMIT 1",
-				get_query_var('product_slug')
+				"SELECT *
+				FROM {$table_name}
+				WHERE product_slug = %s
+				LIMIT 1",
+				get_query_var('product')
 			)
 		);
 
 		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-		echo '<a href="' . esc_url(home_url('/amway-products/')) . '">สินค้าแอมเวย์</a>';
+
+		// query current page
+		$page = get_queried_object();
+		/** @var \WP_Post|null $page */
+		if ($page instanceof WP_Post) {
+			echo '<a href="' . esc_url(get_permalink($page->ID)) . '">'
+				. esc_html($page->post_title)
+				. '</a>';
+		}
 
 		if ($product) {
 			echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
