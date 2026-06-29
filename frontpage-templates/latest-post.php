@@ -6,13 +6,14 @@
 
     <?php
 
-    $tabs = [
-        'skin-allergy' => 'ภูมิแพ้ผิวหนัง',
-        'knee-health'  => 'สุขภาพข้อเข่า',
-        'development-tips' => 'Dev Tips',
-        'recommend-products' => 'สินค้า Shopee',
-    ];
-
+    $categories = array_filter(
+        get_categories([
+            'hide_empty' => true,
+            'orderby'    => 'count',
+            'order'      => 'DESC',
+        ]),
+        fn($category) => $category->slug !== 'featured'
+    );
     ?>
 
     <ul class="nav nav-tabs mb-3" id="latestPostTabs" role="tablist">
@@ -20,7 +21,7 @@
         <?php
         $first = true;
 
-        foreach ($tabs as $slug => $label) :
+        foreach ($categories as $category) :
         ?>
 
             <li class="nav-item" role="presentation">
@@ -28,10 +29,10 @@
                 <button
                     class="nav-link <?php echo $first ? 'active' : ''; ?>"
                     data-bs-toggle="tab"
-                    data-bs-target="#tab-<?php echo esc_attr($slug); ?>"
+                    data-bs-target="#tab-<?php echo esc_attr($category->slug); ?>"
                     type="button">
 
-                    <?php echo esc_html($label); ?>
+                    <?php echo esc_html($category->name); ?>
 
                 </button>
 
@@ -52,24 +53,19 @@
 
         $first = true;
 
-        foreach ($tabs as $slug => $label) :
+        foreach ($categories as $category) :
 
-            $args = [
+            $query = new WP_Query([
                 'posts_per_page' => 4,
                 'post_status'    => 'publish',
-            ];
-
-            if ($slug !== 'all') {
-                $args['category_name'] = $slug;
-            }
-
-            $query = new WP_Query($args);
+                'cat'            => $category->term_id,
+            ]);
 
         ?>
 
             <div
                 class="tab-pane fade <?php echo $first ? 'show active' : ''; ?>"
-                id="tab-<?php echo esc_attr($slug); ?>">
+                id="tab-<?php echo esc_attr($category->slug); ?>">
 
                 <?php if ($query->have_posts()) : ?>
 

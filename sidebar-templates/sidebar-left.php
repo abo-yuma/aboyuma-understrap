@@ -46,7 +46,7 @@
 					<a href="<?php echo esc_url(home_url('/about-me/')); ?>"
 						class="btn btn-outline-secondary btn-sm">
 						<i class="bi bi-person-fill"></i>
-						เกี่ยวกับเรา
+						เกี่ยวกับ
 					</a>
 
 					<a href="<?php echo esc_url($facebook); ?>"
