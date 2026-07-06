@@ -36,7 +36,7 @@
 
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                            <div class="card border-0 h-100">
+                            <div class="card h-100">
 
                                 <div class="card-img-top featured-image">
                                     <div class="post-thumbnail">
@@ -72,11 +72,11 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body p-0 pt-2">
+                                <div class="card-body">
                                     <h3 class="entry-title">
                                         <a class="d-block"
                                             href="<?php the_permalink(); ?>">
-                                            <?php echo mb_strimwidth(get_the_title(), 0, 45, '...'); ?>
+                                            <?php echo mb_strimwidth(get_the_title(), 0, 40, '...'); ?>
                                         </a>
                                     </h3>
 
