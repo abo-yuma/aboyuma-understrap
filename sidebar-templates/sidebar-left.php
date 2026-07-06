@@ -8,6 +8,7 @@
 <div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper">
 
 	<div class="authorbox">
+
 		<?php
 		$author_id = 1;
 
@@ -23,46 +24,36 @@
 		$facebook = 'https://www.facebook.com/profile.php?id=100093053005799';
 		?>
 
-		<div class="card mb-3 border-0">
+		<div class="card bg-body-secondary mb-4 rounded-3">
 
-			<div class="card-body p-2">
+			<?php echo get_avatar($author_id, 400, '', '', [
+				'class' => 'card-img-top'
+			]); ?>
 
-				<?php echo get_avatar($author_id, 400, '', '', [
-					'class' => 'rounded-0 img-fluid w-100 mb-2'
-				]); ?>
+			<div class="card-body p-3">
 
-				<p class="card-title fw-semibold mb-2">
+				<h5 class="fw-medium mb-2" style="font-size: 16px;">
 					🪪 <?php echo esc_html($name); ?>
-				</p>
+				</h5>
 
 				<?php if (!empty($bio)) : ?>
-					<p class="card-text small mb-2">
+					<p class="card-text small mb-3">
 						<?php echo esc_html($bio); ?>
 					</p>
 				<?php endif; ?>
 
-				<div class="d-flex justify-content-center gap-2">
+				<a href="<?php echo esc_url(home_url('/about-me/')); ?>"
+					class="btn btn-outline-primary btn-sm w-100">
 
-					<a href="<?php echo esc_url(home_url('/about-me/')); ?>"
-						class="btn btn-outline-secondary btn-sm">
-						<i class="bi bi-person-fill"></i>
-						เกี่ยวกับ
-					</a>
 
-					<a href="<?php echo esc_url($facebook); ?>"
-						target="_blank"
-						rel="noopener"
-						class="btn btn-primary btn-sm">
+					🙋 เกี่ยวกับ
 
-						<i class="bi bi-facebook me-1"></i>
-						ดูโปรไฟล์
-					</a>
-
-				</div>
+				</a>
 
 			</div>
 
 		</div>
+
 	</div>
 
 	<?php

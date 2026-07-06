@@ -245,7 +245,7 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 		$permalink = esc_url(get_permalink((int) get_the_ID())); // @phpstan-ignore-line -- post exists
 
-		return $post_excerpt . ' [...]<p class="text-end"><a class="btn btn-sm btn-outline-primary" href="' . $permalink . '">' . __(
+		return $post_excerpt . ' [...]<p class="text-end"><a class="btn btn-sm btn-outline-dark" href="' . $permalink . '">' . __(
 			'อ่านบทความ →',
 			'understrap'
 		) . '<span class="screen-reader-text"> from ' . get_the_title(get_the_ID()) . '</span></a></p>';
