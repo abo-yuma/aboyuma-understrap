@@ -32,7 +32,7 @@
                     data-bs-target="#tab-<?php echo esc_attr($category->slug); ?>"
                     type="button">
 
-                    <?php echo esc_html($category->name); ?>
+                    <?php echo "🗂️ " . esc_html($category->name); ?>
 
                 </button>
 

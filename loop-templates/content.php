@@ -66,13 +66,3 @@ defined('ABSPATH') || exit;
 	</footer><!-- .entry-footer -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
-
-<style>
-	.archive-post-thumbnail {
-		width: 100%;
-		height: 350px;
-		object-fit: cover;
-		display: block;
-		border-radius: 0.5rem;
-	}
-</style>
