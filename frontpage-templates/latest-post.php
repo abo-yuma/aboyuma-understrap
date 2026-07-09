@@ -16,7 +16,7 @@
     );
     ?>
 
-    <ul class="nav nav-tabs mb-3" id="latestPostTabs" role="tablist">
+    <ul class="nav nav-tabs" id="latestPostTabs" role="tablist">
 
         <?php
         $first = true;
@@ -47,7 +47,7 @@
 
     </ul>
 
-    <div class="latest-post-section tab-content">
+    <div class="latest-post-section tab-content border border-top-0 p-4">
 
         <?php
 
