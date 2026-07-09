@@ -292,7 +292,7 @@ if ( ! function_exists( 'understrap_widgets_init' ) ) {
 				'name'          => __( 'Left Sidebar', 'understrap' ),
 				'id'            => 'left-sidebar',
 				'description'   => __( 'Left sidebar widget area', 'understrap' ),
-				'before_widget' => '<aside id="%1$s" class="widget %2$s p-2">',
+				'before_widget' => '<aside id="%1$s" class="widget %2$s mb-3">',
 				'after_widget'  => '</aside>',
 				'before_title'  => '<h3 class="widget-title">',
 				'after_title'   => '</h3>',
