@@ -59,65 +59,6 @@
 	</div>
 
 	<?php
-$products = [
-    ['name'=>'Wireless Mouse','image'=>'https://picsum.photos/seed/mouse/600/400'],
-    ['name'=>'Keyboard','image'=>'https://picsum.photos/seed/keyboard/600/400'],
-    ['name'=>'Headset','image'=>'https://picsum.photos/seed/headset/600/400'],
-    ['name'=>'Watch','image'=>'https://picsum.photos/seed/watch/600/400'],
-    ['name'=>'USB Hub','image'=>'https://picsum.photos/seed/hub/600/400'],
-];
-?>
-
-<div class="card" style="max-width:420px;margin:auto;">
-    <img id="productImage" src="<?= $products[0]['image']; ?>" class="card-img-top">
-
-    <div class="card-body text-center">
-        <h3 id="productName"><?= $products[0]['name']; ?></h3>
-
-        <button id="spin" class="btn btn-primary">
-            🎲 สุ่มสินค้า
-        </button>
-    </div>
-</div>
-
-<script>
-
-const products = <?= json_encode($products); ?>;
-
-const img = document.getElementById('productImage');
-const name = document.getElementById('productName');
-const btn = document.getElementById('spin');
-
-btn.onclick = () => {
-
-    btn.disabled = true;
-
-    let count = 0;
-
-    const interval = setInterval(() => {
-
-        const p = products[Math.floor(Math.random()*products.length)];
-
-        img.src = p.image;
-        name.textContent = p.name;
-
-        count++;
-
-        if(count >= 25){
-
-            clearInterval(interval);
-
-            btn.disabled = false;
-
-        }
-
-    },100);
-
-};
-
-</script>
-
-	<?php
 	if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
 	?>
 		<div class="sticky-widget-wrapper">
