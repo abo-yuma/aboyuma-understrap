@@ -47,7 +47,7 @@
 
     </ul>
 
-    <div class="latest-post-section tab-content border border-top-0 p-4">
+    <div class="latest-post-section tab-content">
 
         <?php
 

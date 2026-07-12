@@ -1,5 +1,5 @@
 <!-- Ad  -->
-<div class="px-3 py-4">
+<div class="px-3 py-4 border-top">
 	<div class="d-flex justify-content-center align-items-center 
                 border border-2 
                 bg-body-secondary rounded mx-auto"
