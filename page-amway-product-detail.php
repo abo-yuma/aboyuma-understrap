@@ -40,7 +40,7 @@ $container_classes = $container . ' px-4 py-0';
                 ?>
             </div>
             <div class="main-content-column order-1">
-                <div class="main-content-wrapper">
+                <div class="main-content-wrapper mb-2">
                     <?php
                     the_post();
                     get_template_part('loop-templates/content', 'page');

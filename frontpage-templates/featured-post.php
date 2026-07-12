@@ -36,7 +36,7 @@
 
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                            <div class="card h-100">
+                            <div class="card border-0 h-100">
 
                                 <div class="card-img-top featured-image">
                                     <div class="post-thumbnail">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body p-0 pt-2">
                                     <h3 class="entry-title">
                                         <a class="d-block"
                                             href="<?php the_permalink(); ?>">

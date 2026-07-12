@@ -25,13 +25,13 @@ $container_classes = $container . ' px-4 py-0';
 	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-			<div class="sidebar-left-column order-2" id="sidebar-left">
+			<div class="sidebar-left-column border-start order-2" id="sidebar-left">
 				<?php
 				get_template_part('sidebar-templates/sidebar', 'left');
 				?>
 			</div>
 			<div class="main-content-column order-1">
-				<div class="main-content-wrapper">
+				<div class="main-content-wrapper mb-2">
 					<?php
 					while (have_posts()) {
 						the_post();
