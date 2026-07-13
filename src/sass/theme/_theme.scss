@@ -58,7 +58,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	-o-font-smoothing: antialiased;
-	letter-spacing: 0.5px;
+	letter-spacing: 1px;
 }
 
 h1,
@@ -67,7 +67,7 @@ h3,
 h4,
 h5,
 h6 {
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 }
 
 #main-image {
@@ -485,6 +485,7 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 .footer-bg-background {
 	background-color: #1e1e1e;
 }
+
 footer {
 	font-size: 0.85rem;
 }
@@ -660,55 +661,14 @@ footer {
 	background-color: #3b3b3b;
 }
 
-#aboyuma-author-box {
-	font-size: 0.875rem;
-}
-
-/* Author card base */
-.authorbox .card {
-	background-color: color-mix(in srgb, var(--bs-secondary-bg) 98%, black);
-}
-
-.author-card {
-	overflow: hidden;
-}
-
-.author-name {
-	font-weight: 600;
-	font-size: 1rem;
-}
-
-/* Cover image */
-// .author-cover {
-// 	height: 140px;
-// 	background-size: cover;
-// 	background-position: center;
-// }
-
-/* Avatar wrapper */
-// .author-avatar-wrapper {
-// 	margin-top: -90px; /* pulls avatar over cover */
-// 	position: relative;
-// 	z-index: 2;
-// }
-
-#aboyuma-author-box .btn {
-	font-size: 0.8125rem;
-}
-
-[data-bs-theme="light"] #aboyuma-author-box {
-	--bs-card-bg: #fafafa;
-	--bs-card-border-color: #e5e5e5;
-}
-
-[data-bs-theme="dark"] #aboyuma-author-box {
-	--bs-card-bg: #2b2b2b;
-	--bs-card-border-color: #3a3a3a;
-}
-
 .aboyuma-visitor-title {
 	font-size: 1rem; /* 16px */
 	font-weight: 600;
+}
+
+.author-box {
+	font-size: 0.875rem;
+	color: black;
 }
 
 // [data-bs-theme="light"] aside {
@@ -1311,32 +1271,38 @@ ul {
 	font-size: 14px;
 }
 
-form {
-	.form-control,
-	.form-select {
-		background-color: color-mix(
-			in srgb,
-			var(--bs-secondary-bg) 97%,
-			var(--bs-body-color)
-		);
-
-		&:focus {
-			background-color: color-mix(
-				in srgb,
-				var(--bs-secondary-bg) 97%,
-				var(--bs-body-color)
-			);
-		}
-	}
-	.input-group-text {
-		background-color: color-mix(
-			in srgb,
-			var(--bs-secondary-bg) 97%,
-			var(--bs-body-color)
-		);
-		border: 0;
-	}
+.form-control,
+.form-select,
+.form-check-input {
+	border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
 }
+
+// form {
+// 	.form-control,
+// 	.form-select {
+// 		background-color: color-mix(
+// 			in srgb,
+// 			var(--bs-secondary-bg) 97%,
+// 			var(--bs-body-color)
+// 		);
+
+// 		&:focus {
+// 			background-color: color-mix(
+// 				in srgb,
+// 				var(--bs-secondary-bg) 97%,
+// 				var(--bs-body-color)
+// 			);
+// 		}
+// 	}
+// 	.input-group-text {
+// 		background-color: color-mix(
+// 			in srgb,
+// 			var(--bs-secondary-bg) 97%,
+// 			var(--bs-body-color)
+// 		);
+// 		border: 0;
+// 	}
+// }
 
 .related-post-thumbnail img {
 	width: 100%;
