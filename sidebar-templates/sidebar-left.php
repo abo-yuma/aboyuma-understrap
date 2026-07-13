@@ -7,95 +7,85 @@
 
 <div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper mb-2">
 
-	<div class="authorbox mb-3">
+	<div class="author-box mb-3">
 
-		<div class="author-box border p-3 bg-body-secondary">
+		<?php
+		$author_id = 1;
 
-			<div class="row g-4 align-items-start">
+		$first_name = get_the_author_meta('first_name', $author_id);
+		$last_name  = get_the_author_meta('last_name', $author_id);
+
+		$display_name = trim($first_name . ' ' . $last_name);
+		$bio = get_the_author_meta('description', $author_id);
+
+		$about_me_page_url = get_user_meta($author_id, 'about_me_page_url', true);
+		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
+		?>
+
+		<div class="card bg-body-secondary">
+
+			<div class="card-body">
 
 				<!-- Avatar -->
-<div class="col-md-auto text-center">
+				<div class="text-center mb-3">
 
-    <?php
-	 $author_id = 1;
-    echo get_avatar(
-        $author_id,
-        200,
-        '',
-        get_the_author_meta('display_name', $author_id),
-        array(
-            'class' => 'img-fluid border',
-        )
-    );
-    ?>
-
-</div>
-
-				<!-- Content -->
-				<div class="col m-0">
-
-					<div class="d-flex flex-wrap align-items-center gap-2">
-
-						<h3 class="h6 mb-0">
-							Paranyu Chantarakka
-						</h3>
-
-
-					</div>
-
-					<div class="d-flex flex-wrap gap-2 mb-2">
-
-						<span class="badge text-bg-info border">
-							Indie Developer
-						</span>
-
-						<span class="badge text-bg-info border">
-							ABO ID: 6672883
-						</span>
-
-					</div>
-
-						<div class="small">
-
-						<div>
-							📝 <strong>58</strong> บทความ
-						</div>
-
-						<div>
-							📂 <strong>8</strong> หมวดหมู่
-						</div>
-
-					</div>
-
-
-
-				
-					<hr>
-
-
-					<div class="d-flex flex-wrap gap-2">
-
-						<a href="#" >
-							<i class="bi bi-github"></i>
-						</a>
-
-						<a href="#" >
-							<i class="bi bi-facebook"></i>
-						</a>
-
-						<a href="#" >
-							<i class="bi bi-instagram"></i>
-						</a>
-
-						<a href="#" >
-							<i class="bi bi-youtube"></i>
-						</a>
-
-					</div>
+					<?php
+					echo get_avatar(
+						$author_id,
+						180,
+						'',
+						$display_name,
+						array(
+							'class' => 'img-fluid border rounded-3',
+						)
+					);
+					?>
 
 				</div>
 
+				<!-- Name -->
+				<h3 class="mb-1" style="font-size: 14px;">
+					<?php echo esc_html($display_name); ?>
+				</h3>
+
+				<span class="badge text-bg-primary mb-3">
+					Author
+				</span>
+
+				<!-- Bio -->
+				<?php if (! empty($bio)) : ?>
+
+					<p class="card-text small text-body-secondary">
+						<?php echo esc_html(wp_trim_words($bio, 18, '...')); ?>
+					</p>
+
+				<?php endif; ?>
+
 			</div>
+
+			<?php if (! empty($about_me_page_url) || ! empty($support_me_page_url)) : ?>
+
+				<div class="card-footer bg-transparent d-flex justify-content-between small">
+
+					<?php if (! empty($about_me_page_url)) : ?>
+						<a
+							href="<?php echo esc_url($about_me_page_url); ?>"
+							class="text-decoration-none">
+							🙋 About Me
+						</a>
+					<?php endif; ?>
+
+					<?php if (! empty($support_me_page_url)) : ?>
+						<a
+							href="<?php echo esc_url($support_me_page_url); ?>"
+							class="text-decoration-none">
+							❤️ Support Me
+						</a>
+					<?php endif; ?>
+
+				</div>
+
+			<?php endif; ?>
 
 		</div>
 
