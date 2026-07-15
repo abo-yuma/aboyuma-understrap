@@ -1,14 +1,5 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
 
-// :root {
-// 	--bs-border-radius: 0;
-// 	--bs-border-radius-sm: 0;
-// 	--bs-border-radius-lg: 0;
-// 	--bs-border-radius-xl: 0;
-// 	--bs-border-radius-xxl: 0;
-// 	--bs-border-radius-pill: 0;
-// }
-
 /* Desktop default */
 html {
 	font-size: 16px;
@@ -331,7 +322,7 @@ body.admin-bar #navbar-main.is-fixed {
 }
 
 .section-header {
-	font-size: 25px; /* default */
+	font-size: 20px;
 	font-weight: 500;
 	line-height: 1.4;
 	padding-bottom: 0.25rem; /* space inside, before border */
@@ -418,7 +409,7 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 
 .sticky-widget-wrapper {
-	position: sticky;
+	// position: sticky;
 	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
@@ -497,7 +488,7 @@ footer {
 
 .scroll-to-top-btn {
 	position: fixed;
-	right: calc(6rem + 1.5rem); /* center of messenger button */
+	right: 8rem; /* center of messenger button */
 	bottom: 0.8rem;
 	transform: translateX(50%); /* move back half of its own width */
 
@@ -515,6 +506,13 @@ footer {
 	transition:
 		opacity 0.2s ease,
 		transform 0.2s ease;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+	.scroll-to-top-btn {
+		right: 8rem;
+	}
 }
 
 // .scroll-to-top-btn:hover {
@@ -539,13 +537,6 @@ footer {
 
 /* ========== Mobile only ========== */
 @media (max-width: 576px) {
-	.scroll-to-top-btn {
-		right: 1rem; /* custom mobile position */
-		bottom: 1rem;
-		transform: none; /* usually better on mobile */
-		padding: 0.5rem 0.75rem;
-		font-size: 0.7rem;
-	}
 
 	.messenger-chat-btn {
 		right: 1rem; /* stick to edge */

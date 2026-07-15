@@ -44,18 +44,19 @@
 				</div>
 
 				<!-- Name -->
-				<h3 class="mb-1" style="font-size: 14px;">
-					<?php echo esc_html($display_name); ?>
+				<h3 class="mb-1 text-uppercase fs-6">
+					🪪 <?php echo esc_html($display_name); ?>
 				</h3>
 
 				<span class="badge text-bg-primary mb-3">
 					Author
 				</span>
+				
 
 				<!-- Bio -->
 				<?php if (! empty($bio)) : ?>
 
-					<p class="card-text small text-body-secondary">
+					<p class="card-text text-body-secondary">
 						<?php echo esc_html(wp_trim_words($bio, 18, '...')); ?>
 					</p>
 
