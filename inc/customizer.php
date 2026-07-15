@@ -448,7 +448,7 @@ function header_customizer_register($wp_customize) {
 				'settings'    => 'aboyuma_header_image',
 
 				'width'       => 820,
-				'height'      => 160,
+				'height'      => 140,
 				'flex_width'  => false,
 				'flex_height' => false,
 			)
