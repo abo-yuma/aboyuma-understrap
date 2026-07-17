@@ -72,7 +72,7 @@
 						<a
 							href="<?php echo esc_url($about_me_page_url); ?>"
 							class="text-decoration-none">
-							🙋 About Me
+							🙋 เกี่ยวกับเรา
 						</a>
 					<?php endif; ?>
 
@@ -80,7 +80,7 @@
 						<a
 							href="<?php echo esc_url($support_me_page_url); ?>"
 							class="text-decoration-none">
-							❤️ Support Me
+							❤️ สนับสนุน
 						</a>
 					<?php endif; ?>
 
