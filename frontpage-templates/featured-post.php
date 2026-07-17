@@ -76,7 +76,7 @@
                                     <h3 class="entry-title">
                                         <a class="d-block"
                                             href="<?php the_permalink(); ?>">
-                                            <?php echo mb_strimwidth(get_the_title(), 0, 38, '...'); ?>
+                                            <?php echo get_the_title(); ?>
                                         </a>
                                     </h3>
 

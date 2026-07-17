@@ -13,7 +13,7 @@ html {
 
 .main-wrapper,
 .container {
-	max-width: 800px;
+	max-width: 780px;
 }
 
 /* 
@@ -488,7 +488,7 @@ footer {
 
 .scroll-to-top-btn {
 	position: fixed;
-	right: 8rem; /* center of messenger button */
+	right: 10rem; /* center of messenger button */
 	bottom: 0.8rem;
 	transform: translateX(50%); /* move back half of its own width */
 
@@ -508,10 +508,20 @@ footer {
 		transform 0.2s ease;
 }
 
+/* Override Chaty plugin position to prevent overlap with the "Go to top" button */
+#chaty-widget-0 .chaty-widget {
+	right: 7rem !important;
+	bottom: 3rem !important;
+}
+
 /* Mobile */
 @media (max-width: 576px) {
 	.scroll-to-top-btn {
-		right: 8rem;
+		right: 4rem;
+	}
+
+	#chaty-widget-0 .chaty-widget {
+		right: 2rem !important;
 	}
 }
 
@@ -537,7 +547,6 @@ footer {
 
 /* ========== Mobile only ========== */
 @media (max-width: 576px) {
-
 	.messenger-chat-btn {
 		right: 1rem; /* stick to edge */
 		bottom: 4.5rem; /* above scroll button */
@@ -645,7 +654,7 @@ footer {
 [data-bs-theme="light"] body {
 	// use shade of #bad2e2 Color Hex
 	// background-color: #cedfea;
-	background-color: #c7dae7;
+	background-color: #b3cbdd; // #c7dae7
 }
 
 [data-bs-theme="dark"] body {
@@ -1084,66 +1093,6 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	padding-right: 0 !important;
 }
 
-/* Main hero container */
-.hero-box {
-	position: relative;
-	/* Required so the ::before overlay can be positioned relative to this element */
-
-	border-radius: 8px;
-	/* Rounded corners for a softer card-like appearance */
-
-	overflow: hidden;
-	/* Ensures the background image and overlay respect the rounded corners */
-
-	padding: 40px 30px;
-	/* Internal spacing so the content does not touch the edges */
-
-	background-image: url("https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=1600&auto=format&fit=crop");
-	/* Background photo for the hero section (workspace theme) */
-
-	background-size: cover;
-	/* Scales the image so it always covers the entire hero area */
-
-	background-position: center;
-	/* Keeps the image centered when the container resizes */
-}
-
-/* Light mode overlay */
-[data-bs-theme="light"] .hero-box::before {
-	content: "";
-	/* Required for pseudo-elements to render */
-
-	position: absolute;
-	/* Positions the overlay on top of the background */
-
-	inset: 0;
-	/* Shorthand for top:0 right:0 bottom:0 left:0 (covers entire container) */
-
-	background: rgba(255, 255, 255, 0.85);
-	/* Semi-transparent white layer
-	   Improves text readability over the image in light mode */
-}
-
-/* Dark mode overlay */
-[data-bs-theme="dark"] .hero-box::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-
-	background: rgba(30, 30, 30, 0.75);
-	/* Dark translucent layer
-	   Prevents the image from being too bright in dark mode */
-}
-
-/* Ensure text appears above the overlay */
-.hero-box > * {
-	position: relative;
-	/* Creates a stacking context for the content */
-
-	z-index: 2;
-	/* Places content above the ::before overlay */
-}
-
 .featured-image {
 	aspect-ratio: 16 / 9;
 	background: #111;
@@ -1205,7 +1154,7 @@ ul {
 
 // Front page featured post feed
 .home .featured-post-feed .entry-title {
-	font-size: 23px;
+	font-size: 20px;
 }
 
 @media (max-width: 575.98px) {
@@ -1268,32 +1217,17 @@ ul {
 	border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
 }
 
-// form {
-// 	.form-control,
-// 	.form-select {
-// 		background-color: color-mix(
-// 			in srgb,
-// 			var(--bs-secondary-bg) 97%,
-// 			var(--bs-body-color)
-// 		);
+.form-control,
+.form-select {
+	background-color: var(--bs-tertiary-bg);
+	border-color: var(--bs-border-color);
 
-// 		&:focus {
-// 			background-color: color-mix(
-// 				in srgb,
-// 				var(--bs-secondary-bg) 97%,
-// 				var(--bs-body-color)
-// 			);
-// 		}
-// 	}
-// 	.input-group-text {
-// 		background-color: color-mix(
-// 			in srgb,
-// 			var(--bs-secondary-bg) 97%,
-// 			var(--bs-body-color)
-// 		);
-// 		border: 0;
-// 	}
-// }
+	&:focus {
+		background-color: var(--bs-tertiary-bg);
+		border-color: var(--bs-primary);
+		box-shadow: none;
+	}
+}
 
 .related-post-thumbnail img {
 	width: 100%;

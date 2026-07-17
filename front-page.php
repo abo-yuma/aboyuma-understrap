@@ -46,7 +46,7 @@ $container_classes = $container . ' px-4 py-0';
                             <div class="home-marquee-content"
                                 data-duration="<?php echo esc_attr($marquee_duration); ?>"
                                 style="color: <?php echo esc_attr($marquee_color); ?>;">
-                                <?php echo "🗓️ ". esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
+                                <?php echo "🗓 " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -59,9 +59,9 @@ $container_classes = $container . ' px-4 py-0';
 
                         if (! empty(trim(wp_strip_all_tags($content)))) :
                     ?>
-                            <div class="hero-box p-5 mb-4">
-                                <?php the_content(); ?>
-                            </div>
+
+                            <?php the_content(); ?>
+
                     <?php
                         endif;
                     }
