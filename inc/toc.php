@@ -12,7 +12,7 @@ function aboyuma_toc_generate($content) {
     if (empty($matches[0])) return $content;
 
     $toc = <<<HTML
-    <nav class="toc">
+    <nav class="toc bg-body-tertiary">
 
         <button
             class="toc-header btn w-100 text-start"
@@ -89,7 +89,7 @@ function aboyuma_toc_styles() {
     .toc {
         background: var(--bs-secondary-bg);
         border: 1px solid var(--bs-border-color);
-        border-radius: 12px;
+        border-radius: 5px;
         overflow: hidden;
         margin-bottom: 1.5rem;
         font-size: 0.9375rem; /* 15px */
@@ -112,10 +112,6 @@ function aboyuma_toc_styles() {
         border: 0;
         color: inherit;
         background: transparent;
-    }
-
-    .toc-header:hover {
-        background: var(--bs-secondary-bg);
     }
 
     .toc-icon {
