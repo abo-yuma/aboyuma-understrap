@@ -22,9 +22,9 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card bg-body-secondary">
+		<div class="card border-0">
 
-			<div class="card-body">
+			<div class="card-body p-0">
 
 				<!-- Avatar -->
 				<div class="text-center mb-3">
@@ -36,7 +36,7 @@
 						'',
 						$display_name,
 						array(
-							'class' => 'img-fluid border rounded-3',
+							'class' => 'img-fluid w-100 rounded-3',
 						)
 					);
 					?>
