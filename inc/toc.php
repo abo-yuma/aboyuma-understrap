@@ -12,7 +12,7 @@ function aboyuma_toc_generate($content) {
     if (empty($matches[0])) return $content;
 
     $toc = <<<HTML
-    <nav class="toc bg-body-tertiary">
+    <nav class="toc bg-secondary-subtle">
 
         <button
             class="toc-header btn w-100 text-start"

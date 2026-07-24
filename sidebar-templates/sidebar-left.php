@@ -22,26 +22,21 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card border-0">
+		<div class="card bg-secondary-subtle">
+			<!-- Avatar -->
+			<?php
+			echo get_avatar(
+				$author_id,
+				600,
+				'',
+				$display_name,
+				array(
+					'class' => 'card-img-top',
+				)
+			);
+			?>
 
-			<div class="card-body p-0">
-
-				<!-- Avatar -->
-				<div class="text-center mb-3">
-
-					<?php
-					echo get_avatar(
-						$author_id,
-						180,
-						'',
-						$display_name,
-						array(
-							'class' => 'img-fluid w-100 rounded-3',
-						)
-					);
-					?>
-
-				</div>
+			<div class="card-body">
 
 				<!-- Name -->
 				<h3 class="mb-1 text-uppercase fs-6">
@@ -51,7 +46,7 @@
 				<span class="badge text-bg-primary mb-3">
 					Author
 				</span>
-				
+
 
 				<!-- Bio -->
 				<?php if (! empty($bio)) : ?>
