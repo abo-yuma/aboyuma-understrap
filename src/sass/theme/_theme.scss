@@ -1234,3 +1234,11 @@ ul {
 	object-fit: cover;
 	object-position: center;
 }
+
+.sl-overlay {
+	background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.sl-image img {
+    cursor: zoom-in;
+}

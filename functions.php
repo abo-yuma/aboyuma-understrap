@@ -32,7 +32,8 @@ $understrap_includes = array(
 	'/images.php',                          // Load images functions.
 	'/post-views.php',                      // Load post views functions.
 	'/toc.php',                             // Load toc functions.
-	'/extra-user-profile.php'               // Load extra user profile.
+	'/extra-user-profile.php',              // Load extra user profile.
+	'/lightbox.php'                         // Load lightbox functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.

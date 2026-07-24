@@ -97,16 +97,25 @@ import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of th
 	// Home marquee
 	// =======================
 	const $marquee = $(".home-marquee-content");
-	if (!$marquee.length) return;
 
 	// Duration is handled via data-attribute in the HTML markup.
+	if ($marquee.length) {
+		$marquee.marquee({
+			gap: 60,
+			delayBeforeStart: 0,
+			direction: "left",
+			duplicated: true,
+			pauseOnHover: true,
+			startVisible: true,
+		});
+	}
 
-	$marquee.marquee({
-		gap: 60,
-		delayBeforeStart: 0,
-		direction: "left",
-		duplicated: true,
-		pauseOnHover: true,
-		startVisible: true,
-	});
+	// Simple lightbox
+	if (typeof SimpleLightbox !== "undefined") {
+		new SimpleLightbox(".lightbox", {
+			loop: true,
+			nav: true,
+			captions: true,
+		});
+	}
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside
