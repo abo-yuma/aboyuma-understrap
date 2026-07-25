@@ -75,7 +75,7 @@
 						<a
 							href="<?php echo esc_url($support_me_page_url); ?>"
 							class="text-decoration-none">
-							❤️ สนับสนุน
+							❤️ สนับสนุนเรา
 						</a>
 					<?php endif; ?>
 
