@@ -38,14 +38,15 @@ if (! function_exists('understrap_scripts')) {
 		/**
 		 * Theme JavaScript dependencies.
 		 *
-		 * Image lightbox is a built-in theme feature implemented with
-		 * SimpleLightbox. The library must be loaded before theme.min.js
+		 * lightbox is a built-in theme feature implemented 
+		 * The library must be loaded before theme.min.js
 		 * because the theme initializes it during startup.
 		 */
 		$deps = array('jquery');
 
 		if (is_singular('post')) {
 			$deps[] = 'aboyuma-simple-lightbox';
+			$deps[] = 'aboyuma-fancybox';
 		}
 
 		wp_enqueue_script(
@@ -111,14 +112,33 @@ if (! function_exists('aboyuma_enqueue_styles')) {
 			'1.10.5'
 		);
 
-		// SimpleLightbox (Single Post Only)
+		// Lightbox (Single Post Only)
 		if (is_singular('post')) {
 
+
+			/**
+			 * SimpleLightbox (Images)
+			 * The theme automatically detects supported image links and
+			 * converts them into a lightbox. No additional HTML attributes
+			 * are required in post content.
+			 */
 			wp_enqueue_style(
 				'aboyuma-simple-lightbox',
 				'https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css',
 				array(),
 				'2.14.3'
+			);
+
+			/**
+			 * Fancybox (Videos)
+			 * Video lightboxes are added manually by the content author
+			 * using the `data-fancybox` attribute.
+			 */
+			wp_enqueue_style(
+				'aboyuma-fancybox',
+				'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css',
+				array(),
+				'6.1.0'
 			);
 		}
 	}
@@ -147,9 +167,15 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			true
 		);
 
-		// SimpleLightbox (Single Post Only)
+		// Lightbox (Single Post Only)
 		if (is_singular('post')) {
 
+			/**
+			 * SimpleLightbox (Images)
+			 * The theme automatically detects supported image links and
+			 * converts them into a lightbox. No additional HTML attributes
+			 * are required in post content.
+			 */
 			wp_enqueue_script(
 				'aboyuma-simple-lightbox',
 				'https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.js',
@@ -158,6 +184,19 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 				true
 			);
 		}
+
+		/**
+		 * Fancybox (Videos)
+		 * Video lightboxes are added manually by the content author
+		 * using the `data-fancybox` attribute.
+		 */
+		wp_enqueue_script(
+			'aboyuma-fancybox',
+			'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js',
+			array(),
+			'6.1.0',
+			true
+		);
 	}
 }
 add_action('wp_enqueue_scripts', 'aboyuma_enqueue_scripts');
