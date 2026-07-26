@@ -459,15 +459,15 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 
 .archive-loop-item .post-thumbnail {
 	width: 100%;
-	height: 350px;
+	aspect-ratio: 16 / 9;
 	overflow: hidden;
-	// border-radius: 0.25rem;
 }
 
 .archive-loop-item .post-thumbnail img.archive-post-thumbnail {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: center;
 	display: block;
 }
 
@@ -1100,13 +1100,16 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 
 .featured-image .post-thumbnail {
 	width: 100%;
-	height: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
 }
 
 .featured-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: center;
+	display: block;
 }
 
 /* Ensure carousel has relative positioning */
@@ -1179,13 +1182,15 @@ ul {
 }
 
 .home .latest-post-feed .post-thumbnail {
-	height: 130px;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
 }
 
 .home .latest-post-feed .post-thumbnail img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	display: block;
 }
 
 // Page
@@ -1240,5 +1245,16 @@ ul {
 }
 
 .sl-image img {
-    cursor: zoom-in;
+	cursor: zoom-in;
+}
+
+.video-play-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40px;
+	opacity: 0.95;
+	transition: transform 0.2s ease;
+	pointer-events: none;
 }
