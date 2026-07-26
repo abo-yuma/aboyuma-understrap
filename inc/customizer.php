@@ -611,17 +611,12 @@ function aboyuma_customize_register($wp_customize) {
 add_action('customize_register', 'aboyuma_customize_register');
 
 
-function aboyuma_customize_tinymce_toolbar($init) {
-	// Add toolbar options clearly separated
-	$init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
-	$init['toolbar2'] = 'blockquote code removeformat';
+add_filter('mce_buttons_2', function ($buttons) {
 
-	// Add available font sizes (pt is optional, WordPress TinyMCE understands both)
-	$init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+	array_unshift($buttons, 'fontsizeselect');
 
-	return $init;
-}
-add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
+	return $buttons;
+});
 
 function aboyuma_home_cta_customizer($wp_customize) {
 
