@@ -26,7 +26,7 @@ if (!$product_id) {
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-4 py-0';
+$container_classes = $container . ' px-3 py-0';
 ?>
 
 <main>
@@ -39,7 +39,7 @@ $container_classes = $container . ' px-4 py-0';
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column order-1">
+            <div class="main-content-column order-1 px-3">
                 <div class="main-content-wrapper mb-2">
                     <?php
                     the_post();
