@@ -317,7 +317,7 @@ body.admin-bar #navbar-main.is-fixed {
 
 .single-post .entry-content {
 	font-size: 18px;
-	line-height: 1.6;
+	line-height: 1.8;
 }
 
 .section-header {
@@ -1199,6 +1199,10 @@ ul {
 	border-bottom: 2px solid var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
+
+// .page .entry-content {
+// 	line-height: 1.6;
+// }
 
 // Archive
 .archive .archive-loop-item .entry-meta {
