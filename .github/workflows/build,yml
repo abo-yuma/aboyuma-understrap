@@ -1,0 +1,53 @@
+name: WordPress Theme CI
+
+# Trigger workflow
+on:
+  # Allow manual execution from the GitHub Actions page
+  workflow_dispatch:
+
+  # Run every time code is pushed to develop
+  push:
+    branches:
+      - develop
+
+  # Run when a Pull Request targets develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-theme:
+    name: Build Theme
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the repository source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Use Node.js 20 LTS
+          node-version: 20
+
+          # Cache npm packages to speed up future builds
+          cache: npm
+
+      # Install dependencies from package-lock.json
+      # npm ci is designed for CI environments
+      - name: Install dependencies
+        run: npm ci
+
+      # Build production assets
+      # (Compile SCSS, bundle/minify JavaScript, etc.)
+      - name: Build theme
+        run: npm run dist
+
+      # Future steps:
+      # - ESLint
+      # - Stylelint
+      # - PHP Syntax Check
+      # - PHPCS
+      # - Deploy to Cloudways
