@@ -23,14 +23,14 @@ jobs:
     steps:
       # Download the repository source code
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Install Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          # Use Node.js 20 LTS
-          node-version: 20
+          # Use Node.js 22 LTS
+          node-version: 22
 
           # Cache npm packages to speed up future builds
           cache: npm
