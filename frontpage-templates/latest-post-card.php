@@ -1,6 +1,6 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('col-md-6 mb-3 align-self-stretch'); ?>>
 
-    <div class="card h-100 d-flex flex-column">
+    <div class="card border-0 h-100 d-flex flex-column">
 
         <div class="card-img-top">
             <div class="post-thumbnail">
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="card-body d-flex flex-column h-100">
+        <div class="card-body px-0 pt-3 d-flex flex-column h-100">
 
             <div class="d-flex flex-column h-100">
 
@@ -72,14 +72,6 @@
                         ?>
                     </span>
 
-                </div>
-
-                <div class="small mt-auto pt-3 d-flex justify-content-end">
-                    <a
-                        class="btn btn-sm btn-outline-primary"
-                        href="<?php the_permalink(); ?>">
-                        อ่านบทความ →
-                    </a>
                 </div>
 
             </div>
