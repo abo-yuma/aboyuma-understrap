@@ -36,7 +36,7 @@
 
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                            <div class="card h-100">
+                            <div class="card border-0 h-100">
 
                                 <div class="card-img-top featured-image">
                                     <div class="post-thumbnail">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body px-0 pt-3">
                                     <h3 class="entry-title">
                                         <a class="d-block"
                                             href="<?php the_permalink(); ?>">
@@ -117,9 +117,6 @@
                                             }
                                             ?>
                                         </span>
-                                    </div>
-                                    <div class="small mt-auto pt-3 d-flex justify-content-end">
-                                        <?php echo '<a class="btn btn-sm btn-outline-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
                                     </div>
 
                                 </div>
