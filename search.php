@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-3 py-0';
+$container_classes = $container . ' py-0';
 ?>
 
 <main>
