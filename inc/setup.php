@@ -127,8 +127,6 @@ function aboyuma_register_menu() {
 		'about'                 => 'เกี่ยวกับ', // Parent menu
 		'about-aboyuma'         => 'เกี่ยวกับ ABO YUMA', // Submenu under "about"
 		'about-amway'           => 'เกี่ยวกับแอมเวย์',  // Submenu under "about"
-		'product'               => 'สินค้า', // Parent menu
-		'shop'                  => 'ช็อป', // Parent menu
 		'amway-shop'            => 'แอมเวย์ช็อป', // Submenu under "shop"
 		'contact'               => 'ติดต่อ', // Parent menu
 	];

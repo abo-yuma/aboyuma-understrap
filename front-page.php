@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
 get_header();
 
 $container = get_theme_mod('understrap_container_type');
-$container_classes = $container . ' px-4 py-0';
+$container_classes = $container . ' py-0';
 ?>
 
 <main>
@@ -25,13 +25,13 @@ $container_classes = $container . ' px-4 py-0';
     <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
         <div class="row">
-            <div class="sidebar-left-column border-start order-2" id="sidebar-left">
+            <div class="sidebar-left-column border-start order-2 px-3" id="sidebar-left">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'left');
                 ?>
             </div>
-            <div class="main-content-column order-1">
-                <div class="main-content-wrapper">
+            <div class="main-content-column order-1 px-3">
+                <div class="main-content-wrapper mb-2">
                     <!-- Marquee Content -->
                     <?php
                     $marquee_text  = get_theme_mod('home_marquee_text');
@@ -46,7 +46,7 @@ $container_classes = $container . ' px-4 py-0';
                             <div class="home-marquee-content"
                                 data-duration="<?php echo esc_attr($marquee_duration); ?>"
                                 style="color: <?php echo esc_attr($marquee_color); ?>;">
-                                <?php echo esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
+                                <?php echo "🗓 " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -54,27 +54,20 @@ $container_classes = $container . ' px-4 py-0';
                     <?php
                     while (have_posts()) {
                         the_post();
+
+                        $content = get_the_content();
+
+                        if (! empty(trim(wp_strip_all_tags($content)))) :
                     ?>
-                        <div class="hero-box p-5 mb-4">
+
                             <?php the_content(); ?>
-                        </div>
+
                     <?php
+                        endif;
                     }
                     ?>
-                    <?php get_template_part('homepage-templates/featured-post'); ?>
-                    <?php get_template_part('homepage-templates/latest-post'); ?>
-                    <?php if (!PORTFOLIO_MODE) : ?>
-                        <?php get_template_part('homepage-templates/latest-product'); ?>
-                    <?php endif; ?>
-                    <?php get_template_part('homepage-templates/recommend-product'); ?>
-                    <?php get_template_part('homepage-templates/cta'); ?>
-                    <!-- Widgets templates only for front page(Home)-->
-                    <?php if (is_active_sidebar('recommend-video-widget-area')) : ?>
-                        <div id="recommend-video-widget-area">
-                            <?php dynamic_sidebar('recommend-video-widget-area'); ?>
-                        </div>
-                    <?php endif; ?>
-
+                    <?php get_template_part('frontpage-templates/featured-post'); ?>
+                    <?php get_template_part('frontpage-templates/latest-post'); ?>
                 </div>
             </div>
         </div><!-- .row -->

@@ -276,7 +276,7 @@ if (! function_exists('understrap_customize_preview_js')) {
 		);
 	}
 }
-add_action('customize_preview_init', 'understrap_customize_preview_js');
+// add_action('customize_preview_init', 'understrap_customize_preview_js');
 
 /**
  * Loads javascript for conditionally showing customizer controls.
@@ -303,7 +303,7 @@ if (! function_exists('understrap_customize_controls_js')) {
 		);
 	}
 }
-add_action('customize_controls_enqueue_scripts', 'understrap_customize_controls_js');
+// add_action('customize_controls_enqueue_scripts', 'understrap_customize_controls_js');
 
 if (! function_exists('understrap_default_navbar_type')) {
 	/**
@@ -323,7 +323,7 @@ if (! function_exists('understrap_default_navbar_type')) {
 		return $current_mod;
 	}
 }
-add_filter('theme_mod_understrap_navbar_type', 'understrap_default_navbar_type', 20);
+// add_filter('theme_mod_understrap_navbar_type', 'understrap_default_navbar_type', 20);
 
 // ===== ABO YUMA Custom Customizer ===== //
 
@@ -423,28 +423,61 @@ add_action('customize_register', 'aboyuma_marquee_customizer');
 
 // === Header Image Customizer ===
 function header_customizer_register($wp_customize) {
+
 	// Add a section for Header Image
 	$wp_customize->add_section('aboyuma_header_image_section', array(
-		'title'       => __('Header Image', 'aboyuma'),
-		'priority'    => 30,
+		'title'    => __('Header Image', 'aboyuma'),
+		'priority' => 30,
 	));
 
 	// Add a setting for the image
 	$wp_customize->add_setting('aboyuma_header_image', array(
 		'default'           => '',
-		'sanitize_callback' => 'esc_url_raw',
+		'sanitize_callback' => 'absint', // cropped image returns attachment ID
 	));
 
-	// Add control for the image uploader
-	$wp_customize->add_control(new WP_Customize_Image_Control(
-		$wp_customize,
-		'aboyuma_header_image',
-		array(
-			'label'    => __('Upload Header Image', 'aboyuma'),
-			'description' => __('Height: >80px', 'aboyuma'),
-			'section'  => 'aboyuma_header_image_section',
-			'settings' => 'aboyuma_header_image',
+	// Add cropped image control
+	$wp_customize->add_control(
+		new WP_Customize_Cropped_Image_Control(
+			$wp_customize,
+			'aboyuma_header_image',
+			array(
+				'label'       => __('Upload Header Image', 'aboyuma'),
+				'description' => __('Recommended size: 820x160px', 'aboyuma'),
+				'section'     => 'aboyuma_header_image_section',
+				'settings'    => 'aboyuma_header_image',
+
+				'width'       => 820,
+				'height'      => 140,
+				'flex_width'  => false,
+				'flex_height' => false,
+			)
 		)
+	);
+
+	// Header Title
+	$wp_customize->add_setting('aboyuma_header_title', array(
+		'default'           => 'Yuma\'s Personal Blog',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+
+	$wp_customize->add_control('aboyuma_header_title', array(
+		'label'    => __('Header Title', 'aboyuma'),
+		'section'  => 'aboyuma_header_image_section',
+		'type'     => 'text',
+	));
+
+
+	// Header Subtitle
+	$wp_customize->add_setting('aboyuma_header_subtitle', array(
+		'default'           => 'Sharing life experiences',
+		'sanitize_callback' => 'sanitize_text_field',
+	));
+
+	$wp_customize->add_control('aboyuma_header_subtitle', array(
+		'label'    => __('Header Subtitle', 'aboyuma'),
+		'section'  => 'aboyuma_header_image_section',
+		'type'     => 'text',
 	));
 }
 add_action('customize_register', 'header_customizer_register');
@@ -578,17 +611,12 @@ function aboyuma_customize_register($wp_customize) {
 add_action('customize_register', 'aboyuma_customize_register');
 
 
-function aboyuma_customize_tinymce_toolbar($init) {
-	// Add toolbar options clearly separated
-	$init['toolbar1'] = 'formatselect fontsizeselect | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link unlink';
-	$init['toolbar2'] = 'blockquote code removeformat';
+add_filter('mce_buttons_2', function ($buttons) {
 
-	// Add available font sizes (pt is optional, WordPress TinyMCE understands both)
-	$init['fontsize_formats'] = '8pt 10pt 12pt 14pt 18pt 24pt 36pt';
+	array_unshift($buttons, 'fontsizeselect');
 
-	return $init;
-}
-add_filter('tiny_mce_before_init', 'aboyuma_customize_tinymce_toolbar');
+	return $buttons;
+});
 
 function aboyuma_home_cta_customizer($wp_customize) {
 

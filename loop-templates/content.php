@@ -23,12 +23,19 @@ defined('ABSPATH') || exit;
 
 		<?php if ('post' === get_post_type()) : ?>
 
-			<div class="entry-meta">
-				<?php
-				understrap_posted_on();
-				// $view_output = '<span class="post-views"> | ' .
-				// 	sprintf(_n('%d view', '%d views', $views, 'understrap'), $views) . '</span>';
-				?>
+			<div class="entry-meta d-flex flex-wrap gap-2">
+				<span>
+					<?php
+					understrap_posted_on();
+					?>
+				</span>
+				<span>
+					<?php
+					if (function_exists('aboyuma_get_post_views')) {
+						echo ' ' . aboyuma_get_post_views(get_the_ID());
+					}
+					?>
+				</span>
 			</div><!-- .entry-meta -->
 
 		<?php endif; ?>
@@ -38,7 +45,7 @@ defined('ABSPATH') || exit;
 	<div class="post-thumbnail mt-2">
 		<a href="<?php the_permalink(); ?>">
 			<?php echo get_the_post_thumbnail($post->ID, 'large', [
-				'class' => 'img-fluid archive-post-thumbnail'
+				'class' => 'img-fluid archive-post-thumbnail rounded-3'
 			]); ?>
 		</a>
 	</div>
@@ -59,13 +66,3 @@ defined('ABSPATH') || exit;
 	</footer><!-- .entry-footer -->
 
 </article><!-- #post-<?php the_ID(); ?> -->
-
-<style>
-	.archive-post-thumbnail {
-		width: 100%;
-		height: 350px;
-		object-fit: cover;
-		display: block;
-		border-radius: 0.5rem;
-	}
-</style>

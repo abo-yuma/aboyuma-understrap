@@ -79,7 +79,16 @@ import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of th
 	// });
 
 	// Add Boostrap form style to form element in widget area.
-	$(".widget-area input").addClass("form-control");
+	$(`
+		.widget-area input[type='text'],
+		.widget-area input[type='search'],
+		.widget-area input[type='email'],
+		.widget-area input[type='password'],
+		.widget-area input[type='number'],
+		.widget-area input[type='url'],
+		.widget-area input[type='tel']
+	`).addClass("form-control");
+
 	$(".widget-area select").addClass("form-select");
 	// Force left sidebar widget sitcky on scroll
 	// Ref: https://stackoverflow.com/questions/52062163/how-to-make-a-sidebar-sticky-when-scrolling-between-header-and-footer-with-jquer
@@ -88,17 +97,25 @@ import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of th
 	// Home marquee
 	// =======================
 	const $marquee = $(".home-marquee-content");
-	if (!$marquee.length) return;
 
 	// Duration is handled via data-attribute in the HTML markup.
+	if ($marquee.length) {
+		$marquee.marquee({
+			gap: 60,
+			delayBeforeStart: 0,
+			direction: "left",
+			duplicated: true,
+			pauseOnHover: true,
+			startVisible: true,
+		});
+	}
 
-	$marquee.marquee({
-		gap: 60,
-		delayBeforeStart: 0,
-		direction: "left",
-		duplicated: true,
-		pauseOnHover: true,
-		startVisible: true,
-	});
-	
+	// Simple lightbox
+	if (typeof SimpleLightbox !== "undefined") {
+		new SimpleLightbox(".lightbox", {
+			loop: true,
+			nav: true,
+			captions: true,
+		});
+	}
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside

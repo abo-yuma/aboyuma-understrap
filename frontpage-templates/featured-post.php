@@ -14,16 +14,16 @@
     $featured_posts = new WP_Query($args);
     ?>
 
-    <h1 class="section-header mb-3">
+    <h2 class="section-header mb-3">
         📌 บทความแนะนำ
-    </h1>
+    </h2>
 
     <?php if ($featured_posts->have_posts()) : ?>
 
-        <div id="featured-post-carousel"
-            class="carousel slide"
+        <div class="featured-post-feed carousel slide" id="featured-post-carousel"
             data-bs-ride="carousel"
             data-bs-interval="4000">
+
             <div class="carousel-inner">
 
                 <?php
@@ -36,7 +36,7 @@
 
                         <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                            <div class="card h-100 border-0">
+                            <div class="card border-0 h-100">
 
                                 <div class="card-img-top featured-image">
                                     <div class="post-thumbnail">
@@ -72,49 +72,51 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body p-0 pt-2">
+                                <div class="card-body px-0 pt-3">
+                                    <h3 class="entry-title">
+                                        <a class="d-block"
+                                            href="<?php the_permalink(); ?>">
+                                            <?php echo get_the_title(); ?>
+                                        </a>
+                                    </h3>
 
-                                    <a class="post-title-link d-block"
-                                        href="<?php the_permalink(); ?>">
-
-                                        <div class="post-title-text">
-                                            <?php echo mb_strimwidth(get_the_title(), 0, 50, '...'); ?>
-                                        </div>
-
-                                    </a>
-
-                                    <div class="post-meta text-muted small">
-
-                                        <?php
-                                        $categories = get_the_category();
-                                        if (!empty($categories)) {
-
-                                            $category_links = array();
-
-                                            foreach ($categories as $category) {
-                                                $category_links[] =
-                                                    '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
-                                                    esc_html($category->name) .
-                                                    '</a>';
-                                            }
-
-                                            echo '📂 ' . implode(', ', $category_links);
-                                        }
-                                        ?>
-
-                                        <span class="me-2">
-                                            🗓
+                                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
+                                        <span>
                                             <?php
-                                            echo get_the_date();
-                                            if (function_exists('aboyuma_get_post_views')) {
-                                                echo ' ' . aboyuma_get_post_views(get_the_ID());
+                                            $categories = get_the_category();
+
+                                            if (!empty($categories)) {
+
+                                                $category_links = array();
+
+                                                foreach ($categories as $category) {
+
+                                                    if ($category->slug === 'featured') {
+                                                        continue;
+                                                    }
+
+                                                    $category_links[] =
+                                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
+                                                        esc_html($category->name) .
+                                                        '</a>';
+                                                }
+
+                                                if (!empty($category_links)) {
+                                                    echo '🗂️ ' . implode(', ', $category_links);
+                                                }
                                             }
                                             ?>
                                         </span>
-
-                                    </div>
-                                    <div class="small mt-auto d-flex justify-content-end">
-                                        <?php echo '<a class="link-primary" href="' . get_permalink() . '"> อ่านบทความ →</a>'; ?>
+                                        <span>
+                                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
+                                        </span>
+                                        <span>
+                                            <?php
+                                            if (function_exists('aboyuma_get_post_views')) {
+                                                echo aboyuma_get_post_views(get_the_ID());
+                                            }
+                                            ?>
+                                        </span>
                                     </div>
 
                                 </div>

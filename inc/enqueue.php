@@ -35,7 +35,27 @@ if (! function_exists('understrap_scripts')) {
 		wp_enqueue_script('jquery');
 
 		$js_version = $theme_version . '.' . filemtime(get_template_directory() . $theme_scripts);
-		wp_enqueue_script('understrap-scripts', get_template_directory_uri() . $theme_scripts, array(), $js_version, true);
+		/**
+		 * Theme JavaScript dependencies.
+		 *
+		 * lightbox is a built-in theme feature implemented 
+		 * The library must be loaded before theme.min.js
+		 * because the theme initializes it during startup.
+		 */
+		$deps = array('jquery');
+
+		if (is_singular('post')) {
+			$deps[] = 'aboyuma-simple-lightbox';
+			$deps[] = 'aboyuma-fancybox';
+		}
+
+		wp_enqueue_script(
+			'understrap-scripts',
+			get_template_directory_uri() . $theme_scripts,
+			$deps,
+			$js_version,
+			true
+		);
 		if (is_singular() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
@@ -71,10 +91,9 @@ if (! function_exists('understrap_offcanvas_admin_bar_inline_styles')) {
 	}
 }
 
-if (! function_exists('aboyuma_enqueue_scripts')) {
-	function aboyuma_enqueue_scripts() {
+if (! function_exists('aboyuma_enqueue_styles')) {
 
-		$theme_version = wp_get_theme()->get('Version');
+	function aboyuma_enqueue_styles() {
 
 		// Font Awesome 4.7.0
 		wp_enqueue_style(
@@ -84,6 +103,51 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			'4.7.0',
 			'all'
 		);
+
+		// Bootstrap Icons 1.10.5
+		wp_enqueue_style(
+			'bootstrap-icons',
+			'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css',
+			array(),
+			'1.10.5'
+		);
+
+		// Lightbox (Single Post Only)
+		if (is_singular('post')) {
+
+
+			/**
+			 * SimpleLightbox (Images)
+			 * The theme automatically detects supported image links and
+			 * converts them into a lightbox. No additional HTML attributes
+			 * are required in post content.
+			 */
+			wp_enqueue_style(
+				'aboyuma-simple-lightbox',
+				'https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css',
+				array(),
+				'2.14.3'
+			);
+
+			/**
+			 * Fancybox (Videos)
+			 * Video lightboxes are added manually by the content author
+			 * using the `data-fancybox` attribute.
+			 */
+			wp_enqueue_style(
+				'aboyuma-fancybox',
+				'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css',
+				array(),
+				'6.1.0'
+			);
+		}
+	}
+}
+add_action('wp_enqueue_scripts', 'aboyuma_enqueue_styles');
+
+if (! function_exists('aboyuma_enqueue_scripts')) {
+
+	function aboyuma_enqueue_scripts() {
 
 		// jQuery Marquee 1.6.0
 		wp_enqueue_script(
@@ -103,12 +167,35 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 			true
 		);
 
-		// Bootstrap Icons 1.10.5
-		wp_enqueue_style(
-			'bootstrap-icons',
-			'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css',
+		// Lightbox (Single Post Only)
+		if (is_singular('post')) {
+
+			/**
+			 * SimpleLightbox (Images)
+			 * The theme automatically detects supported image links and
+			 * converts them into a lightbox. No additional HTML attributes
+			 * are required in post content.
+			 */
+			wp_enqueue_script(
+				'aboyuma-simple-lightbox',
+				'https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.js',
+				array('jquery'),
+				'2.14.3',
+				true
+			);
+		}
+
+		/**
+		 * Fancybox (Videos)
+		 * Video lightboxes are added manually by the content author
+		 * using the `data-fancybox` attribute.
+		 */
+		wp_enqueue_script(
+			'aboyuma-fancybox',
+			'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js',
 			array(),
-			'1.10.5'
+			'6.1.0',
+			true
 		);
 	}
 }

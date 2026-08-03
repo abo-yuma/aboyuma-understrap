@@ -5,63 +5,86 @@
  */
 ?>
 
-<div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper">
+<div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper mb-2">
 
-	<div class="authorbox">
+	<div class="author-box mb-3">
+
 		<?php
 		$author_id = 1;
 
 		$first_name = get_the_author_meta('first_name', $author_id);
 		$last_name  = get_the_author_meta('last_name', $author_id);
-		$bio        = get_the_author_meta('description', $author_id);
 
-		$name = trim($first_name . ' ' . $last_name);
-		if (empty($name)) {
-			$name = get_the_author_meta('display_name', $author_id);
-		}
+		$display_name = trim($first_name . ' ' . $last_name);
+		$bio = get_the_author_meta('description', $author_id);
 
-		$facebook = 'https://www.facebook.com/profile.php?id=100093053005799';
+		$about_me_page_url = get_user_meta($author_id, 'about_me_page_url', true);
+		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card mb-3 border-0">
+		<div class="card bg-secondary-subtle">
+			<!-- Avatar -->
+			<?php
+			echo get_avatar(
+				$author_id,
+				600,
+				'',
+				$display_name,
+				array(
+					'class' => 'card-img-top',
+				)
+			);
+			?>
 
-			<div class="card-body p-2">
+			<div class="card-body">
 
-				<?php echo get_avatar($author_id, 400, '', '', [
-					'class' => 'rounded-0 img-fluid w-100 mb-2'
-				]); ?>
+				<!-- Name -->
+				<h3 class="mb-1 text-uppercase fs-6">
+					🪪 <?php echo esc_html($display_name); ?>
+				</h3>
 
-				<p class="card-title fw-semibold mb-2">
-					<?php echo esc_html($name); ?>
-				</p>
+				<span class="badge text-bg-primary mb-3">
+					Author
+				</span>
 
-				<?php if (!empty($bio)) : ?>
-					<p class="card-text small mb-2">
-						<?php echo esc_html($bio); ?>
+
+				<!-- Bio -->
+				<?php if (! empty($bio)) : ?>
+
+					<p class="card-text text-body-secondary">
+						<?php echo esc_html(wp_trim_words($bio, 18, '...')); ?>
 					</p>
+
 				<?php endif; ?>
-
-				<div class="d-flex justify-content-center gap-2">
-
-					<a href="<?php echo esc_url(home_url('/about-me/')); ?>"
-						class="btn btn-outline-secondary btn-sm">
-						เกี่ยวกับเรา
-					</a>
-
-					<a href="<?php echo esc_url($facebook); ?>"
-						target="_blank"
-						rel="noopener"
-						class="btn btn-primary btn-sm">
-
-						<i class="bi bi-facebook me-1"></i>
-						ดูโปรไฟล์
-					</a>
-
-				</div>
 
 			</div>
 
+			<?php if (! empty($about_me_page_url) || ! empty($support_me_page_url)) : ?>
+
+				<div class="card-footer bg-transparent d-flex justify-content-between small">
+
+					<?php if (! empty($about_me_page_url)) : ?>
+						<a
+							href="<?php echo esc_url($about_me_page_url); ?>"
+							class="text-decoration-none">
+							🙋 เกี่ยวกับเรา
+						</a>
+					<?php endif; ?>
+
+					<?php if (! empty($support_me_page_url)) : ?>
+						<a
+							href="<?php echo esc_url($support_me_page_url); ?>"
+							class="text-decoration-none">
+							❤️ สนับสนุนเรา
+						</a>
+					<?php endif; ?>
+
+				</div>
+
+			<?php endif; ?>
+
 		</div>
+
 	</div>
 
 	<?php

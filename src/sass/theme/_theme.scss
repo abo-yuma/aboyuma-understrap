@@ -9,12 +9,11 @@ html {
 .main-wrapper {
 	margin-left: auto;
 	margin-right: auto;
-	background: #fff;
 }
 
 .main-wrapper,
 .container {
-	max-width: 820px;
+	max-width: 780px;
 }
 
 /* 
@@ -50,10 +49,54 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	-o-font-smoothing: antialiased;
+	letter-spacing: 1px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	letter-spacing: 2px;
+}
+
+#main-image {
+	position: relative;
+}
+
+#main-image .header-image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+#main-image .header-tagline {
+	position: absolute;
+	top: 50%;
+	left: 50px;
+	transform: translateY(-50%);
+	z-index: 2;
+}
+
+#main-image .header-title {
+	color: #fff;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 1.2;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+#main-image .header-subtitle {
+	margin-top: 10px;
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 // ***** Navbar Style ***** //
-
 /* BEFORE scroll */
 #navbar-main {
 	margin: 0 auto;
@@ -274,12 +317,12 @@ body.admin-bar #navbar-main.is-fixed {
 
 .single-post .entry-content {
 	font-size: 18px;
-	line-height: 1.6;
+	line-height: 1.8;
 }
 
 .section-header {
-	font-size: 16px; /* default */
-	font-weight: 700;
+	font-size: 20px;
+	font-weight: 500;
 	line-height: 1.4;
 	padding-bottom: 0.25rem; /* space inside, before border */
 	border-bottom: 2px solid var(--bs-border-color);
@@ -365,7 +408,7 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 
 .sticky-widget-wrapper {
-	position: sticky;
+	// position: sticky;
 	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
@@ -386,12 +429,12 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 /* Target only the archive widget list items */
 .widget_archive ul li::before {
-	content: "📅 "; /* replace with any emoji you like */
+	content: "🗂️ "; /* replace with any emoji you like */
 	font-size: 1em; /* adjust size */
 }
 
 .widget_categories ul li::before {
-	content: "📂 ";
+	content: "🗂️ ";
 }
 
 .widget_recent_entries ul li::before {
@@ -404,62 +447,37 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 }
 
 // ===== Main content ===== //
-.entry-title {
-	font-size: 1.75rem;
-	border-bottom: 2px solid var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
-}
+// .entry-title {
+// 	font-size: 1.75rem;
+// 	border-bottom: 2px solid var(--bs-border-color);
+// 	padding-bottom: 0.75rem; /* space inside, before border */
+// }
 
-.single-post .entry-title {
-	font-size: 2.5rem;
-}
-
-.entry-meta {
-	font-size: 0.875rem;
-}
-
-/* Exclude category & all archive pages */
-.archive .entry-title,
-.category .entry-title {
-	border-bottom: none;
-}
-
-.archive-loop-item :is(.entry-header, .entry-content, .entry-footer) a:hover,
-.archive-loop-item
-	:is(.entry-header, .entry-content, .entry-footer)
-	a:focus-visible {
-	text-decoration: underline;
-}
+// .single-post .entry-title {
+// 	font-size: 2.5rem;
+// }
 
 .archive-loop-item .post-thumbnail {
 	width: 100%;
-	height: 350px;
+	aspect-ratio: 16 / 9;
 	overflow: hidden;
-	border-radius: 0.5rem;
 }
 
 .archive-loop-item .post-thumbnail img.archive-post-thumbnail {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	object-position: center;
 	display: block;
-}
-
-.content-single :is(.entry-header, .entry-footer) a {
-	text-decoration: none;
-}
-
-.content-single :is(.entry-header, .entry-footer) a:hover,
-.content-single :is(.entry-header, .entry-footer) a:focus-visible {
-	text-decoration: underline;
 }
 
 // ===== Footer ===== //
 .footer-bg-background {
 	background-color: #1e1e1e;
 }
+
 footer {
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 }
 
 // Fancybox
@@ -469,7 +487,7 @@ footer {
 
 .scroll-to-top-btn {
 	position: fixed;
-	right: calc(6rem + 1.5rem); /* center of messenger button */
+	right: 10rem; /* center of messenger button */
 	bottom: 0.8rem;
 	transform: translateX(50%); /* move back half of its own width */
 
@@ -487,6 +505,23 @@ footer {
 	transition:
 		opacity 0.2s ease,
 		transform 0.2s ease;
+}
+
+/* Override Chaty plugin position to prevent overlap with the "Go to top" button */
+#chaty-widget-0 .chaty-widget {
+	right: 7rem !important;
+	bottom: 3rem !important;
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+	.scroll-to-top-btn {
+		right: 4rem;
+	}
+
+	#chaty-widget-0 .chaty-widget {
+		right: 2rem !important;
+	}
 }
 
 // .scroll-to-top-btn:hover {
@@ -511,14 +546,6 @@ footer {
 
 /* ========== Mobile only ========== */
 @media (max-width: 576px) {
-	.scroll-to-top-btn {
-		right: 1rem; /* custom mobile position */
-		bottom: 1rem;
-		transform: none; /* usually better on mobile */
-		padding: 0.5rem 0.75rem;
-		font-size: 0.7rem;
-	}
-
 	.messenger-chat-btn {
 		right: 1rem; /* stick to edge */
 		bottom: 4.5rem; /* above scroll button */
@@ -604,25 +631,6 @@ footer {
 	font-size: 12.5px !important;
 }
 
-.content-feed .post-thumbnail {
-	height: 130px;
-}
-
-.content-feed .post-thumbnail img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.content-feed a {
-	text-decoration: none;
-}
-
-.content-feed a:hover,
-.content-feed a:focus-visible {
-	text-decoration: underline;
-}
-
 // #recommend-posts-widget:hover,
 // #latest-posts-section:hover,
 // #other-recommend-product-section:hover {
@@ -643,68 +651,23 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] body {
-	background-color: #ebf3fd;
-	// background-color: #dbe6f5;
+	// use shade of #bad2e2 Color Hex
+	// background-color: #cedfea;
+	background-color: #b4cde2; // #c7dae7 #b3cbdd #a9c6db
 }
 
 [data-bs-theme="dark"] body {
 	background-color: #3b3b3b;
 }
 
-#aboyuma-author-box {
-	font-size: 0.875rem;
-}
-
-/* Author card base */
-.author-card {
-	overflow: hidden;
-}
-
-.author-name {
-	font-weight: 600;
-	font-size: 1rem;
-}
-
-/* Cover image */
-// .author-cover {
-// 	height: 140px;
-// 	background-size: cover;
-// 	background-position: center;
-// }
-
-/* Avatar wrapper */
-// .author-avatar-wrapper {
-// 	margin-top: -90px; /* pulls avatar over cover */
-// 	position: relative;
-// 	z-index: 2;
-// }
-
-/* Avatar */
-.author-avatar {
-	width: 180px;
-	height: 180px;
-	object-fit: cover;
-	border: 5px solid #fff; /* nice separation */
-	background: #fff;
-}
-
-#aboyuma-author-box .btn {
-	font-size: 0.8125rem;
-}
-
-[data-bs-theme="light"] #aboyuma-author-box {
-	--bs-card-bg: #fafafa;
-	--bs-card-border-color: #e5e5e5;
-}
-
-[data-bs-theme="dark"] #aboyuma-author-box {
-	--bs-card-bg: #2b2b2b;
-	--bs-card-border-color: #3a3a3a;
-}
-
 .aboyuma-visitor-title {
 	font-size: 1rem; /* 16px */
 	font-weight: 600;
+}
+
+.author-box {
+	font-size: 0.875rem;
+	color: black;
 }
 
 // [data-bs-theme="light"] aside {
@@ -736,34 +699,10 @@ footer {
 
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
+	background-color: #c4d9e8;
 	border: 1px solid #d0d7de;
+	border-top: none;
 	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* ============================================================
-   Latest Product Table (Theme Side)
-   ============================================================ */
-
-#latest-product-table {
-	font-size: 0.875rem; /* 14px */
-}
-
-#latest-product-table th {
-	font-weight: 600;
-}
-
-#latest-product-table td {
-	vertical-align: middle;
-}
-
-#latest-product-table td.product-name {
-	font-size: 0.85rem;
-}
-
-#latest-product-table img {
-	min-width: 72px;
-	max-width: 140px;
-	height: auto;
 }
 
 /* ============================================================
@@ -1153,66 +1092,6 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	padding-right: 0 !important;
 }
 
-/* Main hero container */
-.hero-box {
-	position: relative;
-	/* Required so the ::before overlay can be positioned relative to this element */
-
-	border-radius: 8px;
-	/* Rounded corners for a softer card-like appearance */
-
-	overflow: hidden;
-	/* Ensures the background image and overlay respect the rounded corners */
-
-	padding: 40px 30px;
-	/* Internal spacing so the content does not touch the edges */
-
-	background-image: url("https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=1600&auto=format&fit=crop");
-	/* Background photo for the hero section (workspace theme) */
-
-	background-size: cover;
-	/* Scales the image so it always covers the entire hero area */
-
-	background-position: center;
-	/* Keeps the image centered when the container resizes */
-}
-
-/* Light mode overlay */
-[data-bs-theme="light"] .hero-box::before {
-	content: "";
-	/* Required for pseudo-elements to render */
-
-	position: absolute;
-	/* Positions the overlay on top of the background */
-
-	inset: 0;
-	/* Shorthand for top:0 right:0 bottom:0 left:0 (covers entire container) */
-
-	background: rgba(255, 255, 255, 0.85);
-	/* Semi-transparent white layer
-	   Improves text readability over the image in light mode */
-}
-
-/* Dark mode overlay */
-[data-bs-theme="dark"] .hero-box::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-
-	background: rgba(30, 30, 30, 0.75);
-	/* Dark translucent layer
-	   Prevents the image from being too bright in dark mode */
-}
-
-/* Ensure text appears above the overlay */
-.hero-box > * {
-	position: relative;
-	/* Creates a stacking context for the content */
-
-	z-index: 2;
-	/* Places content above the ::before overlay */
-}
-
 .featured-image {
 	aspect-ratio: 16 / 9;
 	background: #111;
@@ -1221,22 +1100,16 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 
 .featured-image .post-thumbnail {
 	width: 100%;
-	height: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
 }
 
 .featured-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-}
-
-#featured-post-carousel a {
-	text-decoration: none;
-}
-
-#featured-post-carousel a:hover,
-#featured-post-carousel a:focus-visible {
-	text-decoration: underline;
+	object-position: center;
+	display: block;
 }
 
 /* Ensure carousel has relative positioning */
@@ -1266,4 +1139,126 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 
 ul {
 	margin-bottom: 0;
+}
+
+/* link style */
+:is(.entry-title, .entry-meta, .related-posts, .widget) a {
+	color: var(--bs-body-color);
+	text-decoration: none;
+}
+
+:is(.entry-title, .entry-meta, .related-posts, .widget) a:hover,
+:is(.entry-title, .entry-meta, .related-posts, .widget) a:focus-visible {
+	text-decoration: underline;
+}
+
+/* ===== entry-title, entry-meta, entry-footer style ===== */
+
+// Front page featured post feed
+.home .featured-post-feed .entry-title {
+	font-size: 20px;
+}
+
+@media (max-width: 575.98px) {
+	.home .featured-post-feed .entry-title {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+}
+
+.home .featured-post-feed .entry-meta {
+	font-size: 14px;
+}
+
+// Front page latest post feed
+.home .latest-post-feed .entry-title {
+	font-size: 18px;
+}
+
+.home .latest-post-feed .entry-meta {
+	font-size: 12px;
+}
+
+.home .latest-post-feed .post-thumbnail {
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+}
+
+.home .latest-post-feed .post-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+// Page
+.page:not(.home) .entry-title {
+	font-size: 28px;
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+// .page .entry-content {
+// 	line-height: 1.6;
+// }
+
+// Archive
+.archive .archive-loop-item .entry-meta {
+	font-size: 14px;
+}
+
+// Single post
+.single .entry-title {
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+.single .entry-meta {
+	font-size: 14px;
+}
+
+.form-control,
+.form-select,
+.form-check-input {
+	border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
+}
+
+.form-control,
+.form-select {
+	background-color: var(--bs-tertiary-bg);
+	border-color: var(--bs-border-color);
+
+	&:focus {
+		background-color: var(--bs-tertiary-bg);
+		border-color: var(--bs-primary);
+		box-shadow: none;
+	}
+}
+
+.related-post-thumbnail img {
+	width: 100%;
+	height: 120px;
+	object-fit: cover;
+	object-position: center;
+}
+
+.sl-overlay {
+	background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.sl-image img {
+	cursor: zoom-in;
+}
+
+.video-play-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40px;
+	opacity: 0.95;
+	transition: transform 0.2s ease;
+	pointer-events: none;
 }

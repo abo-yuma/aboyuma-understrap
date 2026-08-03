@@ -30,20 +30,48 @@ defined('ABSPATH') || exit;
 		</a>
 		<header id="wrapper-header" class="wrapper-header">
 			<div class="container px-0">
+				<?php
+				$header_image_id = get_theme_mod('aboyuma_header_image');
+
+				$header_title = get_theme_mod(
+					'aboyuma_header_title',
+					'Yuma\'s Personal Blog'
+				);
+
+				$header_subtitle = get_theme_mod(
+					'aboyuma_header_subtitle',
+					'Sharing life experiences'
+				);
+				?>
+
 				<div id="main-image">
 
 					<?php
-					$header_image = get_theme_mod('aboyuma_header_image');
+					if (!empty($header_image_id)) {
 
-					if (! empty($header_image)) {
-						$img_src = esc_url($header_image);
-					} else {
-						$img_src = 'https://placehold.co/980x250?text=Header+Image';
+						echo wp_get_attachment_image(
+							$header_image_id,
+							'full',
+							false,
+							array(
+								'class' => 'header-image',
+								'alt'   => 'Header image'
+							)
+						);
 					}
 					?>
-					<img
-						src="<?php echo $img_src; ?>"
-						alt="Header image">
+
+					<div class="header-overlay"></div>
+
+					<div class="header-tagline">
+						<div class="header-title">
+							<?php echo esc_html($header_title); ?>
+						</div>
+
+						<div class="header-subtitle">
+							<?php echo esc_html($header_subtitle); ?>
+						</div>
+					</div>
 
 				</div>
 			</div>

@@ -245,8 +245,8 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 		$permalink = esc_url(get_permalink((int) get_the_ID())); // @phpstan-ignore-line -- post exists
 
-		return $post_excerpt . ' [...]<p><a class="understrap-read-more-link" href="' . $permalink . '">' . __(
-			'อ่านต่อ...',
+		return $post_excerpt . ' [...]<p class="text-end"><a class="btn btn-sm btn-outline-primary" href="' . $permalink . '">' . __(
+			'อ่านบทความ →',
 			'understrap'
 		) . '<span class="screen-reader-text"> from ' . get_the_title(get_the_ID()) . '</span></a></p>';
 	}
@@ -254,10 +254,64 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 // Breadcrumbs
 // Reference: https://dev.to/readymadecode/how-to-create-breadcrumb-in-wordpress-without-plugin-45jn
-// Breadcrumbs
 function get_breadcrumb() {
 
 	echo '<a href="' . esc_url(home_url()) . '">หน้าหลัก</a>';
+
+	/**
+	 * Virtual Product Page
+	 *
+	 * TODO: Reduce theme-plugin coupling.
+	 *
+	 * This code currently accesses product data directly. When the plugin
+	 * exposes a public API (e.g. aboyuma_get_current_product()), update this
+	 * section to use the API instead of querying the data source directly.
+	 */
+	if (get_query_var('product')) {
+
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'aboyuma_product';
+
+		if (
+			! $wpdb->get_var(
+				$wpdb->prepare(
+					"SHOW TABLES LIKE %s",
+					$table_name
+				)
+			)
+		) {
+			return;
+		}
+
+		$product = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT *
+				FROM {$table_name}
+				WHERE product_slug = %s
+				LIMIT 1",
+				get_query_var('product')
+			)
+		);
+
+		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+
+		// query current page
+		$page = get_queried_object();
+		/** @var \WP_Post|null $page */
+		if ($page instanceof WP_Post) {
+			echo '<a href="' . esc_url(get_permalink($page->ID)) . '">'
+				. esc_html($page->post_title)
+				. '</a>';
+		}
+
+		if ($product) {
+			echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+			echo esc_html($product->product_name);
+		}
+
+		return;
+	}
 
 	if (is_category() || is_single()) {
 
