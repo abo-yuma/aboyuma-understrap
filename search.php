@@ -20,12 +20,7 @@ $container_classes = $container . ' py-0';
 	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 		<div class="row">
-			<div class="sidebar-left-column border-start order-2 px-3" id="sidebar-left">
-				<?php
-				get_template_part('sidebar-templates/sidebar', 'left');
-				?>
-			</div>
-			<div class="main-content-column order-1 px-3">
+			<div class="main-content-column px-3">
 				<div class="main-content-wrapper mb-2">
 
 					<?php if (have_posts()) : ?>
@@ -73,6 +68,11 @@ $container_classes = $container . ' py-0';
 						//get_template_part('global-templates/right-sidebar-check');
 						?>
 				</div>
+			</div>
+			<div class="sidebar-left-column border-start px-3" id="sidebar-left">
+				<?php
+				get_template_part('sidebar-templates/sidebar', 'left');
+				?>
 			</div>
 		</div><!-- .row -->
 
