@@ -118,4 +118,14 @@ import { Tooltip, Popover } from "./bootstrap"; // must be at the very top of th
 			captions: true,
 		});
 	}
+
+	// fancybox for youtube lightbox
+	if (
+		typeof Fancybox !== "undefined" &&
+		document.querySelector(".youtube-lightbox-container a[data-fancybox]")
+	) {
+		Fancybox.bind(".youtube-lightbox-container a[data-fancybox]", {
+			dragToClose: false,
+		});
+	}
 })(jQuery); // Pass in jQuery to the IIFE so $ can be used safely inside

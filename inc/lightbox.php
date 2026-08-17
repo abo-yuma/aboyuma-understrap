@@ -49,11 +49,41 @@ function aboyuma_lightbox_process_images(DOMDocument $dom) {
 
     foreach ($images as $img) {
 
-        $parent = $img->parentNode;
+        /*
+		 * Skip images that are already inside a Fancybox link.
+		 * This prevents nested <a> elements such as:
+		 *
+		 * <a data-fancybox>
+		 *     <div>
+		 *         <img>
+		 *     </div>
+		 * </a>
+		 */
+        $ancestor = $img->parentNode;
+
+        $inside_fancybox = false;
+
+        while ($ancestor instanceof DOMElement) {
+            if (
+                $ancestor->tagName === 'a' &&
+                $ancestor->hasAttribute('data-fancybox')
+            ) {
+                $inside_fancybox = true;
+                break;
+            }
+
+            $ancestor = $ancestor->parentNode;
+        }
+
+        if ($inside_fancybox) {
+            continue;
+        }
 
         /*
 		 * Already wrapped with <a>.
 		 */
+        $parent = $img->parentNode;
+
         if (
             $parent instanceof DOMElement &&
             $parent->tagName === 'a'
