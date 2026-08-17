@@ -5,6 +5,8 @@
  *
  * Usage:
  * [youtube_lightbox id="VIDEO_ID"]
+ * 
+ * @since 1.4.0
  */
 function aboyuma_youtube_lightbox_shortcode(array $atts) {
 
