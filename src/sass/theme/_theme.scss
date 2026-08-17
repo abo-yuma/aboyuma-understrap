@@ -1252,12 +1252,23 @@ ul {
 	cursor: zoom-in;
 }
 
+// youtube lightbox thumbnail style
+.youtube-lightbox-container {
+	width: 350px;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.youtube-lightbox-container a[data-fancybox]:hover {
+	opacity: 0.85;
+}
+
 .video-play-icon {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 40px;
+	width: 60px;
 	opacity: 0.95;
 	transition: transform 0.2s ease;
 	pointer-events: none;

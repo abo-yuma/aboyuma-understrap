@@ -46,6 +46,9 @@ if (! function_exists('understrap_scripts')) {
 
 		if (is_singular('post')) {
 			$deps[] = 'aboyuma-simple-lightbox';
+		}
+
+		if (is_singular('post') || is_page()) {
 			$deps[] = 'aboyuma-fancybox';
 		}
 
@@ -128,12 +131,14 @@ if (! function_exists('aboyuma_enqueue_styles')) {
 				array(),
 				'2.14.3'
 			);
+		}
 
-			/**
-			 * Fancybox (Videos)
-			 * Video lightboxes are added manually by the content author
-			 * using the `data-fancybox` attribute.
-			 */
+		/**
+		 * Fancybox (Videos)
+		 * Video lightboxes are added manually by the content author
+		 * using the `data-fancybox` attribute.
+		 */
+		if (is_singular('post') || is_page()) {
 			wp_enqueue_style(
 				'aboyuma-fancybox',
 				'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css',
@@ -190,13 +195,15 @@ if (! function_exists('aboyuma_enqueue_scripts')) {
 		 * Video lightboxes are added manually by the content author
 		 * using the `data-fancybox` attribute.
 		 */
-		wp_enqueue_script(
-			'aboyuma-fancybox',
-			'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js',
-			array(),
-			'6.1.0',
-			true
-		);
+		if (is_singular('post') || is_page()) {
+			wp_enqueue_script(
+				'aboyuma-fancybox',
+				'https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js',
+				array(),
+				'6.1.0',
+				true
+			);
+		}
 	}
 }
 add_action('wp_enqueue_scripts', 'aboyuma_enqueue_scripts');
