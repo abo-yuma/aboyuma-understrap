@@ -277,9 +277,9 @@ if ( ! function_exists( 'understrap_widgets_init' ) ) {
 		register_sidebar(
 			array(
 				/* translators: Widget area title */
-				'name'          => __( 'Left Sidebar', 'understrap' ),
-				'id'            => 'left-sidebar',
-				'description'   => __( 'Left sidebar widget area', 'understrap' ),
+				'name'          => __( 'Right Sidebar', 'understrap' ),
+				'id'            => 'right-sidebar',
+				'description'   => __( 'Right sidebar widget area', 'understrap' ),
 				'before_widget' => '<aside id="%1$s" class="widget %2$s mb-3">',
 				'after_widget'  => '</aside>',
 				'before_title'  => '<h3 class="widget-title">',
