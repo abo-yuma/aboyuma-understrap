@@ -88,13 +88,13 @@
 	</div>
 
 	<?php
-	if (is_active_sidebar('left-sidebar') || is_archive() || is_single()):
+	if (is_active_sidebar('right-sidebar') || is_archive() || is_single()):
 	?>
 		<div class="sticky-widget-wrapper">
 
 			<div id="widget-area" class="widget-area" role="complementary">
 				<?php
-				dynamic_sidebar('left-sidebar');
+				dynamic_sidebar('right-sidebar');
 
 				if (current_user_can('manage_options')):
 				?>
