@@ -27,7 +27,7 @@ $container = get_theme_mod('understrap_container_type');
 		<div class="row">
 			<div class="sidebar-left-column order-2" id="sidebar-left">
 				<?php
-				get_template_part('sidebar-templates/sidebar', 'left');
+				get_template_part('sidebar-templates/sidebar', 'right');
 				?>
 			</div>
 			<div class="main-content-column mb-2">

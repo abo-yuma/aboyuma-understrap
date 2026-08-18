@@ -83,7 +83,7 @@ $container_classes = $container . ' py-0';
 			</div>
 			<div class="sidebar-left-column border-start px-3" id="sidebar-left">
 				<?php
-				get_template_part('sidebar-templates/sidebar', 'left');
+				get_template_part('sidebar-templates/sidebar', 'right');
 				?>
 			</div>
 		</div><!-- .row -->
