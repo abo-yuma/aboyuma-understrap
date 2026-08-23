@@ -325,7 +325,7 @@ body.admin-bar #navbar-main.is-fixed {
 	font-weight: 500;
 	line-height: 1.4;
 	padding-bottom: 0.25rem; /* space inside, before border */
-	border-bottom: 2px solid var(--bs-border-color);
+	border-bottom: 2px dotted var(--bs-border-color);
 }
 
 /*
@@ -1196,7 +1196,7 @@ ul {
 // Page
 .page:not(.home) .entry-title {
 	font-size: 28px;
-	border-bottom: 2px solid var(--bs-border-color);
+	border-bottom: 2px dotted var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
 
@@ -1211,7 +1211,7 @@ ul {
 
 // Single post
 .single .entry-title {
-	border-bottom: 2px solid var(--bs-border-color);
+	border-bottom: 2px dotted var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
 

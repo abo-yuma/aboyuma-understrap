@@ -22,7 +22,7 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card bg-secondary-subtle">
+		<div class="card border-0 bg-secondary-subtle">
 			<!-- Avatar -->
 			<?php
 			echo get_avatar(
@@ -40,13 +40,8 @@
 
 				<!-- Name -->
 				<h3 class="mb-1 text-uppercase fs-6">
-					🪪 <?php echo esc_html($display_name); ?>
+					<?php echo esc_html($display_name); ?>
 				</h3>
-
-				<span class="badge text-bg-primary mb-3">
-					Author
-				</span>
-
 
 				<!-- Bio -->
 				<?php if (! empty($bio)) : ?>
