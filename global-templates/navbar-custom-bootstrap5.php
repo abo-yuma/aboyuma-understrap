@@ -24,9 +24,13 @@
             ?>
             <!-- Dark Mode Switch -->
             <div class="d-flex align-items-center ms-auto">
-                <div class="form-check form-switch">
-                    <label class="form-check-label me-2" for="flexSwitchCheckDefault" style="color: #949494;"> <i class="fa-solid fa-moon"></i></label>
-                    <input class="form-check-input" type="checkbox" id="dark-mode-switch">
+                <div class="d-flex align-items-center">
+                    <label class="text-secondary me-2">
+                        <i class="fa fa-adjust"></i>
+                    </label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="dark-mode-switch">
+                    </div>
                 </div>
             </div>
         </div><!-- /.navbar-collapse -->
