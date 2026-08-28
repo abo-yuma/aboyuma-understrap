@@ -98,15 +98,6 @@ if (! function_exists('aboyuma_enqueue_styles')) {
 
 	function aboyuma_enqueue_styles() {
 
-		// Font Awesome 4.7.0
-		wp_enqueue_style(
-			'fontawesomeicon',
-			'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
-			array(),
-			'4.7.0',
-			'all'
-		);
-
 		// Bootstrap Icons 1.10.5
 		wp_enqueue_style(
 			'bootstrap-icons',
