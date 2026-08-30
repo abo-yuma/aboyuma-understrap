@@ -64,14 +64,6 @@
                         🗓 <?php echo get_the_date('M j, Y'); ?>
                     </span>
 
-                    <span>
-                        <?php
-                        if (function_exists('aboyuma_get_post_views')) {
-                            echo aboyuma_get_post_views(get_the_ID());
-                        }
-                        ?>
-                    </span>
-
                 </div>
 
             </div>
