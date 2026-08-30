@@ -30,7 +30,6 @@ $understrap_includes = array(
 	'/deprecated.php',                      // Load deprecated functions.
 	'/fonts.php',                           // Load fonts functions.
 	'/images.php',                          // Load images functions.
-	'/post-views.php',                      // Load post views functions.
 	'/extra-user-profile.php',              // Load extra user profile.
 	'/lightbox.php',                        // Load lightbox functions.
 	'/youtube-shortcode.php'                // Load youtube shortcode functions.
