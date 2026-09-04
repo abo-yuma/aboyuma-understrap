@@ -604,7 +604,7 @@ footer {
 
 // Custom column with for content
 @media (min-width: 768px) {
-	.sidebar-left-column {
+	.sidebar-right-column {
 		flex: 0 0 auto;
 		width: 32%;
 	}
@@ -615,7 +615,7 @@ footer {
 }
 
 @media (max-width: 767px) {
-	.sidebar-left-column.border-start {
+	.sidebar-right-column.border-start {
 		border-left: none !important;
 	}
 }

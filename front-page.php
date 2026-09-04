@@ -65,7 +65,7 @@ $container_classes = $container . ' py-0';
                     <?php get_template_part('frontpage-templates/latest-post'); ?>
                 </div>
             </div>
-            <div class="sidebar-left-column border-start px-3" id="sidebar-left">
+            <div class="sidebar-right-column border-start px-3" id="sidebar-right">
                 <?php
                 get_template_part('sidebar-templates/sidebar', 'right');
                 ?>
