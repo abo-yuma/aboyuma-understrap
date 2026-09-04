@@ -390,7 +390,7 @@ if (! function_exists('aboyuma_default_product_type')) {
 				$('#product-type').val('external').trigger('change');
 			});
 		</script>
-<?php
+	<?php
 	}
 }
 
@@ -616,6 +616,106 @@ if (! function_exists('aboyuma_save_product_content_meta_boxes')) {
 						wp_unslash($_POST[$field_id])
 					)
 				);
+			}
+		}
+	}
+}
+
+/**
+ * Add Product Video meta box.
+ */
+add_action('add_meta_boxes_product', 'aboyuma_add_product_video_meta_box', 40);
+
+if (! function_exists('aboyuma_add_product_video_meta_box')) {
+	/**
+	 * Register Product Video meta box.
+	 */
+	function aboyuma_add_product_video_meta_box() {
+		add_meta_box(
+			'aboyuma-product-video',
+			__('Product Video', 'aboyuma') . ' ' . wc_help_tip(
+				__('Add up to two YouTube videos for this product.', 'aboyuma')
+			),
+			'aboyuma_product_video_meta_box',
+			'product',
+			'normal',
+			'low'
+		);
+	}
+}
+
+/**
+ * Display Product Video fields.
+ */
+if (! function_exists('aboyuma_product_video_meta_box')) {
+	/**
+	 * Display Product Video fields.
+	 *
+	 * @param WP_Post $post Current product post.
+	 */
+	function aboyuma_product_video_meta_box($post) {
+		$video_1 = get_post_meta($post->ID, '_product_video_1', true);
+		$video_2 = get_post_meta($post->ID, '_product_video_2', true);
+	?>
+
+		<p>
+			<label for="aboyuma-product-video-1">
+				<strong><?php esc_html_e('Video 1', 'aboyuma'); ?></strong>
+			</label>
+		</p>
+
+		<input
+			type="url"
+			id="aboyuma-product-video-1"
+			name="_product_video_1"
+			value="<?php echo esc_attr($video_1); ?>"
+			class="widefat"
+			placeholder="https://www.youtube.com/watch?v=...">
+
+		<p>
+			<label for="aboyuma-product-video-2">
+				<strong><?php esc_html_e('Video 2', 'aboyuma'); ?></strong>
+			</label>
+		</p>
+
+		<input
+			type="url"
+			id="aboyuma-product-video-2"
+			name="_product_video_2"
+			value="<?php echo esc_attr($video_2); ?>"
+			class="widefat"
+			placeholder="https://www.youtube.com/watch?v=...">
+
+<?php
+	}
+}
+
+/**
+ * Save Product Videos.
+ */
+add_action('woocommerce_admin_process_product_object', 'aboyuma_save_product_video');
+
+if (! function_exists('aboyuma_save_product_video')) {
+	/**
+	 * Save Product Video URLs as product meta.
+	 *
+	 * @param WC_Product $product Product object.
+	 */
+	function aboyuma_save_product_video($product) {
+		$fields = array(
+			'_product_video_1',
+			'_product_video_2',
+		);
+
+		foreach ($fields as $field_id) {
+			if (isset($_POST[$field_id])) {
+				$value = esc_url_raw(wp_unslash($_POST[$field_id]));
+
+				if ('' !== $value) {
+					$product->update_meta_data($field_id, $value);
+				} else {
+					$product->delete_meta_data($field_id);
+				}
 			}
 		}
 	}
