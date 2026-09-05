@@ -6,9 +6,11 @@
     $featured_id = $featured_category ? $featured_category->term_id : 0;
 
     $args = array(
-        'posts_per_page' => 4,
+        'posts_per_page' => 1,
         'post_status'    => 'publish',
         'cat'            => $featured_id,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
     );
 
     $featured_posts = new WP_Query($args);
@@ -20,116 +22,74 @@
 
     <?php if ($featured_posts->have_posts()) : ?>
 
-        <div class="featured-post-feed carousel slide" id="featured-post-carousel"
-            data-bs-ride="carousel"
-            data-bs-interval="4000">
+        <?php $featured_posts->the_post(); ?>
 
-            <div class="carousel-inner">
+        <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                <?php
-                $i = 0;
-                while ($featured_posts->have_posts()) : $featured_posts->the_post();
-                    $active = ($i === 0) ? 'active' : '';
-                ?>
+            <div class="card border-0 h-100">
 
-                    <div class="carousel-item <?php echo $active; ?>">
+                <div class="card-img-top featured-image">
+                    <div class="post-thumbnail">
 
-                        <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
+                        <?php if (has_post_thumbnail()) : ?>
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail('large', ['class' => 'img-fluid w-100']); ?>
+                            </a>
+                        <?php else : ?>
+                            <img src="https://placehold.co/800x400?text=No+Image"
+                                alt="No image available"
+                                class="img-fluid w-100">
+                        <?php endif; ?>
 
-                            <div class="card border-0 h-100">
+                    </div>
+                </div>
 
-                                <div class="card-img-top featured-image">
-                                    <div class="post-thumbnail">
+                <div class="card-body px-0 pt-3">
+                    <h3 class="entry-title">
+                        <a class="d-block"
+                            href="<?php the_permalink(); ?>">
+                            <?php echo get_the_title(); ?>
+                        </a>
+                    </h3>
 
-                                        <?php if (has_post_thumbnail()) : ?>
-                                            <a href="<?php the_permalink(); ?>">
-                                                <?php the_post_thumbnail('large', ['class' => 'img-fluid w-100']); ?>
-                                            </a>
-                                        <?php else : ?>
-                                            <img src="https://placehold.co/800x400?text=No+Image"
-                                                alt="No image available"
-                                                class="img-fluid w-100">
-                                        <?php endif; ?>
+                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
+                        <span>
+                            <?php
+                            $categories = get_the_category();
 
-                                        <button class="carousel-control-prev"
-                                            type="button"
-                                            data-bs-target="#featured-post-carousel"
-                                            data-bs-slide="prev">
+                            if (!empty($categories)) {
 
-                                            <span class="carousel-control-prev-icon"></span>
+                                $category_links = array();
 
-                                        </button>
+                                foreach ($categories as $category) {
 
-                                        <button class="carousel-control-next"
-                                            type="button"
-                                            data-bs-target="#featured-post-carousel"
-                                            data-bs-slide="next">
+                                    if ($category->slug === 'featured') {
+                                        continue;
+                                    }
 
-                                            <span class="carousel-control-next-icon"></span>
+                                    $category_links[] =
+                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
+                                        esc_html($category->name) .
+                                        '</a>';
+                                }
 
-                                        </button>
-
-                                    </div>
-                                </div>
-
-                                <div class="card-body px-0 pt-3">
-                                    <h3 class="entry-title">
-                                        <a class="d-block"
-                                            href="<?php the_permalink(); ?>">
-                                            <?php echo get_the_title(); ?>
-                                        </a>
-                                    </h3>
-
-                                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
-                                        <span>
-                                            <?php
-                                            $categories = get_the_category();
-
-                                            if (!empty($categories)) {
-
-                                                $category_links = array();
-
-                                                foreach ($categories as $category) {
-
-                                                    if ($category->slug === 'featured') {
-                                                        continue;
-                                                    }
-
-                                                    $category_links[] =
-                                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
-                                                        esc_html($category->name) .
-                                                        '</a>';
-                                                }
-
-                                                if (!empty($category_links)) {
-                                                    echo '🗂️ ' . implode(', ', $category_links);
-                                                }
-                                            }
-                                            ?>
-                                        </span>
-                                        <span>
-                                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
-                                        </span>
- 
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </article>
+                                if (!empty($category_links)) {
+                                    echo '🗂️ ' . implode(', ', $category_links);
+                                }
+                            }
+                            ?>
+                        </span>
+                        <span>
+                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
+                        </span>
 
                     </div>
 
-                <?php
-                    $i++;
-                endwhile;
-                wp_reset_postdata();
-                ?>
+                </div>
 
             </div>
 
-        </div>
+        </article>
 
     <?php else : ?>
 
