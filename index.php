@@ -21,14 +21,12 @@ $container = get_theme_mod('understrap_container_type');
 $container_classes = $container . ' py-0';
 ?>
 
-<main>
+<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
-
-		<div class="row">
-			<div class="main-content-column px-3">
-				<div class="main-content-wrapper mb-2">
-
+	<div class="row">
+		<div class="main-content-column px-3">
+			<div class="main-content-wrapper mb-2">
+				<main class="site-main" id="main">
 					<?php
 					if (have_posts()) {
 						// Start the Loop.
@@ -47,8 +45,6 @@ $container_classes = $container . ' py-0';
 					}
 					?>
 
-
-
 					<?php
 					// Display the pagination component.
 					understrap_pagination();
@@ -57,18 +53,17 @@ $container_classes = $container . ' py-0';
 					?>
 
 					<!-- Another front page templates-->
-				</div>
+				</main>
 			</div>
-			<div class="sidebar-right-column border-start px-3" id="sidebar-right">
-				<?php
-				get_template_part('sidebar-templates/sidebar', 'right');
-				?>
-			</div>
-		</div><!-- .row -->
+		</div>
+		<div class="sidebar-right-column border-start px-3" id="sidebar-right">
+			<?php
+			get_template_part('sidebar-templates/sidebar', 'right');
+			?>
+		</div>
+	</div><!-- .row -->
 
-	</div><!-- #content -->
-
-</main><!-- #main-wrapper -->
+</div><!-- #content -->
 
 <?php
 get_footer();
