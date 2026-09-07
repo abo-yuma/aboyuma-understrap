@@ -694,7 +694,7 @@ if (! function_exists('aboyuma_product_video_meta_box')) {
 			class="widefat"
 			placeholder="https://www.youtube.com/watch?v=...">
 
-<?php
+		<?php
 	}
 }
 
@@ -728,3 +728,52 @@ if (! function_exists('aboyuma_save_product_video')) {
 		}
 	}
 }
+
+/**
+ * Load product subcategories via AJAX.
+ */
+add_action('wp_ajax_aboyuma_load_subcategories', 'aboyuma_load_subcategories');
+add_action('wp_ajax_nopriv_aboyuma_load_subcategories', 'aboyuma_load_subcategories');
+
+if (! function_exists('aboyuma_load_subcategories')) {
+	/**
+	 * Load subcategories for selected product category.
+	 */
+	function aboyuma_load_subcategories() {
+
+		check_ajax_referer('aboyuma_product_filter', 'nonce');
+
+		$category_id = isset($_POST['category_id'])
+			? absint($_POST['category_id'])
+			: 0;
+
+		$subcategories = get_terms(
+			array(
+				'taxonomy'   => 'product_cat',
+				'parent'     => $category_id,
+				'hide_empty' => true,
+			)
+		);
+
+		if (is_wp_error($subcategories)) {
+			wp_send_json_error();
+		}
+
+		ob_start();
+
+		foreach ($subcategories as $subcategory) {
+		?>
+			<option value="<?php echo esc_attr($subcategory->term_id); ?>">
+				<?php echo esc_html($subcategory->name); ?>
+			</option>
+<?php
+		}
+
+		wp_send_json_success(
+			array(
+				'html' => ob_get_clean(),
+			)
+		);
+	}
+}
+

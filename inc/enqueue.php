@@ -59,6 +59,21 @@ if (! function_exists('understrap_scripts')) {
 			$js_version,
 			true
 		);
+
+		/**
+		 * WooCommerce AJAX data.
+		 */
+		if (is_shop() || is_product_category()) {
+			wp_localize_script(
+				'understrap-scripts',
+				'aboyumaWooCommerce',
+				array(
+					'ajaxUrl' => admin_url('admin-ajax.php'),
+					'nonce'   => wp_create_nonce('aboyuma_product_filter'),
+				)
+			);
+		}
+
 		if (is_singular() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
