@@ -37,6 +37,67 @@ do_action('woocommerce_before_main_content');
  * @hooked woocommerce_product_taxonomy_archive_header - 10
  */
 do_action('woocommerce_shop_loop_header');
+?>
+
+<?php
+$categories = get_terms(
+    array(
+        'taxonomy'   => 'product_cat',
+        'parent'     => 0,
+        'hide_empty' => true,
+    )
+);
+?>
+
+<div
+    id="product-category-filter"
+    class="d-flex gap-2 mb-4 align-items-center flex-wrap">
+
+    <div>
+        <select
+            id="product-category"
+            class="form-select form-select-sm">
+
+            <option value="">
+                เลือกหมวดหมู่
+            </option>
+
+            <?php foreach ($categories as $category) : ?>
+
+                <option value="<?php echo esc_attr($category->term_id); ?>">
+                    <?php echo esc_html($category->name); ?>
+                </option>
+
+            <?php endforeach; ?>
+
+        </select>
+    </div>
+
+    <div>
+        <select
+            id="product-subcategory"
+            class="form-select form-select-sm"
+            disabled>
+
+            <option value="">
+                เลือกหมวดย่อย
+            </option>
+
+        </select>
+    </div>
+
+    <div>
+        <button
+            type="button"
+            id="product-filter-submit"
+            class="btn btn-light btn-sm">
+            ค้นหา
+        </button>
+    </div>
+
+</div>
+
+<?php
 
 if (woocommerce_product_loop()) {
 
