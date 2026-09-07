@@ -44,6 +44,9 @@ remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrap
 add_action('woocommerce_before_main_content', 'understrap_woocommerce_wrapper_start', 10);
 add_action('woocommerce_after_main_content', 'understrap_woocommerce_wrapper_end', 10);
 
+// Remove the default product sorting dropdown.
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
+
 if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	/**
 	 * Display the theme specific start of the page wrapper.
