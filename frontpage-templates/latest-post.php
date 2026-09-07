@@ -6,104 +6,39 @@
 
     <?php
 
-    $categories = array_filter(
-        get_categories([
-            'hide_empty' => true,
-            'orderby'    => 'count',
-            'order'      => 'DESC',
-        ]),
-        fn($category) => $category->slug !== 'featured'
-    );
+    $latest_posts = new WP_Query([
+        'posts_per_page' => 4,
+        'post_status'    => 'publish',
+    ]);
+
     ?>
 
-    <ul class="nav nav-tabs" id="latestPostTabs" role="tablist">
+    <?php if ($latest_posts->have_posts()) : ?>
 
-        <?php
-        $first = true;
+        <div class="latest-post-feed row">
 
-        foreach ($categories as $category) :
-        ?>
+            <?php
+            while ($latest_posts->have_posts()) :
 
-            <li class="nav-item" role="presentation">
+                $latest_posts->the_post();
 
-                <button
-                    class="nav-link <?php echo $first ? 'active' : ''; ?>"
-                    data-bs-toggle="tab"
-                    data-bs-target="#tab-<?php echo esc_attr($category->slug); ?>"
-                    type="button">
+                get_template_part(
+                    'frontpage-templates/latest-post-card'
+                );
 
-                    <?php echo "🗂️ " . esc_html($category->name); ?>
+            endwhile;
+            ?>
 
-                </button>
+        </div>
 
-            </li>
+    <?php else : ?>
 
-        <?php
+        <div class="alert alert-secondary text-center">
+            ยังไม่มีบทความ
+        </div>
 
-            $first = false;
+    <?php endif; ?>
 
-        endforeach;
-        ?>
-
-    </ul>
-
-    <div class="latest-post-section tab-content pt-3">
-
-        <?php
-
-        $first = true;
-
-        foreach ($categories as $category) :
-
-            $query = new WP_Query([
-                'posts_per_page' => 4,
-                'post_status'    => 'publish',
-                'cat'            => $category->term_id,
-            ]);
-
-        ?>
-
-            <div
-                class="tab-pane fade <?php echo $first ? 'show active' : ''; ?>"
-                id="tab-<?php echo esc_attr($category->slug); ?>">
-
-                <?php if ($query->have_posts()) : ?>
-
-                    <div class="latest-post-feed row">
-
-                        <?php
-                        while ($query->have_posts()) :
-
-                            $query->the_post();
-
-                            get_template_part(
-                                'frontpage-templates/latest-post-card'
-                            );
-
-                        endwhile;
-                        ?>
-
-                    </div>
-
-                <?php else : ?>
-
-                    <div class="alert alert-secondary text-center">
-                        ยังไม่มีบทความ
-                    </div>
-
-                <?php endif; ?>
-
-            </div>
-
-        <?php
-
-            wp_reset_postdata();
-
-            $first = false;
-
-        endforeach;
-        ?>
-
-    </div>
+    <?php wp_reset_postdata(); ?>
 
 </section>
