@@ -111,20 +111,23 @@ if (woocommerce_product_loop()) {
     do_action('woocommerce_before_shop_loop');
 
     woocommerce_product_loop_start();
+?>
 
-    if (wc_get_loop_prop('total')) {
-        while (have_posts()) {
-            the_post();
+    <div id="product-results">
 
-            /**
-             * Hook: woocommerce_shop_loop.
-             */
-            do_action('woocommerce_shop_loop');
-
-            wc_get_template_part('content', 'product');
+        <?php
+        if (wc_get_loop_prop('total')) {
+            while (have_posts()) {
+                the_post();
+                do_action('woocommerce_shop_loop');
+                wc_get_template_part('content', 'product');
+            }
         }
-    }
+        ?>
 
+    </div>
+
+<?php
     woocommerce_product_loop_end();
 
     /**

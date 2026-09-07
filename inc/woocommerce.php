@@ -777,3 +777,162 @@ if (! function_exists('aboyuma_load_subcategories')) {
 	}
 }
 
+/**
+ * Load products via AJAX.
+ */
+add_action('wp_ajax_aboyuma_load_products', 'aboyuma_load_products');
+add_action('wp_ajax_nopriv_aboyuma_load_products', 'aboyuma_load_products');
+
+if (! function_exists('aboyuma_load_products')) {
+	/**
+	 * Load filtered products.
+	 */
+	function aboyuma_load_products() {
+
+		check_ajax_referer('aboyuma_product_filter', 'nonce');
+
+		$category_id = isset($_POST['category_id'])
+			? absint($_POST['category_id'])
+			: 0;
+
+		$subcategory_id = isset($_POST['subcategory_id'])
+			? absint($_POST['subcategory_id'])
+			: 0;
+
+		$tax_query = array();
+
+		if ($subcategory_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $subcategory_id,
+				'include_children' => false,
+			);
+		} elseif ($category_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $category_id,
+				'include_children' => true,
+			);
+		}
+
+		$query_args = array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => get_option('posts_per_page'),
+		);
+
+		if ($tax_query) {
+			$query_args['tax_query'] = $tax_query;
+		}
+
+		$query = new WP_Query($query_args);
+
+		ob_start();
+
+		if ($query->have_posts()) {
+
+			woocommerce_product_loop_start();
+
+			while ($query->have_posts()) {
+				$query->the_post();
+
+				wc_get_template_part('content', 'product');
+			}
+
+			woocommerce_product_loop_end();
+		} else {
+
+			do_action('woocommerce_no_products_found');
+		}
+
+		wp_reset_postdata();
+
+		wp_send_json_success(
+			array(
+				'html' => ob_get_clean(),
+			)
+		);
+	}
+}
+
+/**
+ * Load products via AJAX.
+ */
+add_action('wp_ajax_aboyuma_load_products', 'aboyuma_load_products');
+add_action('wp_ajax_nopriv_aboyuma_load_products', 'aboyuma_load_products');
+
+if (! function_exists('aboyuma_load_products')) {
+	/**
+	 * Load filtered products.
+	 */
+	function aboyuma_load_products() {
+
+		check_ajax_referer('aboyuma_product_filter', 'nonce');
+
+		$category_id = isset($_POST['category_id'])
+			? absint($_POST['category_id'])
+			: 0;
+
+		$subcategory_id = isset($_POST['subcategory_id'])
+			? absint($_POST['subcategory_id'])
+			: 0;
+
+		$tax_query = array();
+
+		if ($subcategory_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $subcategory_id,
+				'include_children' => false,
+			);
+		} elseif ($category_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $category_id,
+				'include_children' => true,
+			);
+		}
+
+		$query_args = array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => get_option('posts_per_page'),
+		);
+
+		if ($tax_query) {
+			$query_args['tax_query'] = $tax_query;
+		}
+
+		$query = new WP_Query($query_args);
+
+		ob_start();
+
+		if ($query->have_posts()) {
+
+			woocommerce_product_loop_start();
+
+			while ($query->have_posts()) {
+				$query->the_post();
+
+				wc_get_template_part('content', 'product');
+			}
+
+			woocommerce_product_loop_end();
+		} else {
+
+			do_action('woocommerce_no_products_found');
+		}
+
+		wp_reset_postdata();
+
+		wp_send_json_success(
+			array(
+				'html' => ob_get_clean(),
+			)
+		);
+	}
+}

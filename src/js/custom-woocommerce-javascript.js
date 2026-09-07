@@ -41,4 +41,35 @@ jQuery(function ($) {
 			},
 		});
 	});
+
+	$("#product-filter-submit").on("click", function () {
+		const categoryId = $("#product-category").val();
+		const subcategoryId = $("#product-subcategory").val();
+
+		const $results = $("#product-results");
+
+		$results.html("<p>กำลังโหลด...</p>");
+
+		$.ajax({
+			url: aboyumaWooCommerce.ajaxUrl,
+			type: "POST",
+			data: {
+				action: "aboyuma_load_products",
+				nonce: aboyumaWooCommerce.nonce,
+				category_id: categoryId,
+				subcategory_id: subcategoryId,
+			},
+			success: function (response) {
+				if (!response.success) {
+					$results.html("<p>ไม่สามารถโหลดสินค้าได้</p>");
+					return;
+				}
+
+				$results.html(response.data.html);
+			},
+			error: function () {
+				$results.html("<p>เกิดข้อผิดพลาด</p>");
+			},
+		});
+	});
 });
