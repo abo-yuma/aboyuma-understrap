@@ -50,14 +50,13 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	 */
 	function understrap_woocommerce_wrapper_start() {
 		$container = get_theme_mod('understrap_container_type');
-		if (false === $container) {
-			$container = '';
-		}
+		$container_classes = $container . ' py-0';
 
-		echo '<div class="wrapper" id="woocommerce-wrapper">';
-		echo '<div class="' . esc_attr($container) . '" id="content" tabindex="-1">';
+		echo '<div id="woocommerce-wrapper">';
+		echo '<div class="' . esc_attr($container_classes) . '" id="content" tabindex="-1">';
 		echo '<div class="row">';
-		get_template_part('global-templates/left-sidebar-check');
+		echo '<div class="main-content-column px-3">';
+		echo '<div class="main-content-wrapper mb-2">';
 		echo '<main class="site-main" id="main">';
 	}
 }
@@ -68,7 +67,13 @@ if (! function_exists('understrap_woocommerce_wrapper_end')) {
 	 */
 	function understrap_woocommerce_wrapper_end() {
 		echo '</main>';
-		get_template_part('global-templates/right-sidebar-check');
+		echo '</div>';
+		echo '</div>';
+
+		echo '<div class="sidebar-right-column border-start px-3" id="sidebar-right">';
+		get_template_part('sidebar-templates/sidebar', 'right');
+		echo '</div>';
+
 		echo '</div><!-- .row -->';
 		echo '</div><!-- .container(-fluid) -->';
 		echo '</div><!-- #woocommerce-wrapper -->';
