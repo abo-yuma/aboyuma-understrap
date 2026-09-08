@@ -47,6 +47,7 @@ jQuery(function ($) {
 		const subcategoryId = $("#product-subcategory").val();
 
 		const $results = $("#product-results");
+		const $resultCount = $("#product-result-count");
 
 		$results.html("<p>กำลังโหลด...</p>");
 
@@ -66,6 +67,8 @@ jQuery(function ($) {
 				}
 
 				$results.html(response.data.html);
+
+				$resultCount.html("Showing all " + response.data.total + " results");
 			},
 			error: function () {
 				$results.html("<p>เกิดข้อผิดพลาด</p>");
