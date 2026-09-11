@@ -111,7 +111,7 @@ if (woocommerce_product_loop()) {
     do_action('woocommerce_before_shop_loop');
 ?>
     <div id="product-result-count" class="mb-3">
-        Showing all <?php echo esc_html(wc_get_loop_prop('total')); ?> results
+        <?php woocommerce_result_count(); ?>
     </div>
 
     <div id="product-results">
@@ -127,6 +127,7 @@ if (woocommerce_product_loop()) {
             }
         }
         woocommerce_product_loop_end();
+
         ?>
 
     </div>

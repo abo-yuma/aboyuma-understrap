@@ -353,9 +353,9 @@ if (! function_exists('understrap_loop_add_to_cart_args')) {
 				$args['class'] = implode(' ', $args['class']);
 			}
 
-			$args['class'] .= ' btn btn-outline-primary';
+			$args['class'] .= ' btn btn-outline-primary btn-sm';
 		} else {
-			$args['class'] = 'btn btn-outline-primary';
+			$args['class'] = 'btn btn-outline-primary btn-sm';
 		}
 
 		if ('bootstrap4' === get_theme_mod('understrap_bootstrap_version', 'bootstrap4')) {
@@ -826,7 +826,23 @@ if (! function_exists('aboyuma_load_products')) {
 		$query_args = array(
 			'post_type'      => 'product',
 			'post_status'    => 'publish',
-			'posts_per_page' => get_option('posts_per_page'),
+			'posts_per_page' => apply_filters(
+				'loop_shop_per_page',
+				wc_get_default_products_per_row() * wc_get_default_product_rows_per_page()
+			),
+			'orderby'        => 'menu_order title',
+			'order'          => 'ASC',
+		);
+
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => 'product_visibility',
+				'field'    => 'term_taxonomy_id',
+				'terms'    => array(
+					wc_get_product_visibility_term_ids()['exclude-from-catalog'],
+				),
+				'operator' => 'NOT IN',
+			),
 		);
 
 		if ($tax_query) {
@@ -843,6 +859,10 @@ if (! function_exists('aboyuma_load_products')) {
 
 			while ($query->have_posts()) {
 				$query->the_post();
+				
+				// echo '<div style="border: 2px solid red; padding: 5px;">';
+				// echo esc_html(get_the_title());
+				// echo '</div>';
 
 				wc_get_template_part('content', 'product');
 			}

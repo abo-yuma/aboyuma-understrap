@@ -61,6 +61,7 @@ jQuery(function ($) {
 				subcategory_id: subcategoryId,
 			},
 			success: function (response) {
+				
 				if (!response.success) {
 					$results.html("<p>ไม่สามารถโหลดสินค้าได้</p>");
 					return;
@@ -68,7 +69,15 @@ jQuery(function ($) {
 
 				$results.html(response.data.html);
 
-				$resultCount.html("Showing all " + response.data.total + " results");
+				$resultCount.text(
+					"Showing " +
+						response.data.from +
+						"–" +
+						response.data.to +
+						" of " +
+						response.data.total +
+						" results",
+				);
 			},
 			error: function () {
 				$results.html("<p>เกิดข้อผิดพลาด</p>");
