@@ -9,7 +9,7 @@ figure.woocommerce-product-gallery__wrapper {
 }
 
 // Fix coupon code input width for cart, apply only to the cart as it will break the checkout field width
-@media(min-width: 768px) {
+@media (min-width: 768px) {
 	.woocommerce-cart #coupon_code.input-text {
 		width: 110px !important;
 	}
@@ -66,7 +66,7 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce form .form-row label {
 	// Override WooCommerce default styles.
-	@if variable-exists('bootstrap4') {
+	@if variable-exists("bootstrap4") {
 		&.custom-control-label {
 			line-height: inherit;
 		}
@@ -77,7 +77,7 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 }
 
-@if not variable-exists('bootstrap4') {
+@if not variable-exists("bootstrap4") {
 	// Override WooCommerce default styles.
 	.woocommerce form .form-row .checkbox {
 		&.form-check {
@@ -87,18 +87,15 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 	.woocommerce form .form-row .input-checkbox {
 		&.form-check-input {
-			$top: ($line-height-base - $form-check-input-width) * .5;
+			$top: ($line-height-base - $form-check-input-width) * 0.5;
 			$left: $form-check-padding-start * -1;
-			margin: $top 0 0 $left
+			margin: $top 0 0 $left;
 		}
 	}
 }
 
 // Accessibility requirement for color contrast
-.woocommerce div.product p.price,
-.woocommerce div.product span.price,
 .woocommerce div.product .stock,
-.woocommerce ul.products li.product .price,
 #add_payment_method .cart-collaterals .cart_totals .discount td,
 .woocommerce-cart .cart-collaterals .cart_totals .discount td,
 .woocommerce-checkout .cart-collaterals .cart_totals .discount td {
@@ -107,4 +104,55 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce-page form .show-password-input {
 	top: initial;
+}
+
+.woocommerce ul.products li.product .price del {
+	color: #dc3545;
+}
+
+.woocommerce ul.products li.product .price .member-price {
+	color: #198754;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+/**
+ * Equal image area for product cards.
+ */
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: contain;
+}
+
+/**
+ * Equal height of Woocommerce grid on archive/shop page
+ * Reference: 
+ * https://generatepress.com/forums/topic/equal-height-of-woocommerce-grid-on-archive-shop-page/#post-2007561
+ */
+
+// Make the product list a flexible row layout.
+// Products will wrap to the next row when there is not enough space.
+.woocommerce ul.products {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+// Make each product card a vertical flex container.
+// This allows the product content to be arranged from top to bottom.
+.woocommerce ul.products li.product {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
+}
+
+// Make the product link expand to fill the remaining vertical space.
+// This keeps the add-to-cart button aligned at the bottom
+// even when product titles have different heights.
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link {
+	flex: 1;
+}
+
+.woocommerce ul.products li.product .product-detail-link {
+	font-size: 0.875rem;
 }

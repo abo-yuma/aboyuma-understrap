@@ -48,6 +48,10 @@ add_action('woocommerce_after_main_content', 'understrap_woocommerce_wrapper_end
 remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
 // Remove the default product sorting and result count.
 remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+// Remove the default product archive pagination.
+remove_action('woocommerce_after_shop_loop', 'woocommerce_pagination', 10);
+
+add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
 
 if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	/**
@@ -857,8 +861,82 @@ if (! function_exists('aboyuma_load_products')) {
 			array(
 				'html'  => $product_html,
 				'total' => $total,
-				'test'  => 'PRODUCT-AJAX-V2',
 			)
 		);
+	}
+}
+
+/**
+ * Display WooCommerce pagination with Bootstrap styles.
+ */
+add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
+
+if (! function_exists('aboyuma_bootstrap_pagination')) {
+	function aboyuma_bootstrap_pagination() {
+
+		global $wp_query;
+
+		$total_pages = $wp_query->max_num_pages;
+
+		if ($total_pages <= 1) {
+			return;
+		}
+
+		$current_page = max(1, get_query_var('paged'));
+
+		$pagination = paginate_links(
+			array(
+				'base'      => str_replace(
+					999999999,
+					'%#%',
+					esc_url(get_pagenum_link(999999999))
+				),
+				'format'    => '?paged=%#%',
+				'current'   => $current_page,
+				'total'     => $total_pages,
+				'type'      => 'array',
+				'prev_text' => '&laquo;',
+				'next_text' => '&raquo;',
+			)
+		);
+
+		if (! $pagination) {
+			return;
+		}
+
+		echo '<nav aria-label="Product pagination">';
+		echo '<ul class="pagination">';
+
+		foreach ($pagination as $page) {
+
+			$class = 'page-item';
+
+			if (strpos($page, 'current') !== false) {
+				$class .= ' active';
+			}
+
+			if (strpos($page, 'dots') !== false) {
+				$class .= ' disabled';
+			}
+
+			$page = str_replace(
+				'<a',
+				'<a class="page-link"',
+				$page
+			);
+
+			$page = str_replace(
+				'<span',
+				'<span class="page-link"',
+				$page
+			);
+
+			echo '<li class="' . esc_attr($class) . '">';
+			echo $page;
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
 	}
 }
