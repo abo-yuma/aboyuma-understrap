@@ -805,6 +805,10 @@ if (! function_exists('aboyuma_load_products')) {
 			? absint($_POST['subcategory_id'])
 			: 0;
 
+		$page = isset($_POST['page'])
+			? max(1, absint($_POST['page']))
+			: 1;
+
 		$tax_query = array();
 
 		if ($subcategory_id) {
@@ -832,6 +836,7 @@ if (! function_exists('aboyuma_load_products')) {
 			),
 			'orderby'        => 'menu_order title',
 			'order'          => 'ASC',
+			'paged'          => $page,
 		);
 
 		$query_args['tax_query'] = array(
@@ -846,7 +851,10 @@ if (! function_exists('aboyuma_load_products')) {
 		);
 
 		if ($tax_query) {
-			$query_args['tax_query'] = $tax_query;
+			$query_args['tax_query'] = array_merge(
+				$query_args['tax_query'],
+				$tax_query
+			);
 		}
 
 		$query = new WP_Query($query_args);
@@ -859,7 +867,7 @@ if (! function_exists('aboyuma_load_products')) {
 
 			while ($query->have_posts()) {
 				$query->the_post();
-				
+
 				// echo '<div style="border: 2px solid red; padding: 5px;">';
 				// echo esc_html(get_the_title());
 				// echo '</div>';
@@ -877,10 +885,20 @@ if (! function_exists('aboyuma_load_products')) {
 
 		wp_reset_postdata();
 
+		ob_start();
+
+		aboyuma_bootstrap_pagination($query);
+
+		$pagination_html = ob_get_clean();
+
 		wp_send_json_success(
 			array(
 				'html'  => $product_html,
 				'total' => $total,
+				'current_page' => $page,
+				'max_pages'    => $query->max_num_pages,
+				'pagination' => $pagination_html,
+				'per_page'      => $query->get('posts_per_page'),
 			)
 		);
 	}
@@ -892,26 +910,26 @@ if (! function_exists('aboyuma_load_products')) {
 add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
 
 if (! function_exists('aboyuma_bootstrap_pagination')) {
-	function aboyuma_bootstrap_pagination() {
+	function aboyuma_bootstrap_pagination($query = null) {
 
 		global $wp_query;
 
-		$total_pages = $wp_query->max_num_pages;
+		if (! $query) {
+			$query = $wp_query;
+		}
+
+		$total_pages = $query->max_num_pages;
 
 		if ($total_pages <= 1) {
 			return;
 		}
 
-		$current_page = max(1, get_query_var('paged'));
+		$current_page = max(1, $query->get('paged'));
 
 		$pagination = paginate_links(
 			array(
-				'base'      => str_replace(
-					999999999,
-					'%#%',
-					esc_url(get_pagenum_link(999999999))
-				),
-				'format'    => '?paged=%#%',
+				'base'   => esc_url(wc_get_page_permalink('shop')) . '?page=%#%',
+				'format' => '',
 				'current'   => $current_page,
 				'total'     => $total_pages,
 				'type'      => 'array',
@@ -924,7 +942,7 @@ if (! function_exists('aboyuma_bootstrap_pagination')) {
 			return;
 		}
 
-		echo '<nav aria-label="Product pagination">';
+		echo '<nav id="product-pagination" aria-label="Product pagination">';
 		echo '<ul class="pagination">';
 
 		foreach ($pagination as $page) {

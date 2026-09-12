@@ -42,12 +42,11 @@ jQuery(function ($) {
 		});
 	});
 
-	$("#product-filter-submit").on("click", function () {
+	function loadProducts(page = 1) {
 		const categoryId = $("#product-category").val();
 		const subcategoryId = $("#product-subcategory").val();
 
 		const $results = $("#product-results");
-		const $resultCount = $("#product-result-count");
 
 		$results.html("<p>กำลังโหลด...</p>");
 
@@ -59,21 +58,31 @@ jQuery(function ($) {
 				nonce: aboyumaWooCommerce.nonce,
 				category_id: categoryId,
 				subcategory_id: subcategoryId,
+				page: page,
 			},
 			success: function (response) {
-				
 				if (!response.success) {
 					$results.html("<p>ไม่สามารถโหลดสินค้าได้</p>");
 					return;
 				}
 
 				$results.html(response.data.html);
+				$("#product-pagination").replaceWith(response.data.pagination);
 
-				$resultCount.text(
+				const perPage = response.data.per_page;
+
+				const from = (response.data.current_page - 1) * perPage + 1;
+
+				const to = Math.min(
+					response.data.current_page * perPage,
+					response.data.total,
+				);
+
+				$("#product-result-count").text(
 					"Showing " +
-						response.data.from +
+						from +
 						"–" +
-						response.data.to +
+						to +
 						" of " +
 						response.data.total +
 						" results",
@@ -83,5 +92,51 @@ jQuery(function ($) {
 				$results.html("<p>เกิดข้อผิดพลาด</p>");
 			},
 		});
+	}
+
+	$("#product-filter-submit").on("click", function () {
+		const categoryId = $("#product-category").val();
+		const subcategoryId = $("#product-subcategory").val();
+
+		const url = new URL(window.location.href);
+
+		url.searchParams.delete("page");
+
+		if (categoryId) {
+			url.searchParams.set("category", categoryId);
+		} else {
+			url.searchParams.delete("category");
+		}
+
+		if (subcategoryId) {
+			url.searchParams.set("subcategory", subcategoryId);
+		} else {
+			url.searchParams.delete("subcategory");
+		}
+
+		history.pushState({}, "", url);
+
+		loadProducts(1);
+	});
+
+	$(document).on("click", "#product-pagination a", function (e) {
+		e.preventDefault();
+
+		const pageUrl = new URL($(this).attr("href"));
+		const page = parseInt(pageUrl.searchParams.get("page"), 10) || 1;
+
+		const url = new URL(window.location.href);
+
+		url.searchParams.set("page", page);
+
+		history.pushState({}, "", url);
+
+		loadProducts(page);
+	});
+	$(window).on("popstate", function () {
+		const url = new URL(window.location.href);
+		const page = parseInt(url.searchParams.get("page"), 10) || 1;
+
+		loadProducts(page);
 	});
 });

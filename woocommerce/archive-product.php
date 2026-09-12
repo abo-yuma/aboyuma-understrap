@@ -49,53 +49,51 @@ $categories = get_terms(
 );
 ?>
 
-<div
-    id="product-category-filter"
-    class="d-flex gap-2 mb-4 align-items-center flex-wrap">
+<form id="product-category-filter" class="d-flex gap-2 mb-4 align-items-center flex-wrap">
 
-    <div>
-        <select
-            id="product-category"
-            class="form-select form-select-sm">
+    <select
+        id="product-category"
+        class="form-select form-select-sm"
+        style="width: 150px;">
 
-            <option value="">
-                เลือกหมวดหมู่
+        <option value="">
+            เลือกหมวดหมู่
+        </option>
+
+        <?php foreach ($categories as $category) : ?>
+
+            <option value="<?php echo esc_attr($category->term_id); ?>">
+                <?php echo esc_html($category->name); ?>
             </option>
 
-            <?php foreach ($categories as $category) : ?>
+        <?php endforeach; ?>
+    </select>
 
-                <option value="<?php echo esc_attr($category->term_id); ?>">
-                    <?php echo esc_html($category->name); ?>
-                </option>
+    <select
+        id="product-subcategory"
+        class="form-select form-select-sm"
+        style="width: 150px;"
+        disabled>
+        <option value="">
+            เลือกหมวดย่อย
+        </option>
+    </select>
 
-            <?php endforeach; ?>
+    <button
+        type="button"
+        id="product-filter-submit"
+        class="btn btn-light btn-sm">
+        ค้นหา
+    </button>
 
-        </select>
-    </div>
+    <button
+        type="reset"
+        id="product-filter-reset"
+        class="btn btn-outline-secondary btn-sm">
+        รีเซ็ต
+    </button>
 
-    <div>
-        <select
-            id="product-subcategory"
-            class="form-select form-select-sm"
-            disabled>
-
-            <option value="">
-                เลือกหมวดย่อย
-            </option>
-
-        </select>
-    </div>
-
-    <div>
-        <button
-            type="button"
-            id="product-filter-submit"
-            class="btn btn-light btn-sm">
-            ค้นหา
-        </button>
-    </div>
-
-</div>
+</form>
 
 <?php
 
