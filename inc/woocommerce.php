@@ -44,6 +44,15 @@ remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrap
 add_action('woocommerce_before_main_content', 'understrap_woocommerce_wrapper_start', 10);
 add_action('woocommerce_after_main_content', 'understrap_woocommerce_wrapper_end', 10);
 
+// Remove the default product sorting dropdown.
+remove_action('woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30);
+// Remove the default product sorting and result count.
+remove_action('woocommerce_before_shop_loop', 'woocommerce_result_count', 20);
+// Remove the default product archive pagination.
+remove_action('woocommerce_after_shop_loop', 'woocommerce_pagination', 10);
+
+add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
+
 if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	/**
 	 * Display the theme specific start of the page wrapper.
@@ -344,9 +353,9 @@ if (! function_exists('understrap_loop_add_to_cart_args')) {
 				$args['class'] = implode(' ', $args['class']);
 			}
 
-			$args['class'] .= ' btn btn-outline-primary';
+			$args['class'] .= ' btn btn-outline-primary btn-sm';
 		} else {
-			$args['class'] = 'btn btn-outline-primary';
+			$args['class'] = 'btn btn-outline-primary btn-sm';
 		}
 
 		if ('bootstrap4' === get_theme_mod('understrap_bootstrap_version', 'bootstrap4')) {
@@ -691,7 +700,7 @@ if (! function_exists('aboyuma_product_video_meta_box')) {
 			class="widefat"
 			placeholder="https://www.youtube.com/watch?v=...">
 
-<?php
+		<?php
 	}
 }
 
@@ -723,5 +732,249 @@ if (! function_exists('aboyuma_save_product_video')) {
 				}
 			}
 		}
+	}
+}
+
+/**
+ * Load product subcategories via AJAX.
+ */
+add_action('wp_ajax_aboyuma_load_subcategories', 'aboyuma_load_subcategories');
+add_action('wp_ajax_nopriv_aboyuma_load_subcategories', 'aboyuma_load_subcategories');
+
+if (! function_exists('aboyuma_load_subcategories')) {
+	/**
+	 * Load subcategories for selected product category.
+	 */
+	function aboyuma_load_subcategories() {
+
+		check_ajax_referer('aboyuma_product_filter', 'nonce');
+
+		$category_id = isset($_POST['category_id'])
+			? absint($_POST['category_id'])
+			: 0;
+
+		$subcategories = get_terms(
+			array(
+				'taxonomy'   => 'product_cat',
+				'parent'     => $category_id,
+				'hide_empty' => true,
+			)
+		);
+
+		if (is_wp_error($subcategories)) {
+			wp_send_json_error();
+		}
+
+		ob_start();
+
+		foreach ($subcategories as $subcategory) {
+		?>
+			<option value="<?php echo esc_attr($subcategory->term_id); ?>">
+				<?php echo esc_html($subcategory->name); ?>
+			</option>
+<?php
+		}
+
+		wp_send_json_success(
+			array(
+				'html' => ob_get_clean(),
+			)
+		);
+	}
+}
+
+/**
+ * Load products via AJAX.
+ */
+add_action('wp_ajax_aboyuma_load_products', 'aboyuma_load_products');
+add_action('wp_ajax_nopriv_aboyuma_load_products', 'aboyuma_load_products');
+
+if (! function_exists('aboyuma_load_products')) {
+	/**
+	 * Load filtered products.
+	 */
+	function aboyuma_load_products() {
+
+		check_ajax_referer('aboyuma_product_filter', 'nonce');
+
+		$category_id = isset($_POST['category_id'])
+			? absint($_POST['category_id'])
+			: 0;
+
+		$subcategory_id = isset($_POST['subcategory_id'])
+			? absint($_POST['subcategory_id'])
+			: 0;
+
+		$page = isset($_POST['page'])
+			? max(1, absint($_POST['page']))
+			: 1;
+
+		$tax_query = array();
+
+		if ($subcategory_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $subcategory_id,
+				'include_children' => false,
+			);
+		} elseif ($category_id) {
+			$tax_query[] = array(
+				'taxonomy'         => 'product_cat',
+				'field'            => 'term_id',
+				'terms'            => $category_id,
+				'include_children' => true,
+			);
+		}
+
+		$query_args = array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => apply_filters(
+				'loop_shop_per_page',
+				wc_get_default_products_per_row() * wc_get_default_product_rows_per_page()
+			),
+			'orderby'        => 'menu_order title',
+			'order'          => 'ASC',
+			'paged'          => $page,
+		);
+
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => 'product_visibility',
+				'field'    => 'term_taxonomy_id',
+				'terms'    => array(
+					wc_get_product_visibility_term_ids()['exclude-from-catalog'],
+				),
+				'operator' => 'NOT IN',
+			),
+		);
+
+		if ($tax_query) {
+			$query_args['tax_query'] = array_merge(
+				$query_args['tax_query'],
+				$tax_query
+			);
+		}
+
+		$query = new WP_Query($query_args);
+
+		ob_start();
+
+		if ($query->have_posts()) {
+
+			woocommerce_product_loop_start();
+
+			while ($query->have_posts()) {
+				$query->the_post();
+
+				// echo '<div style="border: 2px solid red; padding: 5px;">';
+				// echo esc_html(get_the_title());
+				// echo '</div>';
+
+				wc_get_template_part('content', 'product');
+			}
+
+			woocommerce_product_loop_end();
+		} else {
+			do_action('woocommerce_no_products_found');
+		}
+
+		$product_html = ob_get_clean();
+		$total = $query->found_posts;
+
+		wp_reset_postdata();
+
+		ob_start();
+
+		aboyuma_bootstrap_pagination($query);
+
+		$pagination_html = ob_get_clean();
+
+		wp_send_json_success(
+			array(
+				'html'  => $product_html,
+				'total' => $total,
+				'current_page' => $page,
+				'max_pages'    => $query->max_num_pages,
+				'pagination' => $pagination_html,
+				'per_page'      => $query->get('posts_per_page'),
+			)
+		);
+	}
+}
+
+/**
+ * Display WooCommerce pagination with Bootstrap styles.
+ */
+add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
+
+if (! function_exists('aboyuma_bootstrap_pagination')) {
+	function aboyuma_bootstrap_pagination($query = null) {
+
+		global $wp_query;
+
+		if (! $query) {
+			$query = $wp_query;
+		}
+
+		$total_pages = $query->max_num_pages;
+
+		if ($total_pages <= 1) {
+			return;
+		}
+
+		$current_page = max(1, $query->get('paged'));
+
+		$pagination = paginate_links(
+			array(
+				'base'   => esc_url(wc_get_page_permalink('shop')) . '?page=%#%',
+				'format' => '',
+				'current'   => $current_page,
+				'total'     => $total_pages,
+				'type'      => 'array',
+				'prev_text' => '&laquo;',
+				'next_text' => '&raquo;',
+			)
+		);
+
+		if (! $pagination) {
+			return;
+		}
+
+		echo '<nav id="product-pagination" aria-label="Product pagination">';
+		echo '<ul class="pagination">';
+
+		foreach ($pagination as $page) {
+
+			$class = 'page-item';
+
+			if (strpos($page, 'current') !== false) {
+				$class .= ' active';
+			}
+
+			if (strpos($page, 'dots') !== false) {
+				$class .= ' disabled';
+			}
+
+			$page = str_replace(
+				'<a',
+				'<a class="page-link"',
+				$page
+			);
+
+			$page = str_replace(
+				'<span',
+				'<span class="page-link"',
+				$page
+			);
+
+			echo '<li class="' . esc_attr($class) . '">';
+			echo $page;
+			echo '</li>';
+		}
+
+		echo '</ul>';
+		echo '</nav>';
 	}
 }
