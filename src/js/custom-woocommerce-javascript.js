@@ -1,6 +1,12 @@
 jQuery(function ($) {
-	$("#product-category").on("change", function () {
-		const categoryId = $(this).val();
+	/**
+	 * Load product subcategories via AJAX.
+	 */
+	function loadSubcategories(
+		categoryId,
+		selectedSubcategoryId = "",
+		callback = null,
+	) {
 		const $subcategory = $("#product-subcategory");
 
 		$subcategory
@@ -11,6 +17,10 @@ jQuery(function ($) {
 			$subcategory
 				.html('<option value="">เลือกหมวดย่อย</option>')
 				.prop("disabled", true);
+
+			if (callback) {
+				callback();
+			}
 
 			return;
 		}
@@ -25,7 +35,13 @@ jQuery(function ($) {
 			},
 			success: function (response) {
 				if (!response.success) {
-					$subcategory.html('<option value="">ไม่พบหมวดย่อย</option>');
+					$subcategory
+						.html('<option value="">ไม่พบหมวดย่อย</option>')
+						.prop("disabled", true);
+
+					if (callback) {
+						callback();
+					}
 
 					return;
 				}
@@ -34,14 +50,41 @@ jQuery(function ($) {
 					'<option value="">เลือกหมวดย่อย</option>' + response.data.html,
 				);
 
+				// Restore selected subcategory.
+				if (selectedSubcategoryId) {
+					$subcategory.val(selectedSubcategoryId);
+				}
+
 				$subcategory.prop("disabled", false);
+
+				if (callback) {
+					callback();
+				}
 			},
 			error: function () {
-				$subcategory.html('<option value="">เกิดข้อผิดพลาด</option>');
+				$subcategory
+					.html('<option value="">เกิดข้อผิดพลาด</option>')
+					.prop("disabled", true);
+
+				if (callback) {
+					callback();
+				}
 			},
 		});
+	}
+
+	/**
+	 * Handle product category change.
+	 */
+	$("#product-category").on("change", function () {
+		const categoryId = $(this).val();
+
+		loadSubcategories(categoryId);
 	});
 
+	/**
+	 * Load products via AJAX.
+	 */
 	function loadProducts(page = 1) {
 		const categoryId = $("#product-category").val();
 		const subcategoryId = $("#product-subcategory").val();
@@ -67,6 +110,7 @@ jQuery(function ($) {
 				}
 
 				$results.html(response.data.html);
+
 				const $pagination = $("#product-pagination");
 
 				if ($pagination.length) {
@@ -76,22 +120,19 @@ jQuery(function ($) {
 				}
 
 				const perPage = response.data.per_page;
+				const total = response.data.total;
 
-				const from = (response.data.current_page - 1) * perPage + 1;
+				let from = 0;
+				let to = 0;
 
-				const to = Math.min(
-					response.data.current_page * perPage,
-					response.data.total,
-				);
+				if (total > 0) {
+					from = (response.data.current_page - 1) * perPage + 1;
+
+					to = Math.min(response.data.current_page * perPage, total);
+				}
 
 				$("#product-result-count").text(
-					"Showing " +
-						from +
-						"–" +
-						to +
-						" of " +
-						response.data.total +
-						" results",
+					"Showing " + from + "–" + to + " of " + total + " results",
 				);
 			},
 			error: function () {
@@ -100,12 +141,40 @@ jQuery(function ($) {
 		});
 	}
 
+	/**
+	 * Restore product filters and pagination from URL.
+	 */
+	function applyFilterFromURL() {
+		const url = new URL(window.location.href);
+
+		const categoryId = url.searchParams.get("category") || "";
+		const subcategoryId = url.searchParams.get("subcategory") || "";
+
+		// Restore category.
+		$("#product-category").val(categoryId);
+
+		if (categoryId) {
+			// Load subcategories and restore the selected subcategory.
+			loadSubcategories(categoryId, subcategoryId);
+		} else {
+			// Reset subcategory when no category is selected.
+			$("#product-subcategory")
+				.html('<option value="">เลือกหมวดย่อย</option>')
+				.prop("disabled", true);
+
+		}
+	}
+
+	/**
+	 * Apply product filters.
+	 */
 	$("#product-filter-submit").on("click", function () {
 		const categoryId = $("#product-category").val();
 		const subcategoryId = $("#product-subcategory").val();
 
 		const url = new URL(window.location.href);
 
+		// Reset pagination when applying a new filter.
 		url.searchParams.delete("page");
 
 		if (categoryId) {
@@ -125,6 +194,9 @@ jQuery(function ($) {
 		loadProducts(1);
 	});
 
+	/**
+	 * Handle product pagination.
+	 */
 	$(document).on("click", "#product-pagination a", function (e) {
 		e.preventDefault();
 
@@ -139,10 +211,16 @@ jQuery(function ($) {
 
 		loadProducts(page);
 	});
-	$(window).on("popstate", function () {
-		const url = new URL(window.location.href);
-		const page = parseInt(url.searchParams.get("page"), 10) || 1;
 
-		loadProducts(page);
+	/**
+	 * Restore filters when browser history changes.
+	 */
+	$(window).on("popstate", function () {
+		applyFilterFromURL();
 	});
+
+	/**
+	 * Restore filters on initial page load.
+	 */
+	applyFilterFromURL();
 });
