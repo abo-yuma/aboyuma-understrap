@@ -67,7 +67,13 @@ jQuery(function ($) {
 				}
 
 				$results.html(response.data.html);
-				$("#product-pagination").replaceWith(response.data.pagination);
+				const $pagination = $("#product-pagination");
+
+				if ($pagination.length) {
+					$pagination.replaceWith(response.data.pagination);
+				} else if (response.data.pagination) {
+					$("#product-results").after(response.data.pagination);
+				}
 
 				const perPage = response.data.per_page;
 
