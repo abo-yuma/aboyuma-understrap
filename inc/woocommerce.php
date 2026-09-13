@@ -834,18 +834,26 @@ if (! function_exists('aboyuma_load_products')) {
 				'loop_shop_per_page',
 				wc_get_default_products_per_row() * wc_get_default_product_rows_per_page()
 			),
-			'orderby'        => 'menu_order title',
-			'order'          => 'ASC',
+			'orderby'        => 'date',
+			'order'          => 'DESC',
 			'paged'          => $page,
 		);
+
+		$visibility_terms = wc_get_product_visibility_term_ids();
+
+		$exclude_visibility = array(
+			$visibility_terms['exclude-from-catalog'],
+		);
+
+		if ('yes' === get_option('woocommerce_hide_out_of_stock_items')) {
+			$exclude_visibility[] = $visibility_terms['outofstock'];
+		}
 
 		$query_args['tax_query'] = array(
 			array(
 				'taxonomy' => 'product_visibility',
 				'field'    => 'term_taxonomy_id',
-				'terms'    => array(
-					wc_get_product_visibility_term_ids()['exclude-from-catalog'],
-				),
+				'terms'    => $exclude_visibility,
 				'operator' => 'NOT IN',
 			),
 		);
@@ -976,5 +984,72 @@ if (! function_exists('aboyuma_bootstrap_pagination')) {
 
 		echo '</ul>';
 		echo '</nav>';
+	}
+}
+
+/**
+ * Set default product archive sorting and filtering.
+ *
+ * Sort products by publish date, newest first.
+ * Apply product category from the URL on the initial page load.
+ */
+add_action('pre_get_posts', 'aboyuma_product_archive_order');
+
+if (! function_exists('aboyuma_product_archive_order')) {
+	function aboyuma_product_archive_order($query) {
+
+		if (
+			is_admin()
+			|| ! $query->is_main_query()
+			|| ! is_shop()
+		) {
+			return;
+		}
+
+		// Sort products by newest first.
+		$query->set('orderby', 'date');
+		$query->set('order', 'DESC');
+
+		// Get page from URL.
+		$page = isset($_GET['page'])
+			? max(1, absint($_GET['page']))
+			: 1;
+
+		$query->set('paged', $page);
+
+		// Get filters from URL.
+		$category_id = isset($_GET['category'])
+			? absint($_GET['category'])
+			: 0;
+
+		$subcategory_id = isset($_GET['subcategory'])
+			? absint($_GET['subcategory'])
+			: 0;
+
+		if ($subcategory_id) {
+			$query->set(
+				'tax_query',
+				array(
+					array(
+						'taxonomy'         => 'product_cat',
+						'field'            => 'term_id',
+						'terms'            => $subcategory_id,
+						'include_children' => false,
+					),
+				)
+			);
+		} elseif ($category_id) {
+			$query->set(
+				'tax_query',
+				array(
+					array(
+						'taxonomy'         => 'product_cat',
+						'field'            => 'term_id',
+						'terms'            => $category_id,
+						'include_children' => true,
+					),
+				)
+			);
+		}
 	}
 }
