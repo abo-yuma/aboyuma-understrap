@@ -106,14 +106,8 @@ figure.woocommerce-product-gallery__wrapper {
 	top: initial;
 }
 
-.woocommerce ul.products li.product .price del {
-	color: #dc3545;
-}
-
-.woocommerce ul.products li.product .price .member-price {
-	color: #198754;
-	font-weight: 600;
-	text-decoration: none;
+.woocommerce ul.products li.product .price {
+	color: var(--bs-body-color);
 }
 
 /**
@@ -153,6 +147,6 @@ figure.woocommerce-product-gallery__wrapper {
 	flex: 1;
 }
 
-.woocommerce ul.products li.product .product-detail-link {
-	font-size: 0.875rem;
+.woocommerce ul.products li.product .product-detail-link:hover {
+	text-decoration: underline;
 }
