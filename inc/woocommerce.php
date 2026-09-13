@@ -839,13 +839,21 @@ if (! function_exists('aboyuma_load_products')) {
 			'paged'          => $page,
 		);
 
+		$visibility_terms = wc_get_product_visibility_term_ids();
+
+		$exclude_visibility = array(
+			$visibility_terms['exclude-from-catalog'],
+		);
+
+		if ('yes' === get_option('woocommerce_hide_out_of_stock_items')) {
+			$exclude_visibility[] = $visibility_terms['outofstock'];
+		}
+
 		$query_args['tax_query'] = array(
 			array(
 				'taxonomy' => 'product_visibility',
 				'field'    => 'term_taxonomy_id',
-				'terms'    => array(
-					wc_get_product_visibility_term_ids()['exclude-from-catalog'],
-				),
+				'terms'    => $exclude_visibility,
 				'operator' => 'NOT IN',
 			),
 		);
