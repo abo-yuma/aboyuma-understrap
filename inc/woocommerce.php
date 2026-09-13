@@ -53,6 +53,19 @@ remove_action('woocommerce_after_shop_loop', 'woocommerce_pagination', 10);
 
 add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
 
+/**
+ * Remove WooCommerce smallscreen styles.
+ */
+add_filter('woocommerce_enqueue_styles', 'aboyuma_remove_smallscreen_styles');
+
+if (! function_exists('aboyuma_remove_smallscreen_styles')) {
+	function aboyuma_remove_smallscreen_styles($enqueue_styles) {
+		unset($enqueue_styles['woocommerce-smallscreen']);
+
+		return $enqueue_styles;
+	}
+}
+
 if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	/**
 	 * Display the theme specific start of the page wrapper.
@@ -1051,5 +1064,60 @@ if (! function_exists('aboyuma_product_archive_order')) {
 				)
 			);
 		}
+	}
+}
+
+/**
+ * Display a product detail link in the product loop.
+ */
+add_action(
+	'woocommerce_after_shop_loop_item',
+	'aboyuma_product_detail_link',
+	7
+);
+
+if (! function_exists('aboyuma_product_detail_link')) {
+	function aboyuma_product_detail_link() {
+		echo sprintf(
+			'<a href="%s" class="product-detail-link small mb-2">%s</a>',
+			esc_url(get_permalink()),
+			esc_html__('ดูรายละเอียด →', 'aboyuma')
+		);
+	}
+}
+
+/**
+ * Display member price in product loop.
+ */
+add_filter(
+	'woocommerce_get_price_html',
+	'aboyuma_member_price_html',
+	10,
+	2
+);
+
+if (! function_exists('aboyuma_member_price_html')) {
+	function aboyuma_member_price_html($price_html, $product) {
+
+		$member_price = $product->get_meta('_member_price');
+
+		if ('' === $member_price) {
+			return $price_html;
+		}
+
+		$regular_price = $product->get_regular_price();
+
+		if ('' === $regular_price) {
+			return $price_html;
+		}
+
+		return sprintf(
+			'<del>%s</del><br>
+			<span class="member-price">🪪 %s</span>
+			<br>
+			<small class="text-muted">*เฉพาะสมาชิกแอมเวย์</small>',
+			wc_price($regular_price),
+			wc_price($member_price)
+		);
 	}
 }

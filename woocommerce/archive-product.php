@@ -82,14 +82,14 @@ $categories = get_terms(
     <button
         type="button"
         id="product-filter-submit"
-        class="btn btn-light btn-sm">
+        class="btn btn-primary btn-sm">
         ค้นหา
     </button>
 
     <button
         type="reset"
         id="product-filter-reset"
-        class="btn btn-outline-secondary btn-sm">
+        class="btn btn-secondary btn-sm">
         รีเซ็ต
     </button>
 
