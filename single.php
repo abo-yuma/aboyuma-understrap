@@ -115,7 +115,7 @@ $container_classes = $container . ' py-0';
 
 						<a
 							href="<?php echo esc_url(home_url('/')); ?>"
-							class="btn btn-sm btn-outline-primary">
+							class="back-to-home-link">
 
 							← กลับหน้าหลัก
 

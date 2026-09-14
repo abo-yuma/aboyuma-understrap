@@ -366,9 +366,9 @@ if (! function_exists('understrap_loop_add_to_cart_args')) {
 				$args['class'] = implode(' ', $args['class']);
 			}
 
-			$args['class'] .= ' btn btn-outline-primary btn-sm';
+			$args['class'] .= ' btn btn-primary btn-sm';
 		} else {
-			$args['class'] = 'btn btn-outline-primary btn-sm';
+			$args['class'] = 'btn btn-primary btn-sm';
 		}
 
 		if ('bootstrap4' === get_theme_mod('understrap_bootstrap_version', 'bootstrap4')) {
@@ -1121,3 +1121,50 @@ if (! function_exists('aboyuma_member_price_html')) {
 		);
 	}
 }
+
+/**
+ * Open external product links in a new tab.
+ */
+add_filter(
+	'woocommerce_loop_add_to_cart_args',
+	'aboyuma_external_product_add_to_cart_args',
+	20,
+	2
+);
+
+if (! function_exists('aboyuma_external_product_add_to_cart_args')) {
+	function aboyuma_external_product_add_to_cart_args($args, $product) {
+
+		if (! $product || ! $product->is_type('external')) {
+			return $args;
+		}
+
+		// Open external product in a new tab.
+		$args['attributes']['target'] = '_blank';
+		$args['attributes']['rel']    = 'noopener noreferrer';
+
+		return $args;
+	}
+}
+
+/*
+ * Remove pagination from WooCommerce breadcrumbs.
+ *
+ * AJAX pagination does not represent a new page in the
+ * breadcrumb hierarchy, so the WooCommerce pagination crumb
+ * is not needed.
+ */
+add_filter('woocommerce_get_breadcrumb', function ($crumbs) {
+
+	foreach ($crumbs as $key => $crumb) {
+
+		if (
+			isset($crumb[0]) &&
+			preg_match('/^Page \d+$/', $crumb[0])
+		) {
+			unset($crumbs[$key]);
+		}
+	}
+
+	return array_values($crumbs);
+});
