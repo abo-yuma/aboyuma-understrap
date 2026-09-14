@@ -22,7 +22,7 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card border-0 bg-secondary-subtle">
+		<div class="card border-0">
 			<!-- Avatar -->
 			<?php
 			echo get_avatar(
@@ -36,7 +36,7 @@
 			);
 			?>
 
-			<div class="card-body">
+			<div class="card-body p-0 pt-3">
 
 				<!-- Name -->
 				<h3 class="mb-1 text-uppercase fs-6">
@@ -56,12 +56,12 @@
 
 			<?php if (! empty($about_me_page_url) || ! empty($support_me_page_url)) : ?>
 
-				<div class="card-footer bg-transparent d-flex justify-content-between small">
+				<div class="card-footer profile-actions bg-transparent d-flex">
 
 					<?php if (! empty($about_me_page_url)) : ?>
 						<a
 							href="<?php echo esc_url($about_me_page_url); ?>"
-							class="text-decoration-none">
+							class="btn btn-light">
 							🙋 เกี่ยวกับเรา
 						</a>
 					<?php endif; ?>
@@ -69,7 +69,7 @@
 					<?php if (! empty($support_me_page_url)) : ?>
 						<a
 							href="<?php echo esc_url($support_me_page_url); ?>"
-							class="text-decoration-none">
+							class="btn btn-light">
 							❤️ สนับสนุนเรา
 						</a>
 					<?php endif; ?>

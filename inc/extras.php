@@ -245,77 +245,100 @@ if (! function_exists('understrap_all_excerpts_get_more_link')) {
 
 		$permalink = esc_url(get_permalink((int) get_the_ID())); // @phpstan-ignore-line -- post exists
 
-		return $post_excerpt . ' [...]<p class="text-end"><a class="btn btn-sm btn-outline-primary" href="' . $permalink . '">' . __(
+		return $post_excerpt . ' [...]<p class="text-end"><a class="read-more-link" href="' . $permalink . '">' . __(
 			'อ่านบทความ →',
 			'understrap'
 		) . '<span class="screen-reader-text"> from ' . get_the_title(get_the_ID()) . '</span></a></p>';
 	}
 }
 
-// Breadcrumbs
-// Reference: https://dev.to/readymadecode/how-to-create-breadcrumb-in-wordpress-without-plugin-45jn
+/**
+ * Breadcrumbs
+ *
+ * The breadcrumb logic is inspired by WooCommerce's `WC_Breadcrumb`
+ * implementation:
+ *
+ * - Build breadcrumb items from the current page hierarchy.
+ * - Resolve parent and ancestor items before the current item.
+ * - Store breadcrumb items before rendering them.
+ *
+ * WooCommerce reference:
+ * https://github.com/woocommerce/woocommerce/blob/trunk/plugins/woocommerce/includes/class-wc-breadcrumb.php
+ *
+ * WooCommerce pages use WooCommerce's own `woocommerce_breadcrumb()`.
+ * This function handles only the theme's WordPress content.
+ */
 function get_breadcrumb() {
 
-	echo '<a href="' . esc_url(home_url()) . '">หน้าหลัก</a>';
+	$breadcrumbs = array();
 
 	/**
-	 * Virtual Product Page
+	 * Home
 	 *
-	 * TODO: Reduce theme-plugin coupling.
-	 *
-	 * This code currently accesses product data directly. When the plugin
-	 * exposes a public API (e.g. aboyuma_get_current_product()), update this
-	 * section to use the API instead of querying the data source directly.
+	 * The first breadcrumb item is always the homepage.
 	 */
-	if (get_query_var('product')) {
+	$breadcrumbs[] = array(
+		'name' => 'Home',
+		'url'  => home_url(),
+	);
 
-		global $wpdb;
+	/**
+	 * Category Archive
+	 *
+	 * Example:
+	 * Home / News / Technology / WordPress
+	 *
+	 * Include parent categories to preserve the category hierarchy.
+	 */
+	if (is_category()) {
 
-		$table_name = $wpdb->prefix . 'aboyuma_product';
+		$category = get_queried_object();
 
-		if (
-			! $wpdb->get_var(
-				$wpdb->prepare(
-					"SHOW TABLES LIKE %s",
-					$table_name
-				)
-			)
-		) {
-			return;
+		if ($category instanceof WP_Term) {
+
+			// Get parent category IDs.
+			$ancestors = get_ancestors(
+				$category->term_id,
+				'category'
+			);
+
+			// Reverse so the hierarchy goes from parent → child.
+			$ancestors = array_reverse($ancestors);
+
+			foreach ($ancestors as $ancestor_id) {
+
+				$ancestor = get_term(
+					$ancestor_id,
+					'category'
+				);
+
+				if (
+					$ancestor &&
+					! is_wp_error($ancestor)
+				) {
+					$breadcrumbs[] = array(
+						'name' => $ancestor->name,
+						'url'  => get_term_link($ancestor),
+					);
+				}
+			}
+
+			// Current category.
+			$breadcrumbs[] = array(
+				'name' => $category->name,
+				'url'  => get_term_link($category),
+			);
 		}
 
-		$product = $wpdb->get_row(
-			$wpdb->prepare(
-				"SELECT *
-				FROM {$table_name}
-				WHERE product_slug = %s
-				LIMIT 1",
-				get_query_var('product')
-			)
-		);
-
-		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-
-		// query current page
-		$page = get_queried_object();
-		/** @var \WP_Post|null $page */
-		if ($page instanceof WP_Post) {
-			echo '<a href="' . esc_url(get_permalink($page->ID)) . '">'
-				. esc_html($page->post_title)
-				. '</a>';
-		}
-
-		if ($product) {
-			echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-			echo esc_html($product->product_name);
-		}
-
-		return;
-	}
-
-	if (is_category() || is_single()) {
-
-		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
+		/**
+		 * Single Post
+		 *
+		 * Example:
+		 * Home / News / Technology / My Post
+		 *
+		 * The first non-system category is used as the primary category.
+		 */
+	} elseif (is_single()) {
 
 		$categories = get_the_category();
 
@@ -325,36 +348,151 @@ function get_breadcrumb() {
 
 			foreach ($categories as $category) {
 
-				// ignore system categories
-				if ($category->slug !== 'featured' && $category->slug !== 'uncategorized') {
+				// Ignore system categories.
+				if (
+					$category->slug !== 'featured' &&
+					$category->slug !== 'uncategorized'
+				) {
 					$primary = $category;
 					break;
 				}
 			}
 
-			// fallback if all categories ignored
+			// Fallback if all categories are ignored.
 			if (!$primary) {
 				$primary = $categories[0];
 			}
 
-			echo '<a href="' . esc_url(get_category_link($primary->term_id)) . '">'
-				. esc_html($primary->cat_name) .
-				'</a>';
+			/**
+			 * Category hierarchy
+			 *
+			 * Include parent categories before the primary category.
+			 */
+			$ancestors = get_ancestors(
+				$primary->term_id,
+				'category'
+			);
+
+			$ancestors = array_reverse($ancestors);
+
+			foreach ($ancestors as $ancestor_id) {
+
+				$ancestor = get_term(
+					$ancestor_id,
+					'category'
+				);
+
+				if (
+					$ancestor &&
+					! is_wp_error($ancestor)
+				) {
+					$breadcrumbs[] = array(
+						'name' => $ancestor->name,
+						'url'  => get_term_link($ancestor),
+					);
+				}
+			}
+
+			// Primary category.
+			$breadcrumbs[] = array(
+				'name' => $primary->name,
+				'url'  => get_term_link($primary),
+			);
 		}
 
-		// show post title
-		if (is_single()) {
-			echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-			the_title();
-		}
+		// Current post.
+		$breadcrumbs[] = array(
+			'name' => get_the_title(),
+			'url'  => get_permalink(),
+		);
+
+		/**
+		 * Page
+		 *
+		 * Example:
+		 * Home / About / Team / Our Story
+		 *
+		 * Follow the WordPress parent-page hierarchy.
+		 */
 	} elseif (is_page()) {
 
-		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp; ';
-		the_title();
+		global $post;
+
+		$parent_crumbs = array();
+		$parent_id = $post->post_parent;
+
+		while ($parent_id) {
+
+			$parent = get_post($parent_id);
+
+			if (!$parent) {
+				break;
+			}
+
+			$parent_crumbs[] = array(
+				'name' => get_the_title($parent->ID),
+				'url'  => get_permalink($parent->ID),
+			);
+
+			$parent_id = $parent->post_parent;
+		}
+
+		// Reverse parent pages so they appear in the correct hierarchy.
+		$parent_crumbs = array_reverse($parent_crumbs);
+
+		foreach ($parent_crumbs as $crumb) {
+			$breadcrumbs[] = $crumb;
+		}
+
+		// Current page.
+		$breadcrumbs[] = array(
+			'name' => get_the_title(),
+			'url'  => get_permalink(),
+		);
+
+		/**
+		 * Search
+		 *
+		 * Example:
+		 * Home / Search Results for "WordPress"
+		 */
 	} elseif (is_search()) {
 
-		echo ' &nbsp;&nbsp;&#187;&nbsp;&nbsp;Search Results for ';
-		echo '"<em>' . esc_html(get_search_query()) . '</em>"';
+		$breadcrumbs[] = array(
+			'name' => 'Search Results for "' . get_search_query() . '"',
+			'url'  => '',
+		);
+	}
+
+	/**
+	 * Render Breadcrumbs
+	 *
+	 * Use the same delimiter style as WooCommerce:
+	 * &nbsp;&nbsp;/&nbsp;&nbsp;
+	 */
+	foreach ($breadcrumbs as $index => $crumb) {
+
+		// Add separator before every item except Home.
+		if ($index > 0) {
+			echo ' &nbsp;&nbsp;/&nbsp;&nbsp;';
+		}
+
+		// The last breadcrumb represents the current page,
+		// so it should not be linked.
+		$is_last = ($index === count($breadcrumbs) - 1);
+
+		if (
+			! $is_last &&
+			! empty($crumb['url'])
+		) {
+
+			echo '<a href="' . esc_url($crumb['url']) . '">'
+				. esc_html($crumb['name'])
+				. '</a>';
+		} else {
+
+			echo esc_html($crumb['name']);
+		}
 	}
 }
 

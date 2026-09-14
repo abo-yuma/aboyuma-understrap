@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
 
 	<header class="entry-header">
 
-		<nav class="breadcrumb mb-2" aria-label="breadcrumb">
+		<nav class="breadcrumb" aria-label="breadcrumb">
 			<?php
 			get_breadcrumb();
 			?>

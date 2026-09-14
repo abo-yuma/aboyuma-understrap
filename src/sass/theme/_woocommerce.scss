@@ -110,6 +110,11 @@ figure.woocommerce-product-gallery__wrapper {
 	color: var(--bs-body-color);
 }
 
+.woocommerce ul.products li.product .price .member-price {
+	font-weight: 700;
+	text-decoration: underline;
+}
+
 /**
  * Equal image area for product cards.
  */
@@ -147,6 +152,6 @@ figure.woocommerce-product-gallery__wrapper {
 	flex: 1;
 }
 
-.woocommerce ul.products li.product .product-detail-link:hover {
-	text-decoration: underline;
+.woocommerce ul.products li.product .product-detail-link {
+	font-size: 0.875rem;
 }
