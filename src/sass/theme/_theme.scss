@@ -61,6 +61,42 @@ h6 {
 	letter-spacing: 2px;
 }
 
+.wrapper-header {
+	background-color: #fff;
+}
+
+#main-header {
+	min-height: 90px;
+	padding: 0 1rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.header-brand {
+	.header-title {
+		font-size: 1.75rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+	}
+}
+
+.header-info {
+	text-align: right;
+
+	.header-subtitle {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+	.header-description {
+		font-size: 0.875rem;
+		margin-top: 0.25rem;
+		color: #666;
+	}
+}
+
 #main-image {
 	position: relative;
 }
@@ -718,7 +754,6 @@ footer {
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
 	background-color: #c4d9e8;
-	border: 1px solid #d0d7de;
 	border-top: none;
 	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
 }
@@ -1161,11 +1196,12 @@ ul {
 
 /* link style */
 
-/* link style */
-
 :is(.entry-title, .entry-meta, .related-posts, .widget) a {
-	color: var(--bs-body-color);
 	text-decoration: none;
+}
+
+.related-posts a h3 {
+	color: inherit;
 }
 
 .back-to-home-link,
@@ -1173,22 +1209,20 @@ ul {
 	text-decoration: none;
 }
 
-:is(.entry-title, .entry-meta, .related-posts, .widget)
-	a:is(:hover, :focus-visible),
-.back-to-home-link:is(:hover, :focus-visible),
-.read-more-link:is(:hover, :focus-visible) {
-	text-decoration: underline;
-}
+// :is(.entry-title, .entry-meta, .related-posts, .widget)
+// 	a:is(:hover, :focus-visible) {
+// 	text-decoration: underline;
+// }
 
 /* ===== entry-title, entry-meta, entry-footer style ===== */
 
 // Front page featured post feed
-.home .featured-post-feed .entry-title {
+#home-featured-post .entry-title {
 	font-size: 20px;
 }
 
 @media (max-width: 575.98px) {
-	.home .featured-post-feed .entry-title {
+	#home-featured-post .entry-title {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -1196,7 +1230,7 @@ ul {
 	}
 }
 
-.home .featured-post-feed .entry-meta {
+#home-featured-post .entry-meta {
 	font-size: 14px;
 }
 
@@ -1239,6 +1273,7 @@ ul {
 
 // Single post
 .single .entry-title {
+	font-size: 28px;
 	border-bottom: 2px dotted var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
@@ -1250,17 +1285,17 @@ ul {
 .form-control,
 .form-select,
 .form-check-input {
-	border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
+	// border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
 }
 
 .form-control,
 .form-select {
 	background-color: var(--bs-tertiary-bg);
-	border-color: var(--bs-border-color);
+	// border-color: var(--bs-border-color);
 
 	&:focus {
 		background-color: var(--bs-tertiary-bg);
-		border-color: var(--bs-primary);
+		// border-color: var(--bs-primary);
 		box-shadow: none;
 	}
 }

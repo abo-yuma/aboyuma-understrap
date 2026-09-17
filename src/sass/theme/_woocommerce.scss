@@ -155,3 +155,48 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce ul.products li.product .product-detail-link {
 	font-size: 0.875rem;
 }
+
+@media (max-width: 768px) {
+	.woocommerce ul.products[class*="columns-"] li.product,
+	.woocommerce-page ul.products[class*="columns-"] li.product {
+		width: auto;
+		float: none;
+		clear: none;
+		margin: 0;
+	}
+}
+
+.woocommerce-products-header {
+	.woocommerce-products-header__title {
+		font-size: 28px;
+		border-bottom: 2px dotted var(--bs-border-color);
+		padding-bottom: 0.75rem; /* space inside, before border */
+	}
+}
+
+.single-product {
+	div.product .summary .price {
+		color: var(--bs-body-color);
+	}
+
+	div.product .summary .price .member-price {
+		font-weight: 700;
+		text-decoration: underline;
+	}
+
+	div.product .product_title {
+		font-size: 1.75rem;
+		margin-bottom: 1rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 2px dotted var(--bs-border-color);
+	}
+
+	.related.products 
+	// Style the main Related Products heading only.
+	> h2 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		padding-bottom: 0.75rem; /* space inside, before border */
+		border-bottom: 2px dotted var(--bs-border-color);
+	}
+}

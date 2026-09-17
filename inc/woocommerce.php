@@ -56,15 +56,15 @@ add_action('woocommerce_after_shop_loop', 'aboyuma_bootstrap_pagination', 10);
 /**
  * Remove WooCommerce smallscreen styles.
  */
-add_filter('woocommerce_enqueue_styles', 'aboyuma_remove_smallscreen_styles');
+// add_filter('woocommerce_enqueue_styles', 'aboyuma_remove_smallscreen_styles');
 
-if (! function_exists('aboyuma_remove_smallscreen_styles')) {
-	function aboyuma_remove_smallscreen_styles($enqueue_styles) {
-		unset($enqueue_styles['woocommerce-smallscreen']);
+// if (! function_exists('aboyuma_remove_smallscreen_styles')) {
+// 	function aboyuma_remove_smallscreen_styles($enqueue_styles) {
+// 		unset($enqueue_styles['woocommerce-smallscreen']);
 
-		return $enqueue_styles;
-	}
-}
+// 		return $enqueue_styles;
+// 	}
+// }
 
 if (! function_exists('understrap_woocommerce_wrapper_start')) {
 	/**
@@ -346,6 +346,15 @@ if (! function_exists('understrap_loop_add_to_cart_link')) {
 	}
 }
 
+/*
+ * Product loop add to cart button.
+ *
+ * WooCommerce uses `woocommerce_loop_add_to_cart_args` for add to cart
+ * links in product loops, such as shop and product archive pages.
+ *
+ * Single product add to cart buttons use a different mechanism and are
+ * styled separately via `.single_add_to_cart_button` in the theme CSS.
+ */
 if (! function_exists('understrap_loop_add_to_cart_args')) {
 	/**
 	 * Add Bootstrap button classes to add to cart link.
@@ -1122,8 +1131,12 @@ if (! function_exists('aboyuma_member_price_html')) {
 	}
 }
 
-/**
- * Open external product links in a new tab.
+/*
+ * External product links in product loops.
+ *
+ * This filter applies to WooCommerce product loop/archive links only.
+ * Single product external buttons use a different mechanism because
+ * WooCommerce renders them through the single product add-to-cart template.
  */
 add_filter(
 	'woocommerce_loop_add_to_cart_args',
@@ -1141,7 +1154,18 @@ if (! function_exists('aboyuma_external_product_add_to_cart_args')) {
 
 		// Open external product in a new tab.
 		$args['attributes']['target'] = '_blank';
-		$args['attributes']['rel']    = 'noopener noreferrer';
+		/*
+		 * Link attributes:
+		 *
+		 * nofollow  — Tells search engines not to pass normal ranking signals
+		 *             through this affiliate link.
+		 * sponsored — Identifies the link as a paid/sponsored or affiliate link.
+		 * noopener  — Prevents the newly opened page from accessing the
+		 *             original window through window.opener.
+		 * noreferrer — Prevents the browser from sending the current page URL
+		 * as the referrer to the destination.
+		 */
+		$args['attributes']['rel']    = 'nofollow sponsored noopener noreferrer';
 
 		return $args;
 	}
@@ -1168,3 +1192,137 @@ add_filter('woocommerce_get_breadcrumb', function ($crumbs) {
 
 	return array_values($crumbs);
 });
+
+if (! function_exists('aboyuma_remove_product_tabs')) {
+	/**
+	 * Removes product tabs.
+	 *
+	 * @param array $tabs Product tabs.
+	 * @return array Product tabs.
+	 */
+	function aboyuma_remove_product_tabs($tabs) {
+		unset($tabs['reviews']);
+		return $tabs;
+	}
+}
+add_filter('woocommerce_product_tabs', 'aboyuma_remove_product_tabs', 98);
+
+
+// Remove the Description tab heading.
+add_filter('woocommerce_product_description_heading', '__return_null');
+// Remove the Additional Information tab heading.
+add_filter('woocommerce_product_additional_information_heading', '__return_null');
+
+/**
+ * Add Product Specification tab.
+ */
+add_filter('woocommerce_product_tabs', 'aboyuma_add_specification_tab');
+
+if (! function_exists('aboyuma_add_specification_tab')) {
+	function aboyuma_add_specification_tab($tabs) {
+
+		$specification = get_post_meta(
+			get_the_ID(),
+			'_product_specification',
+			true
+		);
+
+		if (empty($specification)) {
+			return $tabs;
+		}
+
+		$tabs['aboyuma_specification'] = array(
+			'title'    => __('Specification', 'aboyuma'),
+			'priority' => 50,
+			'callback' => 'aboyuma_specification_tab_content',
+		);
+
+		return $tabs;
+	}
+}
+
+
+/**
+ * Display Product Specification tab content.
+ */
+if (! function_exists('aboyuma_specification_tab_content')) {
+	function aboyuma_specification_tab_content() {
+
+		$specification = get_post_meta(
+			get_the_ID(),
+			'_product_specification',
+			true
+		);
+
+		// Do not display the tab content if there is no specification.
+		if (empty($specification)) {
+			return;
+		}
+
+		echo '<div class="product-specification">';
+		echo wp_kses_post(wpautop($specification));
+		echo '</div>';
+	}
+}
+
+/**
+ * Add Product Note tab.
+ */
+add_filter('woocommerce_product_tabs', 'aboyuma_add_note_tab');
+
+if (! function_exists('aboyuma_add_note_tab')) {
+	function aboyuma_add_note_tab($tabs) {
+
+		$note = get_post_meta(
+			get_the_ID(),
+			'_product_note',
+			true
+		);
+
+		// Do not display the tab if there is no note.
+		if (empty($note)) {
+			return $tabs;
+		}
+
+		$tabs['aboyuma_note'] = array(
+			'title'    => __('Note', 'aboyuma'),
+			'priority' => 60,
+			'callback' => 'aboyuma_note_tab_content',
+		);
+
+		return $tabs;
+	}
+}
+
+
+/**
+ * Display Product Note tab content.
+ */
+if (! function_exists('aboyuma_note_tab_content')) {
+	function aboyuma_note_tab_content() {
+
+		$note = get_post_meta(
+			get_the_ID(),
+			'_product_note',
+			true
+		);
+
+		// Do not display empty content.
+		if (empty($note)) {
+			return;
+		}
+
+		echo '<div class="product-note">';
+		echo wp_kses_post(wpautop($note));
+		echo '</div>';
+	}
+}
+
+/**
+ * Remove add to cart button from product archive.
+ */
+remove_action(
+	'woocommerce_after_shop_loop_item',
+	'woocommerce_template_loop_add_to_cart',
+	10
+);

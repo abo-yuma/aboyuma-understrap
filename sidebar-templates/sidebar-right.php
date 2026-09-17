@@ -56,12 +56,12 @@
 
 			<?php if (! empty($about_me_page_url) || ! empty($support_me_page_url)) : ?>
 
-				<div class="card-footer profile-actions bg-transparent d-flex">
+				<div class="card-footer bg-transparent d-flex justify-content-between small">
 
 					<?php if (! empty($about_me_page_url)) : ?>
 						<a
 							href="<?php echo esc_url($about_me_page_url); ?>"
-							class="btn btn-light">
+							class="text-decoration-none">
 							🙋 เกี่ยวกับเรา
 						</a>
 					<?php endif; ?>
@@ -69,7 +69,7 @@
 					<?php if (! empty($support_me_page_url)) : ?>
 						<a
 							href="<?php echo esc_url($support_me_page_url); ?>"
-							class="btn btn-light">
+							class="text-decoration-none">
 							❤️ สนับสนุนเรา
 						</a>
 					<?php endif; ?>
