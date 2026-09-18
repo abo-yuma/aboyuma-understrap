@@ -4,11 +4,14 @@
 
         <div class="card-img-top">
             <div class="post-thumbnail">
+
                 <a href="<?php the_permalink(); ?>">
 
                     <?php if (has_post_thumbnail()) : ?>
 
-                        <?php the_post_thumbnail(); ?>
+                        <?php the_post_thumbnail('large', [
+                            'class' => 'img-fluid w-100',
+                        ]); ?>
 
                     <?php else : ?>
 
@@ -20,20 +23,17 @@
                     <?php endif; ?>
 
                 </a>
+
             </div>
         </div>
 
-        <div class="card-body px-0 pt-3 d-flex flex-column h-100">
+        <div class="card-body px-0 pt-3 d-flex flex-column flex-grow-1">
 
-            <div class="d-flex flex-column h-100">
+            <div>
 
-                <div class="entry-title mb-1">
-                    <span>
-                        <a href="<?php the_permalink(); ?>">
-                            <?php echo esc_html(get_the_title()); ?>
-                        </a>
-                    </span>
-                </div>
+                <h3 class="entry-title mb-1">
+                    <?php echo esc_html(get_the_title()); ?>
+                </h3>
 
                 <div class="entry-meta text-muted d-flex flex-wrap gap-1">
 
@@ -61,12 +61,23 @@
                     </span>
 
                     <span>
-                        🗓 <?php echo get_the_date('M j, Y'); ?>
+                        🗓 <?php echo esc_html(get_the_date('M j, Y')); ?>
                     </span>
 
                 </div>
 
             </div>
+
+            <p class="text-end mb-0 mt-auto pt-3">
+                <a
+                    class="read-more-link"
+                    href="<?php echo esc_url(get_permalink()); ?>">
+                    <?php esc_html_e('อ่านบทความ →', 'understrap'); ?>
+                    <span class="screen-reader-text">
+                        <?php echo esc_html(' from ' . get_the_title()); ?>
+                    </span>
+                </a>
+            </p>
 
         </div>
 

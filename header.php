@@ -30,27 +30,50 @@ defined('ABSPATH') || exit;
 		</a>
 		<header id="wrapper-header" class="wrapper-header">
 			<div class="container px-0">
-				<div id="main-header">
+				<?php
+				$header_image_id = get_theme_mod('aboyuma_header_image');
 
-					<div class="header-brand">
+				$header_title = get_theme_mod(
+					'aboyuma_header_title',
+					'Yuma\'s Personal Blog'
+				);
+
+				$header_subtitle = get_theme_mod(
+					'aboyuma_header_subtitle',
+					'Sharing life experiences'
+				);
+				?>
+
+				<div id="main-image">
+
+					<?php
+					if (!empty($header_image_id)) {
+
+						echo wp_get_attachment_image(
+							$header_image_id,
+							'full',
+							false,
+							array(
+								'class' => 'header-image',
+								'alt'   => 'Header image'
+							)
+						);
+					}
+					?>
+
+					<div class="header-overlay"></div>
+
+					<div class="header-tagline">
 						<div class="header-title">
-							ABO YUMA
+							<?php echo esc_html($header_title); ?>
 						</div>
-					</div>
 
-					<div class="header-info">
 						<div class="header-subtitle">
-							Personal Blog
-						</div>
-
-						<div class="header-description">
-							Health · Lifestyle · Product Guide
+							<?php echo esc_html($header_subtitle); ?>
 						</div>
 					</div>
 
 				</div>
-
-
 			</div>
 		</header>
 

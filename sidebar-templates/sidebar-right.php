@@ -22,7 +22,7 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card border-0">
+		<div class="card bg-body-tertiary border-0">
 			<!-- Avatar -->
 			<?php
 			echo get_avatar(
@@ -36,7 +36,7 @@
 			);
 			?>
 
-			<div class="card-body p-0 pt-3">
+			<div class="card-body">
 
 				<!-- Name -->
 				<h3 class="mb-1 text-uppercase fs-6">

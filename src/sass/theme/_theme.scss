@@ -13,7 +13,7 @@ html {
 
 .main-wrapper,
 .container {
-	max-width: 780px;
+	max-width: 760px;
 }
 
 /* 
@@ -166,12 +166,12 @@ h6 {
 }
 
 #navbar-main .navbar-nav .nav-link {
-	font-size: 0.875rem; /* 14px */
+	font-size: 0.87rem;
 	// line-height: 1.2;
 }
 
 #navbar-main .dropdown-menu .dropdown-item {
-	font-size: 0.875rem; /* 14px */
+	font-size: 0.87rem;
 	/*
 	 * HACK: Add extra spacing to account for WordPress emoji rendered as <img>.
 	 * Without this, the emoji icon can sit too close to the menu text in the dropdown.
@@ -360,8 +360,8 @@ body.admin-bar #navbar-main.is-fixed {
 	font-size: 20px;
 	font-weight: 500;
 	line-height: 1.4;
-	padding-bottom: 0.25rem; /* space inside, before border */
-	border-bottom: 2px dotted var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+	border-bottom: 3px solid var(--bs-border-color);
 }
 
 /*
@@ -402,6 +402,8 @@ body.admin-bar #navbar-main.is-fixed {
 }
 
 .widget-area .widget-title {
+	border-bottom: 2px solid var(--bs-border-color);
+	padding-bottom: 0.5rem;
 	font-size: 1rem; /* 16px */
 	font-weight: 600;
 }
@@ -1067,46 +1069,6 @@ table.dataTable#latest-product-table tbody td {
 	background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Wrapper for search input + submit button */
-.search-wrap {
-	display: flex; /* Use flexbox so input and button sit on one line */
-	gap: 0.5rem; /* Space between input and button (safe, controlled) */
-	width: 100%; /* Never exceed sidebar width */
-	box-sizing: border-box; /* Include padding & border in width calculations */
-}
-
-/* Search input field */
-.search-wrap .search-field {
-	flex: 9; /* Take 9 parts of available space (≈ 90%) */
-
-	/*
-		CRITICAL FLEXBOX FIX
-		-------------------
-		Default flex items have: min-width: auto;
-		This means the input REFUSES to shrink smaller than its content
-		(placeholder text, typed text, internal padding).
-
-		In narrow containers like sidebars/widgets:
-		- Flexbox tries to shrink items to fit
-		- Input refuses
-		- Layout overflows outside parent
-
-		min-width: 0 explicitly allows the input to shrink,
-		so flexbox can correctly calculate widths and keep
-		everything inside the sidebar.
-	*/
-	min-width: 0;
-}
-
-/* Search submit button */
-.search-wrap .search-submit {
-	flex: 1; /* Take 1 part of available space (≈ 10%) */
-	font-size: 0.875rem; /* Slightly smaller text for compact sidebar */
-	white-space: nowrap; /* Prevent button text from wrapping */
-	padding-left: 0.5rem; /* Tight horizontal padding to save space */
-	padding-right: 0.5rem;
-}
-
 .contact-form-title {
 	font-size: 1rem;
 	font-weight: 600;
@@ -1257,9 +1219,19 @@ ul {
 
 // Page
 .page:not(.home) .entry-title {
-	font-size: 28px;
-	border-bottom: 2px dotted var(--bs-border-color);
+	font-size: 25px;
+	border-bottom: 2px solid var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
+.page-header .page-title {
+	font-size: 1.75rem;
+}
+
+@media (max-width: 767.98px) {
+	.page-header .page-title {
+		font-size: 1.5rem; // 24px
+	}
 }
 
 // .page .entry-content {
@@ -1267,14 +1239,20 @@ ul {
 // }
 
 // Archive
+.archive .archive-loop-item .entry-title {
+	font-size: 25px;
+	border-bottom: 3px solid var(--bs-border-color);
+	padding-bottom: 0.75rem; /* space inside, before border */
+}
+
 .archive .archive-loop-item .entry-meta {
 	font-size: 14px;
 }
 
 // Single post
 .single .entry-title {
-	font-size: 28px;
-	border-bottom: 2px dotted var(--bs-border-color);
+	font-size: 30px;
+	border-bottom: 3px solid var(--bs-border-color);
 	padding-bottom: 0.75rem; /* space inside, before border */
 }
 

@@ -19,15 +19,28 @@
    - CSS variable overrides (:root, [data-bs-theme], etc.)
 
 */
-$primary: #446E9B;
+$primary: #446e9b;
 
 $border-radius-sm: 0.125rem; // ~70% of base
 $border-radius: 0.175rem; // base
 $border-radius-lg: 0.25rem; // ~140% of base
 
-$body-color: #323232;
-$body-bg: #dce9f1;
-$border-color: #a9adaf;
+// $body-color: #5c5c5c;
+// $body-bg: #c7ced1;
+// $border-color: #b1b1b1;
 
-$link-color: #446E9B;
-$link-hover-color: #35597f;
+// $body-color: #5c5c5c;
+// $body-bg: #f0f0f0;
+// $border-color: #D0D0D0;
+
+$body-color: #4D4D4D;
+$body-bg: #E6E6E6;
+$border-color: #BEBEBE;
+
+
+
+// $link-color: #446E9B;
+// $link-hover-color: #35597f;
+
+$link-color: #527fa8;
+$link-hover-color: #416d96;

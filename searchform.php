@@ -22,10 +22,10 @@ if (isset($args['aria_label']) && ! empty($args['aria_label'])) {
 																									?>>
 	<label class="screen-reader-text" for="<?php echo $uid; ?>"><?php echo esc_html_x('Search for:', 'label', 'understrap'); ?></label>
 	<div class="search-wrap">
-		<div class="input-group">
+		<div class="d-flex align-items-center gap-2">
 			<input
 				type="search"
-				class="search-field form-control"
+				class="search-field form-control form-control-sm flex-grow-1"
 				id="<?php echo esc_attr($uid); ?>"
 				name="s"
 				value="<?php the_search_query(); ?>"
@@ -34,11 +34,10 @@ if (isset($args['aria_label']) && ! empty($args['aria_label'])) {
 
 			<button
 				type="submit"
-				class="search-submit btn btn-primary"
+				class="search-submit btn btn-primary btn-sm flex-shrink-0"
 				name="submit">
 				<?php esc_attr_e('ค้นหา', 'submit button', 'understrap'); ?>
 			</button>
-
 		</div>
 	</div>
 </form>

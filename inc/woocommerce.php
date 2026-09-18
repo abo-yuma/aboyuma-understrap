@@ -794,7 +794,7 @@ if (! function_exists('aboyuma_load_subcategories')) {
 			<option value="<?php echo esc_attr($subcategory->term_id); ?>">
 				<?php echo esc_html($subcategory->name); ?>
 			</option>
-<?php
+		<?php
 		}
 
 		wp_send_json_success(
@@ -1124,7 +1124,7 @@ if (! function_exists('aboyuma_member_price_html')) {
 			'<del>%s</del><br>
 			<span class="member-price">🪪 %s</span>
 			<br>
-			<small class="text-muted">*เฉพาะสมาชิกแอมเวย์</small>',
+			<small class="text-primary">*เฉพาะสมาชิกแอมเวย์</small>',
 			wc_price($regular_price),
 			wc_price($member_price)
 		);
@@ -1326,3 +1326,21 @@ remove_action(
 	'woocommerce_template_loop_add_to_cart',
 	10
 );
+
+/**
+ * Add a link to return to the product listing.
+ */
+if (! function_exists('aboyuma_back_to_products_link')) {
+
+	function aboyuma_back_to_products_link() {
+		?>
+		<div class="product-back-link mt-3 text-end">
+			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">
+				&larr; ดูสินค้าอื่น
+			</a>
+		</div>
+<?php
+	}
+
+	add_action('woocommerce_single_product_summary', 'aboyuma_back_to_products_link', 55);
+}
