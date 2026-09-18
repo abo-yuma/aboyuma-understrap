@@ -32,34 +32,45 @@
                     <div class="post-thumbnail">
 
                         <?php if (has_post_thumbnail()) : ?>
+
                             <a href="<?php the_permalink(); ?>">
-                                <?php the_post_thumbnail('large', ['class' => 'img-fluid w-100']); ?>
+                                <?php the_post_thumbnail(
+                                    'large',
+                                    [
+                                        'class' => 'img-fluid w-100',
+                                    ]
+                                ); ?>
                             </a>
+
                         <?php else : ?>
-                            <img src="https://placehold.co/800x400?text=No+Image"
-                                alt="No image available"
-                                class="img-fluid w-100">
+
+                            <a href="<?php the_permalink(); ?>">
+                                <img
+                                    src="https://placehold.co/800x400?text=No+Image"
+                                    alt="No image available"
+                                    class="img-fluid w-100">
+                            </a>
+
                         <?php endif; ?>
 
                     </div>
                 </div>
 
                 <div class="card-body px-0 pt-3">
+
                     <h3 class="entry-title">
-                        <a class="d-block"
-                            href="<?php the_permalink(); ?>">
-                            <?php echo get_the_title(); ?>
-                        </a>
+                        <?php echo esc_html(get_the_title()); ?>
                     </h3>
 
                     <div class="entry-meta text-muted d-flex flex-wrap gap-2">
+
                         <span>
                             <?php
                             $categories = get_the_category();
 
                             if (!empty($categories)) {
 
-                                $category_links = array();
+                                $category_links = [];
 
                                 foreach ($categories as $category) {
 
@@ -79,11 +90,23 @@
                             }
                             ?>
                         </span>
+
                         <span>
-                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
+                            <?php echo '🗓 ' . esc_html(get_the_date('M j, Y')); ?>
                         </span>
 
                     </div>
+
+                    <p class="text-end mb-0 mt-auto">
+                        <a
+                            class="read-more-link"
+                            href="<?php echo esc_url(get_permalink()); ?>">
+                            <?php esc_html_e('อ่านบทความ →', 'understrap'); ?>
+                            <span class="screen-reader-text">
+                                <?php echo esc_html(' from ' . get_the_title()); ?>
+                            </span>
+                        </a>
+                    </p>
 
                 </div>
 

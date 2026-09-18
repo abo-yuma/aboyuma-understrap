@@ -149,6 +149,7 @@ figure.woocommerce-product-gallery__wrapper {
 // This keeps the add-to-cart button aligned at the bottom
 // even when product titles have different heights.
 .woocommerce ul.products li.product a.woocommerce-LoopProduct-link {
+	color: var(--bs-body-color);
 	flex: 1;
 }
 
@@ -168,13 +169,17 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce-products-header {
 	.woocommerce-products-header__title {
-		font-size: 28px;
-		border-bottom: 2px dotted var(--bs-border-color);
+		font-size: 25px;
+		border-bottom: 3px solid var(--bs-border-color);
 		padding-bottom: 0.75rem; /* space inside, before border */
 	}
 }
 
 .single-product {
+	div.product-back-link a {
+		text-decoration: none;
+	}
+
 	div.product .summary .price {
 		color: var(--bs-body-color);
 	}
@@ -185,10 +190,10 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 
 	div.product .product_title {
-		font-size: 1.75rem;
+		font-size: 25px;
 		margin-bottom: 1rem;
 		padding-bottom: 0.75rem;
-		border-bottom: 2px dotted var(--bs-border-color);
+		border-bottom: 3px solid var(--bs-border-color);
 	}
 
 	.related.products 
@@ -197,6 +202,6 @@ figure.woocommerce-product-gallery__wrapper {
 		font-size: 1.25rem;
 		margin-bottom: 1rem;
 		padding-bottom: 0.75rem; /* space inside, before border */
-		border-bottom: 2px dotted var(--bs-border-color);
+		border-bottom: 2px solid var(--bs-border-color);
 	}
 }
