@@ -49,7 +49,7 @@ $categories = get_terms(
 );
 ?>
 
-<form id="product-category-filter" class="d-flex gap-2 mb-4 align-items-center flex-wrap">
+<form id="product-category-filter" class="d-flex gap-1 mb-4 align-items-center flex-wrap">
 
     <select
         id="product-category"
@@ -71,7 +71,7 @@ $categories = get_terms(
 
     <select
         id="product-subcategory"
-        class="form-select form-select-sm"
+        class="form-select"
         style="width: 150px;"
         disabled>
         <option value="">
@@ -82,14 +82,14 @@ $categories = get_terms(
     <button
         type="button"
         id="product-filter-submit"
-        class="btn btn-primary btn-sm">
+        class="btn btn-light">
         ค้นหา
     </button>
 
     <button
         type="reset"
         id="product-filter-reset"
-        class="btn btn-secondary btn-sm">
+        class="btn btn-light">
         รีเซ็ต
     </button>
 

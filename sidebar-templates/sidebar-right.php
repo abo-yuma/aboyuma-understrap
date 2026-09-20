@@ -7,7 +7,7 @@
 
 <div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper mb-2">
 
-	<div class="author-box mb-3">
+	<div class="author-box mb-4" style="display: none;">
 
 		<?php
 		$author_id = 1;
@@ -22,7 +22,7 @@
 		$support_me_page_url = get_user_meta($author_id, 'support_me_page_url', true);
 		?>
 
-		<div class="card bg-body-tertiary border-0">
+		<div class="card border-0 bg-secondary-subtle">
 			<!-- Avatar -->
 			<?php
 			echo get_avatar(

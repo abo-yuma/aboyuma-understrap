@@ -82,17 +82,6 @@
 
             </div>
 
-            <div class="small mt-auto pt-3 d-flex justify-content-end">
-
-                <a class="btn btn-sm btn-outline-primary"
-                    href="<?php the_permalink(); ?>">
-
-                    อ่านบทความ →
-
-                </a>
-
-            </div>
-
         </div>
 
     </div>

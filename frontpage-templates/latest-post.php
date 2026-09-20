@@ -1,4 +1,4 @@
-<section id="home-latest-post" class="mb-3">
+<section id="home-latest-post">
 
     <h1 class="section-header mb-3">
         📝 บทความล่าสุด

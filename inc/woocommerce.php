@@ -77,6 +77,11 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 		echo '<div id="woocommerce-wrapper">';
 		echo '<div class="' . esc_attr($container_classes) . '" id="content" tabindex="-1">';
 		echo '<div class="row">';
+
+		echo '<div class="sidebar-right-column border-end px-3" id="sidebar-right">';
+		get_template_part('sidebar-templates/sidebar', 'right');
+		echo '</div>';
+
 		echo '<div class="main-content-column px-3">';
 		echo '<div class="main-content-wrapper mb-2">';
 		echo '<main class="site-main" id="main">';
@@ -90,10 +95,6 @@ if (! function_exists('understrap_woocommerce_wrapper_end')) {
 	function understrap_woocommerce_wrapper_end() {
 		echo '</main>';
 		echo '</div>';
-		echo '</div>';
-
-		echo '<div class="sidebar-right-column border-start px-3" id="sidebar-right">';
-		get_template_part('sidebar-templates/sidebar', 'right');
 		echo '</div>';
 
 		echo '</div><!-- .row -->';
@@ -1077,25 +1078,6 @@ if (! function_exists('aboyuma_product_archive_order')) {
 }
 
 /**
- * Display a product detail link in the product loop.
- */
-add_action(
-	'woocommerce_after_shop_loop_item',
-	'aboyuma_product_detail_link',
-	7
-);
-
-if (! function_exists('aboyuma_product_detail_link')) {
-	function aboyuma_product_detail_link() {
-		echo sprintf(
-			'<a href="%s" class="product-detail-link small mb-2">%s</a>',
-			esc_url(get_permalink()),
-			esc_html__('ดูรายละเอียด →', 'aboyuma')
-		);
-	}
-}
-
-/**
  * Display member price in product loop.
  */
 add_filter(
@@ -1193,19 +1175,19 @@ add_filter('woocommerce_get_breadcrumb', function ($crumbs) {
 	return array_values($crumbs);
 });
 
-if (! function_exists('aboyuma_remove_product_tabs')) {
-	/**
-	 * Removes product tabs.
-	 *
-	 * @param array $tabs Product tabs.
-	 * @return array Product tabs.
-	 */
-	function aboyuma_remove_product_tabs($tabs) {
-		unset($tabs['reviews']);
-		return $tabs;
-	}
-}
-add_filter('woocommerce_product_tabs', 'aboyuma_remove_product_tabs', 98);
+// if (! function_exists('aboyuma_remove_product_tabs')) {
+// 	/**
+// 	 * Removes product tabs.
+// 	 *
+// 	 * @param array $tabs Product tabs.
+// 	 * @return array Product tabs.
+// 	 */
+// 	function aboyuma_remove_product_tabs($tabs) {
+// 		unset($tabs['reviews']);
+// 		return $tabs;
+// 	}
+// }
+// add_filter('woocommerce_product_tabs', 'aboyuma_remove_product_tabs', 98);
 
 
 // Remove the Description tab heading.
