@@ -11,34 +11,38 @@ defined('ABSPATH') || exit;
 ?>
 
 <article <?php post_class('archive-loop-item mt-2'); ?> id="post-<?php the_ID(); ?>">
-
 	<header class="entry-header">
 
-		<?php the_title(
-			'<h2 class="entry-title">',
-			'</h2>'
-		); ?>
+		<a href="<?php the_permalink(); ?>" class="text-decoration-none">
+
+			<?php the_title(
+				'<h2 class="entry-title">',
+				'</h2>'
+			); ?>
+
+		</a>
 
 		<?php if ('post' === get_post_type()) : ?>
 
 			<div class="entry-meta d-flex flex-wrap gap-2">
 				<span>
-					<?php
-					understrap_posted_on();
-					?>
+					<?php understrap_posted_on(); ?>
 				</span>
-
-			</div><!-- .entry-meta -->
+			</div>
 
 		<?php endif; ?>
 
-	</header><!-- .entry-header -->
+	</header>
 
 	<div class="post-thumbnail mt-2">
 		<a href="<?php the_permalink(); ?>">
-			<?php echo get_the_post_thumbnail($post->ID, 'large', [
-				'class' => 'img-fluid archive-post-thumbnail rounded-3'
-			]); ?>
+			<?php echo get_the_post_thumbnail(
+				$post->ID,
+				'large',
+				[
+					'class' => 'img-fluid archive-post-thumbnail rounded-3'
+				]
+			); ?>
 		</a>
 	</div>
 
@@ -49,12 +53,12 @@ defined('ABSPATH') || exit;
 		understrap_link_pages();
 		?>
 
-	</div><!-- .entry-content -->
+	</div>
 
 	<footer class="entry-footer">
 
 		<?php understrap_entry_footer(); ?>
 
-	</footer><!-- .entry-footer -->
+	</footer>
 
 </article><!-- #post-<?php the_ID(); ?> -->

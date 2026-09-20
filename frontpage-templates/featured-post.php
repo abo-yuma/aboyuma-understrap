@@ -1,9 +1,9 @@
 <!-- Featured Post Section -->
-<section id="home-featured-post" class="mb-3">
+<section id="home-featured-post" class="mb-4">
 
     <?php
     $featured_category = get_category_by_slug('featured');
-    $featured_id = $featured_category ? $featured_category->term_id : 0;
+    $featured_id       = $featured_category ? $featured_category->term_id : 0;
 
     $args = array(
         'posts_per_page' => 1,
@@ -56,10 +56,14 @@
                     </div>
                 </div>
 
-                <div class="card-body px-0 pt-3">
+                <div class="card-body p-0 pt-3">
 
                     <h3 class="entry-title">
-                        <?php echo esc_html(get_the_title()); ?>
+                        <a
+                            href="<?php the_permalink(); ?>"
+                            class="text-decoration-none">
+                            <?php echo esc_html(get_the_title()); ?>
+                        </a>
                     </h3>
 
                     <div class="entry-meta text-muted d-flex flex-wrap gap-2">
@@ -97,17 +101,6 @@
 
                     </div>
 
-                    <p class="text-end mb-0 mt-auto">
-                        <a
-                            class="read-more-link"
-                            href="<?php echo esc_url(get_permalink()); ?>">
-                            <?php esc_html_e('อ่านบทความ →', 'understrap'); ?>
-                            <span class="screen-reader-text">
-                                <?php echo esc_html(' from ' . get_the_title()); ?>
-                            </span>
-                        </a>
-                    </p>
-
                 </div>
 
             </div>
@@ -121,5 +114,7 @@
         </div>
 
     <?php endif; ?>
+
+    <?php wp_reset_postdata(); ?>
 
 </section>

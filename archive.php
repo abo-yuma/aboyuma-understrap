@@ -20,6 +20,11 @@ $container_classes = $container . ' py-0';
 <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 	<div class="row">
+		<div class="sidebar-right-column border-end px-3" id="sidebar-right">
+			<?php
+			get_template_part('sidebar-templates/sidebar', 'right');
+			?>
+		</div>
 		<div class="main-content-column px-3">
 			<div class="main-content-wrapper mb-2">
 				<main class="site-main" id="main">
@@ -58,11 +63,7 @@ $container_classes = $container . ' py-0';
 				</main>
 			</div>
 		</div>
-		<div class="sidebar-right-column border-start px-3" id="sidebar-right">
-			<?php
-			get_template_part('sidebar-templates/sidebar', 'right');
-			?>
-		</div>
+
 	</div><!-- .row -->
 
 </div><!-- #content -->

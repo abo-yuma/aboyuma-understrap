@@ -170,8 +170,9 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce-products-header {
 	.woocommerce-products-header__title {
 		font-size: 25px;
-		border-bottom: 3px solid var(--bs-border-color);
-		padding-bottom: 0.75rem; /* space inside, before border */
+		padding: 0.5em 0.7em;
+		border-left: 5px solid var(--bs-primary);
+		background-color: var(--bs-tertiary-bg);
 	}
 }
 
@@ -191,9 +192,6 @@ figure.woocommerce-product-gallery__wrapper {
 
 	div.product .product_title {
 		font-size: 25px;
-		margin-bottom: 1rem;
-		padding-bottom: 0.75rem;
-		border-bottom: 3px solid var(--bs-border-color);
 	}
 
 	.related.products 
@@ -203,5 +201,9 @@ figure.woocommerce-product-gallery__wrapper {
 		margin-bottom: 1rem;
 		padding-bottom: 0.75rem; /* space inside, before border */
 		border-bottom: 2px solid var(--bs-border-color);
+	}
+
+	.woocommerce div.product .woocommerce-tabs ul.tabs {
+		padding-left: 0;
 	}
 }

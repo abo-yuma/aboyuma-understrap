@@ -9,9 +9,12 @@
 
                     <?php if (has_post_thumbnail()) : ?>
 
-                        <?php the_post_thumbnail('large', [
-                            'class' => 'img-fluid w-100',
-                        ]); ?>
+                        <?php the_post_thumbnail(
+                            'large',
+                            [
+                                'class' => 'img-fluid w-100',
+                            ]
+                        ); ?>
 
                     <?php else : ?>
 
@@ -32,7 +35,11 @@
             <div>
 
                 <h3 class="entry-title mb-1">
-                    <?php echo esc_html(get_the_title()); ?>
+                    <a
+                        href="<?php the_permalink(); ?>"
+                        class="text-decoration-none">
+                        <?php echo esc_html(get_the_title()); ?>
+                    </a>
                 </h3>
 
                 <div class="entry-meta text-muted d-flex flex-wrap gap-1">
@@ -67,17 +74,6 @@
                 </div>
 
             </div>
-
-            <p class="text-end mb-0 mt-auto pt-3">
-                <a
-                    class="read-more-link"
-                    href="<?php echo esc_url(get_permalink()); ?>">
-                    <?php esc_html_e('อ่านบทความ →', 'understrap'); ?>
-                    <span class="screen-reader-text">
-                        <?php echo esc_html(' from ' . get_the_title()); ?>
-                    </span>
-                </a>
-            </p>
 
         </div>
 

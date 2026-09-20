@@ -13,7 +13,7 @@ html {
 
 .main-wrapper,
 .container {
-	max-width: 760px;
+	max-width: 800px;
 }
 
 /* 
@@ -49,7 +49,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
 	-o-font-smoothing: antialiased;
-	letter-spacing: 1px;
+	//letter-spacing: 1px;
 }
 
 h1,
@@ -58,7 +58,7 @@ h3,
 h4,
 h5,
 h6 {
-	letter-spacing: 2px;
+	//letter-spacing: 2px;
 }
 
 .wrapper-header {
@@ -166,12 +166,12 @@ h6 {
 }
 
 #navbar-main .navbar-nav .nav-link {
-	font-size: 0.87rem;
+	font-size: 0.875rem;
 	// line-height: 1.2;
 }
 
 #navbar-main .dropdown-menu .dropdown-item {
-	font-size: 0.87rem;
+	font-size: 0.875rem;
 	/*
 	 * HACK: Add extra spacing to account for WordPress emoji rendered as <img>.
 	 * Without this, the emoji icon can sit too close to the menu text in the dropdown.
@@ -360,8 +360,8 @@ body.admin-bar #navbar-main.is-fixed {
 	font-size: 20px;
 	font-weight: 500;
 	line-height: 1.4;
-	padding-bottom: 0.75rem; /* space inside, before border */
-	border-bottom: 3px solid var(--bs-border-color);
+	padding-bottom: 0.25em;
+	border-bottom: 1px solid var(--bs-border-color);
 }
 
 /*
@@ -391,33 +391,74 @@ body.admin-bar #navbar-main.is-fixed {
 	height: 160px;
 }
 
-/* Sidebar */
+/* =========================================================
+   Sidebar / Widget Area
+   ========================================================= */
 
 .widget-area {
+	a {
+		color: var(--bs-body-color);
+	}
+	/* Base typography */
+	font-size: 0.875rem; // 14px
+
+	/* Lists */
 	ul {
 		list-style: none;
 		padding: 0;
 	}
-	font-size: 0.875rem; /* 14px */
+
+	li {
+		line-height: 1.5;
+	}
+
+	/* Widget title */
+	.widget-title {
+		font-size: 1rem; // 16px
+		font-weight: 600;
+		padding-bottom: 0.25em;
+		border-bottom: 1px solid var(--bs-border-color);
+	}
 }
 
-.widget-area .widget-title {
-	border-bottom: 2px solid var(--bs-border-color);
-	padding-bottom: 0.5rem;
-	font-size: 1rem; /* 16px */
-	font-weight: 600;
+/* =========================================================
+   Widget Icons
+   ========================================================= */
+
+.widget_archive ul li::before {
+	content: "🗂️ ";
 }
 
-.widget-area li {
-	line-height: 1.5;
+.widget_categories ul li::before {
+	content: "🗂️ ";
 }
 
-.widget-area {
-	--bs-body-font-size: 0.875rem;
+.widget_recent_entries ul li::before {
+	content: "📄 ";
 }
 
-.widget-area .form-control {
-	font-size: var(--bs-body-font-size);
+// .widget_archive,
+// .widget_categories,
+// .widget_recent_entries {
+// 	background-color: var(--bs-tertiary-bg);
+// 	padding: 1rem;
+// 	margin-bottom: 1.5rem;
+// }
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+/* Reverse widget order on mobile */
+@media (max-width: 767.98px) {
+	#widget-area {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	#widget-area > .widget {
+		display: block;
+	}
 }
 
 #sidebar-left.card {
@@ -448,40 +489,6 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 .sticky-widget-wrapper {
 	// position: sticky;
 	top: 50px; /* The distance from the top when it becomes sticky */
-}
-
-/* reverse widget order on mobile */
-@media (max-width: 767.98px) {
-	#widget-area {
-		display: flex;
-		flex-direction: column-reverse; /* reverse order on mobile */
-	}
-
-	#widget-area > .widget {
-		display: block; /* ensure widgets behave as block items */
-	}
-}
-
-.widget_categories {
-	font-size: 0.875rem; // 14px
-}
-/* Target only the archive widget list items */
-.widget_archive ul li::before {
-	content: "🗂️ "; /* replace with any emoji you like */
-	font-size: 1em; /* adjust size */
-}
-
-.widget_categories ul li::before {
-	content: "🗂️ ";
-}
-
-.widget_recent_entries ul li::before {
-	content: "📄 ";
-}
-
-:is(.widget_categories, .widget_archive) a:hover,
-:is(.widget_categories, .widget_archive) a:focus-visible {
-	text-decoration: underline;
 }
 
 // ===== Main content ===== //
@@ -1159,6 +1166,7 @@ ul {
 /* link style */
 
 :is(.entry-title, .entry-meta, .related-posts, .widget) a {
+	color: var(--bs-body-color);
 	text-decoration: none;
 }
 
@@ -1220,8 +1228,9 @@ ul {
 // Page
 .page:not(.home) .entry-title {
 	font-size: 25px;
-	border-bottom: 2px solid var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-tertiary-bg);
 }
 
 .page-header .page-title {
@@ -1239,44 +1248,69 @@ ul {
 // }
 
 // Archive
-.archive .archive-loop-item .entry-title {
+.archive .page-title {
 	font-size: 25px;
-	border-bottom: 3px solid var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-tertiary-bg);
+}
+
+.archive .archive-loop-item .entry-title {
+	font-size: 24px;
 }
 
 .archive .archive-loop-item .entry-meta {
 	font-size: 14px;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--bs-border-color);
 }
 
 // Single post
-.single .entry-title {
-	font-size: 30px;
-	border-bottom: 3px solid var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
+.single-post .entry-title {
+	font-size: 25px;
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-tertiary-bg);
 }
 
-.single .entry-meta {
+.single-post .entry-meta {
 	font-size: 14px;
 }
 
+.single-post .entry-meta:not(.post-views) {
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--bs-border-color);
+}
+
+// Form style
 .form-control,
 .form-select,
-.form-check-input {
-	// border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
+.btn {
+	font-size: 0.875rem; // 14px
+	line-height: 1.4;
 }
 
 .form-control,
 .form-select {
 	background-color: var(--bs-tertiary-bg);
-	// border-color: var(--bs-border-color);
+
+	padding-top: 4px;
+	padding-bottom: 4px;
 
 	&:focus {
 		background-color: var(--bs-tertiary-bg);
-		// border-color: var(--bs-primary);
 		box-shadow: none;
 	}
 }
+
+.btn {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+// [data-bs-theme="light"] {
+// 	--bs-tertiary-bg: #e2e6e8;
+// }
 
 .related-post-thumbnail img {
 	width: 100%;
@@ -1341,4 +1375,8 @@ ul {
 
 .breadcrumb a {
 	color: inherit;
+}
+
+[data-bs-theme="dark"] {
+	--bs-tertiary-bg: #1b1b1b;
 }
