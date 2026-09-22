@@ -78,9 +78,6 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 		echo '<div class="' . esc_attr($container_classes) . '" id="content" tabindex="-1">';
 		echo '<div class="row">';
 
-		echo '<div class="sidebar-right-column border-end px-3" id="sidebar-right">';
-		get_template_part('sidebar-templates/sidebar', 'right');
-		echo '</div>';
 
 		echo '<div class="main-content-column px-3">';
 		echo '<div class="main-content-wrapper mb-2">';
@@ -95,6 +92,9 @@ if (! function_exists('understrap_woocommerce_wrapper_end')) {
 	function understrap_woocommerce_wrapper_end() {
 		echo '</main>';
 		echo '</div>';
+		echo '</div>';
+		echo '<div class="sidebar-right-column border-start px-3" id="sidebar-right">';
+		get_template_part('sidebar-templates/sidebar', 'right');
 		echo '</div>';
 
 		echo '</div><!-- .row -->';
@@ -1316,13 +1316,37 @@ if (! function_exists('aboyuma_back_to_products_link')) {
 
 	function aboyuma_back_to_products_link() {
 		?>
-		<div class="product-back-link mt-3 text-end">
-			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">
+		<div class="mt-3 text-end">
+			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"
+				class="btn btn-sm btn-outline-primary">
+				&larr; ดูสินค้าอื่น
+			</a>
+		</div>
+	<?php
+	}
+
+	add_action('woocommerce_single_product_summary', 'aboyuma_back_to_products_link', 55);
+}
+
+/**
+ * Add a link to return to the product listing below related products.
+ */
+if (! function_exists('aboyuma_back_to_products_link_below_related')) {
+
+	function aboyuma_back_to_products_link_below_related() {
+	?>
+		<div class="mt-3 text-end">
+			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"
+				class="btn btn-sm btn-outline-primary">
 				&larr; ดูสินค้าอื่น
 			</a>
 		</div>
 <?php
 	}
 
-	add_action('woocommerce_single_product_summary', 'aboyuma_back_to_products_link', 55);
+	add_action(
+		'woocommerce_after_single_product_summary',
+		'aboyuma_back_to_products_link_below_related',
+		25
+	);
 }
