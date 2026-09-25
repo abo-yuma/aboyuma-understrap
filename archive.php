@@ -21,13 +21,19 @@ $container_classes = $container . ' py-0';
 
 	<div class="row">
 
+		<div class="sidebar-right-column border-end px-3" id="sidebar-right">
+			<?php
+			get_template_part('sidebar-templates/sidebar', 'right');
+			?>
+		</div>
+
 		<div class="main-content-column px-3">
 			<div class="main-content-wrapper mb-2">
 				<main class="site-main" id="main">
 					<?php
 					if (have_posts()) {
 					?>
-						<header class="page-header">
+						<header class="page-header mb-4">
 
 							<nav class="breadcrumb" aria-label="breadcrumb">
 								<?php
@@ -66,13 +72,6 @@ $container_classes = $container . ' py-0';
 				</main>
 			</div>
 		</div>
-
-		<div class="sidebar-right-column border-start px-3" id="sidebar-right">
-			<?php
-			get_template_part('sidebar-templates/sidebar', 'right');
-			?>
-		</div>
-
 
 	</div><!-- .row -->
 

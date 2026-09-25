@@ -11,7 +11,7 @@
 					the_post_thumbnail(
 						'thumbnail',
 						[
-							'class' => 'img-fluid rounded',
+							'class' => 'img-fluid img-thumbnail rounded',
 						]
 					);
 					?>
@@ -25,7 +25,7 @@
 						alt=""
 						width="150"
 						height="150"
-						class="img-fluid rounded">
+						class="img-fluid img-thumbnail rounded">
 				</a>
 
 			<?php endif; ?>
@@ -58,6 +58,10 @@
 				<?php endif; ?>
 
 			</header>
+
+			<div class="entry-content text-muted small">
+				<?php the_excerpt(); ?>
+			</div>
 
 			<footer class="entry-footer">
 

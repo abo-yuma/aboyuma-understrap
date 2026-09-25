@@ -60,19 +60,6 @@ defined('ABSPATH') || exit;
 						);
 					}
 					?>
-
-					<div class="header-overlay"></div>
-
-					<div class="header-tagline">
-						<div class="header-title">
-							<?php echo esc_html($header_title); ?>
-						</div>
-
-						<div class="header-subtitle">
-							<?php echo esc_html($header_subtitle); ?>
-						</div>
-					</div>
-
 				</div>
 			</div>
 		</header>

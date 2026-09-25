@@ -16,39 +16,39 @@
 
     <?php if ($news_posts->have_posts()) : ?>
 
-        <div class="site-news-wrapper border bg-body-secondary rounded p-3">
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
 
-            <?php
-            while ($news_posts->have_posts()) :
-                $news_posts->the_post();
-            ?>
+                <tbody>
 
-                <article class="site-news-entry pb-3 mb-3 border-bottom">
+                    <?php
+                    while ($news_posts->have_posts()) :
+                        $news_posts->the_post();
+                    ?>
 
-                    <header class="site-news-entry-header mb-1">
+                        <tr>
 
-                        <div class="small text-muted">
-                            🗓 <?php echo esc_html(get_the_date()); ?>
-                        </div>
+                            <td class="text-muted small text-nowrap">
+                                🗓️️ <?php echo esc_html(get_the_date()).":"; ?>
+                            </td>
 
-                    </header>
+                            <td>
+                                <a
+                                    href="<?php the_permalink(); ?>"
+                                    class="text-decoration-none">
 
-                    <div class="site-news-entry-content">
+                                    <?php the_title(); ?>
 
-                        <a
-                            href="<?php the_permalink(); ?>"
-                            class="text-decoration-none">
+                                </a>
+                            </td>
 
-                            <?php the_title(); ?>
+                        </tr>
 
-                        </a>
+                    <?php endwhile; ?>
 
-                    </div>
+                </tbody>
 
-                </article>
-
-            <?php endwhile; ?>
-
+            </table>
         </div>
 
     <?php else : ?>
