@@ -1,106 +1,124 @@
-<?php
-$current_post_id = get_the_ID();
-$categories = wp_get_post_categories($current_post_id);
+<?php if (! in_category('news')) : ?>
+    <?php
+    $current_post_id = get_the_ID();
+    $categories = wp_get_post_categories($current_post_id);
 
-$related_posts = new WP_Query([
-    'post_type'           => 'post',
-    'posts_per_page'      => 2,
-    'post__not_in'        => [$current_post_id],
-    'category__in'        => $categories,
-    'orderby'             => 'date',
-    'order'               => 'DESC',
-    'ignore_sticky_posts' => true,
-    'post_status'         => 'publish',
-]);
-?>
-<section class="related-post mt-4">
+    $related_posts = new WP_Query([
+        'post_type'           => 'post',
+        'posts_per_page'      => 2,
+        'post__not_in'        => [$current_post_id],
+        'category__in'        => $categories,
+        'orderby'             => 'date',
+        'order'               => 'DESC',
+        'ignore_sticky_posts' => true,
+        'post_status'         => 'publish',
+    ]);
+    ?>
+    <section class="related-post mt-4">
 
-    <header class="related-post-header mb-3 pb-2 border-bottom">
-        <h2 class="h5 mb-0">
-            📝 บทความที่เกี่ยวข้อง
-        </h2>
-    </header>
+        <header class="related-post-header mb-3 pb-2 border-bottom">
+            <h2 class="h5 mb-0">
+                📝 บทความที่เกี่ยวข้อง
+            </h2>
+        </header>
 
-    <div class="related-post-wrapper">
+        <?php if ($related_posts->have_posts()) : ?>
 
-        <?php while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
+            <div class="related-post-wrapper">
 
-            <article
-                <?php post_class('related-post-item mb-4'); ?>
-                id="post-<?php the_ID(); ?>">
+                <?php while ($related_posts->have_posts()) : $related_posts->the_post(); ?>
 
-                <div class="row g-3">
+                    <article
+                        <?php post_class('related-post-item mb-4'); ?>
+                        id="post-<?php the_ID(); ?>">
 
-                    <div class="col-5 col-sm-4">
+                        <div class="row g-3">
 
-                        <?php if (has_post_thumbnail()) : ?>
+                            <div class="col-5 col-sm-4">
 
-                            <a href="<?php the_permalink(); ?>">
+                                <?php if (has_post_thumbnail()) : ?>
 
-                                <?php
-                                the_post_thumbnail(
-                                    'thumbnail',
-                                    [
-                                        'class' => 'img-fluid rounded',
-                                    ]
-                                );
-                                ?>
+                                    <a href="<?php the_permalink(); ?>">
 
-                            </a>
+                                        <?php
+                                        the_post_thumbnail(
+                                            'thumbnail',
+                                            [
+                                                'class' => 'img-fluid rounded',
+                                            ]
+                                        );
+                                        ?>
 
-                        <?php else : ?>
+                                    </a>
 
-                            <a href="<?php the_permalink(); ?>">
+                                <?php else : ?>
 
-                                <img
-                                    src="https://placehold.co/150x150"
-                                    alt=""
-                                    width="150"
-                                    height="150"
-                                    class="img-fluid rounded">
+                                    <a href="<?php the_permalink(); ?>">
 
-                            </a>
+                                        <img
+                                            src="https://placehold.co/150x150"
+                                            alt=""
+                                            width="150"
+                                            height="150"
+                                            class="img-fluid img-thumbnail rounded">
 
-                        <?php endif; ?>
+                                    </a>
 
-                    </div>
+                                <?php endif; ?>
 
-                    <div class="col">
-
-                        <header class="entry-header">
-
-                            <a href="<?php the_permalink(); ?>"
-                                class="text-decoration-none">
-
-                                <?php
-                                the_title(
-                                    '<h3 class="entry-title h6 mb-1">',
-                                    '</h3>'
-                                );
-                                ?>
-
-                            </a>
-
-                            <div class="entry-meta">
-                                <?php understrap_posted_on(); ?>
                             </div>
 
-                        </header>
+                            <div class="col">
 
-                        <footer class="entry-footer">
+                                <header class="entry-header">
 
-                            <?php understrap_entry_footer(); ?>
+                                    <a href="<?php the_permalink(); ?>"
+                                        class="text-decoration-none">
 
-                        </footer>
+                                        <?php
+                                        the_title(
+                                            '<h3 class="entry-title h6 mb-1">',
+                                            '</h3>'
+                                        );
+                                        ?>
 
-                    </div>
+                                    </a>
 
-                </div>
+                                    <div class="entry-meta">
+                                        <?php understrap_posted_on(); ?>
+                                    </div>
 
-            </article>
+                                </header>
 
-        <?php endwhile; ?>
+                                <div class="entry-content text-muted small">
+                                    <?php the_excerpt(); ?>
+                                </div>
 
-    </div>
+                                <footer class="entry-footer">
 
-</section>
+                                    <?php understrap_entry_footer(); ?>
+
+                                </footer>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                <?php endwhile; ?>
+
+            </div>
+
+        <?php else : ?>
+
+            <div class="alert alert-secondary">
+                ยังไม่มีบทความที่เกี่ยวข้อง
+            </div>
+
+        <?php endif; ?>
+
+        <?php wp_reset_postdata(); ?>
+
+    </section>
+<?php endif; ?>

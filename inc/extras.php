@@ -326,6 +326,42 @@ function get_breadcrumb() {
 		}
 
 		/**
+		 * Date Archive
+		 *
+		 * Example:
+		 * Home / 2026 / January 2026
+		 */
+	} elseif (is_date()) {
+
+		$year      = get_query_var('year');
+		$month_num = get_query_var('monthnum');
+		$day       = get_query_var('day');
+
+		// Year.
+		if ($year) {
+			$breadcrumbs[] = array(
+				'name' => $year,
+				'url'  => get_year_link($year),
+			);
+		}
+
+		// Month.
+		if ($month_num) {
+			$breadcrumbs[] = array(
+				'name' => get_the_date('F Y'),
+				'url'  => get_month_link($year, $month_num),
+			);
+		}
+
+		// Day.
+		if ($day) {
+			$breadcrumbs[] = array(
+				'name' => get_the_date('j F Y'),
+				'url'  => '',
+			);
+		}
+
+		/**
 		 * Single Post
 		 *
 		 * Example:
@@ -469,7 +505,7 @@ function get_breadcrumb() {
 
 		// Add separator before every item except Home.
 		if ($index > 0) {
-			echo ' &nbsp;&nbsp;/&nbsp;&nbsp;';
+			echo '&nbsp;/&nbsp;';
 		}
 
 		// The last breadcrumb represents the current page,
@@ -516,5 +552,5 @@ function aboyuma_facebook_share_button() {
 add_filter('excerpt_length', 'understrap_custom_excerpt_length', 999);
 
 function understrap_custom_excerpt_length($length) {
-	return 20; // Change this number to desired word count
+	return 5; // Change this number to desired word count
 }

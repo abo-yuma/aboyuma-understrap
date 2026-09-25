@@ -167,17 +167,7 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 }
 
-.woocommerce-products-header {
-	.woocommerce-products-header__title {
-		font-size: 25px;
-		padding: 0.5em 0.7em;
-		border-left: 5px solid var(--bs-primary);
-		background-color: var(--bs-tertiary-bg);
-	}
-}
-
 .single-product {
-
 	div.product .summary .price {
 		color: var(--bs-body-color);
 	}
@@ -203,4 +193,22 @@ figure.woocommerce-product-gallery__wrapper {
 	.woocommerce div.product .woocommerce-tabs ul.tabs {
 		padding-left: 0;
 	}
+
+	.woocommerce #reviews #comments h2 {
+		font-size: 0.8125rem;
+	}
+}
+
+// Make the WooCommerce lightbox overlay semi-transparent.
+.pswp__bg {
+	opacity: 0.7 !important;
+	background: #000;
+}
+
+ul.product_list_widget li > a > img.attachment-woocommerce_thumbnail {
+	float: none;
+	display: block;
+	width: 100%;
+	max-width: none;
+	height: auto;
 }

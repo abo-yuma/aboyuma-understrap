@@ -77,7 +77,7 @@
                 </span>
 
                 <span>
-                    🗓 <?php echo get_the_date('M j, Y'); ?>
+                    🗓️ <?php echo get_the_date('M j, Y'); ?>
                 </span>
 
             </div>

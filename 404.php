@@ -23,11 +23,10 @@ $container_classes = $container . ' py-0';
 				<main class="site-main" id="main">
 					<section class="error-404 not-found">
 
-						<header class="page-header">
+						<header class="page-header mb-4">
 
 							<h1 class="page-title"><?php /*esc_html_e('Oops! That page can&rsquo;t be found.', 'understrap'); */ ?></h1>
 							<h1 class="page-title"><?php esc_html_e('ไม่พบหน้านี้', 'understrap'); ?></h1>
-
 
 						</header><!-- .page-header -->
 

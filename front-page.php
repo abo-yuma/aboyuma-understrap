@@ -24,6 +24,12 @@ $container_classes = $container . ' py-0';
 
     <div class="row">
 
+        <div class="sidebar-right-column border-end px-3" id="sidebar-right">
+            <?php
+            get_template_part('sidebar-templates/sidebar', 'right');
+            ?>
+        </div>
+
         <div class="main-content-column px-3">
             <div class="main-content-wrapper mb-2">
                 <main class="site-main" id="main">
@@ -40,7 +46,7 @@ $container_classes = $container . ' py-0';
                         <div class="home-marquee-wrapper mb-4">
                             <div class="home-marquee-content"
                                 data-duration="<?php echo esc_attr($marquee_duration); ?>">
-                                <?php echo "🗓 " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
+                                <?php echo "🗓️ " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -63,15 +69,10 @@ $container_classes = $container . ' py-0';
                     <!-- Site News -->
                     <?php get_template_part('frontpage-templates/site-news'); ?>
                     <!-- Latest Posts -->
-                    <?php get_template_part('frontpage-templates/latest-post'); ?>
+                    <?php get_template_part('frontpage-templates/latest-post'); 
+                    ?>
                 </main>
             </div>
-        </div>
-
-        <div class="sidebar-right-column border-start px-3" id="sidebar-right">
-            <?php
-            get_template_part('sidebar-templates/sidebar', 'right');
-            ?>
         </div>
 
     </div><!-- .row -->

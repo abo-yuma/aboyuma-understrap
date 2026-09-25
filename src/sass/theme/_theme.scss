@@ -1,4 +1,7 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+:root {
+	--bs-heading-color: inherit;
+}
 
 /* Desktop default */
 html {
@@ -13,7 +16,15 @@ html {
 
 .main-wrapper,
 .container {
-	max-width: 760px;
+	max-width: 780px;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	// letter-spacing: 0.5px;
+	// font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* 
@@ -45,91 +56,33 @@ html {
 	}
 }
 
-body {
-	-webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	-o-font-smoothing: antialiased;
-	//letter-spacing: 1px;
-}
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	//letter-spacing: 2px;
+	// text-transform: uppercase;
+	// letter-spacing: 1.5px;
 }
 
-.wrapper-header {
-	background-color: #fff;
-}
-
-#main-header {
+.site-header {
 	min-height: 90px;
-	padding: 0 1rem;
-
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	padding: 1rem 0;
 }
 
-.header-brand {
-	.header-title {
-		font-size: 1.75rem;
-		font-weight: 700;
-		letter-spacing: 0.08em;
-	}
+.site-logo {
+	flex-shrink: 0;
 }
 
-.header-info {
-	text-align: right;
-
-	.header-subtitle {
-		font-size: 1rem;
-		font-weight: 600;
-	}
-
-	.header-description {
-		font-size: 0.875rem;
-		margin-top: 0.25rem;
-		color: #666;
-	}
-}
-
-#main-image {
-	position: relative;
-}
-
-#main-image .header-image {
+.site-logo img {
 	display: block;
-	width: 100%;
-	height: auto;
+	width: 100px;
+	height: 80;
 }
 
-#main-image .header-tagline {
-	position: absolute;
-	top: 50%;
-	left: 50px;
-	transform: translateY(-50%);
-	z-index: 2;
-}
-
-#main-image .header-title {
-	color: #fff;
-	font-size: 32px;
-	font-weight: 700;
-	line-height: 1.2;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-#main-image .header-subtitle {
-	margin-top: 10px;
-	color: rgba(255, 255, 255, 0.9);
-	font-size: 17px;
-	font-weight: 400;
-	line-height: 1.5;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+.header-tagline {
+	flex-shrink: 0;
 }
 
 // ***** Navbar Style ***** //
@@ -167,6 +120,7 @@ h6 {
 
 #navbar-main .navbar-nav .nav-link {
 	font-size: 0.875rem;
+	padding: 0.4rem;
 	// line-height: 1.2;
 }
 
@@ -353,12 +307,24 @@ body.admin-bar #navbar-main.is-fixed {
 // }
 
 .site-news-wrapper {
-	max-height: 300px;
+	max-height: 500px;
 	overflow-y: auto;
 }
 
 .site-news-entry {
-	border-bottom: 1px dotted var(--bs-border-color);
+	border-bottom: 1px solid $news-border-color;
+}
+
+.site-news-entry:last-child {
+	border-bottom: 0;
+}
+
+.site-news-entry .entry-meta {
+	color: $news-meta-color;
+}
+
+.site-news-entry a {
+	color: $primary;
 }
 
 .latest-post-item .entry-title {
@@ -367,16 +333,25 @@ body.admin-bar #navbar-main.is-fixed {
 }
 
 .latest-post-item .entry-meta {
-	font-size: 13px;
+	font-size: 0.8125rem; // 13px
+}
+
+// Prevent long unbroken text from forcing the Bootstrap column
+// to expand beyond the available width.
+.latest-post-item .col {
+	min-width: 0;
+}
+
+// Allow long words or unbroken strings to wrap instead of
+// pushing the content column onto a new line.
+.latest-post-item .entry-title,
+.latest-post-item .entry-content {
+	overflow-wrap: anywhere;
 }
 
 .single-post .entry-content {
 	font-size: 18px;
-	line-height: 1.8;
-}
-
-.related-post-item .entry-meta {
-	font-size: 13px;
+	//line-height: 1.7;
 }
 
 /*
@@ -398,12 +373,6 @@ body.admin-bar #navbar-main.is-fixed {
 */
 #wrapper-header {
 	overflow: hidden;
-}
-
-#wrapper-header img {
-	width: 100%;
-	object-fit: cover;
-	height: 160px;
 }
 
 /* =========================================================
@@ -718,15 +687,6 @@ footer {
 	font-weight: 600;
 }
 
-.author-box .card {
-	background-color: #e3e7e9;
-	border: 1px solid #aeb7bc !important;
-}
-
-.author-box .card-body {
-	background-color: transparent;
-}
-
 .profile-actions {
 	gap: 0.2rem;
 }
@@ -993,53 +953,6 @@ table.dataTable#latest-product-table tbody td {
 	text-decoration: none !important;
 }
 
-/* wrapper */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper {
-	position: relative;
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
-
-/* anchor as positioning context */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper a {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
-}
-
-/* image */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-/* YOUR play button style + centering */
-#reccommend-video-widget,
-#product-related-video .play-btn {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-
-	width: 60px;
-	height: 60px;
-	background: rgba(0, 0, 0, 0.6);
-	border-radius: 12px;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	z-index: 10;
-	pointer-events: none; /* click goes to <a> */
-}
-
 /* YOUR triangle */
 #reccommend-video-widget,
 #product-related-video .play-btn::before {
@@ -1058,7 +971,7 @@ table.dataTable#latest-product-table tbody td {
 
 .home-marquee-content {
 	font-size: 18px;
-	color: var(--bs-body-color);
+	color: var(--bs-info);
 	white-space: nowrap;
 }
 
@@ -1126,46 +1039,6 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	padding-right: 0 !important;
 }
 
-.featured-image {
-	aspect-ratio: 16 / 9;
-	background: #111;
-	overflow: hidden;
-}
-
-.featured-image .post-thumbnail {
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
-
-.featured-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	display: block;
-}
-
-/* Ensure carousel has relative positioning */
-#featured-post-carousel {
-	position: relative;
-}
-
-/* 
- * Fix: By default, Bootstrap carousel controls span 100% height,
- * which can overlap and block underlying content (e.g., "Read more" links).
- *
- * Solution: Limit the control size and vertically center it,
- * so it only covers the middle area of the carousel instead of the full height.
- */
-.carousel-control-prev,
-.carousel-control-next {
-	top: 50%;
-	transform: translateY(-50%);
-	height: 60px;
-	width: 60px;
-}
-
 /* Override Bootstrap style */
 .card {
 	--bs-card-border-color: var(--bs-border-color);
@@ -1198,16 +1071,12 @@ ul {
 	}
 }
 
-#home-featured-post .entry-meta {
-	font-size: 13px;
-}
-
 // Page
 .page:not(.home) .entry-title {
 	font-size: 25px;
 	padding: 0.5em 0.7em;
 	border-left: 5px solid var(--bs-primary);
-	background-color: var(--bs-tertiary-bg);
+	background-color: var(--bs-seconday-subtle);
 }
 
 .page-header .page-title {
@@ -1229,7 +1098,7 @@ ul {
 	font-size: 25px;
 	padding: 0.5em 0.7em;
 	border-left: 5px solid var(--bs-primary);
-	background-color: var(--bs-tertiary-bg);
+	background-color: var(--bs-secondary-subtle);
 }
 
 .archive .archive-loop-item .entry-title {
@@ -1238,7 +1107,16 @@ ul {
 }
 
 .archive .archive-loop-item .entry-meta {
-	font-size: 13px;
+	font-size: 0.8125rem; // 13px
+}
+
+.search-loop-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.site-news .entry-meta {
+	font-size: 0.8125rem; // 13px
 }
 
 // Single post
@@ -1246,30 +1124,41 @@ ul {
 	font-size: 25px;
 	padding: 0.5em 0.7em;
 	border-left: 5px solid var(--bs-primary);
-	background-color: var(--bs-tertiary-bg);
+	background-color: var(--bs-secondary-subtle);
 }
 
 .single-post .post-entry-meta {
-	font-size: 13px;
+	font-size: 0.8125rem; // 13px
 }
 
 .single-post .post-views {
-	font-size: 13px;
+	font-size: 0.8125rem; // 13px
 }
 
-.related-post .related-post-title {
-	font-size: 1rem;
-	font-weight: 600;
-	padding-bottom: 0.5rem;
-	border-bottom: 2px solid var(--bs-border-color);
+.related-post .entry-content {
+	font-size: 0.875rem;
 }
 
-.related-post .related-post-entry-title {
-	font-size: 1rem;
+.related-post-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
 }
 
-.related-post .related-post-entry-meta {
-	font-size: 13px;
+.related-post-item .entry-meta {
+	font-size: 0.8125rem; // 13px
+}
+
+// Prevent long unbroken text from forcing the Bootstrap column
+// to expand beyond the available width.
+.related-post-item .col {
+	min-width: 0;
+}
+
+// Allow long words or unbroken strings to wrap instead of
+// pushing the content column onto a new line.
+.related-post-item .entry-title,
+.related-post-item .entry-content {
+	overflow-wrap: anywhere;
 }
 
 // Form style

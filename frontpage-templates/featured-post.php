@@ -96,7 +96,7 @@
                         </span>
 
                         <span>
-                            <?php echo '🗓 ' . esc_html(get_the_date('M j, Y')); ?>
+                            <?php echo '🗓️ ' . esc_html(get_the_date('M j, Y')); ?>
                         </span>
 
                     </div>
