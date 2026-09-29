@@ -3,6 +3,12 @@
 	--bs-heading-color: inherit;
 }
 
+@font-face {
+	font-family: "Tahoma";
+	src: local("Tahoma");
+	unicode-range: U+0E00-0E7F;
+}
+
 /* Desktop default */
 html {
 	font-size: 16px;
@@ -24,7 +30,14 @@ body {
 	-moz-font-smoothing: antialiased;
 	-o-font-smoothing: antialiased;
 	// letter-spacing: 0.5px;
-	// font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family:
+		"Thai Tahoma",
+		"Open Sans",
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Arial,
+		sans-serif;
 }
 
 /* 
@@ -349,10 +362,10 @@ body.admin-bar #navbar-main.is-fixed {
 	overflow-wrap: anywhere;
 }
 
-.single-post .entry-content {
-	font-size: 18px;
-	//line-height: 1.7;
-}
+// .single-post .entry-content {
+// 	font-size: 18px;
+// 	line-height: 1.6;
+// }
 
 /*
     Fix: Prevent the image from slightly overflowing the container (≈1px on the right side)
@@ -633,9 +646,10 @@ footer {
 
 // Custom column with for content
 @media (min-width: 768px) {
-	.sidebar-right-column {
+	.sidebar-column {
 		flex: 0 0 auto;
 		width: 30%;
+		border-right: 1px dashed var(--bs-border-color);
 	}
 	.main-content-column {
 		flex: 0 0 auto;
@@ -644,7 +658,7 @@ footer {
 }
 
 @media (max-width: 767px) {
-	.sidebar-right-column.border-start {
+	.sidebar-column.border-start {
 		border-left: none !important;
 	}
 }
@@ -675,7 +689,7 @@ footer {
 [data-bs-theme="light"] body {
 	// use shade of #bad2e2 Color Hex
 	// background-color: #cedfea;
-	background-color: #a6bfd5; // #c7dae7 #b3cbdd #a9c6db #95b1c9 #b4cde2 #9fb8cf
+	background-color: #a9c6db; // #c7dae7 #b3cbdd #a9c6db #95b1c9 #b4cde2 #9fb8cf
 }
 
 [data-bs-theme="dark"] body {
@@ -1161,7 +1175,7 @@ ul {
 	overflow-wrap: anywhere;
 }
 
-// Form style
+// form style
 .form-control,
 .form-select,
 .btn {

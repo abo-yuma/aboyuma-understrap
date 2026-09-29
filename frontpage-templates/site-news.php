@@ -6,9 +6,8 @@
 
     <?php
     $news_posts = new WP_Query([
-        'post_type'           => 'post',
+        'post_type'           => 'news',
         'posts_per_page'      => 5,
-        'category_name'       => 'news',
         'post_status'         => 'publish',
         'ignore_sticky_posts' => true,
     ]);
@@ -17,7 +16,7 @@
     <?php if ($news_posts->have_posts()) : ?>
 
         <div class="table-responsive">
-            <table class="table table-striped mb-0">
+            <table class="table table-striped table-hover mb-0">
 
                 <tbody>
 
@@ -29,7 +28,7 @@
                         <tr>
 
                             <td class="text-muted small text-nowrap">
-                                🗓️️ <?php echo esc_html(get_the_date()).":"; ?>
+                                🗓️ <?php echo esc_html(get_the_date()) . ':'; ?>
                             </td>
 
                             <td>
