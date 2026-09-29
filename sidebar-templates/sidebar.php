@@ -8,7 +8,7 @@
 <div id="sidebar-left-widget-wrapper" class="sidebar-left-widget-wrapper mb-2">
 
 	<?php
-	if (is_active_sidebar('right-sidebar') || is_archive() || is_single()):
+	if (is_active_sidebar('primary-sidebar') || is_archive() || is_single()):
 	?>
 		<div class="sticky-widget-wrapper">
 

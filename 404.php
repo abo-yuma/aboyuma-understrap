@@ -20,7 +20,7 @@ $container_classes = $container . ' py-0';
 	<div class="row">
 		<div class="sidebar-column px-4" id="sidebar">
 			<?php
-			get_template_part('sidebar-templates/sidebar', 'right');
+			get_template_part('sidebar-templates/sidebar');
 			?>
 		</div>
 		<div class="main-content-column px-4">

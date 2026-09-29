@@ -58,7 +58,7 @@ $container_classes = $container . ' py-0';
 		</div>
 		<div class="sidebar-column px-4 border-start px-3" id="sidebar">
 			<?php
-			get_template_part('sidebar-templates/sidebar', 'right');
+			get_template_part('sidebar-templates/sidebar');
 			?>
 		</div>
 	</div><!-- .row -->
