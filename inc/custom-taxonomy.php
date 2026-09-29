@@ -35,6 +35,10 @@ if (! function_exists('aboyuma_register_news_taxonomy')) {
             'show_ui'           => true,
             'show_admin_column' => true,
             'show_in_rest'      => true,
+            'default_term'      => array(
+                'name' => 'Uncategorized',
+                'slug' => 'uncategorized',
+            ),
             'rewrite'           => array(
                 'slug' => 'news-category',
             ),

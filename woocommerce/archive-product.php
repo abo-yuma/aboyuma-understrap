@@ -53,7 +53,7 @@ $categories = get_terms(
 
     <select
         id="product-category"
-        class="form-select form-select-sm"
+        class="form-select"
         style="width: 150px;">
 
         <option value="">

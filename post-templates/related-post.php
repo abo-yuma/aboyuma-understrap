@@ -92,6 +92,13 @@
 
                                 <div class="entry-content text-muted small">
                                     <?php the_excerpt(); ?>
+                                    <div class="text-end mt-2">
+                                        <a
+                                            href="<?php the_permalink(); ?>"
+                                            class="btn btn-outline-primary btn-sm">
+                                            อ่านบทความ →
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <footer class="entry-footer">

@@ -24,7 +24,7 @@ $container_classes = $container . ' py-0';
 <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 	<div class="row">
-		<div class="main-content-column px-3">
+		<div class="main-content-column px-4 px-3">
 			<div class="main-content-wrapper mb-2">
 				<main class="site-main" id="main">
 					<?php
@@ -56,7 +56,7 @@ $container_classes = $container . ' py-0';
 				</main>
 			</div>
 		</div>
-		<div class="sidebar-right-column border-start px-3" id="sidebar-right">
+		<div class="sidebar-column px-4 border-start px-3" id="sidebar">
 			<?php
 			get_template_part('sidebar-templates/sidebar', 'right');
 			?>

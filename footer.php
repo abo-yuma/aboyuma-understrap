@@ -12,18 +12,19 @@
 	<!-- Grid container -->
 	<!-- Copyright -->
 	<div id="copyright-content" class="text-center p-2 copyright-content">
-		<div>
-			<?php
-			$start_year = 2026;
-			$current_year = date('Y');
 
-			if ($start_year == $current_year) {
-				echo "&copy; Copyright {$current_year} aboyuma.com";
-			} else {
-				echo "&copy; Copyright {$start_year}&ndash;{$current_year} aboyuma.com";
-			}
-			?>
-		</div>
+		<?php
+		$start_year = 2026;
+		$current_year = date('Y');
+
+		if ($start_year == $current_year) {
+			echo "&copy; Copyright {$current_year} aboyuma.com";
+		} else {
+			echo "&copy; Copyright {$start_year}&ndash;{$current_year} aboyuma.com";
+		}
+		?>
+		<span class="mx-1">|</span>
+		Theme Powered by <a href="https://understrap.com/" target="_blank">Understrap</a>
 	</div>
 	<!-- Copyright -->
 </footer>

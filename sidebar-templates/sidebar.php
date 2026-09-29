@@ -14,7 +14,7 @@
 
 			<div id="widget-area" class="widget-area" role="complementary">
 				<?php
-				dynamic_sidebar('right-sidebar');
+				dynamic_sidebar('primary-sidebar');
 
 				if (current_user_can('manage_options')):
 				?>

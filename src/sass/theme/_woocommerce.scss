@@ -205,10 +205,21 @@ figure.woocommerce-product-gallery__wrapper {
 	background: #000;
 }
 
-ul.product_list_widget li > a > img.attachment-woocommerce_thumbnail {
-	float: none;
-	display: block;
-	width: 100%;
-	max-width: none;
-	height: auto;
+// ul.product_list_widget li > a > img.attachment-woocommerce_thumbnail {
+// 	float: none;
+// 	display: block;
+// 	width: 100%;
+// 	max-width: none;
+// 	height: auto;
+// }
+
+// enable for Yeti bootswatch only
+.woocommerce-breadcrumb {
+	font-size: 0.875rem;
+	font-weight: 300;
+	text-transform: uppercase;
+	color: #767676;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	margin: 0 0 1em;
+	padding: 0;
 }
