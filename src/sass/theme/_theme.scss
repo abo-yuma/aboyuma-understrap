@@ -648,12 +648,12 @@ footer {
 @media (min-width: 768px) {
 	.sidebar-column {
 		flex: 0 0 auto;
-		width: 31%;
+		width: 30%;
 		border-right: 1px dashed var(--bs-border-color);
 	}
 	.main-content-column {
 		flex: 0 0 auto;
-		width: 69%;
+		width: 70%;
 	}
 }
 
