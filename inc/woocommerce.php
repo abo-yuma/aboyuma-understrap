@@ -80,7 +80,7 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 		echo '<div class="row">';
 
 		echo '<div class="sidebar-column px-4" id="sidebar">';
-		echo  get_template_part('sidebar-templates/sidebar', 'right');
+		echo  get_template_part('sidebar-templates/sidebar');
 		echo '</div><!-- .sidebar-column -->';
 		echo '<div class="main-content-column px-4">';
 		echo '<div class="main-content-wrapper mb-2">';
