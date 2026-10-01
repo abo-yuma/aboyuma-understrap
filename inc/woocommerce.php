@@ -79,10 +79,10 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 
 		echo '<div class="row">';
 
-		echo '<div class="sidebar-column px-4" id="sidebar">';
+		echo '<div class="sidebar-column px-4 order-2 order-md-1" id="sidebar">';
 		echo  get_template_part('sidebar-templates/sidebar');
 		echo '</div><!-- .sidebar-column -->';
-		echo '<div class="main-content-column px-4">';
+		echo '<div class="main-content-column px-4 order-1 order-md-2" id="main-content">';
 		echo '<div class="main-content-wrapper mb-2">';
 		echo '<main class="site-main" id="main">';
 	}
@@ -1304,29 +1304,29 @@ if (! function_exists('aboyuma_note_tab_content')) {
 /**
  * Remove add to cart button from product archive.
  */
-remove_action(
-	'woocommerce_after_shop_loop_item',
-	'woocommerce_template_loop_add_to_cart',
-	10
-);
+// remove_action(
+// 	'woocommerce_after_shop_loop_item',
+// 	'woocommerce_template_loop_add_to_cart',
+// 	10
+// );
 
 /**
- * Add a link to return to the product listing.
+ * Add a link to return to the previous page.
  */
-if (! function_exists('aboyuma_back_to_products_link')) {
+if (! function_exists('aboyuma_back_link')) {
 
-	function aboyuma_back_to_products_link() {
+	function aboyuma_back_link() {
 		?>
 		<div class="mt-3 text-end">
-			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"
-				class="btn btn-sm btn-outline-primary">
-				&larr; ดูสินค้าอื่น
+			<a href="#" class="btn btn-sm btn-outline-primary"
+				onclick="history.back(); return false;">
+				&larr; ย้อนกลับ
 			</a>
 		</div>
 	<?php
 	}
 
-	add_action('woocommerce_single_product_summary', 'aboyuma_back_to_products_link', 55);
+	add_action('woocommerce_single_product_summary', 'aboyuma_back_link', 55);
 }
 
 /**

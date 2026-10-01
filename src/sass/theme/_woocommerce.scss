@@ -205,14 +205,6 @@ figure.woocommerce-product-gallery__wrapper {
 	background: #000;
 }
 
-// ul.product_list_widget li > a > img.attachment-woocommerce_thumbnail {
-// 	float: none;
-// 	display: block;
-// 	width: 100%;
-// 	max-width: none;
-// 	height: auto;
-// }
-
 // enable for Yeti bootswatch only
 .woocommerce-breadcrumb {
 	font-size: 0.875rem;
@@ -222,4 +214,39 @@ figure.woocommerce-product-gallery__wrapper {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 0 0 1em;
 	padding: 0;
+}
+
+// .woocommerce div.product div.images,
+// .woocommerce #content div.product div.images,
+// .woocommerce-page div.product div.images,
+// .woocommerce-page #content div.product div.images {
+// 	float: left;
+// 	width: 55%;
+// }
+
+// .woocommerce div.product div.summary,
+// .woocommerce #content div.product div.summary,
+// .woocommerce-page div.product div.summary,
+// .woocommerce-page #content div.product div.summary {
+// 	float: right;
+// 	width: 41%;
+// 	clear: none;
+// }
+
+.woocommerce div.product div.images,
+.woocommerce #content div.product div.images,
+.woocommerce-page div.product div.images,
+.woocommerce-page #content div.product div.images {
+	float: none;
+	width: 100%;
+	margin: 0 auto 20px;
+}
+
+.woocommerce div.product div.summary,
+.woocommerce #content div.product div.summary,
+.woocommerce-page div.product div.summary,
+.woocommerce-page #content div.product div.summary {
+	float: none;
+	width: 100%;
+	clear: both;
 }
