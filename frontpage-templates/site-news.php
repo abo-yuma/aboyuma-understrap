@@ -49,6 +49,13 @@
 
             </table>
         </div>
+        <div class="text-end mt-2">
+            <a
+                href="<?php echo esc_url(get_post_type_archive_link('news')); ?>"
+                class="btn btn-outline-primary btn-sm">
+                ดูข่าวสารทั้งหมด →
+            </a>
+        </div>
 
     <?php else : ?>
 

@@ -362,6 +362,70 @@ function get_breadcrumb() {
 		}
 
 		/**
+		 * News Archive
+		 *
+		 * Example:
+		 * Home / News
+		 */
+	} elseif (is_post_type_archive('news')) {
+
+		$breadcrumbs[] = array(
+			'name' => 'News',
+			'url'  => get_post_type_archive_link('news'),
+		);
+
+		/**
+		 * News Category Archive
+		 *
+		 * Example:
+		 * Home / News / Announcement
+		 */
+	} elseif (is_tax('news_category')) {
+
+		$term = get_queried_object();
+
+		if ($term instanceof WP_Term) {
+
+			// News archive.
+			$breadcrumbs[] = array(
+				'name' => 'News',
+				'url'  => get_post_type_archive_link('news'),
+			);
+
+			// Parent news categories.
+			$ancestors = get_ancestors(
+				$term->term_id,
+				'news_category'
+			);
+
+			$ancestors = array_reverse($ancestors);
+
+			foreach ($ancestors as $ancestor_id) {
+
+				$ancestor = get_term(
+					$ancestor_id,
+					'news_category'
+				);
+
+				if (
+					$ancestor &&
+					! is_wp_error($ancestor)
+				) {
+					$breadcrumbs[] = array(
+						'name' => $ancestor->name,
+						'url'  => get_term_link($ancestor),
+					);
+				}
+			}
+
+			// Current news category.
+			$breadcrumbs[] = array(
+				'name' => $term->name,
+				'url'  => get_term_link($term),
+			);
+		}
+
+		/**
 		 * Single Post
 		 *
 		 * Example:

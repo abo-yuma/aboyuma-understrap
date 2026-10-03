@@ -135,6 +135,7 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce ul.products {
 	display: flex;
 	flex-wrap: wrap;
+	row-gap: 1.5rem;
 }
 
 // Make each product card a vertical flex container.
@@ -216,37 +217,69 @@ figure.woocommerce-product-gallery__wrapper {
 	padding: 0;
 }
 
-// .woocommerce div.product div.images,
-// .woocommerce #content div.product div.images,
-// .woocommerce-page div.product div.images,
-// .woocommerce-page #content div.product div.images {
-// 	float: left;
-// 	width: 55%;
-// }
+@media (min-width: 768px) {
+	.woocommerce div.product div.images,
+	.woocommerce #content div.product div.images,
+	.woocommerce-page div.product div.images,
+	.woocommerce-page #content div.product div.images {
+		float: left;
+		width: 55%;
+	}
 
-// .woocommerce div.product div.summary,
-// .woocommerce #content div.product div.summary,
-// .woocommerce-page div.product div.summary,
-// .woocommerce-page #content div.product div.summary {
-// 	float: right;
-// 	width: 41%;
-// 	clear: none;
-// }
-
-.woocommerce div.product div.images,
-.woocommerce #content div.product div.images,
-.woocommerce-page div.product div.images,
-.woocommerce-page #content div.product div.images {
-	float: none;
-	width: 100%;
-	margin: 0 auto 20px;
+	.woocommerce div.product div.summary,
+	.woocommerce #content div.product div.summary,
+	.woocommerce-page div.product div.summary,
+	.woocommerce-page #content div.product div.summary {
+		float: right;
+		width: 41%;
+		clear: none;
+	}
 }
 
-.woocommerce div.product div.summary,
-.woocommerce #content div.product div.summary,
-.woocommerce-page div.product div.summary,
-.woocommerce-page #content div.product div.summary {
-	float: none;
-	width: 100%;
-	clear: both;
-}
+// @media (min-width: 768px) {
+// 	.woocommerce div.product div.images,
+// 	.woocommerce #content div.product div.images,
+// 	.woocommerce-page div.product div.images,
+// 	.woocommerce-page #content div.product div.images {
+// 		float: none;
+// 		width: 100%;
+// 		margin: 0 auto 20px;
+// 	}
+
+// 	.woocommerce div.product div.summary,
+// 	.woocommerce #content div.product div.summary,
+// 	.woocommerce-page div.product div.summary,
+// 	.woocommerce-page #content div.product div.summary {
+// 		float: none;
+// 		width: 100%;
+// 		clear: both;
+// 	}
+
+// 	/**
+// 	* Show 8 product gallery thumbnails per row.
+// 	*/
+// 	.woocommerce div.product div.images .flex-control-thumbs li {
+// 		width: 12.5%;
+// 	}
+// 	/**
+// 	* Disable WooCommerce's default 4-column row break.
+// 	*/
+// 	.woocommerce
+// 		div.product
+// 		.woocommerce-product-gallery--columns-4
+// 		.flex-control-thumbs
+// 		li:nth-child(4n + 1) {
+// 		clear: none;
+// 	}
+
+// 	/**
+// 	* Start a new row after every 8 thumbnails.
+// 	*/
+// 	.woocommerce
+// 		div.product
+// 		.woocommerce-product-gallery--columns-4
+// 		.flex-control-thumbs
+// 		li:nth-child(8n + 1) {
+// 		clear: left;
+// 	}
+// }

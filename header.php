@@ -28,38 +28,41 @@ defined('ABSPATH') || exit;
 		<a class="skip-link <?php echo understrap_get_screen_reader_class(true); ?>" href="#content">
 			<?php esc_html_e('Skip to content', 'understrap'); ?>
 		</a>
-		<header id="wrapper-header" class="wrapper-header">
-			<div class="container px-0">
-				<?php
-				$header_image_id = get_theme_mod('aboyuma_header_image');
 
-				$header_title = get_theme_mod(
-					'aboyuma_header_title',
-					'Yuma\'s Personal Blog'
-				);
+		<header id="site-header" class="site-header">
+			<div class="container p-3">
+				<div class="site-header-inner">
 
-				$header_subtitle = get_theme_mod(
-					'aboyuma_header_subtitle',
-					'Sharing life experiences'
-				);
-				?>
+					<div class="site-identity">
 
-				<div id="main-image">
+						<div class="site-logo">
+							<?php
+							if (has_custom_logo()) {
+								the_custom_logo();
+							}
+							?>
+						</div>
 
-					<?php
-					if (!empty($header_image_id)) {
+						<div class="site-info">
 
-						echo wp_get_attachment_image(
-							$header_image_id,
-							'full',
-							false,
-							array(
-								'class' => 'header-image',
-								'alt'   => 'Header image'
-							)
-						);
-					}
-					?>
+							<div class="site-title">
+								<?php bloginfo('name'); ?>
+							</div>
+
+							<div class="site-tagline">
+								<?php bloginfo('description'); ?>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="header-banner">
+						<span>
+							Advertisement Placement<br>
+							500 × 100
+						</span>
+					</div>
 
 				</div>
 			</div>
