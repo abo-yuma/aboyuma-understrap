@@ -36,6 +36,7 @@ $understrap_includes = array(
 	'/woocommerce.php',                     // Load woocommerce support functions.
 	'/custom-post-type.php',                // Load custom post type functions.
 	'/custom-taxonomy.php',                 // Load custom taxonomy functions.
+	'/news.php'                             // Load News functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.
