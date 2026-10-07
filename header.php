@@ -30,39 +30,21 @@ defined('ABSPATH') || exit;
 		</a>
 
 		<header id="site-header" class="site-header">
-			<div class="container p-3">
+			<div class="container px-0">
 				<div class="site-header-inner">
 
-					<div class="site-identity">
+					
 
-						<div class="site-logo">
-							<?php
-							if (has_custom_logo()) {
-								the_custom_logo();
-							}
-							?>
+					<?php if (get_header_image()) : ?>
+
+						<div class="site-header-banner">
+							<img
+								src="<?php echo esc_url(get_header_image()); ?>"
+								alt=""
+								class="img-fluid">
 						</div>
 
-						<div class="site-info">
-
-							<div class="site-title">
-								<?php bloginfo('name'); ?>
-							</div>
-
-							<div class="site-tagline">
-								<?php bloginfo('description'); ?>
-							</div>
-
-						</div>
-
-					</div>
-
-					<div class="header-banner">
-						<span>
-							Advertisement Placement<br>
-							500 × 100
-						</span>
-					</div>
+					<?php endif; ?>
 
 				</div>
 			</div>

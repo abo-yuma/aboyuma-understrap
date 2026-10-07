@@ -14,7 +14,7 @@ defined('ABSPATH') || exit;
 
 	<div class="row g-3">
 
-		<div class="col-5 col-sm-4">
+		<div class="col-3">
 
 			<?php if (has_post_thumbnail()) : ?>
 
@@ -52,7 +52,7 @@ defined('ABSPATH') || exit;
 
 		</div>
 
-		<div class="col">
+		<div class="col-9">
 
 			<header class="entry-header">
 

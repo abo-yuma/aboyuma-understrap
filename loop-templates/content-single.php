@@ -50,6 +50,6 @@ defined('ABSPATH') || exit;
 	</footer><!-- .entry-footer -->
 
 	<!-- author -->
-	<?php get_template_part('post-templates/author-box'); ?>
+	<?php //get_template_part('post-templates/author-box'); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

@@ -13,6 +13,8 @@
 		<div class="sticky-widget-wrapper">
 
 			<div id="widget-area" class="widget-area" role="complementary">
+
+
 				<?php
 				dynamic_sidebar('primary-sidebar');
 
@@ -23,6 +25,7 @@
 				<?php
 				endif;
 				?>
+				
 			</div><!-- /.widget-area -->
 		</div>
 	<?php
