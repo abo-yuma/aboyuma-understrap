@@ -18,12 +18,7 @@ $container_classes = $container . ' py-0';
 <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
 	<div class="row">
-		<div class="sidebar-column px-4 order-2 order-md-1" id="sidebar">
-			<?php
-			get_template_part('sidebar-templates/sidebar');
-			?>
-		</div>
-		<div class="main-content-column px-4 order-1 order-md-2" id="main-content">
+		<div class="main-content-column px-4" id="main-content">
 			<div class="main-content-wrapper mb-2">
 				<main class="site-main" id="main">
 					<section class="error-404 not-found">
@@ -82,6 +77,11 @@ $container_classes = $container . ' py-0';
 					</section><!-- .error-404 -->
 				</main>
 			</div>
+		</div>
+		<div class="sidebar-column px-4" id="sidebar">
+			<?php
+			get_template_part('sidebar-templates/sidebar');
+			?>
 		</div>
 	</div><!-- .row -->
 

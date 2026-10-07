@@ -79,10 +79,8 @@ if (! function_exists('understrap_woocommerce_wrapper_start')) {
 
 		echo '<div class="row">';
 
-		echo '<div class="sidebar-column px-4 order-2 order-md-1" id="sidebar">';
-		echo  get_template_part('sidebar-templates/sidebar');
-		echo '</div><!-- .sidebar-column -->';
-		echo '<div class="main-content-column px-4 order-1 order-md-2" id="main-content">';
+
+		echo '<div class="main-content-column px-4" id="main-content">';
 		echo '<div class="main-content-wrapper mb-2">';
 		echo '<main class="site-main" id="main">';
 	}
@@ -96,7 +94,9 @@ if (! function_exists('understrap_woocommerce_wrapper_end')) {
 		echo '</main><!-- .site-main -->';
 		echo '</div><!-- .main-content-wrapper -->';
 		echo '</div><!-- .main-content-column -->';
-
+		echo '<div class="sidebar-column px-4" id="sidebar">';
+		echo  get_template_part('sidebar-templates/sidebar');
+		echo '</div><!-- .sidebar-column -->';
 		echo '</div><!-- .row -->';
 
 		echo '</div><!-- .container(-fluid) -->';
@@ -1350,4 +1350,15 @@ if (! function_exists('aboyuma_back_to_products_link_below_related')) {
 		'aboyuma_back_to_products_link_below_related',
 		25
 	);
+}
+
+/**
+ * Disable WooCommerce zoom effect on the product image
+ * @author Abdelfatah Aboelghit
+ * @version 1.0
+ */
+add_action('wp', 'divikingdom_disable_wc_zoom', 99);
+
+function divikingdom_disable_wc_zoom() {
+	remove_theme_support('wc-product-gallery-zoom');
 }

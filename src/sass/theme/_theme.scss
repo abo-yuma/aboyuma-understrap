@@ -78,68 +78,23 @@ h6 {
 	// letter-spacing: 1.5px;
 }
 
-.site-header {
-	background-color: var(--bs-body-bg);
-	color: var(--bs-body-color);
+.site-identity {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+}
 
-	.site-header-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 30px;
-	}
+.site-title {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 2rem;
+	font-weight: 600;
+}
 
-	.site-identity {
-		display: flex;
-		align-items: center;
-		gap: 15px;
-	}
-
-	.site-logo {
-		flex: 0 0 auto;
-
-		img {
-			display: block;
-			width: 60px;
-			height: 60px;
-			object-fit: contain;
-		}
-	}
-
-	.site-info {
-		flex: 1 1 auto;
-	}
-
-	.site-title {
-		font-size: 1.5rem;
-		font-weight: 700;
-		line-height: 1.2;
-	}
-
-	.site-tagline {
-		margin-top: 4px;
-		font-size: 1rem;
-		line-height: 1.3;
-	}
-
-	.header-banner {
-		flex: 0 0 500px;
-
-		width: 500px;
-		height: 100px;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		background-color: rgba(0, 0, 0, 0.05);
-		border: 1px dashed var(--bs-border-color);
-
-		text-align: center;
-		font-size: 1rem;
-		color: var(--bs-body-color);
-		line-height: 1.5;
-	}
+.site-tagline {
+	font-family: Georgia, serif;
+	font-style: italic;
+	text-align: left;
 }
 
 // ***** Navbar Style ***** //
@@ -478,6 +433,10 @@ body.admin-bar #navbar-main.is-fixed {
 	content: "📄 ";
 }
 
+.author-box a {
+	text-decoration: none;
+}
+
 // .widget_archive,
 // .widget_categories,
 // .widget_recent_entries {
@@ -693,7 +652,7 @@ footer {
 	.sidebar-column {
 		flex: 0 0 auto;
 		width: 30%;
-		border-right: 1px dashed var(--bs-border-color);
+		border-left: 1px solid var(--bs-border-color);
 	}
 	.main-content-column {
 		flex: 0 0 auto;
@@ -733,7 +692,7 @@ footer {
 [data-bs-theme="light"] body {
 	// use shade of #bad2e2 Color Hex
 	// background-color: #cedfea;
-	background-color: #c6d3dd; // #c7dae7 #b3cbdd #a9c6db #95b1c9 #b4cde2 #9fb8cf
+	background-color: #c7dae7; // #c7dae7 #b3cbdd #a9c6db #95b1c9 #b4cde2 #9fb8cf #f1f1f1 #c6d3dd #ebebeb
 }
 
 [data-bs-theme="dark"] body {

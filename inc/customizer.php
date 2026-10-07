@@ -327,48 +327,6 @@ if (! function_exists('understrap_default_navbar_type')) {
 
 // ===== ABO YUMA Custom Customizer ===== //
 
-// Messenger Button Customzier
-if (! function_exists('aboyuma_messenger_button_customizer')) {
-
-	function aboyuma_messenger_button_customizer($wp_customize) {
-
-		// Section
-		$wp_customize->add_section('messenger_settings', array(
-			'title'    => __('Messenger Button', 'aboyuma'),
-			'priority' => 160,
-		));
-
-		// URL setting
-		$wp_customize->add_setting('messenger_chat_url', array(
-			'default'           => 'https://m.me/YOUR_FACEBOOK_PAGE',
-			'sanitize_callback' => 'esc_url_raw',
-		));
-
-		$wp_customize->add_control('messenger_chat_url_control', array(
-			'label'    => __('Messenger Chat URL', 'aboyuma'),
-			'section'  => 'messenger_settings',
-			'settings' => 'messenger_chat_url',
-			'type'     => 'url',
-		));
-
-		// Tooltip text setting
-		$wp_customize->add_setting('messenger_tooltip_text', array(
-			'default'           => "สนใจสมัครสมาชิก สั่งซื้อสินค้า <br>หรือสอบถามข้อมูลใช่ไหม ทักเลย!",
-			'sanitize_callback' => 'wp_kses_post',
-		));
-
-		$wp_customize->add_control('messenger_tooltip_text_control', array(
-			'label'       => __('Messenger Tooltip Text', 'aboyuma'),
-			'description' => __('You can use <br> for new line', 'aboyuma'),
-			'section'     => 'messenger_settings',
-			'settings'    => 'messenger_tooltip_text',
-			'type'        => 'textarea',
-		));
-	}
-}
-
-add_action('customize_register', 'aboyuma_messenger_button_customizer');
-
 if (! function_exists('aboyuma_marquee_customizer')) {
 	function aboyuma_marquee_customizer($wp_customize) {
 
@@ -406,61 +364,6 @@ if (! function_exists('aboyuma_marquee_customizer')) {
 }
 add_action('customize_register', 'aboyuma_marquee_customizer');
 
-// === ABO YUMA Header Customizer ===
-if (! function_exists('header_customizer_register')) {
-
-	function header_customizer_register($wp_customize) {
-
-		// Header Section
-		$wp_customize->add_section(
-			'aboyuma_header_section',
-			array(
-				'title'    => __('Header', 'aboyuma'),
-				'priority' => 25,
-			)
-		);
-
-		// Header Title
-		$wp_customize->add_setting(
-			'aboyuma_header_title',
-			array(
-				'default'           => "Yuma's Personal Blog",
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'sanitize_text_field',
-			)
-		);
-
-		$wp_customize->add_control(
-			'aboyuma_header_title',
-			array(
-				'label'    => __('Header Title', 'aboyuma'),
-				'section'  => 'aboyuma_header_section',
-				'type'     => 'text',
-			)
-		);
-
-		// Header Subtitle
-		$wp_customize->add_setting(
-			'aboyuma_header_subtitle',
-			array(
-				'default'           => 'Sharing life experiences',
-				'type'              => 'theme_mod',
-				'sanitize_callback' => 'sanitize_text_field',
-			)
-		);
-
-		$wp_customize->add_control(
-			'aboyuma_header_subtitle',
-			array(
-				'label'    => __('Header Subtitle', 'aboyuma'),
-				'section'  => 'aboyuma_header_section',
-				'type'     => 'text',
-			)
-		);
-	}
-}
-
-add_action('customize_register', 'header_customizer_register');
 
 add_filter('mce_buttons_2', function ($buttons) {
 
@@ -476,3 +379,32 @@ function disable_customizer_refresh($wp_customize) {
 	}
 }
 add_action('customize_register', 'disable_customizer_refresh', 100);
+
+/**
+ * ABO YUMA Theme Setup
+ *
+ * Register theme support for the WordPress Custom Header feature.
+ */
+function aboyuma_setup() {
+
+	// Enable the WordPress Custom Header feature.
+	add_theme_support(
+		'custom-header',
+		array(
+			// Recommended header image dimensions.
+			'width'              => 800,
+			'height'             => 100,
+			// Use a fixed header image size.
+			'flex-width'         => false,
+			'flex-height'        => false,
+			// Disable header text (site title and tagline).
+			'header-text'        => false,
+			// Allow users to upload header images.
+			'uploads'            => true,
+			// No default header image.
+			'default-image'      => '',
+		)
+	);
+}
+
+add_action('after_setup_theme', 'aboyuma_setup');

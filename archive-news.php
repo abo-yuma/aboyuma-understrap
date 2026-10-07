@@ -18,13 +18,7 @@ $container_classes = $container . ' py-0';
 
     <div class="row">
 
-        <div class="sidebar-column px-4 order-2 order-md-1" id="sidebar">
-            <?php
-            get_template_part('sidebar-templates/sidebar');
-            ?>
-        </div>
-
-        <div class="main-content-column px-4 order-1 order-md-2" id="main-content">
+        <div class="main-content-column px-4" id="main-content">
 
             <div class="main-content-wrapper mb-2">
 
@@ -91,7 +85,11 @@ $container_classes = $container . ' py-0';
             </div>
 
         </div>
-
+        <div class="sidebar-column px-4" id="sidebar">
+            <?php
+            get_template_part('sidebar-templates/sidebar');
+            ?>
+        </div>
     </div>
 
 </div>
