@@ -65,6 +65,14 @@ I discontinued this project and decided to develop my own customized version of 
 
 ---
 
+## 🎨 Bootstrap Styling
+
+- Built-in [Bootswatch](https://bootswatch.com/) integration for Bootstrap styling
+- [Yeti](https://bootswatch.com/yeti/) is used as the default theme
+
+See the [implementation details](https://github.com/thomaspark/bootswatch/#via-sass-imports).
+
+
 ## 🚀 Built-in Frontend Features
 
 This theme includes built-in features designed to cover common website needs, helping you reduce reliance on third-party plugins and keep your setup lightweight.
