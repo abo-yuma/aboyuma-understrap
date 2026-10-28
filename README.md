@@ -1,36 +1,76 @@
-## ABO YUMA - Personal Blog WordPress Theme
+# ABO YUMA - UNDERSTRAP
 
-A custom WordPress theme built on top of the [Understrap theme](https://understrap.com/).  
-This theme is developed for Yuma’s personal blog and Amway business.
+![WordPress](https://img.shields.io/badge/WordPress-Theme-21759B?logo=wordpress&logoColor=white)
+![WooCommerce](https://img.shields.io/badge/WooCommerce-Supported-96588A?logo=woocommerce&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Discontinued-lightgrey)
+
+**A custom WordPress theme built on top of the [Understrap](https://understrap.com/) theme.**
+
+Originally developed for a personal website. 
+The design concept combines blogging and commerce with a classic, old-school layout inspired by traditional blog websites. 
+
+**NOTE:**<br>
+I discontinued this project and decided to develop my own customized version of the [Twenty Ten](https://wordpress.org/themes/twentyten/) theme.
+
+### ☀️ Light Mode
+
+<div align="center">
+  <img src="docs/screenshots/theme.png" alt="ABO YUMA Theme - Light Mode" width="700">
+</div>
+
+### 🌙 Dark Mode
+
+<div align="center">
+  <img src="docs/screenshots/theme-darkmode.png" alt="ABO YUMA Theme - Dark Mode" width="700">
+</div>
+
+### 🔎 WooCommerce AJAX Product Filtering by Category and Subcategory
+
+<div align="center">
+  <img src="docs/screenshots/woocommerce-ajax-product-category-search.png" alt="WooCommerce AJAX Product Filtering by Category and Subcategory" width="700">
+</div>
+
+### 🛍️ WooCommerce Support
+
+- WooCommerce integration with additional custom product fields
+- Built-in AJAX product search and filtering by category and subcategory
+- AJAX pagination for product listings
 
 ---
 
 ## 📦 Installation
 
-(Installation steps go here)
+1. Navigate to the theme directory:
+
+   ```bash
+   cd wp-content/themes/aboyuma-understrap
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Build theme assets:
+
+   ```bash
+   npm run dist
+   ```
+
+4. Activate the **ABO YUMA - UNDERSTRAP** theme from **WordPress Admin → Appearance → Themes**.
+
+**Requirements:** Node.js and npm.
 
 ---
 
-## ⚙️ Required Plugin
-
-🛍 ABO YUMA Product Manager (Required for Product Sections)
-
-The homepage product sections:  
-Latest Product  
-depend on the ABO YUMA Product Manager plugin.
-
-## 🚀 Built-in Features
+## 🚀 Built-in Frontend Features
 
 This theme includes built-in features designed to cover common website needs, helping you reduce reliance on third-party plugins and keep your setup lightweight.
 
-- Full-width sticky navigation on scroll
-- Sticky sidebar on scroll
-- Floating messenger link button
 - Go to top button when scrolling down
 - Dark mode switch (Bootstrap 5.3+)
-- Breadcrumb navigation for posts and pages
-
-⚠️ **Note:** The contact form is disabled by default.
 
 ---
 
@@ -38,21 +78,4 @@ This theme includes built-in features designed to cover common website needs, he
 
 Additional Customizer options:
 
-- Header banner image
 - Home marquee content
-- Footer content
-  - About us content
-  - Line QR code
-  - Follow me social links
-
----
-
-## 🛠 TODO
-
-### 🔄 Future Refactors
-
-- Reorganize theme functionalities
-- Optimize database queries
-- Improve code cleanliness and structure
-- Remove unused files
-- Refactor CSS stylesheets for better maintainability
