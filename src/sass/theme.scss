@@ -17,12 +17,12 @@
 // Do not change this order unless you know what you're doing.
 // --------------------------------------------------
 
-@import "assets/bootswatch/spacelab/variables";  // <--- Loads Bootswatch theme variables
+@import "assets/bootswatch/yeti/variables";  // <--- Loads Bootswatch theme variables
 
 @import "assets/bootstrap5/bootstrap";       // <--- Loads Bootstrap
 
 // Must be loaded AFTER Bootstrap
-@import "assets/bootswatch/spacelab/bootswatch"; // <--- Loads Bootswatch theme
+@import "assets/bootswatch/yeti/bootswatch"; // <--- Loads Bootswatch theme
 
 @import "theme/understrap";                  // <--- Loads the Understrap defaults. Just a few classes to incorporate BS in WP
 @import "theme/colors";                      // <--- This creates the necessary bootstrap color classes.
@@ -30,7 +30,7 @@
 
 // Optional files - If you dont use the corresponding plugins/scripts/fonts comment em out
 @import "theme/contact-form7";               // <--- Contact Form 7 - Bootstrap support
-//@import "theme/woocommerce";               // <--- Loads WooCommerce style fixes. Comment out if you aren't using WooCommerce
+@import "theme/woocommerce";               // <--- Loads WooCommerce style fixes. Comment out if you aren't using WooCommerce
 @import "assets/fontawesome/font-awesome";   // <--- Font Awesome Icon font
 
 // Any additional imported files //

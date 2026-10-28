@@ -1,4 +1,13 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+:root {
+	--bs-heading-color: inherit;
+}
+
+@font-face {
+	font-family: "Tahoma";
+	src: local("Tahoma");
+	unicode-range: U+0E00-0E7F;
+}
 
 /* Desktop default */
 html {
@@ -7,13 +16,27 @@ html {
 
 /* Main wrapper */
 .main-wrapper {
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 }
 
 .main-wrapper,
 .container {
 	max-width: 780px;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	// letter-spacing: 0.5px;
+	font-family:
+		"Thai Tahoma",
+		"Open Sans",
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Arial,
+		sans-serif;
 }
 
 /* 
@@ -45,55 +68,33 @@ html {
 	}
 }
 
-body {
-	-webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	-o-font-smoothing: antialiased;
-	letter-spacing: 1px;
-}
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	letter-spacing: 2px;
+	// text-transform: uppercase;
+	// letter-spacing: 1.5px;
 }
 
-#main-image {
-	position: relative;
+.site-identity {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
 }
 
-#main-image .header-image {
-	display: block;
-	width: 100%;
-	height: auto;
+.site-title {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 2rem;
+	font-weight: 600;
 }
 
-#main-image .header-tagline {
-	position: absolute;
-	top: 50%;
-	left: 50px;
-	transform: translateY(-50%);
-	z-index: 2;
-}
-
-#main-image .header-title {
-	color: #fff;
-	font-size: 32px;
-	font-weight: 700;
-	line-height: 1.2;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-#main-image .header-subtitle {
-	margin-top: 10px;
-	color: rgba(255, 255, 255, 0.9);
-	font-size: 17px;
-	font-weight: 400;
-	line-height: 1.5;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+.site-tagline {
+	font-family: Georgia, serif;
+	font-style: italic;
+	text-align: left;
 }
 
 // ***** Navbar Style ***** //
@@ -130,12 +131,13 @@ h6 {
 }
 
 #navbar-main .navbar-nav .nav-link {
-	font-size: 0.875rem; /* 14px */
+	font-size: 0.875rem;
+	padding: 0.4rem;
 	// line-height: 1.2;
 }
 
 #navbar-main .dropdown-menu .dropdown-item {
-	font-size: 0.875rem; /* 14px */
+	font-size: 0.875rem;
 	/*
 	 * HACK: Add extra spacing to account for WordPress emoji rendered as <img>.
 	 * Without this, the emoji icon can sit too close to the menu text in the dropdown.
@@ -303,6 +305,7 @@ body.admin-bar #navbar-main.is-fixed {
 
 .main-content-wrapper {
 	margin-top: 1rem;
+	min-height: 500px;
 }
 
 /**
@@ -315,18 +318,53 @@ body.admin-bar #navbar-main.is-fixed {
 // 	}
 // }
 
-.single-post .entry-content {
-	font-size: 18px;
-	line-height: 1.8;
+.site-news-wrapper {
+	max-height: 500px;
+	overflow-y: auto;
 }
 
-.section-header {
-	font-size: 20px;
-	font-weight: 500;
-	line-height: 1.4;
-	padding-bottom: 0.25rem; /* space inside, before border */
-	border-bottom: 2px dotted var(--bs-border-color);
+.site-news-entry {
+	border-bottom: 1px solid $news-border-color;
 }
+
+.site-news-entry:last-child {
+	border-bottom: 0;
+}
+
+.site-news-entry .entry-meta {
+	color: $news-meta-color;
+}
+
+.site-news-entry a {
+	color: var(--bs-body-color);
+}
+
+.latest-post-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.latest-post-item .entry-meta {
+	font-size: 0.8125rem; // 13px
+}
+
+// Prevent long unbroken text from forcing the Bootstrap column
+// to expand beyond the available width.
+.latest-post-item .col {
+	min-width: 0;
+}
+
+// Allow long words or unbroken strings to wrap instead of
+// pushing the content column onto a new line.
+.latest-post-item .entry-title,
+.latest-post-item .entry-content {
+	overflow-wrap: anywhere;
+}
+
+// .single-post .entry-content {
+// 	font-size: 18px;
+// 	line-height: 1.6;
+// }
 
 /*
     Fix: Prevent the image from slightly overflowing the container (≈1px on the right side)
@@ -349,37 +387,78 @@ body.admin-bar #navbar-main.is-fixed {
 	overflow: hidden;
 }
 
-#wrapper-header img {
-	width: 100%;
-	object-fit: cover;
-	height: 160px;
-}
-
-/* Sidebar */
+/* =========================================================
+   Sidebar / Widget Area
+   ========================================================= */
 
 .widget-area {
+	a {
+		// color: var(--bs-body-color);
+	}
+	/* Base typography */
+	font-size: 0.875rem; // 14px
+
+	/* Lists */
 	ul {
 		list-style: none;
 		padding: 0;
 	}
-	font-size: 0.875rem; /* 14px */
+
+	li {
+		line-height: 1.5;
+	}
+
+	/* Widget title */
+	.widget-title {
+		font-size: 1rem; // 16px
+		font-weight: 600;
+		padding-bottom: 0.25em;
+		border-bottom: 2px solid var(--bs-border-color);
+	}
 }
 
-.widget-area .widget-title {
-	font-size: 1rem; /* 16px */
-	font-weight: 600;
+/* =========================================================
+   Widget Icons
+   ========================================================= */
+
+.widget_archive ul li::before {
+	content: "🗂️ ";
 }
 
-.widget-area li {
-	line-height: 1.5;
+.widget_categories ul li::before {
+	content: "🗂️ ";
 }
 
-.widget-area {
-	--bs-body-font-size: 0.875rem;
+.widget_recent_entries ul li::before {
+	content: "📄 ";
 }
 
-.widget-area .form-control {
-	font-size: var(--bs-body-font-size);
+.author-box a {
+	text-decoration: none;
+}
+
+// .widget_archive,
+// .widget_categories,
+// .widget_recent_entries {
+// 	background-color: var(--bs-tertiary-bg);
+// 	padding: 1rem;
+// 	margin-bottom: 1.5rem;
+// }
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+/* Reverse widget order on mobile */
+@media (max-width: 767.98px) {
+	#widget-area {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+
+	#widget-area > .widget {
+		display: block;
+	}
 }
 
 #sidebar-left.card {
@@ -412,40 +491,6 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 	top: 50px; /* The distance from the top when it becomes sticky */
 }
 
-/* reverse widget order on mobile */
-@media (max-width: 767.98px) {
-	#widget-area {
-		display: flex;
-		flex-direction: column-reverse; /* reverse order on mobile */
-	}
-
-	#widget-area > .widget {
-		display: block; /* ensure widgets behave as block items */
-	}
-}
-
-.widget_categories {
-	font-size: 0.875rem; // 14px
-}
-/* Target only the archive widget list items */
-.widget_archive ul li::before {
-	content: "🗂️ "; /* replace with any emoji you like */
-	font-size: 1em; /* adjust size */
-}
-
-.widget_categories ul li::before {
-	content: "🗂️ ";
-}
-
-.widget_recent_entries ul li::before {
-	content: "📄 ";
-}
-
-:is(.widget_categories, .widget_archive) a:hover,
-:is(.widget_categories, .widget_archive) a:focus-visible {
-	text-decoration: underline;
-}
-
 // ===== Main content ===== //
 // .entry-title {
 // 	font-size: 1.75rem;
@@ -457,19 +502,19 @@ sidebar / column, giving the sticky widget enough scrollable space to activate.
 // 	font-size: 2.5rem;
 // }
 
-.archive-loop-item .post-thumbnail {
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
+// .archive-loop-item .post-thumbnail {
+// 	width: 100%;
+// 	aspect-ratio: 16 / 9;
+// 	overflow: hidden;
+// }
 
-.archive-loop-item .post-thumbnail img.archive-post-thumbnail {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	display: block;
-}
+// .archive-loop-item .post-thumbnail img.archive-post-thumbnail {
+// 	width: 100%;
+// 	height: 100%;
+// 	object-fit: cover;
+// 	object-position: center;
+// 	display: block;
+// }
 
 // ===== Footer ===== //
 .footer-bg-background {
@@ -604,18 +649,19 @@ footer {
 
 // Custom column with for content
 @media (min-width: 768px) {
-	.sidebar-left-column {
+	.sidebar-column {
 		flex: 0 0 auto;
-		width: 32%;
+		width: 30%;
+		border-left: 1px solid var(--bs-border-color);
 	}
 	.main-content-column {
 		flex: 0 0 auto;
-		width: 68%;
+		width: 70%;
 	}
 }
 
 @media (max-width: 767px) {
-	.sidebar-left-column.border-start {
+	.sidebar-column.border-start {
 		border-left: none !important;
 	}
 }
@@ -630,13 +676,6 @@ footer {
 .dt-column-title {
 	font-size: 12.5px !important;
 }
-
-// #recommend-posts-widget:hover,
-// #latest-posts-section:hover,
-// #other-recommend-product-section:hover {
-//     background-color: #f6f6f6;
-//     transition: background-color 0.2s ease-in-out;
-// }
 
 // Dark mode switch
 #dark-mode-switch {
@@ -653,7 +692,7 @@ footer {
 [data-bs-theme="light"] body {
 	// use shade of #bad2e2 Color Hex
 	// background-color: #cedfea;
-	background-color: #b4cde2; // #c7dae7 #b3cbdd #a9c6db
+	background-color: #c7dae7; // #c7dae7 #b3cbdd #a9c6db #95b1c9 #b4cde2 #9fb8cf #f1f1f1 #c6d3dd #ebebeb
 }
 
 [data-bs-theme="dark"] body {
@@ -665,9 +704,22 @@ footer {
 	font-weight: 600;
 }
 
-.author-box {
-	font-size: 0.875rem;
-	color: black;
+.profile-actions {
+	gap: 0.2rem;
+}
+
+.profile-actions .btn {
+	flex: 1;
+	padding: 0.2rem 0.25rem;
+	font-size: 0.7rem;
+	line-height: 1.2;
+	white-space: nowrap;
+}
+
+.profile-actions .emoji {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.1em;
 }
 
 // [data-bs-theme="light"] aside {
@@ -700,9 +752,8 @@ footer {
 /* Light mode */
 [data-bs-theme="light"] .main-wrapper {
 	background-color: #c4d9e8;
-	border: 1px solid #d0d7de;
 	border-top: none;
-	box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+	// box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* ============================================================
@@ -919,53 +970,6 @@ table.dataTable#latest-product-table tbody td {
 	text-decoration: none !important;
 }
 
-/* wrapper */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper {
-	position: relative;
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
-
-/* anchor as positioning context */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper a {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
-}
-
-/* image */
-#reccommend-video-widget,
-#product-related-video .video-thumb-wrapper img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-/* YOUR play button style + centering */
-#reccommend-video-widget,
-#product-related-video .play-btn {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-
-	width: 60px;
-	height: 60px;
-	background: rgba(0, 0, 0, 0.6);
-	border-radius: 12px;
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	z-index: 10;
-	pointer-events: none; /* click goes to <a> */
-}
-
 /* YOUR triangle */
 #reccommend-video-widget,
 #product-related-video .play-btn::before {
@@ -984,7 +988,7 @@ table.dataTable#latest-product-table tbody td {
 
 .home-marquee-content {
 	font-size: 18px;
-	color: #6d51f9;
+	color: var(--bs-info);
 	white-space: nowrap;
 }
 
@@ -1012,46 +1016,6 @@ table.dataTable#latest-product-table tbody td {
 
 ::-webkit-scrollbar-thumb:hover {
 	background-color: rgba(0, 0, 0, 0.4);
-}
-
-/* Wrapper for search input + submit button */
-.search-wrap {
-	display: flex; /* Use flexbox so input and button sit on one line */
-	gap: 0.5rem; /* Space between input and button (safe, controlled) */
-	width: 100%; /* Never exceed sidebar width */
-	box-sizing: border-box; /* Include padding & border in width calculations */
-}
-
-/* Search input field */
-.search-wrap .search-field {
-	flex: 9; /* Take 9 parts of available space (≈ 90%) */
-
-	/*
-		CRITICAL FLEXBOX FIX
-		-------------------
-		Default flex items have: min-width: auto;
-		This means the input REFUSES to shrink smaller than its content
-		(placeholder text, typed text, internal padding).
-
-		In narrow containers like sidebars/widgets:
-		- Flexbox tries to shrink items to fit
-		- Input refuses
-		- Layout overflows outside parent
-
-		min-width: 0 explicitly allows the input to shrink,
-		so flexbox can correctly calculate widths and keep
-		everything inside the sidebar.
-	*/
-	min-width: 0;
-}
-
-/* Search submit button */
-.search-wrap .search-submit {
-	flex: 1; /* Take 1 part of available space (≈ 10%) */
-	font-size: 0.875rem; /* Slightly smaller text for compact sidebar */
-	white-space: nowrap; /* Prevent button text from wrapping */
-	padding-left: 0.5rem; /* Tight horizontal padding to save space */
-	padding-right: 0.5rem;
 }
 
 .contact-form-title {
@@ -1092,46 +1056,6 @@ Retrieved 2026-02-08, License - CC BY-SA 3.0
 	padding-right: 0 !important;
 }
 
-.featured-image {
-	aspect-ratio: 16 / 9;
-	background: #111;
-	overflow: hidden;
-}
-
-.featured-image .post-thumbnail {
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
-
-.featured-image img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	display: block;
-}
-
-/* Ensure carousel has relative positioning */
-#featured-post-carousel {
-	position: relative;
-}
-
-/* 
- * Fix: By default, Bootstrap carousel controls span 100% height,
- * which can overlap and block underlying content (e.g., "Read more" links).
- *
- * Solution: Limit the control size and vertically center it,
- * so it only covers the middle area of the carousel instead of the full height.
- */
-.carousel-control-prev,
-.carousel-control-next {
-	top: 50%;
-	transform: translateY(-50%);
-	height: 60px;
-	width: 60px;
-}
-
 /* Override Bootstrap style */
 .card {
 	--bs-card-border-color: var(--bs-border-color);
@@ -1142,25 +1066,21 @@ ul {
 }
 
 /* link style */
-:is(.entry-title, .entry-meta, .related-posts, .widget) a {
-	color: var(--bs-body-color);
+
+:is(.entry-title, .entry-meta, .related-post, .widget) a {
+	// color: var(--bs-body-color);
 	text-decoration: none;
 }
 
-:is(.entry-title, .entry-meta, .related-posts, .widget) a:hover,
-:is(.entry-title, .entry-meta, .related-posts, .widget) a:focus-visible {
-	text-decoration: underline;
-}
+// :is(.entry-title, .entry-meta, .related-post, .widget)
+// 	a:is(:hover, :focus-visible) {
+// 	text-decoration: underline;
+// }
 
 /* ===== entry-title, entry-meta, entry-footer style ===== */
 
-// Front page featured post feed
-.home .featured-post-feed .entry-title {
-	font-size: 20px;
-}
-
 @media (max-width: 575.98px) {
-	.home .featured-post-feed .entry-title {
+	#home-featured-post .entry-title {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -1168,36 +1088,22 @@ ul {
 	}
 }
 
-.home .featured-post-feed .entry-meta {
-	font-size: 14px;
-}
-
-// Front page latest post feed
-.home .latest-post-feed .entry-title {
-	font-size: 18px;
-}
-
-.home .latest-post-feed .entry-meta {
-	font-size: 12px;
-}
-
-.home .latest-post-feed .post-thumbnail {
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-}
-
-.home .latest-post-feed .post-thumbnail img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
 // Page
 .page:not(.home) .entry-title {
-	font-size: 28px;
-	border-bottom: 2px dotted var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
+	font-size: 25px;
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-seconday-subtle);
+}
+
+.page-header .page-title {
+	font-size: 1.75rem;
+}
+
+@media (max-width: 767.98px) {
+	.page-header .page-title {
+		font-size: 1.5rem; // 24px
+	}
 }
 
 // .page .entry-content {
@@ -1205,44 +1111,105 @@ ul {
 // }
 
 // Archive
+.archive .page-title {
+	font-size: 25px;
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-secondary-subtle);
+}
+
+.archive .archive-loop-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
 .archive .archive-loop-item .entry-meta {
-	font-size: 14px;
+	font-size: 0.8125rem; // 13px
+}
+
+.search-loop-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.site-news .entry-meta {
+	font-size: 0.8125rem; // 13px
 }
 
 // Single post
-.single .entry-title {
-	border-bottom: 2px dotted var(--bs-border-color);
-	padding-bottom: 0.75rem; /* space inside, before border */
+.single-post .post-entry-title {
+	font-size: 25px;
+	padding: 0.5em 0.7em;
+	border-left: 5px solid var(--bs-primary);
+	background-color: var(--bs-secondary-subtle);
 }
 
-.single .entry-meta {
-	font-size: 14px;
+.single-post,
+.single-news {
+	.post-entry-meta {
+		font-size: 0.8125rem; // 13px
+	}
 }
 
+.single-post .post-views {
+	font-size: 0.8125rem; // 13px
+}
+
+.related-post .entry-content {
+	font-size: 0.875rem;
+}
+
+.related-post-item .entry-title {
+	font-size: 1.125rem;
+	font-weight: 500;
+}
+
+.related-post-item .entry-meta {
+	font-size: 0.8125rem; // 13px
+}
+
+// Prevent long unbroken text from forcing the Bootstrap column
+// to expand beyond the available width.
+.related-post-item .col {
+	min-width: 0;
+}
+
+// Allow long words or unbroken strings to wrap instead of
+// pushing the content column onto a new line.
+.related-post-item .entry-title,
+.related-post-item .entry-content {
+	overflow-wrap: anywhere;
+}
+
+// form style
 .form-control,
 .form-select,
-.form-check-input {
-	border-color: color-mix(in srgb, var(--bs-border-color) 95%, black);
+.btn {
+	font-size: 0.875rem; // 14px
+	line-height: 1.4;
 }
 
 .form-control,
 .form-select {
 	background-color: var(--bs-tertiary-bg);
-	border-color: var(--bs-border-color);
+
+	padding-top: 4px;
+	padding-bottom: 4px;
 
 	&:focus {
 		background-color: var(--bs-tertiary-bg);
-		border-color: var(--bs-primary);
 		box-shadow: none;
 	}
 }
 
-.related-post-thumbnail img {
-	width: 100%;
-	height: 120px;
-	object-fit: cover;
-	object-position: center;
+.btn {
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
+
+// [data-bs-theme="light"] {
+// 	--bs-tertiary-bg: #e2e6e8;
+// }
 
 .sl-overlay {
 	background: rgba(0, 0, 0, 0.9) !important;
@@ -1272,4 +1239,36 @@ ul {
 	opacity: 0.95;
 	transition: transform 0.2s ease;
 	pointer-events: none;
+}
+
+.pagination {
+	--bs-pagination-color: var(--bs-body-color);
+	--bs-pagination-bg: var(--bs-light);
+	--bs-pagination-border-color: var(--bs-border-color);
+
+	--bs-pagination-hover-color: var(--bs-body-color);
+	--bs-pagination-hover-bg: var(--bs-secondary-bg);
+	--bs-pagination-hover-border-color: var(--bs-border-color);
+
+	--bs-pagination-active-color: var(--bs-white);
+	--bs-pagination-active-bg: var(--bs-primary);
+	--bs-pagination-active-border-color: var(--bs-primary);
+}
+
+/*
+ * Breadcrumbs
+ */
+.breadcrumb {
+	font-size: 0.92em;
+	color: #767676;
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+.breadcrumb a {
+	color: inherit;
+}
+
+[data-bs-theme="dark"] {
+	--bs-tertiary-bg: #1b1b1b;
 }

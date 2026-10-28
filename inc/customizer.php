@@ -327,48 +327,6 @@ if (! function_exists('understrap_default_navbar_type')) {
 
 // ===== ABO YUMA Custom Customizer ===== //
 
-// Messenger Button Customzier
-if (! function_exists('aboyuma_messenger_button_customizer')) {
-
-	function aboyuma_messenger_button_customizer($wp_customize) {
-
-		// Section
-		$wp_customize->add_section('messenger_settings', array(
-			'title'    => __('Messenger Button', 'aboyuma'),
-			'priority' => 160,
-		));
-
-		// URL setting
-		$wp_customize->add_setting('messenger_chat_url', array(
-			'default'           => 'https://m.me/YOUR_FACEBOOK_PAGE',
-			'sanitize_callback' => 'esc_url_raw',
-		));
-
-		$wp_customize->add_control('messenger_chat_url_control', array(
-			'label'    => __('Messenger Chat URL', 'aboyuma'),
-			'section'  => 'messenger_settings',
-			'settings' => 'messenger_chat_url',
-			'type'     => 'url',
-		));
-
-		// Tooltip text setting
-		$wp_customize->add_setting('messenger_tooltip_text', array(
-			'default'           => "สนใจสมัครสมาชิก สั่งซื้อสินค้า <br>หรือสอบถามข้อมูลใช่ไหม ทักเลย!",
-			'sanitize_callback' => 'wp_kses_post',
-		));
-
-		$wp_customize->add_control('messenger_tooltip_text_control', array(
-			'label'       => __('Messenger Tooltip Text', 'aboyuma'),
-			'description' => __('You can use <br> for new line', 'aboyuma'),
-			'section'     => 'messenger_settings',
-			'settings'    => 'messenger_tooltip_text',
-			'type'        => 'textarea',
-		));
-	}
-}
-
-add_action('customize_register', 'aboyuma_messenger_button_customizer');
-
 if (! function_exists('aboyuma_marquee_customizer')) {
 	function aboyuma_marquee_customizer($wp_customize) {
 
@@ -402,213 +360,9 @@ if (! function_exists('aboyuma_marquee_customizer')) {
 			'section'     => 'home_marquee_section',
 			'type'        => 'number',
 		));
-
-		// ===== Color =====
-		$wp_customize->add_setting('home_marquee_color', array(
-			'default' => '#ff0000',
-			'sanitize_callback' => 'sanitize_hex_color',
-		));
-
-		$wp_customize->add_control(new WP_Customize_Color_Control(
-			$wp_customize,
-			'home_marquee_color',
-			array(
-				'label'   => __('Marquee Text Color', 'aboyuma'),
-				'section' => 'home_marquee_section',
-			)
-		));
 	}
 }
 add_action('customize_register', 'aboyuma_marquee_customizer');
-
-// === Header Image Customizer ===
-function header_customizer_register($wp_customize) {
-
-	// Add a section for Header Image
-	$wp_customize->add_section('aboyuma_header_image_section', array(
-		'title'    => __('Header Image', 'aboyuma'),
-		'priority' => 30,
-	));
-
-	// Add a setting for the image
-	$wp_customize->add_setting('aboyuma_header_image', array(
-		'default'           => '',
-		'sanitize_callback' => 'absint', // cropped image returns attachment ID
-	));
-
-	// Add cropped image control
-	$wp_customize->add_control(
-		new WP_Customize_Cropped_Image_Control(
-			$wp_customize,
-			'aboyuma_header_image',
-			array(
-				'label'       => __('Upload Header Image', 'aboyuma'),
-				'description' => __('Recommended size: 820x160px', 'aboyuma'),
-				'section'     => 'aboyuma_header_image_section',
-				'settings'    => 'aboyuma_header_image',
-
-				'width'       => 820,
-				'height'      => 140,
-				'flex_width'  => false,
-				'flex_height' => false,
-			)
-		)
-	);
-
-	// Header Title
-	$wp_customize->add_setting('aboyuma_header_title', array(
-		'default'           => 'Yuma\'s Personal Blog',
-		'sanitize_callback' => 'sanitize_text_field',
-	));
-
-	$wp_customize->add_control('aboyuma_header_title', array(
-		'label'    => __('Header Title', 'aboyuma'),
-		'section'  => 'aboyuma_header_image_section',
-		'type'     => 'text',
-	));
-
-
-	// Header Subtitle
-	$wp_customize->add_setting('aboyuma_header_subtitle', array(
-		'default'           => 'Sharing life experiences',
-		'sanitize_callback' => 'sanitize_text_field',
-	));
-
-	$wp_customize->add_control('aboyuma_header_subtitle', array(
-		'label'    => __('Header Subtitle', 'aboyuma'),
-		'section'  => 'aboyuma_header_image_section',
-		'type'     => 'text',
-	));
-}
-add_action('customize_register', 'header_customizer_register');
-
-// Footer customizer
-function aboyuma_customize_register($wp_customize) {
-	// Add a section for Footer Columns
-	$wp_customize->add_section('footer_columns', array(
-		'title' => __('Footer Columns', 'aboyuma'),
-		'priority' => 30,
-	));
-
-	// Column 1: About Us
-	$wp_customize->add_setting('footer_column_1_image', array(
-		'default' => '', // Default image URL if any.
-		'sanitize_callback' => 'esc_url_raw', // Sanitize the URL of the image.
-	));
-
-	$wp_customize->add_control(
-		new WP_Customize_Image_Control(
-			$wp_customize,
-			'footer_column_1_image',
-			array(
-				'label'    => __('Column 1 Image', 'aboyuma'),
-				'section'  => 'footer_columns',
-				'settings' => 'footer_column_1_image',
-			)
-		)
-	);
-
-	// Column 2: Our Services
-	$wp_customize->add_setting('footer_column_2_content', array(
-		'default' => __('เป็นตัวแทนจำหน่ายสินค้าแอมเวย์...', 'aboyuma'),
-		'sanitize_callback' => 'sanitize_textarea_field',
-	));
-	$wp_customize->add_control('footer_column_2_content', array(
-		'label' => __('Column 2 Content', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'textarea',
-	));
-
-	// Column 3: Contact Us
-	// ===============================
-	// Column 3: Contact Us (Social Links)
-	// ===============================
-	$wp_customize->add_section('footer_columns', array(
-		'title' => __('Footer Columns', 'aboyuma'),
-		'priority' => 30,
-	));
-
-	// --- Facebook ---
-	$wp_customize->add_setting('footer_facebook_name', array(
-		'default' => '',
-		'sanitize_callback' => 'sanitize_text_field',
-	));
-	$wp_customize->add_control('footer_facebook_name', array(
-		'label' => __('Facebook Name', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'text',
-	));
-
-	$wp_customize->add_setting('footer_facebook_link', array(
-		'default' => '',
-		'sanitize_callback' => 'esc_url_raw',
-	));
-	$wp_customize->add_control('footer_facebook_link', array(
-		'label' => __('Facebook Link', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'url',
-	));
-
-	// --- Instagram ---
-	$wp_customize->add_setting('footer_instagram_name', array(
-		'default' => '',
-		'sanitize_callback' => 'sanitize_text_field',
-	));
-	$wp_customize->add_control('footer_instagram_name', array(
-		'label' => __('Instagram Name', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'text',
-	));
-
-	$wp_customize->add_setting('footer_instagram_link', array(
-		'default' => '',
-		'sanitize_callback' => 'esc_url_raw',
-	));
-	$wp_customize->add_control('footer_instagram_link', array(
-		'label' => __('Instagram Link', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'url',
-	));
-
-	// --- YouTube ---
-	$wp_customize->add_setting('footer_youtube_name', array(
-		'default' => '',
-		'sanitize_callback' => 'sanitize_text_field',
-	));
-	$wp_customize->add_control('footer_youtube_name', array(
-		'label' => __('YouTube Name', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'text',
-	));
-
-	$wp_customize->add_setting('footer_youtube_link', array(
-		'default' => '',
-		'sanitize_callback' => 'esc_url_raw',
-	));
-	$wp_customize->add_control('footer_youtube_link', array(
-		'label' => __('YouTube Link', 'aboyuma'),
-		'section' => 'footer_columns',
-		'type' => 'url',
-	));
-
-	// --- LINE QR Code ---
-	$wp_customize->add_setting('footer_line_qrcode', array(
-		'default' => '',
-		'sanitize_callback' => 'esc_url_raw', // sanitize image URL
-	));
-
-	$wp_customize->add_control(new WP_Customize_Image_Control(
-		$wp_customize,
-		'footer_line_qrcode',
-		array(
-			'label'    => __('Line QR Code', 'aboyuma'),
-			'section'  => 'footer_columns',
-			'settings' => 'footer_line_qrcode',
-			'description' => __('Upload your LINE QR Code image for display in the footer.', 'aboyuma'),
-		)
-	));
-}
-add_action('customize_register', 'aboyuma_customize_register');
 
 
 add_filter('mce_buttons_2', function ($buttons) {
@@ -618,57 +372,6 @@ add_filter('mce_buttons_2', function ($buttons) {
 	return $buttons;
 });
 
-function aboyuma_home_cta_customizer($wp_customize) {
-
-	$wp_customize->add_section('home_cta_section', array(
-		'title'    => 'Homepage CTA Cards',
-		'priority' => 25,
-	));
-
-	for ($i = 1; $i <= 4; $i++) {
-
-		// Image
-		$wp_customize->add_setting("home_cta_image_$i");
-
-		$wp_customize->add_control(
-			new WP_Customize_Image_Control(
-				$wp_customize,
-				"home_cta_image_$i",
-				array(
-					'label'   => "CTA $i Image",
-					'section' => 'home_cta_section',
-				)
-			)
-		);
-
-		// Title
-		$wp_customize->add_setting("home_cta_title_$i");
-
-		$wp_customize->add_control(
-			"home_cta_title_$i",
-			array(
-				'label'   => "CTA $i Title",
-				'section' => 'home_cta_section',
-				'type'    => 'text',
-			)
-		);
-
-		// Link
-		$wp_customize->add_setting("home_cta_link_$i");
-
-		$wp_customize->add_control(
-			"home_cta_link_$i",
-			array(
-				'label'   => "CTA $i Link URL",
-				'section' => 'home_cta_section',
-				'type'    => 'url',
-			)
-		);
-	}
-}
-
-add_action('customize_register', 'aboyuma_home_cta_customizer');
-
 function disable_customizer_refresh($wp_customize) {
 
 	foreach ($wp_customize->settings() as $setting) {
@@ -676,3 +379,32 @@ function disable_customizer_refresh($wp_customize) {
 	}
 }
 add_action('customize_register', 'disable_customizer_refresh', 100);
+
+/**
+ * ABO YUMA Theme Setup
+ *
+ * Register theme support for the WordPress Custom Header feature.
+ */
+function aboyuma_setup() {
+
+	// Enable the WordPress Custom Header feature.
+	add_theme_support(
+		'custom-header',
+		array(
+			// Recommended header image dimensions.
+			'width'              => 800,
+			'height'             => 100,
+			// Use a fixed header image size.
+			'flex-width'         => false,
+			'flex-height'        => false,
+			// Disable header text (site title and tagline).
+			'header-text'        => false,
+			// Allow users to upload header images.
+			'uploads'            => true,
+			// No default header image.
+			'default-image'      => '',
+		)
+	);
+}
+
+add_action('after_setup_theme', 'aboyuma_setup');

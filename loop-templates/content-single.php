@@ -14,15 +14,15 @@ defined('ABSPATH') || exit;
 
 	<header class="entry-header">
 
-		<nav class="breadcrumb mb-2" aria-label="breadcrumb">
+		<nav class="breadcrumb" aria-label="breadcrumb">
 			<?php
 			get_breadcrumb();
 			?>
 		</nav>
 
-		<?php the_title('<h1 class="entry-title">', '</h1>'); ?>
+		<?php the_title('<h1 class="post-entry-title">', '</h1>'); ?>
 
-		<div class="entry-meta d-flex flex-wrap gap-2">
+		<div class="post-entry-meta d-flex flex-wrap gap-2">
 			<span>
 				<?php
 				understrap_posted_on();
@@ -48,5 +48,8 @@ defined('ABSPATH') || exit;
 		<?php aboyuma_facebook_share_button(); ?>
 
 	</footer><!-- .entry-footer -->
+
+	<!-- author -->
+	<?php //get_template_part('post-templates/author-box'); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

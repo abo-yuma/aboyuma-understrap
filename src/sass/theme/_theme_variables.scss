@@ -19,15 +19,70 @@
    - CSS variable overrides (:root, [data-bs-theme], etc.)
 
 */
-$primary: #446E9B;
+$primary: #446e9b;
 
 $border-radius-sm: 0.125rem; // ~70% of base
 $border-radius: 0.175rem; // base
 $border-radius-lg: 0.25rem; // ~140% of base
 
-$body-color: #323232;
-$body-bg: #e4e7ea;
-$border-color: #ced3d8;
+// $body-color:  #354044;
+// $body-bg:     #D7DDDF;
+// $border-color: #aeb7bb;
 
-$link-color: #446E9B;
-$link-hover-color: #35597f;
+// $body-color: #354044;
+// $body-bg: #e6ecef;
+// $border-color: #c2ccd0;
+
+// $body-color: #30363b;
+// $body-bg: #E2E5E6;
+// $border-color: #c9d6df;
+
+// $body-color: #354347;
+// $body-bg: #dce5e9;
+// $border-color: #bcc9cd;
+
+// $body-color: #303639;
+// $body-bg: #e7ecee;
+// $border-color: #c5cccf;
+
+// $body-color: #333333;
+// $body-bg: #d4d4d4;
+// $border-color: #b5b5b5;
+
+// $body-color: #333333;
+// $body-bg: #f0f0f0;
+// $border-color: #cacaca;
+
+// $body-color: #333333;
+// $body-bg: #f5f5f5;
+// $border-color: #d5d5d5;
+
+$body-color: #333333;
+$body-bg: #fafafa;
+$border-color: #dddddd;
+
+// $body-color: #4d4d4d;
+// $body-bg: #e6e6e6;
+// $border-color: #bebebe;
+
+// $body-color: #555b5f;
+// $body-bg: #f2f5f7;
+// $border-color: #d0d6da;
+
+// $link-color: #446E9B;
+// $link-hover-color: #35597f;
+
+$link-color: #527fa8;
+$link-hover-color: #416d96;
+
+// News
+// $news-bg: #dce2e5;
+// $news-border-color: #b1b8bc;
+// $news-meta-color: #6b7377;
+
+// News
+$news-bg: #e4e4e4;
+$news-border-color: #c8c8c8;
+$news-meta-color: #777777;
+
+// Typography variables

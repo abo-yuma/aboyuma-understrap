@@ -20,13 +20,12 @@ $container = get_theme_mod('understrap_container_type');
 $container_classes = $container . ' py-0';
 ?>
 
-<main>
+<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-    <div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
-
-        <div class="row">
-            <div class="main-content-column px-3">
-                <div class="main-content-wrapper mb-2">
+    <div class="row">
+        <div class="main-content-column px-4" id="main-content">
+            <div class="main-content-wrapper mb-2">
+                <main class="site-main" id="main">
                     <!-- Marquee Content -->
                     <?php
                     $marquee_text  = get_theme_mod('home_marquee_text');
@@ -37,11 +36,10 @@ $container_classes = $container . ' py-0';
                         // Get today's date
                         $today_date = date_i18n('D, j F Y');
                     ?>
-                        <div class="home-marquee-wrapper mb-2">
+                        <div class="home-marquee-wrapper mb-4">
                             <div class="home-marquee-content"
-                                data-duration="<?php echo esc_attr($marquee_duration); ?>"
-                                style="color: <?php echo esc_attr($marquee_color); ?>;">
-                                <?php echo "🗓 " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
+                                data-duration="<?php echo esc_attr($marquee_duration); ?>">
+                                <?php echo "🗓️ " . esc_html($today_date); ?> • <?php echo wp_kses_post($marquee_text); ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -50,31 +48,29 @@ $container_classes = $container . ' py-0';
                     while (have_posts()) {
                         the_post();
 
-                        $content = get_the_content();
-
-                        if (! empty(trim(wp_strip_all_tags($content)))) :
-                    ?>
-
-                            <?php the_content(); ?>
-
-                    <?php
-                        endif;
+                        the_content();
                     }
                     ?>
-                    <?php get_template_part('frontpage-templates/featured-post'); ?>
-                    <?php get_template_part('frontpage-templates/latest-post'); ?>
-                </div>
-            </div>
-            <div class="sidebar-left-column border-start px-3" id="sidebar-left">
-                <?php
-                get_template_part('sidebar-templates/sidebar', 'right');
-                ?>
-            </div>
-        </div><!-- .row -->
+                    <!-- Site News -->
+                    <?php get_template_part('frontpage-templates/site-news'); ?>
+                    <!-- Latest Posts -->
+                    <?php get_template_part('frontpage-templates/latest-post');
+                    ?>
+                    <!-- Promote -->
+                    <?php //get_template_part('frontpage-templates/promote');
+                    ?>
 
-    </div><!-- #content -->
+                </main>
+            </div>
+        </div>
+        <div class="sidebar-column px-4" id="sidebar">
+            <?php
+            get_template_part('sidebar-templates/sidebar');
+            ?>
+        </div>
+    </div><!-- .row -->
 
-</main><!-- #main-wrapper -->
+</div><!-- #content -->
 
 <?php
 get_footer();

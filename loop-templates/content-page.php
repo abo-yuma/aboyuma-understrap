@@ -16,8 +16,8 @@ defined('ABSPATH') || exit;
 	if (!is_page_template('page-templates/no-title.php') && !is_front_page()) :
 	?>
 
-		<header class="entry-header">
-			<nav class="breadcrumb mb-2" aria-label="breadcrumb">
+		<header class="entry-header mb-4">
+			<nav class="breadcrumb" aria-label="breadcrumb">
 				<?php
 				get_breadcrumb();
 				?>

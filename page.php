@@ -20,31 +20,31 @@ $container = get_theme_mod('understrap_container_type');
 $container_classes = $container . ' py-0';
 ?>
 
-<main>
 
-	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
+<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-		<div class="row">
-			<div class="main-content-column px-3">
-				<div class="main-content-wrapper mb-2">
+	<div class="row">
+		
+		<div class="main-content-column px-4" id="main-content">
+			<div class="main-content-wrapper mb-2">
+				<main class="site-main" id="main">
 					<?php
 					while (have_posts()) {
 						the_post();
 						get_template_part('loop-templates/content', 'page');
 					}
 					?>
-				</div>
+				</main>
 			</div>
-			<div class="sidebar-left-column border-start px-3" id="sidebar-left">
-				<?php
-				get_template_part('sidebar-templates/sidebar', 'right');
-				?>
-			</div>
-		</div><!-- .row -->
+		</div>
+		<div class="sidebar-column px-4" id="sidebar">
+			<?php
+			get_template_part('sidebar-templates/sidebar');
+			?>
+		</div>
+	</div><!-- .row -->
 
-	</div><!-- #content -->
-
-</main><!-- #main-wrapper -->
+</div><!-- #content -->
 
 <?php
 get_footer();

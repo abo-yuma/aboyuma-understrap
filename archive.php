@@ -17,21 +17,26 @@ $container = get_theme_mod('understrap_container_type');
 $container_classes = $container . ' py-0';
 ?>
 
-<main class="bg-body text-body" data-bs-theme="">
+<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
 
-	<div class="<?php echo esc_attr($container_classes); ?>" id="content" tabindex="-1">
-
-		<div class="row">
-			<div class="main-content-column px-3">
-				<div class="main-content-wrapper mb-2">
-
+	<div class="row">
+		<div class="main-content-column px-4" id="main-content">
+			<div class="main-content-wrapper mb-2">
+				<main class="site-main" id="main">
 					<?php
 					if (have_posts()) {
 					?>
-						<header class="page-header">
+						<header class="page-header mb-4">
+
+							<nav class="breadcrumb" aria-label="breadcrumb">
+								<?php
+								get_breadcrumb();
+								?>
+							</nav>
+
 							<?php
 							the_archive_title('<h1 class="page-title">', '</h1>');
-							the_archive_description('<div class="taxonomy-description">', '</div>');
+							the_archive_description('<div class="taxonomy-description small">', '</div>');
 							?>
 						</header><!-- .page-header -->
 						<?php
@@ -57,19 +62,17 @@ $container_classes = $container . ' py-0';
 					?>
 
 					<!-- Another front page templates-->
-
-				</div>
+				</main>
 			</div>
-			<div class="sidebar-left-column border-start px-3" id="sidebar-left">
-				<?php
-				get_template_part('sidebar-templates/sidebar', 'right');
-				?>
-			</div>
-		</div><!-- .row -->
+		</div>
+		<div class="sidebar-column px-4" id="sidebar">
+			<?php
+			get_template_part('sidebar-templates/sidebar');
+			?>
+		</div>
+	</div><!-- .row -->
 
-	</div><!-- #content -->
-
-</main><!-- #main-wrapper -->
+</div><!-- #content -->
 
 <?php
 get_footer();

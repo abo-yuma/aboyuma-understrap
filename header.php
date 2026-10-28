@@ -28,50 +28,23 @@ defined('ABSPATH') || exit;
 		<a class="skip-link <?php echo understrap_get_screen_reader_class(true); ?>" href="#content">
 			<?php esc_html_e('Skip to content', 'understrap'); ?>
 		</a>
-		<header id="wrapper-header" class="wrapper-header">
+
+		<header id="site-header" class="site-header">
 			<div class="container px-0">
-				<?php
-				$header_image_id = get_theme_mod('aboyuma_header_image');
+				<div class="site-header-inner">
 
-				$header_title = get_theme_mod(
-					'aboyuma_header_title',
-					'Yuma\'s Personal Blog'
-				);
+					
 
-				$header_subtitle = get_theme_mod(
-					'aboyuma_header_subtitle',
-					'Sharing life experiences'
-				);
-				?>
+					<?php if (get_header_image()) : ?>
 
-				<div id="main-image">
-
-					<?php
-					if (!empty($header_image_id)) {
-
-						echo wp_get_attachment_image(
-							$header_image_id,
-							'full',
-							false,
-							array(
-								'class' => 'header-image',
-								'alt'   => 'Header image'
-							)
-						);
-					}
-					?>
-
-					<div class="header-overlay"></div>
-
-					<div class="header-tagline">
-						<div class="header-title">
-							<?php echo esc_html($header_title); ?>
+						<div class="site-header-banner">
+							<img
+								src="<?php echo esc_url(get_header_image()); ?>"
+								alt=""
+								class="img-fluid">
 						</div>
 
-						<div class="header-subtitle">
-							<?php echo esc_html($header_subtitle); ?>
-						</div>
-					</div>
+					<?php endif; ?>
 
 				</div>
 			</div>

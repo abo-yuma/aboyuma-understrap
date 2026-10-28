@@ -9,7 +9,7 @@ figure.woocommerce-product-gallery__wrapper {
 }
 
 // Fix coupon code input width for cart, apply only to the cart as it will break the checkout field width
-@media(min-width: 768px) {
+@media (min-width: 768px) {
 	.woocommerce-cart #coupon_code.input-text {
 		width: 110px !important;
 	}
@@ -66,7 +66,7 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce form .form-row label {
 	// Override WooCommerce default styles.
-	@if variable-exists('bootstrap4') {
+	@if variable-exists("bootstrap4") {
 		&.custom-control-label {
 			line-height: inherit;
 		}
@@ -77,7 +77,7 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 }
 
-@if not variable-exists('bootstrap4') {
+@if not variable-exists("bootstrap4") {
 	// Override WooCommerce default styles.
 	.woocommerce form .form-row .checkbox {
 		&.form-check {
@@ -87,18 +87,15 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 	.woocommerce form .form-row .input-checkbox {
 		&.form-check-input {
-			$top: ($line-height-base - $form-check-input-width) * .5;
+			$top: ($line-height-base - $form-check-input-width) * 0.5;
 			$left: $form-check-padding-start * -1;
-			margin: $top 0 0 $left
+			margin: $top 0 0 $left;
 		}
 	}
 }
 
 // Accessibility requirement for color contrast
-.woocommerce div.product p.price,
-.woocommerce div.product span.price,
 .woocommerce div.product .stock,
-.woocommerce ul.products li.product .price,
 #add_payment_method .cart-collaterals .cart_totals .discount td,
 .woocommerce-cart .cart-collaterals .cart_totals .discount td,
 .woocommerce-checkout .cart-collaterals .cart_totals .discount td {
@@ -108,3 +105,181 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce-page form .show-password-input {
 	top: initial;
 }
+
+.woocommerce ul.products li.product .price {
+	color: var(--bs-body-color);
+}
+
+.woocommerce ul.products li.product .price .member-price {
+	font-weight: 700;
+	text-decoration: underline;
+}
+
+/**
+ * Equal image area for product cards.
+ */
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: contain;
+}
+
+/**
+ * Equal height of Woocommerce grid on archive/shop page
+ * Reference: 
+ * https://generatepress.com/forums/topic/equal-height-of-woocommerce-grid-on-archive-shop-page/#post-2007561
+ */
+
+// Make the product list a flexible row layout.
+// Products will wrap to the next row when there is not enough space.
+.woocommerce ul.products {
+	display: flex;
+	flex-wrap: wrap;
+	row-gap: 1.5rem;
+}
+
+// Make each product card a vertical flex container.
+// This allows the product content to be arranged from top to bottom.
+.woocommerce ul.products li.product {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
+}
+
+// Make the product link expand to fill the remaining vertical space.
+// This keeps the add-to-cart button aligned at the bottom
+// even when product titles have different heights.
+.woocommerce ul.products li.product a.woocommerce-LoopProduct-link {
+	color: var(--bs-body-color);
+	flex: 1;
+}
+
+.woocommerce ul.products li.product .product-detail-link {
+	font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+	.woocommerce ul.products[class*="columns-"] li.product,
+	.woocommerce-page ul.products[class*="columns-"] li.product {
+		width: auto;
+		float: none;
+		clear: none;
+		margin: 0;
+	}
+}
+
+.single-product {
+	div.product .summary .price {
+		color: var(--bs-body-color);
+	}
+
+	div.product .summary .price .member-price {
+		font-weight: 700;
+		text-decoration: underline;
+	}
+
+	div.product .product_title {
+		font-size: 25px;
+	}
+
+	.related.products 
+	// Style the main Related Products heading only.
+	> h2 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		padding-bottom: 0.75rem; /* space inside, before border */
+		border-bottom: 2px solid var(--bs-border-color);
+	}
+
+	.woocommerce div.product .woocommerce-tabs ul.tabs {
+		padding-left: 0;
+	}
+
+	.woocommerce #reviews #comments h2 {
+		font-size: 0.8125rem;
+	}
+}
+
+// Make the WooCommerce lightbox overlay semi-transparent.
+.pswp__bg {
+	opacity: 0.7 !important;
+	background: #000;
+}
+
+// enable for Yeti bootswatch only
+.woocommerce-breadcrumb {
+	font-size: 0.875rem;
+	font-weight: 300;
+	text-transform: uppercase;
+	color: #767676;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+@media (min-width: 768px) {
+	.woocommerce div.product div.images,
+	.woocommerce #content div.product div.images,
+	.woocommerce-page div.product div.images,
+	.woocommerce-page #content div.product div.images {
+		float: left;
+		width: 55%;
+	}
+
+	.woocommerce div.product div.summary,
+	.woocommerce #content div.product div.summary,
+	.woocommerce-page div.product div.summary,
+	.woocommerce-page #content div.product div.summary {
+		float: right;
+		width: 41%;
+		clear: none;
+	}
+}
+
+// @media (min-width: 768px) {
+// 	.woocommerce div.product div.images,
+// 	.woocommerce #content div.product div.images,
+// 	.woocommerce-page div.product div.images,
+// 	.woocommerce-page #content div.product div.images {
+// 		float: none;
+// 		width: 100%;
+// 		margin: 0 auto 20px;
+// 	}
+
+// 	.woocommerce div.product div.summary,
+// 	.woocommerce #content div.product div.summary,
+// 	.woocommerce-page div.product div.summary,
+// 	.woocommerce-page #content div.product div.summary {
+// 		float: none;
+// 		width: 100%;
+// 		clear: both;
+// 	}
+
+// 	/**
+// 	* Show 8 product gallery thumbnails per row.
+// 	*/
+// 	.woocommerce div.product div.images .flex-control-thumbs li {
+// 		width: 12.5%;
+// 	}
+// 	/**
+// 	* Disable WooCommerce's default 4-column row break.
+// 	*/
+// 	.woocommerce
+// 		div.product
+// 		.woocommerce-product-gallery--columns-4
+// 		.flex-control-thumbs
+// 		li:nth-child(4n + 1) {
+// 		clear: none;
+// 	}
+
+// 	/**
+// 	* Start a new row after every 8 thumbnails.
+// 	*/
+// 	.woocommerce
+// 		div.product
+// 		.woocommerce-product-gallery--columns-4
+// 		.flex-control-thumbs
+// 		li:nth-child(8n + 1) {
+// 		clear: left;
+// 	}
+// }

@@ -25,7 +25,7 @@
                 <?php foreach ($news as $item): ?>
                     <li class="news-item">
                         <div class="news-date">
-                            🗓 <?php echo esc_html($item->display_date); ?>
+                            🗓️ <?php echo esc_html($item->display_date); ?>
                         </div>
                         <div class="news-text">
                             📰 <?php echo esc_html($item->news_text); ?>

@@ -32,7 +32,11 @@ $understrap_includes = array(
 	'/images.php',                          // Load images functions.
 	'/extra-user-profile.php',              // Load extra user profile.
 	'/lightbox.php',                        // Load lightbox functions.
-	'/youtube-shortcode.php'                // Load youtube shortcode functions.
+	'/youtube-shortcode.php',               // Load youtube shortcode functions.
+	'/woocommerce.php',                     // Load woocommerce support functions.
+	'/custom-post-type.php',                // Load custom post type functions.
+	'/custom-taxonomy.php',                 // Load custom taxonomy functions.
+	'/news.php'                             // Load News functions.
 );
 
 // Load WooCommerce functions if WooCommerce is activated.

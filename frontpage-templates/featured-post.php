@@ -1,14 +1,16 @@
 <!-- Featured Post Section -->
-<section id="home-featured-post" class="mb-3">
+<section id="home-featured-post" class="mb-4">
 
     <?php
     $featured_category = get_category_by_slug('featured');
-    $featured_id = $featured_category ? $featured_category->term_id : 0;
+    $featured_id       = $featured_category ? $featured_category->term_id : 0;
 
     $args = array(
-        'posts_per_page' => 4,
+        'posts_per_page' => 1,
         'post_status'    => 'publish',
         'cat'            => $featured_id,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
     );
 
     $featured_posts = new WP_Query($args);
@@ -20,116 +22,90 @@
 
     <?php if ($featured_posts->have_posts()) : ?>
 
-        <div class="featured-post-feed carousel slide" id="featured-post-carousel"
-            data-bs-ride="carousel"
-            data-bs-interval="4000">
+        <?php $featured_posts->the_post(); ?>
 
-            <div class="carousel-inner">
+        <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
 
-                <?php
-                $i = 0;
-                while ($featured_posts->have_posts()) : $featured_posts->the_post();
-                    $active = ($i === 0) ? 'active' : '';
-                ?>
+            <div class="card border-0 h-100">
 
-                    <div class="carousel-item <?php echo $active; ?>">
+                <div class="card-img-top featured-image">
+                    <div class="post-thumbnail">
 
-                        <article id="post-<?php the_ID(); ?>" <?php post_class('col-12'); ?>>
+                        <?php if (has_post_thumbnail()) : ?>
 
-                            <div class="card border-0 h-100">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail(
+                                    'large',
+                                    [
+                                        'class' => 'img-fluid w-100',
+                                    ]
+                                ); ?>
+                            </a>
 
-                                <div class="card-img-top featured-image">
-                                    <div class="post-thumbnail">
+                        <?php else : ?>
 
-                                        <?php if (has_post_thumbnail()) : ?>
-                                            <a href="<?php the_permalink(); ?>">
-                                                <?php the_post_thumbnail('large', ['class' => 'img-fluid w-100']); ?>
-                                            </a>
-                                        <?php else : ?>
-                                            <img src="https://placehold.co/800x400?text=No+Image"
-                                                alt="No image available"
-                                                class="img-fluid w-100">
-                                        <?php endif; ?>
+                            <a href="<?php the_permalink(); ?>">
+                                <img
+                                    src="https://placehold.co/800x400?text=No+Image"
+                                    alt="No image available"
+                                    class="img-fluid w-100">
+                            </a>
 
-                                        <button class="carousel-control-prev"
-                                            type="button"
-                                            data-bs-target="#featured-post-carousel"
-                                            data-bs-slide="prev">
+                        <?php endif; ?>
 
-                                            <span class="carousel-control-prev-icon"></span>
+                    </div>
+                </div>
 
-                                        </button>
+                <div class="card-body p-0 pt-3">
 
-                                        <button class="carousel-control-next"
-                                            type="button"
-                                            data-bs-target="#featured-post-carousel"
-                                            data-bs-slide="next">
+                    <h3 class="entry-title">
+                        <a
+                            href="<?php the_permalink(); ?>"
+                            class="text-decoration-none">
+                            <?php echo esc_html(get_the_title()); ?>
+                        </a>
+                    </h3>
 
-                                            <span class="carousel-control-next-icon"></span>
+                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
 
-                                        </button>
+                        <span>
+                            <?php
+                            $categories = get_the_category();
 
-                                    </div>
-                                </div>
+                            if (!empty($categories)) {
 
-                                <div class="card-body px-0 pt-3">
-                                    <h3 class="entry-title">
-                                        <a class="d-block"
-                                            href="<?php the_permalink(); ?>">
-                                            <?php echo get_the_title(); ?>
-                                        </a>
-                                    </h3>
+                                $category_links = [];
 
-                                    <div class="entry-meta text-muted d-flex flex-wrap gap-2">
-                                        <span>
-                                            <?php
-                                            $categories = get_the_category();
+                                foreach ($categories as $category) {
 
-                                            if (!empty($categories)) {
+                                    if ($category->slug === 'featured') {
+                                        continue;
+                                    }
 
-                                                $category_links = array();
+                                    $category_links[] =
+                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
+                                        esc_html($category->name) .
+                                        '</a>';
+                                }
 
-                                                foreach ($categories as $category) {
+                                if (!empty($category_links)) {
+                                    echo '🗂️ ' . implode(', ', $category_links);
+                                }
+                            }
+                            ?>
+                        </span>
 
-                                                    if ($category->slug === 'featured') {
-                                                        continue;
-                                                    }
-
-                                                    $category_links[] =
-                                                        '<a href="' . esc_url(get_category_link($category->term_id)) . '">' .
-                                                        esc_html($category->name) .
-                                                        '</a>';
-                                                }
-
-                                                if (!empty($category_links)) {
-                                                    echo '🗂️ ' . implode(', ', $category_links);
-                                                }
-                                            }
-                                            ?>
-                                        </span>
-                                        <span>
-                                            <?php echo '🗓 ' . get_the_date('M j, Y'); ?>
-                                        </span>
- 
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </article>
+                        <span>
+                            <?php echo '🗓️ ' . esc_html(get_the_date('M j, Y')); ?>
+                        </span>
 
                     </div>
 
-                <?php
-                    $i++;
-                endwhile;
-                wp_reset_postdata();
-                ?>
+                </div>
 
             </div>
 
-        </div>
+        </article>
 
     <?php else : ?>
 
@@ -138,5 +114,7 @@
         </div>
 
     <?php endif; ?>
+
+    <?php wp_reset_postdata(); ?>
 
 </section>

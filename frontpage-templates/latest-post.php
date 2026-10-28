@@ -1,109 +1,134 @@
-<section id="home-latest-post" class="mb-3">
+<section id="latest-post">
 
-    <h1 class="section-header mb-3">
+    <h2 class="h5 mb-3 pb-2 border-bottom">
         📝 บทความล่าสุด
-    </h1>
+    </h2>
 
     <?php
 
-    $categories = array_filter(
-        get_categories([
-            'hide_empty' => true,
-            'orderby'    => 'count',
-            'order'      => 'DESC',
-        ]),
-        fn($category) => $category->slug !== 'featured'
-    );
+    $news_category = get_category_by_slug('news');
+
+    $latest_posts = new WP_Query([
+        'posts_per_page'   => 2,
+        'post_status'      => 'publish',
+        'category__not_in' => $news_category ? [$news_category->term_id] : [],
+    ]);
+
     ?>
 
-    <ul class="nav nav-tabs" id="latestPostTabs" role="tablist">
+    <?php if ($latest_posts->have_posts()) : ?>
 
-        <?php
-        $first = true;
+        <div class="latest-post-wrapper">
 
-        foreach ($categories as $category) :
-        ?>
+            <?php
+            while ($latest_posts->have_posts()) :
 
-            <li class="nav-item" role="presentation">
+                $latest_posts->the_post();
+            ?>
 
-                <button
-                    class="nav-link <?php echo $first ? 'active' : ''; ?>"
-                    data-bs-toggle="tab"
-                    data-bs-target="#tab-<?php echo esc_attr($category->slug); ?>"
-                    type="button">
+                <article
+                    <?php post_class('latest-post-item mb-4'); ?>
+                    id="post-<?php the_ID(); ?>">
 
-                    <?php echo "🗂️ " . esc_html($category->name); ?>
+                    <div class="row g-3">
 
-                </button>
+                        <div class="col-3">
 
-            </li>
+                            <?php if (has_post_thumbnail()) : ?>
 
-        <?php
+                                <a
+                                    href="<?php the_permalink(); ?>"
+                                    class="latest-post-thumbnail">
 
-            $first = false;
+                                    <?php
+                                    the_post_thumbnail(
+                                        'thumbnail',
+                                        [
+                                            'class' => 'img-fluid img-thumbnail rounded',
+                                        ]
+                                    );
+                                    ?>
 
-        endforeach;
-        ?>
+                                </a>
 
-    </ul>
+                            <?php else : ?>
 
-    <div class="latest-post-section tab-content pt-3">
+                                <a href="<?php the_permalink(); ?>">
 
-        <?php
+                                    <img
+                                        src="https://placehold.co/150x150"
+                                        alt=""
+                                        width="150"
+                                        height="150"
+                                        class="img-fluid rounded">
 
-        $first = true;
+                                </a>
 
-        foreach ($categories as $category) :
+                            <?php endif; ?>
 
-            $query = new WP_Query([
-                'posts_per_page' => 4,
-                'post_status'    => 'publish',
-                'cat'            => $category->term_id,
-            ]);
+                        </div>
 
-        ?>
+                        <div class="col-9">
 
-            <div
-                class="tab-pane fade <?php echo $first ? 'show active' : ''; ?>"
-                id="tab-<?php echo esc_attr($category->slug); ?>">
+                            <header class="entry-header">
 
-                <?php if ($query->have_posts()) : ?>
+                                <a href="<?php the_permalink(); ?>"
+                                    class="text-decoration-none">
 
-                    <div class="latest-post-feed row">
+                                    <?php
+                                    the_title(
+                                        '<h2 class="entry-title h6 mb-1">',
+                                        '</h2>'
+                                    );
+                                    ?>
 
-                        <?php
-                        while ($query->have_posts()) :
+                                </a>
 
-                            $query->the_post();
+                                <?php if ('post' === get_post_type()) : ?>
 
-                            get_template_part(
-                                'frontpage-templates/latest-post-card'
-                            );
+                                    <div class="entry-meta">
+                                        <?php understrap_posted_on(); ?>
+                                    </div>
 
-                        endwhile;
-                        ?>
+                                <?php endif; ?>
+
+                            </header>
+
+                            <div class="entry-content text-muted small">
+                                <?php the_excerpt(); ?>
+                                <div class="text-end mt-2">
+                                    <a
+                                        href="<?php the_permalink(); ?>"
+                                        class="btn btn-outline-primary btn-sm">
+                                        อ่านบทความ →
+                                    </a>
+                                </div>
+                            </div>
+
+                            <footer class="entry-footer">
+
+                                <?php understrap_entry_footer(); ?>
+
+                            </footer>
+
+                        </div>
 
                     </div>
 
-                <?php else : ?>
+                </article>
 
-                    <div class="alert alert-secondary text-center">
-                        ยังไม่มีบทความ
-                    </div>
+            <?php endwhile; ?>
 
-                <?php endif; ?>
+        </div>
 
-            </div>
+    <?php else : ?>
 
-        <?php
+        <div class="alert alert-secondary text-center">
+            ยังไม่มีบทความ
+        </div>
 
-            wp_reset_postdata();
+    <?php endif; ?>
 
-            $first = false;
-
-        endforeach;
-        ?>
-
-    </div>
+    <?php wp_reset_postdata(); ?>
 
 </section>

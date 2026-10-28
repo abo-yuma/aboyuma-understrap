@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Search results partial template
  *
@@ -6,42 +7,90 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 ?>
 
-<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
+<article <?php post_class('search-loop-item mb-4'); ?> id="post-<?php the_ID(); ?>">
 
-	<header class="entry-header">
+	<div class="row g-3">
 
-		<?php
-		the_title(
-			sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ),
-			'</a></h2>'
-		);
-		?>
+		<div class="col-3">
 
-		<?php if ( 'post' === get_post_type() ) : ?>
+			<?php if (has_post_thumbnail()) : ?>
 
-			<div class="entry-meta">
+				<a
+					href="<?php the_permalink(); ?>"
+					class="search-post-thumbnail">
 
-				<?php understrap_posted_on(); ?>
+					<?php
+					the_post_thumbnail(
+						'thumbnail',
+						[
+							'class' => 'img-fluid rounded',
+						]
+					);
+					?>
 
-			</div><!-- .entry-meta -->
+				</a>
 
-		<?php endif; ?>
+			<?php else : ?>
 
-	</header><!-- .entry-header -->
+				<a
+					href="<?php the_permalink(); ?>"
+					class="search-post-thumbnail">
 
-	<div class="entry-summary">
+					<img
+						src="https://placehold.co/150x150"
+						alt=""
+						width="150"
+						height="150"
+						class="img-fluid rounded">
 
-		<?php the_excerpt(); ?>
+				</a>
 
-	</div><!-- .entry-summary -->
+			<?php endif; ?>
 
-	<footer class="entry-footer">
+		</div>
 
-		<?php understrap_entry_footer(); ?>
+		<div class="col-9">
 
-	</footer><!-- .entry-footer -->
+			<header class="entry-header">
 
-</article><!-- #post-<?php the_ID(); ?> -->
+				<a
+					href="<?php the_permalink(); ?>"
+					class="text-decoration-none">
+
+					<?php
+					the_title(
+						'<h2 class="entry-title mb-1">',
+						'</h2>'
+					);
+					?>
+
+				</a>
+
+				<?php if ('post' === get_post_type()) : ?>
+
+					<div class="entry-meta">
+						<?php understrap_posted_on(); ?>
+					</div>
+
+				<?php endif; ?>
+
+			</header>
+
+			<div class="entry-content text-muted small">
+				<?php the_excerpt(); ?>
+			</div>
+
+			<footer class="entry-footer">
+
+				<?php understrap_entry_footer(); ?>
+
+			</footer>
+
+		</div>
+
+	</div>
+
+</article>
